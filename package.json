@@ -14,7 +14,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "npm run build"
   },
   "engines": {
     "node": "12.7.0",
@@ -34,5 +35,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "author": {
+    "name": "Victor Hugo Lopes Mota",
+    "licence": "GPL v.3"
   }
 }
