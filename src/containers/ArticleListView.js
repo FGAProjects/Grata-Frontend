@@ -10,19 +10,12 @@ export default class ArticleList extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchDataFromApi();
-    }
-
-    fetchDataFromApi = () => {
-        axios.get('https://api-grata.herokuapp.com/api/')
+        axios.get('http://0.0.0.0:8000/api/')
         .then(res => {
             this.setState({
                 articles: res.data
             });
         });
-        setTimeout(() => {
-            this.fetchDataFromApi();
-        }, 100);
     }
 
     render() {

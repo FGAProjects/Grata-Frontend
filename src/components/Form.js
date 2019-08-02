@@ -1,4 +1,3 @@
-/* eslint-disable default-case */
 import React from 'react';
 import axios from 'axios';
 
@@ -13,7 +12,7 @@ export default class CustomForm extends React.Component {
 
         switch ( requestType ) {
             case 'post':
-                return axios.post('https://api-grata.herokuapp.com/api/create/', {
+                return axios.post('http://0.0.0.0:8000/api/create/', {
                     title: title,
                     content: content
                 })
@@ -21,12 +20,14 @@ export default class CustomForm extends React.Component {
                 .catch(error => console.log(error));
 
             case 'put':
-                return axios.put(`https://api-grata.herokuapp.com/api/${articleID}/update/`, {
+                return axios.put(`http://0.0.0.0:8000/api/${articleID}/update/`, {
                     title: title,
                     content: content
                 })
                 .then(res => console.log(res))
-                .catch(error => console.log(error));   
+                .catch(error => console.log(error)); 
+            default:
+                console.log('Modo default');  
         }
     }
 

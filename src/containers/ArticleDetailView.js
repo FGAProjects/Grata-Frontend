@@ -13,27 +13,19 @@ export default class ArticleDetail extends React.Component {
 
     handleDelete = (event) => {
         const articleID = this.props.match.params.articleID;
-        axios.delete(`https://api-grata.herokuapp.com/api/${articleID}/delete/`);
+        axios.delete(`http://0.0.0.0:8000/api/${articleID}/delete/`);
         this.props.history.push('/');
         this.forceUpdate();
     }
 
     componentDidMount() {
-        this.fetchDataFromApi();
-    }
-
-    fetchDataFromApi = () => {
-
         const articleID = this.props.match.params.articleID;
-        axios.get(`https://api-grata.herokuapp.com/api/${articleID}/`)
-          .then(res => {
-              this.setState({
-                  article: res.data
-              });
-          });
-        setTimeout(() => {
-            this.fetchDataFromApi();
-        }, 100);
+        axios.get(`http://0.0.0.0:8000/api/${articleID}/`)
+        .then(res => {
+            this.setState({
+                article: res.data
+            });
+        });
     }
 
     render() {
