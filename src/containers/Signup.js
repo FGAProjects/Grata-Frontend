@@ -3,11 +3,15 @@ import {
     Form,
     Input,
     Icon,
-    Button
+    Button,
+    Select
 } from 'antd';
 import { NavLink } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
 import { connect } from 'react-redux';
+import FormItem from 'antd/lib/form/FormItem';
+
+const Option = Select.Option;
   
   class RegistrationForm extends React.Component {
     state = {
@@ -18,12 +22,19 @@ import { connect } from 'react-redux';
       e.preventDefault();
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
+            let is_student = false;
+            console.log(values.userType)
+            if(values.userType === 'student') {
+                is_student = true;
+            }
             this.props.onAuth(values.username,
                               values.email, 
                               values.password,
-                              values.confirm);
+                              values.confirm,
+                              is_student);
+            console.log(values.username,values.email,values.password,values.confirm,is_student)
         }
-        this.props.history.push('/');
+        // this.props.history.push('/');
       });
     };
   
@@ -109,6 +120,25 @@ import { connect } from 'react-redux';
             type="password"
             placeholder="Password" onBlur={this.handleConfirmBlur} />)}
           </Form.Item>
+          <Form.Item label="Select a user type" hasFeedback>
+            {getFieldDecorator('userType', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please select a user!',
+                }
+              ],
+            })(
+              <Select placeholder="Select a user type">
+                <Option value="student">Student</Option>
+                <Option value="teacher">Teacher</Option>
+              </Select>  
+            )}
+          </Form.Item>
+
+          <FormItem>
+
+          </FormItem>
 
         <Form.Item>
             <Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
@@ -135,7 +165,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (username, email, password1, password2) => dispatch(actions.authSignup(username, email, password1, password2))
+        onAuth: (username, email, password1, password2, is_student) => dispatch(actions.authSignup(username, email, password1, password2, is_student))
     }
 }
 
