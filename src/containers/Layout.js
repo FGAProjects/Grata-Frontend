@@ -32,17 +32,13 @@ class CustomLayout extends React.Component {
                         <Menu.Item key="2">
                             <Link to="/login">Login</Link>
                         </Menu.Item>
-                    }
-                    <Menu.Item key="1">
-                        <Link to="/">Posts</Link>
-                    </Menu.Item>
-                    
+                    }                    
                     </Menu>
                 </Header>
                 <Content style={{ padding: '0 50px' }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item><Link to='/'>Home</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to='/'>List</Link></Breadcrumb.Item>
+                    <Link to={`/profile/${this.props.userId}`}>Profile</Link>
                     </Breadcrumb>
                         <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                             {this.props.children}
@@ -54,10 +50,16 @@ class CustomLayout extends React.Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+      userId: state.userId
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         logout: () => dispatch(actions.logout())
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(CustomLayout));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CustomLayout));
