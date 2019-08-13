@@ -1,20 +1,21 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import ArticleList from './containers/ArticleListView';
-import ArticleDetail from './containers/ArticleDetailView';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Profile from './containers/Profile';
+import AssignmentList from './containers/AssignmentList';
+import AssignmentDetail from './containers/AssignmentDetail';
+import Hoc from './hoc/hoc';
 
 const BaseRouter = () => (
-    <div>
-        <Route exact path='/' component={ArticleList}/>
-        <Route exact path='/articles/:articleID' component={ArticleDetail}/>
+    <Hoc>
+        <Route exact path='/' component={AssignmentList}/>
+        <Route exact path='/assignments/:id' component={AssignmentDetail}/>
         <Route exact path='/login/' component={Login}/>
         <Route exact path='/signup/' component={Signup}/>
         <Route exact path='/profile/:id' component={Profile}/>
-    </div>
+    </Hoc>
 );
 
 export default BaseRouter;

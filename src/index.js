@@ -3,14 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import reducer from './store/reducers/auth';
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
+import authReducer from './store/reducers/auth';
+import assignmentReducer from './store/reducers/assignments';
+
 const composeEnhaces = compose
 
-const store = createStore(reducer, composeEnhaces(
+const rootReducer = combineReducers({
+    auth: authReducer,
+    assignments: assignmentReducer
+});
+
+const store = createStore(rootReducer, composeEnhaces(
     applyMiddleware(thunk)
 ));
 
