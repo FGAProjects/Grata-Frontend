@@ -12,7 +12,7 @@ class AssignmentList extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.token !== this.props.token) {
       if (newProps.token !== undefined && newProps.token !== null) {
         this.props.getASNTS(newProps.token);
@@ -22,7 +22,7 @@ class AssignmentList extends React.PureComponent {
 
   renderItem(item) {
     return (
-        <Link to={`/assignments/${item.id}`}>
+      <Link to={`/assignments/${item.id}`}>
         <List.Item>{item.title}</List.Item>
       </Link>
     );
