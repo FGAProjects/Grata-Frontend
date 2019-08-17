@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { Link, withRouter } from "react-router-dom";
+
+import * as actions from '../../store/actions/auth';
+import './layout.css';
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -9,17 +13,13 @@ class CustomLayout extends Component {
     render () {
         return (
             <Layout>
-                <Header className="header">
-                    <div className="logo" />
-                    <Menu
-                        theme="dark"
+                <Header className = 'header'>
+                    <Menu   
+                        className = 'menu'                        
                         mode="horizontal"
-                        defaultSelectedKeys={['2']}
-                        style={{ lineHeight: '64px' }}
+                        style={{ lineHeight: '63px'}}
                     >
-                        <Menu.Item key="1">nav 1</Menu.Item>
-                        <Menu.Item key="2">nav 2</Menu.Item>
-                        <Menu.Item key="3">nav 3</Menu.Item>
+                        <Menu.Item key='1'>Login</Menu.Item>                   
                     </Menu>
                 </Header>
 
@@ -91,4 +91,23 @@ class CustomLayout extends Component {
     }
 }
 
-export default CustomLayout; 
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        token: state.auth.token,
+        is_teacher: state.auth.is_teacher
+    };
+};
+  
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => dispatch(actions.logout())
+    };
+};
+  
+export default withRouter(
+    connect(
+    mapStateToProps,
+      mapDispatchToProps
+    )(CustomLayout)
+  );
