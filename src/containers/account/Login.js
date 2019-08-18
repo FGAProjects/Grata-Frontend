@@ -21,61 +21,61 @@ class Login extends React.Component {
 
     render() {
 
-    let errorMessage = null;
-    if(this.props.error) {
-        errorMessage = (
-            <p>{this.props.error.message}</p>
-        );
-    }
+        let errorMessage = null;
+        if(this.props.error) {
+            errorMessage = (
+                <p>{this.props.error.message}</p>
+            );
+        }
 
-    const { getFieldDecorator } = this.props.form;
-    return (
-        <div>
-            {errorMessage}
-            {
-                this.props.loading ? (
+        const { getFieldDecorator } = this.props.form;
+        return (
+            <div>
+                {errorMessage} 
+                {
+                    this.props.loading ? (
 
-                    <Spin indicator={antIcon} />
+                        <Spin indicator={antIcon} />
 
-                ): (
-                    <Form onSubmit={this.handleSubmit} className="login-form">
+                    ): (
+                        <Form onSubmit={this.handleSubmit}>
 
-                        <Form.Item>
-                        {getFieldDecorator('username', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
-                        })(
-                            <Input
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="Username"
-                            />,
-                        )}
-                        </Form.Item>
+                            <Form.Item>
+                            {getFieldDecorator('username', {
+                                rules: [{ required: true, message: 'Please input your username!' }],
+                            })(
+                                <Input
+                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                placeholder="Username"
+                                />,
+                            )}
+                            </Form.Item>
 
-                        <Form.Item>
-                        {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
-                        })(
-                            <Input
-                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            type="password"
-                            placeholder="Password"
-                            />,
-                        )}
-                        </Form.Item>
+                            <Form.Item>
+                            {getFieldDecorator('password', {
+                                rules: [{ required: true, message: 'Please input your Password!' }],
+                            })(
+                                <Input
+                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                type="password"
+                                placeholder="Password"
+                                />,
+                            )}
+                            </Form.Item>
 
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
-                                Login
-                            </Button>
-                            Or
-                            <NavLink style={{marginRight: '10px'}} 
-                            to='/signup/'> signup
-                            </NavLink>
-                        </Form.Item>
-                    </Form>
-                )
-            }
-        </div>
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
+                                    Login
+                                </Button>
+                                Or
+                                <NavLink style={{marginRight: '10px'}} 
+                                    to='/signup/'> signup
+                                </NavLink>
+                            </Form.Item>
+                        </Form>
+                    )
+                }
+            </div>
         );
     }
 }

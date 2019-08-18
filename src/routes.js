@@ -1,17 +1,17 @@
-import React from "react";
-import { Route } from "react-router-dom";
+import React from 'react';
+import { Route } from 'react-router-dom';
 import Hoc from "./hoc/hoc";
 
-import Login from "./containers//account/Login";
-import Signup from "./containers/account/Signup";
-import LayoutOff from './containers/layout/LayoutOff';
-import Profile from "./containers/Profile";
-import AssignmentDetail from "./containers/AssignmentDetail";
-import AssignmentCreate from "./containers/AssignmentCreate";
+import Login from './containers/account/Login';
+import Signup from './containers/account/Signup';
+import Homepage from './containers/homepage/Homepage';
+import Profile from './containers/Profile';
+import AssignmentDetail from './containers/AssignmentDetail';
+import AssignmentCreate from './containers/AssignmentCreate';
 
 const BaseRouter = () => (
     <Hoc>
-        <Route exact path="/" component={LayoutOff} />
+        <Route exact path="/" component={Homepage} />
         <Route exact path="/create/" component={AssignmentCreate} />
         <Route exact path="/login/" component={Login} />
         <Route exact path="/signup/" component={Signup} />
