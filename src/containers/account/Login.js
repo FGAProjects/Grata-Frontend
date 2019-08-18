@@ -2,22 +2,24 @@ import React from 'react';
 import { Form, Icon, Input, Button, Spin } from 'antd';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import * as actions from '../store/actions/auth';
+
+import * as actions from '../../store/actions/auth';
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class Login extends React.Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.props.onAuth(values.username, values.password);
-      }
-    });
-    this.props.history.push('/');
-  };
+    
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                this.props.onAuth(values.username, values.password);
+            }
+        });
+        this.props.history.push('/');
+    };
 
-  render() {
+    render() {
 
     let errorMessage = null;
     if(this.props.error) {
@@ -31,13 +33,11 @@ class Login extends React.Component {
         <div>
             {errorMessage}
             {
-                this.props.loading ?
+                this.props.loading ? (
 
                     <Spin indicator={antIcon} />
 
-                :
-
-
+                ): (
                     <Form onSubmit={this.handleSubmit} className="login-form">
 
                         <Form.Item>
@@ -73,13 +73,14 @@ class Login extends React.Component {
                             </NavLink>
                         </Form.Item>
                     </Form>
+                )
             }
         </div>
-    );
-  }
+        );
+    }
 }
 
-const WrappedNormalLoginForm = Form.create()(Login);
+const LoginForm = Form.create()(Login);
 
 const mapStateToProps = (state) => {
     return {
@@ -95,4 +96,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WrappedNormalLoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -44,7 +44,10 @@ class CustomLayout extends React.Component {
 						<LayoutSider />
 					): <LayoutOff {...this.props} />
 				} 				
-            	<Footer style={{ textAlign: 'center' }}>Grata - Gerenciamento de Reuniões e Atas ©2019 Criado por Victor Mota</Footer>
+            	<Footer style={{ textAlign: 'center' }}>
+					Grata - Gerenciamento de Reuniões e Atas ©2019 
+					Criado por Victor Hugo Lopes Mota.
+				</Footer>
             </Layout>
         ); 
     }
