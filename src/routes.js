@@ -2,8 +2,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 import Hoc from "./hoc/hoc";
 
-import Login from "./containers/Login";
-import Signup from "./containers/Signup";
+import Login from "./containers//account/Login";
+import Signup from "./containers/account/Signup";
 import LayoutOff from './containers/layout/LayoutOff';
 import Profile from "./containers/Profile";
 import AssignmentDetail from "./containers/AssignmentDetail";
