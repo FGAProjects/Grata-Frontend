@@ -22,10 +22,10 @@ export const authFail = error => {
 };
 
 export const logout = () => {
-  	localStorage.removeItem("user");
-  	return {
-    	type: actionTypes.AUTH_LOGOUT
-  	};
+	localStorage.removeItem("user");
+	return {
+		type: actionTypes.AUTH_LOGOUT
+	};
 };
 
 export const checkAuthTimeout = expirationTime => {
@@ -76,19 +76,6 @@ export const authSignup = (username, email, password1, password2, is_student) =>
 		};
 		axios
 		.post("http://0.0.0.0:8000/rest-auth/registration/", user)
-		.then(res => {
-			const user = {
-				token: res.data.key,
-				username,
-				userId: res.data.user,
-				is_student,
-				is_teacher: !is_student,
-				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
-			};
-			localStorage.setItem("user", JSON.stringify(user));
-			dispatch(authSuccess(user));
-			dispatch(checkAuthTimeout(3600));
-		})
 		.catch(err => {
 			dispatch(authFail(err));
 		});

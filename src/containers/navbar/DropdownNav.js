@@ -47,15 +47,15 @@ const menuUser = (
 const menuParticipant = (
 	<Menu>
 		<Menu.Item key="0">
-			<Icon type="user-add" /> <Link to="#">Adicionar Usuários</Link>
+			<Icon type="user-add" /><Link to="/signup/">Adicionar Usuários</Link>
 		</Menu.Item>
 		<Menu.Item key="1">
-			<Icon type="team" /> <Link to="#">Visualizar Usuários</Link>
+			<Icon type="team" /><Link to="#">Visualizar Usuários</Link>
 		</Menu.Item>
 		<Menu.Item key="2">
-			<Icon type="edit" /> <Link to="#">Alterar Permissões</Link>
+			<Icon type="edit" /><Link to="#">Alterar Permissões</Link>
 		</Menu.Item>
 	</Menu>
-)
+);
 
 export default withRouter(connect()(DropdownNav));
