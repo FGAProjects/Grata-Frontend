@@ -46,12 +46,12 @@ export const authLogin = (username, password) => {
 		})
 		.then(res => {
 			const user = {
-			token: res.data.key,
-			username,
-			userId: res.data.user,
-			is_student: res.data.user_type.is_student,
-			is_teacher: res.data.user_type.is_teacher,
-			expirationDate: new Date(new Date().getTime() + 3600 * 1000)
+				token: res.data.key,
+				username,
+				userId: res.data.user,
+				is_student: res.data.user_type.is_student,
+				is_teacher: res.data.user_type.is_teacher,
+				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
 			};
 			localStorage.setItem("user", JSON.stringify(user));
 			dispatch(authSuccess(user));

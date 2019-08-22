@@ -13,9 +13,9 @@ class Login extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.props.onAuth(values.username, values.password);
+                this.props.onAuth(values.username, values.password);                
             }
-        });
+        });     
         this.props.history.push('/');
     };
 
@@ -41,26 +41,37 @@ class Login extends React.Component {
                         <Form onSubmit={this.handleSubmit}>
 
                             <Form.Item>
-                            {getFieldDecorator('username', {
-                                rules: [{ required: true, message: 'Please input your username!' }],
-                            })(
-                                <Input
-                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Username"
-                                />,
-                            )}
+                                {
+                                    getFieldDecorator('username', {
+                                    rules: [{ 
+                                        required: true, message: 'Por Favor, coloque seu usuário!' }],
+                                    })(
+                                        <Input
+                                            prefix={
+                                                <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                                            }
+                                        placeholder="Usuário"
+                                        />,
+                                    )
+                                }
                             </Form.Item>
 
                             <Form.Item>
-                            {getFieldDecorator('password', {
-                                rules: [{ required: true, message: 'Please input your Password!' }],
-                            })(
-                                <Input
-                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                type="password"
-                                placeholder="Password"
-                                />,
-                            )}
+                            {
+                                getFieldDecorator('password', {
+                                rules: [{ 
+                                    required: true, message: 'Por favor, coloque sua senha!' 
+                                }],
+                                })(
+                                    <Input
+                                        prefix={
+                                            <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                                        }
+                                        type="password"
+                                        placeholder="Senha"
+                                    />,
+                                )
+                            }
                             </Form.Item>
 
                             <Form.Item>
@@ -86,7 +97,8 @@ const mapStateToProps = (state) => {
     return {
         loading: state.loading,
         error: state.error,
-        user_username: state.username
+        user_username: state.username,
+        token: state.auth.token
     }
 }
 
