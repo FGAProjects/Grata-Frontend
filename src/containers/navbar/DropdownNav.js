@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
@@ -15,7 +14,7 @@ class DropdownNav extends React.Component {
 					<Menu>
 						<Menu.Item key="0">
 							<Icon type="user"/>
-								<Link to={`/profile/${this.props.userId}`}>
+								<Link to={`/informacoes_usuario/`}>
 									Visualizar Perfil
 								</Link>
 						</Menu.Item>
@@ -33,7 +32,7 @@ class DropdownNav extends React.Component {
 						</Menu.Item>
 					</Menu>
 				} trigger={['click']}>
-					<a className='ant-dropdown-link' href={`/profile/${this.props.userId}`}>
+					<a className='ant-dropdown-link' href={`/informacoes_usuario/${this.props.userId}`}>
 						<Icon type='user' /> Usuário <Icon type='down' />
 					</a>
 				</Dropdown>
@@ -68,7 +67,7 @@ const menuParticipant = (
 
 const mapStateToProps = state => {
     return {
-        userId: state.auth.userId
+        
     };
 };
 

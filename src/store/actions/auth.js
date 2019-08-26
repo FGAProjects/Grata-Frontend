@@ -51,6 +51,8 @@ export const authLogin = (username, password) => {
 				userId: res.data.user,
 				is_administrator: res.data.user_type.is_administrator,
 				is_participant: res.data.user_type.is_participant,
+				ramal: res.data.ramal,
+				name: res.data.name,
 				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
 			};
 			localStorage.setItem("user", JSON.stringify(user));
@@ -103,3 +105,43 @@ export const authCheckState = () => {
 		}
   	};
 };
+
+export const getUser = (token, userId) => {
+	return dispatch => {
+		dispatch(authStart());
+		axios.defaults.headers = {
+		  "Content-Type": "application/json",
+		  Authorization: `Token ${token}`
+		};
+		axios
+		  .get(`http://0.0.0.0:8000/users/informacoes/${userId}/`)
+		  .then(res => {
+			const user = res.data;
+			console.log(user)
+			dispatch(authSuccess(user));
+		  })
+		  .catch(err => {
+			dispatch(authFail(err));
+		});
+	};
+}
+
+export const updateUser = (token, userId) => {
+	return dispatch => {
+		dispatch(authStart());
+		axios.defaults.headers = {
+		  "Content-Type": "application/json",
+		  Authorization: `Token ${token}`
+		};
+		axios
+		  .get(`http://0.0.0.0:8000/users/alterar_informacoes/${userId}/`)
+		  .then(res => {
+			const user = res.data;
+			console.log(user)
+			dispatch(authSuccess(user));
+		  })
+		  .catch(err => {
+			dispatch(authFail(err));
+		});
+	};
+}

@@ -12,20 +12,13 @@ class CustomLayout extends React.Component {
   
 	render() {
 		return (
-			<Layout className="layout">
+			<Layout className="layout" >
 				<Navbar/>
-				<Content style={{ padding: "0 50px" }}>
+				<Content style={{ margin: '24px 42px 0', overflow: 'initial' }}>
 					<Breadcrumb style={{ margin: "16px 0" }}>
 						{
 							this.props.token !== null ? (
 								<BreadcrumbLayout />
-							) : null
-						}
-						{
-							this.props.token !== null && this.props.is_teacher ? (
-								<Breadcrumb.Item>
-									<Link to="/create">Create</Link>
-								</Breadcrumb.Item>
 							) : null
 						}
 					</Breadcrumb>	
@@ -46,7 +39,7 @@ const mapStateToProps = state => {
   	return {
 		userId: state.auth.userId,
 		token: state.auth.token,
-		is_teacher: state.auth.is_teacher
+		is_administrator: state.auth.is_administrator
 	};
 };
 

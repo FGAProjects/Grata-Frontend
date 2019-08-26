@@ -9,11 +9,11 @@ class BreakcrumLayout extends React.Component {
         return (
             <Breadcrumb style={{ margin: "16px 0" }}>
                 <Breadcrumb.Item>
-                    <Link to="/">Home</Link>
+                    <Link to="/">Página Inicial</Link>
                 </Breadcrumb.Item>
             
                 <Breadcrumb.Item>
-                    <Link to={`/profile/${this.props.userId}`}>Profile</Link>
+                    <Link to={`/informacoes_usuario/`}>Perfil</Link>
                 </Breadcrumb.Item>        
             </Breadcrumb>
         );

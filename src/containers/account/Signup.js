@@ -30,7 +30,7 @@ class Signup extends React.Component {
 						values.password2,
 						is_administrator)) !== fail) {
 							message.success('O usuário ' + values.username + 
-							'foi cadastrado com sucesso');
+							' foi cadastrado com sucesso');
 				} else {
 					message.error('Não foi possível cadastrar o usuário.' + 
 									'Entre em contato com o desenvolvedor!');
