@@ -49,8 +49,8 @@ export const authLogin = (username, password) => {
 				token: res.data.key,
 				username,
 				userId: res.data.user,
-				is_student: res.data.user_type.is_student,
-				is_teacher: res.data.user_type.is_teacher,
+				is_administrator: res.data.user_type.is_administrator,
+				is_participant: res.data.user_type.is_participant,
 				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
 			};
 			localStorage.setItem("user", JSON.stringify(user));
@@ -63,19 +63,20 @@ export const authLogin = (username, password) => {
 	};
 };
 
-export const authSignup = (username, email, password1, password2, is_student) => {
+export const authSignup = (username, name, ramal, email, password1, password2, is_administrator) => {
 	return dispatch => {
 		dispatch(authStart());
-		const user = {
-			username,
-			email,
-			password1,
-			password2,
-			is_student,
-			is_teacher: !is_student
-		};
 		axios
-		.post("http://0.0.0.0:8000/rest-auth/registration/", user)
+		.post('http://0.0.0.0:8000/rest-auth/registration/', {
+			username: username,
+			email: email,
+			password1: password1,
+			password2: password2,
+			is_administrator: is_administrator,
+			is_participant: !is_administrator,
+			ramal: ramal,
+			name: name
+		})
 		.catch(err => {
 			dispatch(authFail(err));
 		});
