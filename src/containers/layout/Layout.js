@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Breadcrumb } from 'antd';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import BreadcrumbLayout from './BreadcrumLayout';

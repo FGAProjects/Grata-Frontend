@@ -11,7 +11,7 @@ class UserDetail extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			formLayout: 'horizontal',
+			formLayout: 'vertical',
 		};
 	}
 	
@@ -31,7 +31,7 @@ class UserDetail extends React.Component {
 
 	render() {
 		const { formLayout } = this.state;
-		const formItemLayout = formLayout === 'horizontal'? {
+		const formItemLayout = formLayout === 'vertical'? {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
 		}
@@ -43,16 +43,29 @@ class UserDetail extends React.Component {
 						<Skeleton active />
 					) : (
 						<Hoc>
-							<div align='center'>
-								<Form.Item label='Nome' {...formItemLayout}>
-									<Input value={this.props.name} disabled = {true} />
+							<h1> Informações Cadastradas </h1>
+							<Form layout = 'vertical'>
+								<Form.Item label='Nome' {...formItemLayout} >
+									<Input 
+										value = {this.props.name} 
+										disabled = {true} 
+									/>
 								</Form.Item>
+								
 								<Form.Item label='Usuário' {...formItemLayout}>
-									<Input value={this.props.username} disabled = {true} />
+									<Input 
+										value = {this.props.username} 
+										disabled = {true} 
+									/>
 								</Form.Item>
+								
 								<Form.Item label='Email' {...formItemLayout}>
-									<Input value={this.props.email} disabled = {true} />
+									<Input 
+										value = {this.props.email} 
+										disabled = {true} 
+									/>
 								</Form.Item>
+								
 								<Form.Item label='Ramal' {...formItemLayout}>
 									<Input value={this.props.ramal} disabled = {true} />
 								</Form.Item>
@@ -76,6 +89,10 @@ class UserDetail extends React.Component {
 										</Form.Item>
 									) : null	
 								}
+								
+							</Form>
+							
+							<div align = 'center'>
 								<Button type='primary'>
 									<Link to={`/alterar_informacoes/`}>
 										Editar Perfil

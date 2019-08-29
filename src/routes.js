@@ -11,12 +11,12 @@ import AssignmentDetail from './containers/AssignmentDetail';
 
 const BaseRouter = () => (
     <Hoc>
-        <Route exact path="/" component={Homepage} />
-        <Route exact path="/login/" component={Login} />
-        <Route exact path="/signup/" component={Signup} />
-        <Route exact path="/assignments/:id" component={AssignmentDetail} />
-        <Route exact path="/informacoes_usuario/" component={UserDetail} />
-        <Route exact path="/alterar_informacoes/" component={UserEdit} />
+        <Route exact path='/' component={Homepage} />
+        <Route exact path='/login/' component={Login} />
+        <Route exact path='/signup/' component={Signup} />
+        <Route exact path='/assignments/:id' component={AssignmentDetail} />
+        <Route exact path='/informacoes_usuario/' component={UserDetail} />
+        <Route exact path='/alterar_informacoes/' component={UserEdit} />
     </Hoc>
 );
 

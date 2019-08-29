@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form, Input, Icon, Button, Select, message } from 'antd';
 import { NavLink } from 'react-router-dom';
-import * as actions from '../../store/actions/auth';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
+
+import * as actions from '../../store/actions/auth';
 
 const Option = Select.Option;
   
@@ -30,13 +31,15 @@ class Signup extends React.Component {
 						values.password2,
 						is_administrator)) !== fail) {
 							message.success('O usuário ' + values.username + 
-							' foi cadastrado com sucesso');
+							' foi cadastrado com sucesso!');
 				} else {
 					message.error('Não foi possível cadastrar o usuário.' + 
 									'Entre em contato com o desenvolvedor!');
-				}			
+				}
+				this.props.history.push('/');			
+			} else {
+
 			}	
-			this.props.history.push('/');
 		});
 	};
 
@@ -103,7 +106,7 @@ class Signup extends React.Component {
 					}
 				</Form.Item>
 
-				<Form.Item label="E-mail">
+				<Form.Item label='E-mail'>
 					{
 						getFieldDecorator('email', {
 							rules: [
@@ -144,7 +147,7 @@ class Signup extends React.Component {
 					}
 				</Form.Item>
 
-				<Form.Item label="Senha" hasFeedback>
+				<Form.Item label='Senha' hasFeedback>
 					{
 						getFieldDecorator('password1', {
 							rules: [
@@ -167,7 +170,7 @@ class Signup extends React.Component {
 					}
 				</Form.Item>
 
-				<Form.Item label="Repita a Senha" hasFeedback>
+				<Form.Item label='Repita a Senha' hasFeedback>
 					{
 						getFieldDecorator('password2', {
 							rules: [
@@ -189,7 +192,7 @@ class Signup extends React.Component {
 					}
 				</Form.Item>
 
-				<Form.Item label="Tipo de Usuário" hasFeedback>
+				<Form.Item label='Tipo de Usuário' hasFeedback>
 				{
 					getFieldDecorator('userType', {
 					rules: [
@@ -208,7 +211,7 @@ class Signup extends React.Component {
 				</Form.Item>
 
 				<Form.Item>
-					<Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
+					<Button type='primary' htmlType='submit' style={{marginRight: '10px'}}>
 						Signup
 					</Button>
 					Or

@@ -43,8 +43,10 @@ class Login extends React.Component {
                             <Form.Item>
                                 {
                                     getFieldDecorator('username', {
-                                    rules: [{ 
-                                        required: true, message: 'Por Favor, coloque seu usuário!' }],
+                                        rules: [{ 
+                                            required: true, 
+                                            message: 'Por Favor, coloque seu usuário!' 
+                                        }],
                                     })(
                                         <Input
                                             prefix={
@@ -59,9 +61,10 @@ class Login extends React.Component {
                             <Form.Item>
                             {
                                 getFieldDecorator('password', {
-                                rules: [{ 
-                                    required: true, message: 'Por favor, coloque sua senha!' 
-                                }],
+                                    rules: [{ 
+                                        required: true, 
+                                        message: 'Por favor, coloque sua senha!' 
+                                    }],
                                 })(
                                     <Input
                                         prefix={

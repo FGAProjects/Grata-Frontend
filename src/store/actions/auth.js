@@ -1,5 +1,5 @@
-import axios from "axios";
-import * as actionTypes from "./actionsTypes";
+import axios from 'axios';
+import * as actionTypes from './actionsTypes';
 
 export const authStart = () => {
     return {
@@ -22,7 +22,7 @@ export const authFail = error => {
 };
 
 export const logout = () => {
-	localStorage.removeItem("user");
+	localStorage.removeItem('user');
 	return {
 		type: actionTypes.AUTH_LOGOUT
 	};
@@ -39,8 +39,7 @@ export const checkAuthTimeout = expirationTime => {
 export const authLogin = (username, password) => {
 	return dispatch => {
 		dispatch(authStart());
-		axios
-		.post("http://0.0.0.0:8000/rest-auth/login/", {
+		axios.post('http://0.0.0.0:8000/rest-auth/login/', {
 			username: username,
 			password: password
 		})
@@ -65,20 +64,15 @@ export const authLogin = (username, password) => {
 	};
 };
 
-export const authSignup = (username, name, ramal, email, password1, password2, is_administrator) => {
+export const authSignup = ( username, name, ramal, email, 
+						   password1, password2, is_administrator ) => {
 	return dispatch => {
 		dispatch(authStart());
-		axios
-		.post('http://0.0.0.0:8000/rest-auth/registration/', {
-			username: username,
-			email: email,
-			password1: password1,
-			password2: password2,
-			is_administrator: is_administrator,
-			is_participant: !is_administrator,
-			ramal: ramal,
-			name: name
-		})
+		const user = { 
+			username, email, password1, password2, is_administrator,
+			is_participant: !is_administrator, ramal, name
+		};
+		axios.post('http://0.0.0.0:8000/rest-auth/registration/', user)
 		.catch(err => {
 			dispatch(authFail(err));
 		});
@@ -110,14 +104,12 @@ export const getUser = (token, userId) => {
 	return dispatch => {
 		dispatch(authStart());
 		axios.defaults.headers = {
-		  "Content-Type": "application/json",
+		  'Content-Type': 'application/json',
 		  Authorization: `Token ${token}`
 		};
-		axios
-		  .get(`http://0.0.0.0:8000/users/informacoes/${userId}/`)
+		axios.get(`http://0.0.0.0:8000/users/informacoes/${userId}/`)
 		  .then(res => {
 			const user = res.data;
-			console.log(user)
 			dispatch(authSuccess(user));
 		  })
 		  .catch(err => {
@@ -126,21 +118,36 @@ export const getUser = (token, userId) => {
 	};
 }
 
-export const updateUser = (token, userId) => {
+export const updateUser = (token, userId, email, username, ramal, name, is_administrator) => {
 	return dispatch => {
 		dispatch(authStart());
 		axios.defaults.headers = {
-		  "Content-Type": "application/json",
+		  'Content-Type': 'application/json',
 		  Authorization: `Token ${token}`
 		};
-		axios
-		  .get(`http://0.0.0.0:8000/users/alterar_informacoes/${userId}/`)
-		  .then(res => {
-			const user = res.data;
+		const user = { 
+			email, username, ramal, name, is_administrator,
+			is_participant: !is_administrator
+		};
+		axios.put(`http://0.0.0.0:8000/users/alterar_informacoes/${userId}/`, user)
+		.then(res => {
+			const user = {
+				token: token,
+				username,
+				userId: userId,
+				is_administrator,
+				ramal,
+				name,
+				email,
+				is_participant: !is_administrator,
+				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
+			};
 			console.log(user)
+			localStorage.setItem('user', JSON.stringify(user));
 			dispatch(authSuccess(user));
-		  })
-		  .catch(err => {
+			dispatch(checkAuthTimeout(3600));
+		})
+		.catch(err => {
 			dispatch(authFail(err));
 		});
 	};
