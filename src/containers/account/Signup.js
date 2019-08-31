@@ -45,7 +45,9 @@ class Signup extends React.Component {
 
 	handleConfirmBlur = e => {
 		const { value } = e.target;
-		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+		this.setState({ 
+			confirmDirty: this.state.confirmDirty || !!value 
+		});
 	};
 
 	compareToFirstPassword = (rule, value, callback) => {
@@ -69,79 +71,99 @@ class Signup extends React.Component {
 		const { getFieldDecorator } = this.props.form;
 
 		return (
-			<Form onSubmit={this.handleSubmit}>
-				<Form.Item label='Nome Completo'>
+			<Form onSubmit = { this.handleSubmit } >
+				<Form.Item label = 'Nome Completo' >
 					{
 						getFieldDecorator('name', {
 							rules: [{ 
 								required: true, 
-								message: 'Por favor, insira seu nome completo!'
+								message: 'Por favor, Insira Seu Nome Completo!'
 							}],
 						})(
 							<Input
-								prefix={
-									<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />
+								prefix = {
+									<Icon 
+										type = 'user' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
 								}
-								placeholder='Nome Completo'
+								placeholder = 'Nome Completo'
 							/>,
 						)
 					}
 				</Form.Item>
 
-				<Form.Item label='Usuário'>
+				<Form.Item label = 'Usuário'>
 					{
 						getFieldDecorator('username', {
 							rules: [{ 
 								required: true, 
-								message: 'Por favor, coloque seu usuário!' 
+								message: 'Por favor, Coloque Seu Usuário!' 
 							}],
 						})(
 							<Input
-								prefix={
-									<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+								prefix = {
+									<Icon 
+										type = 'user' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
 								}
-								placeholder="Usuário"
+								placeholder = 'Usuário'
 							/>,
 						)
 					}
 				</Form.Item>
 
-				<Form.Item label='E-mail'>
+				<Form.Item label = 'E-mail'>
 					{
 						getFieldDecorator('email', {
 							rules: [
 							{
 								type: 'email',
-								message: 'Esse tipo de E-mail não é válido!',
+								message: 'Esse tipo de E-mail Não é Válido!',
 							},
 							{
 								required: true,
-								message: 'Por Favor, coloque seu e-mail!',
+								message: 'Por Favor, Coloque Seu E-mail!',
 							},
 							],
 						})(
 							<Input 
-								prefix={
-									<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />
+								prefix = {
+									<Icon 
+										type = 'mail' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' }} 
+									/>
 								}
-							placeholder="Email"/>
+								placeholder = 'Email'
+							/>
 						)
 					}
 				</Form.Item>
 
-				<Form.Item label='Ramal'>
+				<Form.Item label = 'Ramal'>
 					{
 						getFieldDecorator('ramal', {
 							rules: [{ 
 								required: true, 
-								message: 'Por favor, coloque seu ramal!' 
+								message: 'Por favor, Coloque Seu Ramal!' 
 							}],
 						})(
 							<Input
 								prefix={
-									<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />
+									<Icon 
+										type = 'phone' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
 								}
-								placeholder="Ramal"
+								placeholder = 'Ramal'
 							/>,
 						)
 					}
@@ -153,7 +175,7 @@ class Signup extends React.Component {
 							rules: [
 							{
 								required: true,
-								message: 'Por favor, insira sua senha!',
+								message: 'Por favor, Insira Sua Senha!',
 							},
 							{
 								validator: this.validateToNextPassword,
@@ -162,10 +184,16 @@ class Signup extends React.Component {
 						})(
 							<Input 
 								prefix={
-									<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+									<Icon 
+										type = 'lock' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
 								}
-							type="password"
-							placeholder="Senha"/>
+								type = 'password'
+								placeholder = 'Senha'
+							/>
 						)
 					}
 				</Form.Item>
@@ -183,11 +211,19 @@ class Signup extends React.Component {
 							},
 							],
 						})(
-							<Input prefix={
-								<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-							}
-							type="password"
-							placeholder="Repita sua senha" onBlur={this.handleConfirmBlur} />
+							<Input 
+								prefix={
+									<Icon 
+										type = 'lock' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
+								}
+								type = 'password'
+								placeholder = 'Repita sua senha' 
+								onBlur = { this.handleConfirmBlur } 
+							/>
 						)
 					}
 				</Form.Item>
@@ -202,21 +238,30 @@ class Signup extends React.Component {
 						}
 						],
 					})(
-						<Select placeholder="Escolha o tipo de usuário">
-							<Option value="administrator">Administrador</Option>
-							<Option value="participant">Participante da Reunião</Option>
+						<Select placeholder = 'Escolha o tipo de usuário' >
+							<Option value = 'administrator'> Administrador </Option>
+							<Option value = 'participant'> Participante da Reunião </Option>
 						</Select>  
 					)
 				}
 				</Form.Item>
 
 				<Form.Item>
-					<Button type='primary' htmlType='submit' style={{marginRight: '10px'}}>
+					<Button 
+						type = 'primary' 
+						htmlType = 'submit' 
+						style = {{
+							marginRight: '10px'
+						}} >
 						Signup
 					</Button>
 					Or
-					<NavLink style={{marginRight: '10px'}} 
-						to='/login/'> login
+					<NavLink 
+						style = {{
+							marginRight: '10px'
+						}} 
+						to = '/login/'> 
+						login
 					</NavLink>
 				</Form.Item>
 			</Form>

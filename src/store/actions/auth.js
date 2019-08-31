@@ -3,7 +3,7 @@ import * as actionTypes from './actionsTypes';
 
 export const authStart = () => {
     return {
-      type: actionTypes.AUTH_START
+    	type: actionTypes.AUTH_START
   	};
 };
 
@@ -81,7 +81,7 @@ export const authSignup = ( username, name, ramal, email,
 
 export const authCheckState = () => {
   	return dispatch => {
-    	const user = JSON.parse(localStorage.getItem("user"));
+    	const user = JSON.parse(localStorage.getItem('user'));
 		if (user === undefined || user === null) {
 			dispatch(logout());
 		} else {
@@ -104,16 +104,16 @@ export const getUser = (token, userId) => {
 	return dispatch => {
 		dispatch(authStart());
 		axios.defaults.headers = {
-		  'Content-Type': 'application/json',
-		  Authorization: `Token ${token}`
+			'Content-Type': 'application/json',
+		  	Authorization: `Token ${token}`
 		};
 		axios.get(`http://0.0.0.0:8000/users/informacoes/${userId}/`)
 		  .then(res => {
-			const user = res.data;
-			dispatch(authSuccess(user));
+				const user = res.data;
+				dispatch(authSuccess(user));
 		  })
 		  .catch(err => {
-			dispatch(authFail(err));
+		  		dispatch(authFail(err));
 		});
 	};
 }
@@ -122,8 +122,8 @@ export const updateUser = (token, userId, email, username, ramal, name, is_admin
 	return dispatch => {
 		dispatch(authStart());
 		axios.defaults.headers = {
-		  'Content-Type': 'application/json',
-		  Authorization: `Token ${token}`
+			'Content-Type': 'application/json',
+		  	Authorization: `Token ${token}`
 		};
 		const user = { 
 			email, username, ramal, name, is_administrator,
@@ -142,7 +142,6 @@ export const updateUser = (token, userId, email, username, ramal, name, is_admin
 				is_participant: !is_administrator,
 				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
 			};
-			console.log(user)
 			localStorage.setItem('user', JSON.stringify(user));
 			dispatch(authSuccess(user));
 			dispatch(checkAuthTimeout(3600));
@@ -150,5 +149,16 @@ export const updateUser = (token, userId, email, username, ramal, name, is_admin
 		.catch(err => {
 			dispatch(authFail(err));
 		});
+	};
+}
+
+export const deleteUser = (token, userId) => {
+	return dispatch => {
+		axios.defaults.headers = {
+			'Content-Type': 'application/json',
+			Authorization: `Token ${token}`
+		};
+		axios.delete(`http://0.0.0.0:8000/users/excluir_usuario/${userId}/`)
+		dispatch(logout());
 	};
 }

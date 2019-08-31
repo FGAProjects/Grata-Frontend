@@ -213,7 +213,7 @@ class UserEdit extends React.Component {
 								<Button 
 										type = 'primary' 
 										htmlType = 'submit' 
-										style = {{marginRight: '10px'}}
+										style = {{marginRight: '20px'}}
 								>
 									Alterar Informações	
 								</Button>
@@ -225,7 +225,6 @@ class UserEdit extends React.Component {
 							</div>
 						</Form.Item>
 					</Form>
-					
 				</Hoc>
 			</Hoc>
 		);
