@@ -7,15 +7,11 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 
 import authReducer from "./store/reducers/auth";
-import assignmentReducer from "./store/reducers/assignments";
-import gradedAssignmentReducer from "./store/reducers/gradedAssignments";
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  assignments: assignmentReducer,
-  gradedAssignments: gradedAssignmentReducer
+    auth: authReducer,
 });
 
 const store = createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));

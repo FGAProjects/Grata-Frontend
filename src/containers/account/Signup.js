@@ -1,164 +1,292 @@
 import React from 'react';
-import { Form, Input, Icon, Button, Select } from 'antd';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Form, Input, Icon, Button, Select, message } from 'antd';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { fail } from 'assert';
 
 import * as actions from '../../store/actions/auth';
 
 const Option = Select.Option;
   
 class Signup extends React.Component {
-	
+
 	state = {
-      	confirmDirty: false,
-    };
-  
-    handleSubmit = e => {
-      	e.preventDefault();
-      	this.props.form.validateFieldsAndScroll((err, values) => {
+		confirmDirty: false,
+	};
+
+	handleSubmit = e => {
+		e.preventDefault();
+		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				let is_student = false;
-				if(values.userType === 'student') {
-					is_student = true;
+				let is_administrator = false;
+				if(values.userType === 'administrator') {
+					is_administrator = true;
 				}
-				this.props.onAuth(values.username,values.email,
-								  values.password,values.confirm,
-								  is_student);
-			}
-			this.props.logout()
-			this.props.history.push('/');
-      	});
-    };
-  
-    handleConfirmBlur = e => {
-      	const { value } = e.target;
-      	this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    };
-  
-    compareToFirstPassword = (value, callback) => {
-      	const { form } = this.props;
-      	if (value && value !== form.getFieldValue('password')) {
-        	callback('Two passwords that you enter is inconsistent!');
-      	} else {
-        	callback();
-      	}
-    };
-  
-    validateToNextPassword = (value, callback) => {
-      	const { form } = this.props;
-      	if (value && this.state.confirmDirty) {
-        	form.validateFields(['confirm'], { force: true });
-      	}
-      	callback();
-    };
-  
-    render() {
-      	const { getFieldDecorator } = this.props.form;
-      	return (
-			<Form onSubmit={this.handleSubmit}>
-				<Form.Item>
-					{getFieldDecorator('username', {
-						rules: [{ required: true, message: 'Please input your username!' }],
-					})(
-						<Input
-						prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-						placeholder="Username"
-						/>,
-					)}
+				if((this.props.onAuth(
+						values.username,
+						values.name,
+						values.ramal,
+						values.email, 
+						values.password1,
+						values.password2,
+						is_administrator)) !== fail) {
+							message.success('O usuário ' + values.username + 
+											' foi cadastrado com sucesso!');
+				} else {
+					message.error('Não foi possível cadastrar o usuário.' + 
+								  'Entre em contato com o desenvolvedor!');
+				}
+				this.props.history.push('/');			
+			} else {
+
+			}	
+		});
+	};
+
+	handleConfirmBlur = e => {
+		const { value } = e.target;
+		this.setState({ 
+			confirmDirty: this.state.confirmDirty || !!value 
+		});
+	};
+
+	compareToFirstPassword = (rule, value, callback) => {
+		const { form } = this.props;
+		if (value && value !== form.getFieldValue('password1')) {
+			callback('As senhas digitadas não são iguais!');
+		} else {
+			callback();
+		}
+	};
+
+	validateToNextPassword = (rule, value, callback) => {
+		const { form } = this.props;
+		if (value && this.state.confirmDirty) {
+			form.validateFields(['password2'], { force: true });
+		}
+		callback();
+	};
+
+	render() {
+		const { getFieldDecorator } = this.props.form;
+
+		return (
+			<Form onSubmit = { this.handleSubmit } >
+				<Form.Item label = 'Nome Completo' >
+					{
+						getFieldDecorator('name', {
+							rules: [{ 
+								required: true, 
+								message: 'Por favor, Insira Seu Nome Completo!'
+							}],
+						})(
+							<Input
+								prefix = {
+									<Icon 
+										type = 'user' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
+								}
+								placeholder = 'Nome Completo'
+							/>,
+						)
+					}
 				</Form.Item>
 
-				<Form.Item label="E-mail">
-					{getFieldDecorator('email', {
-					rules: [
-						{
-						type: 'email',
-						message: 'The input is not valid E-mail!',
-						},
-						{
-						required: true,
-						message: 'Please input your E-mail!',
-						},
-					],
-					})(<Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-					placeholder="Email"/>)}
+				<Form.Item label = 'Usuário'>
+					{
+						getFieldDecorator('username', {
+							rules: [{ 
+								required: true, 
+								message: 'Por favor, Coloque Seu Usuário!' 
+							}],
+						})(
+							<Input
+								prefix = {
+									<Icon 
+										type = 'user' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
+								}
+								placeholder = 'Usuário'
+							/>,
+						)
+					}
 				</Form.Item>
 
-				<Form.Item label="Password" hasFeedback>
-					{getFieldDecorator('password', {
-					rules: [
-						{
-						required: true,
-						message: 'Please input your password!',
-						},
-						{
-						validator: this.validateToNextPassword,
-						},
-					],
-					})(<Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-					type="password"
-					placeholder="Password"/>)}
+				<Form.Item label = 'E-mail'>
+					{
+						getFieldDecorator('email', {
+							rules: [
+							{
+								type: 'email',
+								message: 'Esse tipo de E-mail Não é Válido!',
+							},
+							{
+								required: true,
+								message: 'Por Favor, Coloque Seu E-mail!',
+							},
+							],
+						})(
+							<Input 
+								prefix = {
+									<Icon 
+										type = 'mail' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' }} 
+									/>
+								}
+								placeholder = 'Email'
+							/>
+						)
+					}
 				</Form.Item>
 
-				<Form.Item label="Confirm Password" hasFeedback>
-					{getFieldDecorator('confirm', {
-					rules: [
-						{
-						required: true,
-						message: 'Please confirm your password!',
-						},
-						{
-						validator: this.compareToFirstPassword,
-						},
-					],
-					})(<Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-					type="password"
-					placeholder="Password" onBlur={this.handleConfirmBlur} />)}
+				<Form.Item label = 'Ramal'>
+					{
+						getFieldDecorator('ramal', {
+							rules: [{ 
+								required: true, 
+								message: 'Por favor, Coloque Seu Ramal!' 
+							}],
+						})(
+							<Input
+								prefix={
+									<Icon 
+										type = 'phone' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
+								}
+								placeholder = 'Ramal'
+							/>,
+						)
+					}
 				</Form.Item>
 
-				<Form.Item label="Select a user type" hasFeedback>
-					{getFieldDecorator('userType', {
+				<Form.Item label='Senha' hasFeedback>
+					{
+						getFieldDecorator('password1', {
+							rules: [
+							{
+								required: true,
+								message: 'Por favor, Insira Sua Senha!',
+							},
+							{
+								validator: this.validateToNextPassword,
+							},
+							],
+						})(
+							<Input 
+								prefix={
+									<Icon 
+										type = 'lock' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
+								}
+								type = 'password'
+								placeholder = 'Senha'
+							/>
+						)
+					}
+				</Form.Item>
+
+				<Form.Item label='Repita a Senha' hasFeedback>
+					{
+						getFieldDecorator('password2', {
+							rules: [
+							{
+								required: true,
+								message: 'Por favor, repita a sua senha!',
+							},
+							{
+								validator: this.compareToFirstPassword,
+							},
+							],
+						})(
+							<Input 
+								prefix={
+									<Icon 
+										type = 'lock' 
+										style = {{ 
+											color: 'rgba(0,0,0,.25)' 
+										}} 
+									/>
+								}
+								type = 'password'
+								placeholder = 'Repita sua senha' 
+								onBlur = { this.handleConfirmBlur } 
+							/>
+						)
+					}
+				</Form.Item>
+
+				<Form.Item label='Tipo de Usuário' hasFeedback>
+				{
+					getFieldDecorator('userType', {
 					rules: [
 						{
-						required: true,
-						message: 'Please select a user!',
+							required: true,
+							message: 'Por favor, escolha o tipo de usuário!',
 						}
-					],
+						],
 					})(
-					<Select placeholder="Select a user type">
-						<Option value="student">Student</Option>
-						<Option value="teacher">Teacher</Option>
-					</Select>  
-					)}
+						<Select placeholder = 'Escolha o tipo de usuário' >
+							<Option value = 'administrator'> Administrador </Option>
+							<Option value = 'participant'> Participante da Reunião </Option>
+						</Select>  
+					)
+				}
 				</Form.Item>
-				
+
 				<Form.Item>
-					<Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
-						Cadastrar
+					<Button 
+						type = 'primary' 
+						htmlType = 'submit' 
+						style = {{
+							marginRight: '10px'
+						}} >
+						Signup
 					</Button>
-						Ou
-					<Button type="primary" htmlType="submit" style={{marginLeft: '10px'}}>
-						<Link to="/login">Login</Link>
-					</Button>
+					Or
+					<NavLink 
+						style = {{
+							marginRight: '10px'
+						}} 
+						to = '/login/'> 
+						login
+					</NavLink>
 				</Form.Item>
 			</Form>
-      	);
-    }
+		);
+	}
 }
 
 const SignupForm = Form.create()(Signup);
 
 const mapStateToProps = (state) => {
-    return {
-        loading: state.loading,
-        error: state.error
-    }
+
+	return {
+		loading: state.loading,
+		error: state.error
+	}
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-		onAuth: (username, email, password1, password2, is_student) => dispatch(actions.authSignup(username, email, password1, password2, is_student)),
-		logout: () => dispatch(actions.logout()) 
-    }
+	return {
+		onAuth: (username, name, ramal, email, password1, password2, is_administrator) => 
+		dispatch(actions.authSignup(
+				username, name, ramal, email, password1, password2, is_administrator
+			)
+		)
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

@@ -1,71 +1,46 @@
-import React from "react";
-import { Layout, Menu } from "antd";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import React from 'react';
+import { Layout, Breadcrumb } from 'antd';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import * as actions from "../../store/actions/auth";
-import './layout.css';
-import LayoutSider from './LayoutSider';
-import LayoutOff from './LayoutOff';
+import BreadcrumbLayout from './BreadcrumLayout';
+import Navbar from '../navbar/Navbar';
 
-const { Header, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 class CustomLayout extends React.Component {
-
-	componentDidMount() {
-	
-		this.props.onTryAutoSignup();
-  	}
-
-    render () {
-        return (
-            <Layout>
-                <Header className = 'header'>
-                    <Menu   
-                        className = 'menu'                        
-                        mode="horizontal"
-                        style={{ lineHeight: '63px'}}
-                    >
+  
+	render() {
+		return (
+			<Layout className="layout" >
+				<Navbar/>
+				<Content style={{ margin: '24px 42px 0', overflow: 'initial' }}>
+					<Breadcrumb style={{ margin: "16px 0" }}>
 						{
-							this.props.isAuthenticated ? (
-								<Menu.Item key="2" onClick={this.props.logout}>
-									Logout
-								</Menu.Item>
-								) : (
-								<Menu.Item key="2">
-									<Link to="/login">Login</Link>
-								</Menu.Item>
-							)
-						}                 
-                    </Menu>
-                </Header>
-				{
-					this.props.token !== null ? (
-						<LayoutSider />
-					): <LayoutOff {...this.props} />
-				} 				
-            	<Footer style={{ textAlign: 'center' }}>
+							this.props.token !== null ? (
+								<BreadcrumbLayout />
+							) : null
+						}
+					</Breadcrumb>	
+					<div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+						{this.props.children}
+					</div>	
+        		</Content>
+				<Footer style={{ textAlign: 'center' }}>
 					Grata - Gerenciamento de Reuniões e Atas ©2019 
 					Criado por Victor Hugo Lopes Mota.
 				</Footer>
-            </Layout>
-        ); 
-    }
+			</Layout>
+		);
+	}
 }
 
 const mapStateToProps = state => {
-    return {
-        userId: state.auth.userId,
-        token: state.auth.token,
-        is_teacher: state.auth.is_teacher
-    };
+  	return {
+		userId: state.auth.userId,
+		token: state.auth.token,
+		is_administrator: state.auth.is_administrator
+	};
 };
-  
-const mapDispatchToProps = dispatch => {
-    return {
-		logout: () => dispatch(actions.logout()),
-		onTryAutoSignup: () => dispatch(actions.authCheckState())
-    };
-};
-  
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(CustomLayout));
+
+export default withRouter(connect(mapStateToProps)(CustomLayout));
