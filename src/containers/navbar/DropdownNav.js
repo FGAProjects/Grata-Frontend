@@ -9,7 +9,7 @@ class DropdownNav extends React.Component {
     render () {
 		return (
         	<div>
-				<Dropdown overlay={
+				<Dropdown overlay = { 
 					<Menu>
 						<Menu.Item key = '0' >
 							<Icon type = 'user' />
@@ -23,46 +23,65 @@ class DropdownNav extends React.Component {
 									Editar Perfil
 								</Link>
 						</Menu.Item>
-						<Menu.Item key = '2' >
-							<Icon type = 'delete' />
-								<Link to = '#' >
-									Excluir Perfil
-								</Link>
-						</Menu.Item>
 					</Menu>
-				} trigger = { ['click'] } >
+				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
 						href={ `/informacoes_usuario/` } >
 						<Icon type = 'user' />  Usuário <Icon type='down' />
 					</a>
 				</Dropdown>
-				<Dropdown overlay = {menuParticipant} trigger = { ['click'] } >
+
+				<Dropdown overlay = { 
+					<Menu>
+						<Menu.Item key = '0' >
+							<Icon type="user-add" />
+								<Link to = '/adicionar_usuario/' >
+									Adicionar Usuário
+								</Link>
+						</Menu.Item>
+				
+						<Menu.Item key = '1' >
+							<Icon type = 'team' />
+								<Link to = '/lista_usuarios/' >
+									Visualizar Usuários
+								</Link>
+						</Menu.Item>
+					</Menu>
+				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' href='/'>
 						<Icon type = 'team' /> Participante <Icon type='down' />
 					</a>
 				</Dropdown>
+
+				<Dropdown overlay={ 
+					<Menu>
+						<Menu.Item key = '0' >
+							<Icon type = 'project' />
+								<Link to = { '/criar_projeto/' } >
+									Adicionar Projeto
+								</Link>
+						</Menu.Item>
+						<Menu.Item key = '1' >
+							<Icon type = 'ordered-list' />
+								<Link to= { '/lista_projetos/' } >
+									Visualizar Projetos
+								</Link>
+						</Menu.Item>
+					</Menu>
+				 } trigger = { ['click'] } >
+					<a className = 'ant-dropdown-link' 
+						href={ `/informacoes_usuario/` } >
+						<Icon type = 'unordered-list' />  Projetos <Icon type='down' />
+					</a>
+				</Dropdown>
 				<Dropdown trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' href='/' >
-						<Icon type = 'book' /> Manual
+						<Icon type = 'book' /> Manuais
 					</a>
 				</Dropdown>
           </div>
         );
     }
 }
-
-const menuParticipant = (
-	<Menu>
-		<Menu.Item key="0">
-			<Icon type="user-add" /><Link to="/signup/">Adicionar Usuários</Link>
-		</Menu.Item>
-		<Menu.Item key="1">
-			<Icon type="team" /><Link to="#">Visualizar Usuários</Link>
-		</Menu.Item>
-		<Menu.Item key="2">
-			<Icon type="edit" /><Link to="#">Alterar Permissões</Link>
-		</Menu.Item>
-	</Menu>
-);
 
 export default DropdownNav;

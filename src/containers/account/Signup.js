@@ -253,15 +253,15 @@ class Signup extends React.Component {
 						style = {{
 							marginRight: '10px'
 						}} >
-						Signup
+						Cadastrar
 					</Button>
-					Or
+					Ou
 					<NavLink 
 						style = {{
 							marginRight: '10px'
 						}} 
 						to = '/login/'> 
-						login
+						Entrar
 					</NavLink>
 				</Form.Item>
 			</Form>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import BreadcrumbLayout from './BreadcrumLayout';
+import AutoComplete from './AutoComplete';
 import Navbar from '../navbar/Navbar';
 
 const { Content, Footer } = Layout;
@@ -12,17 +12,26 @@ class CustomLayout extends React.Component {
   
 	render() {
 		return (
-			<Layout className="layout" >
-				<Navbar/>
-				<Content style={{ margin: '24px 42px 0', overflow: 'initial' }}>
-					<Breadcrumb style={{ margin: "16px 0" }}>
-						{
-							this.props.token !== null ? (
-								<BreadcrumbLayout />
-							) : null
-						}
-					</Breadcrumb>	
-					<div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+			<Layout className = 'layout' >
+				<Navbar />
+				<Content 
+					style = {{ 
+						margin: '24px 42px 0', 
+						overflow: 'initial' 
+					}
+				} >
+					{
+						this.props.token !== null ? (
+							<AutoComplete />
+						) : null
+					}
+					<div 
+						style = {{ 
+							background: 'white', 
+							padding: 24, 
+							minHeight: 280	 
+						}}
+					>
 						{this.props.children}
 					</div>	
         		</Content>
