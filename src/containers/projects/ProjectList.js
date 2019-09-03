@@ -31,7 +31,7 @@ class ProjectsList extends Component {
         );
     }
 
-      render() {
+    render() {
         return (
             <Hoc>
                 {

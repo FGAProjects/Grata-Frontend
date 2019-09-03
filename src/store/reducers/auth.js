@@ -1,7 +1,11 @@
-import * as actionTypes from "../actions/actionsTypes";
-import { updateObject } from "../utility";
+import { 
+	AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT,
+	USER_LIST_START, USER_LIST_SUCCESS, USER_LIST_FAIL 
+} from '../actions/actionsTypes';
+import { updateObject } from '../utility';
 
 const initialState = {
+	users: [],
     token: null,
     username: null,
     is_student: null,
@@ -49,16 +53,44 @@ const authLogout = (state, action) => {
 	});
 };
 
+const getUserListStart = (state, action) => {
+    return updateObject(state, {
+        error: null,
+        loading: true
+    });
+};
+
+const getUserListSuccess = (state, action) => {
+    return updateObject(state, {
+        users: action.users,
+        error: null,
+        loading: false
+    });
+};
+
+const getUserListFail = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loading: false
+    });
+};
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case actionTypes.AUTH_START:
+		case AUTH_START:
 			return authStart(state, action);
-		case actionTypes.AUTH_SUCCESS:
+		case AUTH_SUCCESS:
 			return authSuccess(state, action);
-		case actionTypes.AUTH_FAIL:
+		case AUTH_FAIL:
 			return authFail(state, action);
-		case actionTypes.AUTH_LOGOUT:
+		case AUTH_LOGOUT:
 			return authLogout(state, action);
+		case USER_LIST_START:
+			return getUserListStart(state, action);
+		case USER_LIST_SUCCESS:
+			return getUserListSuccess(state, action);
+		case USER_LIST_FAIL:
+			return getUserListFail(state, action);
 		default:
 			return state;
 	}
