@@ -10,6 +10,7 @@ import UserEdit from './containers/account/UserEdit';
 import UserList from './containers/account/UserList';
 import ProjectCreate from './containers/projects/ProjectCreate';
 import ProjectList from './containers/projects/ProjectList';
+import ProjectDetail from './containers/projects/ProjectDetail';
 
 const BaseRouter = () => (
     <Hoc>
@@ -21,6 +22,7 @@ const BaseRouter = () => (
         <Route exact path = '/alterar_informacoes/' component = { UserEdit } />
         <Route exact path = '/criar_projeto/' component = { ProjectCreate } />
         <Route exact path = '/lista_projetos/' component = { ProjectList } />
+        <Route exact path = '/informacoes_projeto/:id' component = { ProjectDetail } />
     </Hoc>
 );
 

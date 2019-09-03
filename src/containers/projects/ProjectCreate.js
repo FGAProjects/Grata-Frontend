@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, Select, message } from 'antd';
+import { Form, Input, Icon, Button, message } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 
-const Option = Select.Option;
+import { createProject } from '../../store/actions/project';
 
 class ProjectCreate extends Component {
     
@@ -15,22 +15,18 @@ class ProjectCreate extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				let is_administrator = false;
-				if(values.userType === 'administrator') {
-					is_administrator = true;
-				}
-				if((this.props.onAuth(
-						values.username,
-						values.name,
-						values.ramal,
-						values.email, 
-						values.password1,
-						values.password2,
-						is_administrator)) !== fail) {
-							message.success('O usuário ' + values.username + 
-											' foi cadastrado com sucesso!');
+
+				console.log(this.props.token)
+				const token = this.props.token;
+				const project = {
+					title: values.title,
+					status: 'Pendente'
+				};
+				console.log(project)
+				if((this.props.createProject(token, project)) !== fail) {
+					message.success('O projeto foi cadastrado com sucesso');
 				} else {
-					message.error('Não foi possível cadastrar o usuário.' + 
+					message.error('Não foi possível cadastrar o projeto.' + 
 								  'Entre em contato com o desenvolvedor!');
 				}
 				this.props.history.push('/');			
@@ -45,18 +41,18 @@ class ProjectCreate extends Component {
 
 		return (
 			<Form onSubmit = { this.handleSubmit } >
-				<Form.Item label = 'Usuário'>
+				<Form.Item label = 'Título'>
 					{
-						getFieldDecorator('username', {
+						getFieldDecorator('title', {
 							rules: [{ 
 								required: true, 
-								message: 'Por favor, Coloque Seu Usuário!' 
+								message: 'Por favor, Coloque o Título!' 
 							}],
 						})(
 							<Input
 								prefix = {
 									<Icon 
-										type = 'user' 
+										type = 'form' 
 										style = {{ 
 											color: 'rgba(0,0,0,.25)' 
 										}} 
@@ -68,19 +64,10 @@ class ProjectCreate extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label = 'E-mail'>
+				<Form.Item label = 'Status'>
 					{
-						getFieldDecorator('email', {
-							rules: [
-							{
-								type: 'email',
-								message: 'Esse tipo de E-mail Não é Válido!',
-							},
-							{
-								required: true,
-								message: 'Por Favor, Coloque Seu E-mail!',
-							},
-							],
+						getFieldDecorator('status', {
+							
 						})(
 							<Input 
 								prefix = {
@@ -90,7 +77,8 @@ class ProjectCreate extends Component {
 											color: 'rgba(0,0,0,.25)' }} 
 									/>
 								}
-								placeholder = 'Email'
+								placeholder = 'Pendente'
+								disabled = { true }
 							/>
 						)
 					}
@@ -117,17 +105,14 @@ const mapStateToProps = (state) => {
 
 	return {
 		loading: state.loading,
-		error: state.error
+		error: state.error,
+		token: state.auth.token
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAuth: (username, name, ramal, email, password1, password2, is_administrator) => 
-		dispatch(actions.authSignup(
-				username, name, ramal, email, password1, password2, is_administrator
-			)
-		)
+		createProject: (token, project) => dispatch(createProject(token, project))
 	}
 }
 

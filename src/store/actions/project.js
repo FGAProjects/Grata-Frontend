@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import axios from 'axios';
 import { 
         PROJECT_LIST_START, PROJECT_LIST_SUCCESS, PROJECT_LIST_FAIL,
         GET_PROJECT_DETAIL_START, GET_PROJECT_DETAIL_SUCCESS, GET_PROJECT_DETAIL_FAIL,
