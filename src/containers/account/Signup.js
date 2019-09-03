@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Form, Input, Icon, Button, Select, message } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
@@ -8,7 +8,7 @@ import * as actions from '../../store/actions/auth';
 
 const Option = Select.Option;
   
-class Signup extends React.Component {
+class Signup extends Component {
 
 	state = {
 		confirmDirty: false,

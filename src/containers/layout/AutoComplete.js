@@ -52,7 +52,7 @@ const dataSource = [
   
   function Complete() {
     return (
-        <div className="certain-category-search-wrapper" style={{ width: '100%', paddingBottom: 20 }}>
+        <div className="certain-category-search-wrapper" style={{ width: '100%', paddingBottom: 25 }}>
             <AutoComplete
                 className="certain-category-search"
                 dropdownClassName="certain-category-search-dropdown"
