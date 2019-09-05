@@ -32,7 +32,51 @@ class UserList extends Component {
         );
     }
 
+    dataSourceUsers() {
+        const users = JSON.parse(localStorage.getItem('users'));
+        var userList = []
+
+        for(let aux = 0; aux < users.length; aux ++) {
+            userList['key'] = users[aux].id
+            userList['name'] = users[aux].name
+            userList['ramal'] = users[aux].ramal
+            userList['address'] = users[aux].email
+            userList['tags'] = users[aux].name
+        }
+        for(let aux = 0; aux < userList.length; aux ++) {
+            console.log(userList[aux].name)
+        }
+        return userList
+    }
+
     render() {
+        const users = JSON.parse(localStorage.getItem('users'));
+        let permission = '';
+        let dataSource = {
+            innerArray: [
+                
+            ]
+        }
+        
+        for(let aux = 0; aux < users.length; aux ++) {
+            if(users[aux].is_administrator === true) {
+                permission = 'Administrador';
+            } else {
+                permission = 'Participante da Reunião';
+            }
+            dataSource.innerArray.push(
+                {
+                    key: users[aux].id ,
+                    name: users[aux].name,
+                    username: users[aux].username,
+                    ramal: users[aux].ramal,
+                    setor: '-',
+                    email: users[aux].email,
+                    tags: [permission],
+                }
+            ) 
+        }
+
         return (
             <Hoc>
                 {
@@ -47,6 +91,11 @@ class UserList extends Component {
                                     render: text => <a>{text}</a>,
                                 },
                                 {
+                                    title: 'Usuário',
+                                    dataIndex: 'username',
+                                    key: 'username',
+                                },
+                                {
                                     title: 'Ramal',
                                     dataIndex: 'ramal',
                                     key: 'ramal',
@@ -58,8 +107,8 @@ class UserList extends Component {
                                 },
                                 {
                                     title: 'Email',
-                                    dataIndex: 'address',
-                                    key: 'address',
+                                    dataIndex: 'email',
+                                    key: 'email',
                                 },
                                 {
                                     title: 'Tipo de Permissão',
@@ -84,31 +133,9 @@ class UserList extends Component {
                                     ),
                                 },
                             ]
-                        } 
-                        dataSource = {[
-                            {
-                                key: '1',
-                                name: 'John Brown',
-                                ramal: 32,
-                                address: 'New York No. 1 Lake Park',
-                                tags: ['nice', 'developer'],
-                            },
-                            {
-                                key: '2',
-                                name: 'Jim Green',
-                                ramal: 42,
-                                address: 'London No. 1 Lake Park',
-                                tags: ['loser'],
-                            },
-                            {
-                                key: '3',
-                                name: 'Joe Black',
-                                ramal: 32,
-                                address: 'Sidney No. 1 Lake Park',
-                                tags: ['cool', 'teacher'],
-                            },
-                            ]
-                        } />
+                        }
+                        dataSource = {dataSource.innerArray} 
+                        />
                     )
                 }
             </Hoc>

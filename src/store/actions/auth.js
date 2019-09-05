@@ -132,8 +132,9 @@ export const getUsers = (token) => {
         };
         axios.get('http://0.0.0.0:8000/users/')
         .then(res => {
-            const users = res.data;
-            dispatch(getUserListSuccess(users));
+			const users = res.data;
+			localStorage.setItem('users', JSON.stringify(users));
+			dispatch(getUserListSuccess(users));
         })
         .catch(err => {
             dispatch(getUserListFail());

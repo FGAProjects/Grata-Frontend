@@ -100,7 +100,11 @@ class Signup extends Component {
 						getFieldDecorator('username', {
 							rules: [{ 
 								required: true, 
-								message: 'Por favor, Coloque Seu Usuário!' 
+								message: 'Por favor, Coloque Seu Usuário!',
+							},
+							{
+								max: 10,
+								message: 'O usuário pode ter no máximo 10 caracteres!',
 							}],
 						})(
 							<Input
@@ -163,6 +167,7 @@ class Signup extends Component {
 										}} 
 									/>
 								}
+								type = 'number'
 								placeholder = 'Ramal'
 							/>,
 						)
