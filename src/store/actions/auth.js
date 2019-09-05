@@ -46,8 +46,8 @@ const getUserListSuccess = users => {
 
 const getUserListFail = error => {
     return {
-      type: USER_LIST_FAIL,
-      error: error
+      	type: USER_LIST_FAIL,
+      	error: error
     };
 };
 
@@ -77,7 +77,7 @@ export const authLogin = (username, password) => {
 				name: res.data.name,
 				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
 			};
-			localStorage.setItem("user", JSON.stringify(user));
+			localStorage.setItem('user', JSON.stringify(user));
 			dispatch(authSuccess(user));
 			dispatch(checkAuthTimeout(3600));
 		})

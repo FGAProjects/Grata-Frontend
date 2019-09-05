@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
 import './navbar.css';
 
-class DropdownNav extends React.Component {
+class DropdownNav extends Component {
 
     render () {
 		return (

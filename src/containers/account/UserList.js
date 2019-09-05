@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { List, Skeleton, Table, Divider, Tag } from 'antd';
+import { Skeleton, Table, Tag } from 'antd';
 
 import { getUsers } from '../../store/actions/auth';
 import Hoc from '../../hoc/hoc';
@@ -22,35 +21,25 @@ class UserList extends Component {
         }
     }
 
-    renderItem(project) {
-        return (
-            <Link to = {`/informacoes_projeto/${project.id}`} >
-                <List.Item>
-                    {project.name}
-                </List.Item>
-            </Link>
-        );
-    }
+	dynamicSort(property) {
+		var sortOrder = 1;
 
-    dataSourceUsers() {
-        const users = JSON.parse(localStorage.getItem('users'));
-        var userList = []
+		if(property[0] === "-") {
+			sortOrder = -1;
+			property = property.substr(1);
+		}
 
-        for(let aux = 0; aux < users.length; aux ++) {
-            userList['key'] = users[aux].id
-            userList['name'] = users[aux].name
-            userList['ramal'] = users[aux].ramal
-            userList['address'] = users[aux].email
-            userList['tags'] = users[aux].name
-        }
-        for(let aux = 0; aux < userList.length; aux ++) {
-            console.log(userList[aux].name)
-        }
-        return userList
-    }
+		return function (a,b) {
+			if(sortOrder === -1){
+				return b[property].localeCompare(a[property]);
+			}else{
+				return a[property].localeCompare(b[property]);
+			}        
+		}
+	}
 
     render() {
-        const users = JSON.parse(localStorage.getItem('users'));
+		const users = JSON.parse(localStorage.getItem('users'));
         let permission = '';
         let dataSource = {
             innerArray: [
@@ -72,10 +61,14 @@ class UserList extends Component {
                     ramal: users[aux].ramal,
                     setor: '-',
                     email: users[aux].email,
-                    tags: [permission],
+					tags: [permission],
                 }
-            ) 
-        }
+			); 
+		}
+
+		dataSource.innerArray.sort(this.dynamicSort('name'))
+		console.log(dataSource.innerArray[0].key)
+		console.log(dataSource.innerArray.keys)
 
         return (
             <Hoc>
@@ -88,8 +81,7 @@ class UserList extends Component {
                                     title: 'Nome',
                                     dataIndex: 'name',
                                     key: 'name',
-                                    render: text => <a>{text}</a>,
-                                },
+								},
                                 {
                                     title: 'Usuário',
                                     dataIndex: 'username',
@@ -119,12 +111,12 @@ class UserList extends Component {
                                         {
                                             tags.map(tag => {
                                                 let color = tag.length > 5 ? 'geekblue' : 'green';
-                                                if (tag === 'loser') {
-                                                color = 'volcano';
+                                                if (tag === 'Participante da Reunião') {
+                                                	color = 'volcano';
                                                 }
                                                 return (
-                                                <Tag color={color} key={tag}>
-                                                    {tag.toUpperCase()}
+                                                <Tag color = { color } key = { tag }>
+                                                    { tag.toUpperCase() }
                                                 </Tag>
                                                 );
                                             })
@@ -132,9 +124,10 @@ class UserList extends Component {
                                         </span>
                                     ),
                                 },
-                            ]
-                        }
-                        dataSource = {dataSource.innerArray} 
+                            ]}
+                            dataSource = {
+								dataSource.innerArray
+							} 
                         />
                     )
                 }
