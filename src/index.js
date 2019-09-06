@@ -8,12 +8,14 @@ import thunk from 'redux-thunk';
 
 import authReducer from './store/reducers/auth';
 import projectReducer from './store/reducers/project';
+import sectorReducer from './store/reducers/sector';
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
 	auth: authReducer,
-	project: projectReducer
+	project: projectReducer,
+	sector: sectorReducer
 });
 
 const store = createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));

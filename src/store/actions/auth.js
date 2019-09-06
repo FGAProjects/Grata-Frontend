@@ -137,7 +137,7 @@ export const getUsers = (token) => {
 			dispatch(getUserListSuccess(users));
         })
         .catch(err => {
-            dispatch(getUserListFail());
+            dispatch(getUserListFail(err));
         });
     };
 }

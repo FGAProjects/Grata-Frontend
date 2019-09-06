@@ -67,8 +67,6 @@ class UserList extends Component {
 		}
 
 		dataSource.innerArray.sort(this.dynamicSort('name'))
-		console.log(dataSource.innerArray[0].key)
-		console.log(dataSource.innerArray.keys)
 
         return (
             <Hoc>

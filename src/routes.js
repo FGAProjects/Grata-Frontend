@@ -11,6 +11,10 @@ import UserList from './containers/account/UserList';
 import ProjectCreate from './containers/projects/ProjectCreate';
 import ProjectList from './containers/projects/ProjectList';
 import ProjectDetail from './containers/projects/ProjectDetail';
+import SectorCreate from './containers/sectors/SectorCreate';
+import SectorDetail from './containers/sectors/SectorDetail';
+import SectorEdit from './containers/sectors/SectorEdit';
+import SectorList from './containers/sectors/SectorList';
 
 const BaseRouter = () => (
     <Hoc>
@@ -23,6 +27,10 @@ const BaseRouter = () => (
         <Route exact path = '/criar_projeto/' component = { ProjectCreate } />
         <Route exact path = '/lista_projetos/' component = { ProjectList } />
         <Route exact path = '/informacoes_projeto/:id' component = { ProjectDetail } />
+        <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
+        <Route exact path = '/informacoes_setor/:id' component = { SectorDetail } />
+        <Route exact path = '/editar_setor/:id' component = { SectorEdit } />
+        <Route exact path = '/lista_de_setores/' component = { SectorList } />
     </Hoc>
 );
 

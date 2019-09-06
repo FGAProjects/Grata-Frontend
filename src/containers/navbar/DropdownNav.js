@@ -53,7 +53,29 @@ class DropdownNav extends Component {
 					</a>
 				</Dropdown>
 
-				<Dropdown overlay={ 
+				<Dropdown overlay = { 
+					<Menu>
+						<Menu.Item key = '0' >
+							<Icon type = 'project' />
+								<Link to = { '/criar_setor/' } >
+									Adicionar Setor
+								</Link>
+						</Menu.Item>
+						<Menu.Item key = '1' >
+							<Icon type = 'ordered-list' />
+								<Link to= { '/alterar_informacoes/' } >
+									Visualizar Setores
+								</Link>
+						</Menu.Item>
+					</Menu>
+				 } trigger = { ['click'] } >
+					<a className = 'ant-dropdown-link' 
+						href={ `/informacoes_usuario/` } >
+						<Icon type = 'unordered-list' />  Setores <Icon type='down' />
+					</a>
+				</Dropdown>
+
+				<Dropdown overlay = { 
 					<Menu>
 						<Menu.Item key = '0' >
 							<Icon type = 'project' />
@@ -63,14 +85,14 @@ class DropdownNav extends Component {
 						</Menu.Item>
 						<Menu.Item key = '1' >
 							<Icon type = 'ordered-list' />
-								<Link to= { '/lista_projetos/' } >
+								<Link to = { '/lista_projetos/' } >
 									Visualizar Projetos
 								</Link>
 						</Menu.Item>
 					</Menu>
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
-						href={ `/informacoes_usuario/` } >
+						href ={ `/informacoes_usuario/` } >
 						<Icon type = 'unordered-list' />  Projetos <Icon type='down' />
 					</a>
 				</Dropdown>

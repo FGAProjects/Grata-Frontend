@@ -38,7 +38,7 @@ export const getProjects = token => {
             dispatch(getProjectListSuccess(projects));
         })
         .catch(err => {
-            dispatch(getProjectListFail());
+            dispatch(getProjectListFail(err));
         });
     };
 };
@@ -49,10 +49,10 @@ const getProjectDetailStart = () => {
     };
 };
   
-const getProjectDetailSuccess = projects => {
+const getProjectDetailSuccess = project => {
     return {
         type: GET_PROJECT_DETAIL_SUCCESS,
-        projects
+        project
     };
 };
   
@@ -63,7 +63,7 @@ const getProjectDetailFail = error => {
     };
 };
 
-export const getASNTSDetail = (token, projectId) => {
+export const getProjectDetail = (token, projectId) => {
     return dispatch => {
         dispatch(getProjectDetailStart());
         axios.defaults.headers = {
@@ -76,7 +76,7 @@ export const getASNTSDetail = (token, projectId) => {
             dispatch(getProjectDetailSuccess(project));
         })
         .catch(err => {
-            dispatch(getProjectDetailFail());
+            dispatch(getProjectDetailFail(err));
         });
     };
 };
@@ -110,10 +110,10 @@ export const createProject = (token, project) => {
         };
         axios.post('http://0.0.0.0:8000/projects/create/', project)
         .then(res => {
-            dispatch(createProjectSuccess());
+            dispatch(createProjectSuccess(res));
         })
         .catch(err => {
-            dispatch(createProjectFail());
+            dispatch(createProjectFail(err));
         });
     };
 };  
