@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button, Spin } from 'antd';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import * as actions from '../../store/actions/auth';
+import { authLogin } from '../../store/actions/auth';
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
@@ -24,7 +24,7 @@ class Login extends React.Component {
     let errorMessage = null;
     if(this.props.error) {
         errorMessage = (
-            <p>{this.props.error.message}</p>
+            <p> { this.props.error.message } </p>
         );
     }
 
@@ -35,41 +35,72 @@ class Login extends React.Component {
             {
                 this.props.loading ? (
 
-                    <Spin indicator={antIcon} />
+                    <Spin indicator = { antIcon } />
 
                 ): (
-                    <Form onSubmit={this.handleSubmit} className="login-form">
+                    <Form onSubmit = { this.handleSubmit } className = 'login-form' >
 
                         <Form.Item>
-                        {getFieldDecorator('username', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
-                        })(
-                            <Input
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="Username"
-                            />,
-                        )}
+                            {
+                                getFieldDecorator('username', {
+                                rules: [{ 
+                                    required: true, 
+                                    message: 'Por favor, Coloque o Seu Usuário!' 
+                                }],
+                            })(
+                                <Input
+                                    prefix = { 
+                                        <Icon 
+                                            type = 'user' 
+                                            style = {{ 
+                                                color: 'rgba(0,0,0,.25)' 
+                                            }} 
+                                        />
+                                    }
+                                    placeholder = 'Usuário'
+                                />,
+                            )}
                         </Form.Item>
 
                         <Form.Item>
-                        {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
-                        })(
-                            <Input
-                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            type="password"
-                            placeholder="Password"
-                            />,
-                        )}
+                            {
+                                getFieldDecorator('password', {
+                                rules: [{ 
+                                    required: true, 
+                                    message: 'Por favor, Coloque Sua Senha!' }],
+                            })(
+                                <Input
+                                    prefix = {
+                                        <Icon 
+                                            type = 'lock' 
+                                            style = {{ 
+                                                color: 'rgba(0,0,0,.25)' 
+                                            }} 
+                                        />
+                                    }
+                                    type = 'password'
+                                    placeholder = 'Senha'
+                                />,
+                            )}
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
+                            <Button 
+                                type = 'primary' 
+                                htmlType = 'submit' 
+                                style = {{
+                                    marginRight: '10px'
+                                }} 
+                            >
                                 Login
                             </Button>
-                            Or
-                            <NavLink style={{marginRight: '10px'}} 
-                            to='/signup/'> signup
+                            Ou
+                            <NavLink 
+                                style = {{
+                                    marginRight: '10px'
+                                }} 
+                                to = '/adicionar_usuario/' > 
+                                Cadastrar
                             </NavLink>
                         </Form.Item>
                     </Form>
@@ -92,7 +123,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (username, password) => dispatch(actions.authLogin(username, password))
+        onAuth: (username, password) => dispatch(authLogin(username, password))
     }
 }
 

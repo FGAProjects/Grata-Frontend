@@ -63,7 +63,7 @@ const getSectorDetailFail = error => {
     }
 }
 
-export const getSectorDetail = (token, sectorId) => {
+export const getSector = (token, sectorId) => {
     return dispatch => {
         dispatch(getSectorDetailStart());
         axios.defaults.headers = {
@@ -116,4 +116,38 @@ export const createSector = (token, sector) => {
             dispatch(createSectorFail(err));
         });
     };
-};  
+};
+
+export const updateSector = (token, sectorObject) => {
+	return dispatch => {
+        console.log(sectorObject)
+		dispatch(getSectorListStart());
+		axios.defaults.headers = {
+			'Content-Type': 'application/json',
+		  	Authorization: `Token ${token}`
+		};
+		axios.put(`http://0.0.0.0:8000/sectors/update/${sectorObject.id}/`, sectorObject)
+		.then(res => {
+			const sector = {
+                sectorId: sectorObject.id,
+				initials: sectorObject.initials,
+				name: sectorObject.name
+			};
+			dispatch(getSectorListSuccess(sector));
+		})
+		.catch(err => {
+			dispatch(getSectorListFail(err));
+		});
+	};
+}
+
+export const deleteSector = (token, sectorId) => {
+	return dispatch => {
+		axios.defaults.headers = {
+			'Content-Type': 'application/json',
+			Authorization: `Token ${ token }`
+		};
+        axios.delete(`http://0.0.0.0:8000/sectors/delete/${sectorId}/`);
+        getSectors(token);
+	};
+}

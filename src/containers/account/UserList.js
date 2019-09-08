@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Skeleton, Table, Tag } from 'antd';
 
 import { getUsers } from '../../store/actions/auth';
+import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class UserList extends Component {
@@ -21,25 +22,8 @@ class UserList extends Component {
         }
     }
 
-	dynamicSort(property) {
-		var sortOrder = 1;
-
-		if(property[0] === "-") {
-			sortOrder = -1;
-			property = property.substr(1);
-		}
-
-		return function (a,b) {
-			if(sortOrder === -1){
-				return b[property].localeCompare(a[property]);
-			}else{
-				return a[property].localeCompare(b[property]);
-			}        
-		}
-	}
-
     render() {
-		const users = JSON.parse(localStorage.getItem('users'));
+		const users = this.props.users;
         let permission = '';
         let dataSource = {
             innerArray: [
@@ -55,7 +39,7 @@ class UserList extends Component {
             }
             dataSource.innerArray.push(
                 {
-                    key: users[aux].id ,
+                    key: users[aux].id,
                     name: users[aux].name,
                     username: users[aux].username,
                     ramal: users[aux].ramal,
@@ -66,7 +50,7 @@ class UserList extends Component {
 			); 
 		}
 
-		dataSource.innerArray.sort(this.dynamicSort('name'))
+		dataSource.innerArray.sort(dynamicSort('name'))
 
         return (
             <Hoc>

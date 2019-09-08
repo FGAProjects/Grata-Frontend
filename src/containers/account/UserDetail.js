@@ -112,7 +112,8 @@ class UserDetail extends Component {
 
 								{
 									this.props.is_participant === true ? (
-										<Form.Item label='Tipo de Usuário' { ...formItemLayout } >
+										<Form.Item label = 'Tipo de Usuário' 
+											{ ...formItemLayout } >
 											<Input 
 												value = 'Participante da Reunião'
 												disabled = { true } />

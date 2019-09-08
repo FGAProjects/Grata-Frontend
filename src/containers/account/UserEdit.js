@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Skeleton, Form, Input, Button, Icon, message, Select } from 'antd';
 import { connect } from 'react-redux';
 import { fail } from 'assert';
@@ -10,7 +10,7 @@ import './user.css';
 
 const Option = Select.Option;
 
-class UserEdit extends React.Component {
+class UserEdit extends Component {
 
     constructor() {
 		super();
@@ -211,14 +211,16 @@ class UserEdit extends React.Component {
 						<Form.Item>
 							<div align = 'center'>
 								<Button 
-										type = 'primary' 
-										htmlType = 'submit' 
-										style = {{marginRight: '20px'}}
+									type = 'primary' 
+									htmlType = 'submit' 
+									style = {{
+										marginRight: '20px'
+									}}
 								>
 									Alterar Informações	
 								</Button>
-								<Button type='primary'>
-									<Link to={`/informacoes_usuario/`}>
+								<Button type = 'primary' >
+									<Link to = { '/informacoes_usuario/' }>
 										Cancelar
 									</Link>
 								</Button>

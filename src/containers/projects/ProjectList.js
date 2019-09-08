@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Skeleton } from 'antd';
+
 import { getProjects } from '../../store/actions/project';
 import Hoc from '../../hoc/hoc';
 

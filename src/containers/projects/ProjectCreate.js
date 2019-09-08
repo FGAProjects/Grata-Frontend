@@ -16,7 +16,6 @@ class ProjectCreate extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 
-				console.log(this.props.token)
 				const token = this.props.token;
 				const project = {
 					title: values.title,

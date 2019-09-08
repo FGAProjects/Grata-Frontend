@@ -63,14 +63,14 @@ class DropdownNav extends Component {
 						</Menu.Item>
 						<Menu.Item key = '1' >
 							<Icon type = 'ordered-list' />
-								<Link to= { '/alterar_informacoes/' } >
+								<Link to= { '/lista_de_setores/' } >
 									Visualizar Setores
 								</Link>
 						</Menu.Item>
 					</Menu>
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
-						href={ `/informacoes_usuario/` } >
+						href={ `/lista_de_setores/` } >
 						<Icon type = 'unordered-list' />  Setores <Icon type='down' />
 					</a>
 				</Dropdown>
