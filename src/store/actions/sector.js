@@ -148,6 +148,5 @@ export const deleteSector = (token, sectorId) => {
 			Authorization: `Token ${ token }`
 		};
         axios.delete(`http://0.0.0.0:8000/sectors/delete/${sectorId}/`);
-        getSectors(token);
 	};
 }

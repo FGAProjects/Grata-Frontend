@@ -50,10 +50,9 @@ class SectorList extends Component {
 					title: 'Ação Concluída!',
 					content: 'Setor Excluído Com Sucesso!',
                 });
-                window.location.reload(); 
 			},
 			onCancel() {
-				message.success('Exclusão de Setor Cancelada Com Sucesso!');
+                message.success('Exclusão de Setor Cancelada Com Sucesso!');
 			},
 		});
 	}
@@ -76,7 +75,7 @@ class SectorList extends Component {
 			); 
 		}
 
-		dataSource.innerArray.sort(dynamicSort('initials'))
+		dataSource.innerArray.sort(dynamicSort('initials'));
 
         return (
             <Hoc>

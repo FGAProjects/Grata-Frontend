@@ -4,15 +4,33 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 
-import * as actions from '../../store/actions/auth';
+import { dynamicSort } from '../utils';
+import { authSignup } from '../../store/actions/auth';
+import { getSectors } from '../../store/actions/sector';
 
 const Option = Select.Option;
   
-class Signup extends Component {
+class UserRegister extends Component {
 
 	state = {
 		confirmDirty: false,
 	};
+
+	componentDidMount() {
+        if (this.props.token !== undefined && this.props.token !== null) {
+            this.forceUpdate();
+            this.props.getSectors(this.props.token);
+        }
+    }
+
+    UNSAFE_componentWillReceiveProps(newProps) {
+        if (newProps.token !== this.props.token) {
+            if (newProps.token !== undefined && newProps.token !== null) {
+                this.forceUpdate();
+                this.props.getSectors(newProps.token);   
+            }
+        }
+    }
 
 	handleSubmit = e => {
 		e.preventDefault();
@@ -69,6 +87,24 @@ class Signup extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
+		const sectors = this.props.sectors;
+        let dataSource = {
+            innerArray: [
+                
+            ]
+        }
+        
+        for(let aux = 0; aux < sectors.length; aux ++) {
+            dataSource.innerArray.push(
+                {
+                    key: sectors[aux].id,
+                    initials: sectors[aux].initials,
+                    name: sectors[aux].name,
+                }
+			); 
+		}
+
+		dataSource.innerArray.sort(dynamicSort('initials'));
 
 		return (
 			<Form onSubmit = { this.handleSubmit } >
@@ -104,7 +140,7 @@ class Signup extends Component {
 							},
 							{
 								max: 10,
-								message: 'O usuário pode ter no máximo 10 caracteres!',
+								message: 'O Usuário Pode Ter no Máximo 10 Caracteres!',
 							}],
 						})(
 							<Input
@@ -174,6 +210,29 @@ class Signup extends Component {
 					}
 				</Form.Item>
 
+				<Form.Item label='Setor' hasFeedback>
+				{
+					getFieldDecorator('sector', {
+					rules: [
+						{
+							required: true,
+							message: 'Por favor, Escolha o Setor do Usuário!',
+						}
+						],
+					})(
+						<Select placeholder = 'Escolha o Setor' >
+							{ dataSource.innerArray.map(sector => 
+								<Option 
+									key = { sector.key } 
+									value = { sector.initials }>
+									{ sector.name }
+								</Option>)
+							}
+						</Select>  
+					)
+				}
+				</Form.Item>
+
 				<Form.Item label='Senha' hasFeedback>
 					{
 						getFieldDecorator('password1', {
@@ -209,7 +268,7 @@ class Signup extends Component {
 							rules: [
 							{
 								required: true,
-								message: 'Por favor, repita a sua senha!',
+								message: 'Por favor, Repita a Sua Senha!',
 							},
 							{
 								validator: this.compareToFirstPassword,
@@ -239,11 +298,11 @@ class Signup extends Component {
 					rules: [
 						{
 							required: true,
-							message: 'Por favor, escolha o tipo de usuário!',
+							message: 'Por favor, Escolha o Tipo de Usuário!',
 						}
 						],
 					})(
-						<Select placeholder = 'Escolha o tipo de usuário' >
+						<Select placeholder = 'Escolha o Tipo de Usuário' >
 							<Option value = 'administrator'> Administrador </Option>
 							<Option value = 'participant'> Participante da Reunião </Option>
 						</Select>  
@@ -274,24 +333,27 @@ class Signup extends Component {
 	}
 }
 
-const SignupForm = Form.create()(Signup);
+const UserRegisterForm = Form.create()(UserRegister);
 
 const mapStateToProps = (state) => {
 
 	return {
 		loading: state.loading,
-		error: state.error
+		error: state.error,
+		sectors: state.sector.sectors,
+		token: state.auth.token
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
 		onAuth: (username, name, ramal, email, password1, password2, is_administrator) => 
-		dispatch(actions.authSignup(
+		dispatch(authSignup(
 				username, name, ramal, email, password1, password2, is_administrator
 			)
-		)
+		),
+		getSectors: token => dispatch(getSectors(token))
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);
+export default connect(mapStateToProps, mapDispatchToProps)(UserRegisterForm);

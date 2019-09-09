@@ -3,8 +3,8 @@ import { Route } from 'react-router-dom';
 import Hoc from "./hoc/hoc";
 
 import Login from './containers/account/Login';
-import Signup from './containers/account/Signup';
 import Homepage from './containers/homepage/Homepage';
+import UserRegister from './containers/account/UserRegister';
 import UserDetail from './containers/account/UserDetail';
 import UserEdit from './containers/account/UserEdit';
 import UserList from './containers/account/UserList';
@@ -19,7 +19,7 @@ const BaseRouter = () => (
     <Hoc>
         <Route exact path = '/' component = { Homepage } />
         <Route exact path = '/login/' component = { Login } />
-        <Route exact path = '/adicionar_usuario/' component = { Signup } />
+        <Route exact path = '/adicionar_usuario/' component = { UserRegister } />
         <Route exact path = '/informacoes_usuario/' component = { UserDetail } />
         <Route exact path = '/lista_usuarios/' component = { UserList } />
         <Route exact path = '/alterar_informacoes/' component = { UserEdit } />
