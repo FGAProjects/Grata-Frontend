@@ -36,20 +36,34 @@ class UserRegister extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
+				const sectors = this.props.sectors;
 				let is_administrator = false;
+				let sector_name = '';
+
 				if(values.userType === 'administrator') {
 					is_administrator = true;
 				}
-				if((this.props.onAuth(
-						values.username,
-						values.name,
-						values.ramal,
-						values.email, 
-						values.password1,
-						values.password2,
-						is_administrator)) !== fail) {
-							message.success('O usuário ' + values.username + 
-											' foi cadastrado com sucesso!');
+				
+				for(let aux = 0; aux < sectors.length; aux ++) {
+					if(sectors[aux].initials === values.sector) {
+						sector_name = sectors[aux].name;
+					} 
+				}
+
+				const user = {
+					username: values.username,
+					name: values.name,
+					ramal: values.ramal,
+					email: values.email,
+					sector: sector_name,
+					password1: values.password1,
+					password2: values.password2,
+					is_administrator: is_administrator
+				}
+
+				if((this.props.onAuth(user)) !== fail) {
+					message.success('O usuário ' + values.username + 
+									' foi cadastrado com sucesso!');
 				} else {
 					message.error('Não foi possível cadastrar o usuário.' + 
 								  'Entre em contato com o desenvolvedor!');

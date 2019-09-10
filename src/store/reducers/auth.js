@@ -8,7 +8,8 @@ const initialState = {
 	users: [],
     token: null,
     username: null,
-    is_student: null,
+	is_student: null,
+	sector: null,
     ramal: null,
     is_teacher: null,
     name: null,
@@ -34,6 +35,7 @@ const authSuccess = (state, action) => {
 		is_participant: action.user.is_participant,
 		ramal: action.user.ramal,
 		userId: action.user.userId,
+		sector: action.user.sector,
 		email: action.user.email,
 		error: null,
 		loading: false

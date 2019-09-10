@@ -43,7 +43,7 @@ class UserList extends Component {
                     name: users[aux].name,
                     username: users[aux].username,
                     ramal: users[aux].ramal,
-                    setor: '-',
+                    setor: users[aux].sector,
                     email: users[aux].email,
 					tags: [permission],
                 }

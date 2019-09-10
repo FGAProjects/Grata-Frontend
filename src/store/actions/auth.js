@@ -75,6 +75,7 @@ export const authLogin = (username, password) => {
 				is_participant: res.data.user_type.is_participant,
 				ramal: res.data.ramal,
 				name: res.data.name,
+				sector: res.data.sector,
 				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
 			};
 			localStorage.setItem('user', JSON.stringify(user));
@@ -87,14 +88,9 @@ export const authLogin = (username, password) => {
 	};
 };
 
-export const authSignup = ( username, name, ramal, email, 
-						   password1, password2, is_administrator ) => {
+export const authSignup = ( user ) => {
 	return dispatch => {
 		dispatch(authStart());
-		const user = { 
-			username, email, password1, password2, is_administrator,
-			is_participant: !is_administrator, ramal, name
-		};
 		axios.post('http://0.0.0.0:8000/rest-auth/registration/', user)
 		.catch(err => {
 			dispatch(authFail(err));
@@ -150,12 +146,12 @@ export const getUser = (token, userId) => {
 		  	Authorization: `Token ${token}`
 		};
 		axios.get(`http://0.0.0.0:8000/users/informacoes/${userId}/`)
-		  .then(res => {
-				const user = res.data;
-				dispatch(authSuccess(user));
-		  })
-		  .catch(err => {
-		  		dispatch(authFail(err));
+		.then(res => {
+			const user = res.data;
+			dispatch(authSuccess(user));
+		})
+		.catch(err => {
+			dispatch(authFail(err));
 		});
 	};
 }

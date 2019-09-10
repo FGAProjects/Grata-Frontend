@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { getUser, deleteUser } from '../../store/actions/auth';
+import { getSectors } from '../../store/actions/sector';
+import { getSectorUser } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 const { confirm } = Modal;
@@ -20,6 +22,7 @@ class UserDetail extends Component {
 	componentDidMount() {
 		if (this.props.token !== undefined && this.props.token !== null) {
 			this.props.getUser(this.props.token, this.props.userId);
+			this.props.getSectors(this.props.token);
 		}
 	}
 
@@ -27,6 +30,7 @@ class UserDetail extends Component {
 		if (newProps.token !== this.props.token) {
 			if (newProps.token !== undefined && newProps.token !== null) {
 				this.props.getUser(newProps.token, newProps.userId);
+				this.props.getSectors(newProps.token);
 			}
 		}
 	}
@@ -54,15 +58,21 @@ class UserDetail extends Component {
 	}
 
 	render() {
-		const user = JSON.parse(localStorage.getItem('user'));
-		const userId = user.userId;
-		const token = user.token;
+		const sectorId = this.props.sector;
+		const sectors = this.props.sectors;
+		const userId = this.props.userId;
+		const token = this.props.token;
+		let sector_name = '';
+
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
 		}
-        : null;
+		: null;
+	
+		sector_name = getSectorUser(sectors, sectorId);
+
 		return (
 			<Hoc>
 				{
@@ -89,6 +99,13 @@ class UserDetail extends Component {
 								<Form.Item label = 'Email' { ...formItemLayout } >
 									<Input 
 										value = { this.props.email } 
+										disabled = { true } 
+									/>
+								</Form.Item>
+
+								<Form.Item label = 'Setor' { ...formItemLayout } >
+									<Input 
+										value = { sector_name } 
 										disabled = { true } 
 									/>
 								</Form.Item>
@@ -169,14 +186,17 @@ const mapStateToProps = state => {
 		name: state.auth.name,
 		email: state.auth.email,
 		is_participant: state.auth.is_participant,
-		is_administrator: state.auth.is_administrator
+		is_administrator: state.auth.is_administrator,
+		sectors: state.sector.sectors,
+		sector: state.auth.sector
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		getUser: (token, userId) => dispatch(getUser(token, userId)),
-		deleteUser: (token, userId) => dispatch(deleteUser(token, userId))
+		deleteUser: (token, userId) => dispatch(deleteUser(token, userId)),
+		getSectors: token => dispatch(getSectors(token))
 	};
 };
 
