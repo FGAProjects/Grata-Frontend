@@ -35,17 +35,21 @@ class UserList extends Component {
                 
             ]
         };
-        let sectors_names = {
-            namesSectors: [
-
-            ]
-        };
+        let sectors_name = '';
 
         for(let aux = 0; aux < users.length; aux ++) {
             if(users[aux].is_administrator === true) {
                 permission = 'Administrador';
             } else {
                 permission = 'Participante da Reunião';
+            }
+            for(let auxSector = 0; auxSector < sectors.length; auxSector ++) {
+                if(users[aux].sector === sectors[auxSector].id) {
+                    sectors_name = sectors[auxSector].name;
+                    break;
+                } else {
+                    sectors_name = 'Não Possui Setor no Momento';
+                }
             }
 
             dataSource.innerArray.push(
@@ -54,7 +58,7 @@ class UserList extends Component {
                     name: users[aux].name,
                     username: users[aux].username,
                     ramal: users[aux].ramal,
-                    setor: sector_name,
+                    setor: sectors_name,
                     email: users[aux].email,
 					tags: [permission],
                 }
