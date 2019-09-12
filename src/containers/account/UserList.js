@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Skeleton, Table, Tag } from 'antd';
 
 import { getUsers } from '../../store/actions/auth';
-import { dynamicSort } from '../utils';
+import { getSectors } from '../../store/actions/sector';
+import { dynamicSort, getSectorUser } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class UserList extends Component {
@@ -11,6 +12,7 @@ class UserList extends Component {
     componentDidMount() {
         if (this.props.token !== undefined && this.props.token !== null) {
             this.props.getUsers(this.props.token);
+            this.props.getSectors(this.props.token);
         }
     }
 
@@ -18,32 +20,41 @@ class UserList extends Component {
         if (newProps.token !== this.props.token) {
             if (newProps.token !== undefined && newProps.token !== null) {
                 this.props.getUsers(newProps.token);
+                this.props.getSectors(newProps.token);
             }
         }
     }
 
     render() {
+        const sectorId = this.props.sector;
+		const sectors = this.props.sectors;
 		const users = this.props.users;
         let permission = '';
         let dataSource = {
             innerArray: [
                 
             ]
-        }
-        
+        };
+        let sectors_names = {
+            namesSectors: [
+
+            ]
+        };
+
         for(let aux = 0; aux < users.length; aux ++) {
             if(users[aux].is_administrator === true) {
                 permission = 'Administrador';
             } else {
                 permission = 'Participante da Reunião';
             }
+
             dataSource.innerArray.push(
                 {
                     key: users[aux].id,
                     name: users[aux].name,
                     username: users[aux].username,
                     ramal: users[aux].ramal,
-                    setor: users[aux].sector,
+                    setor: sector_name,
                     email: users[aux].email,
 					tags: [permission],
                 }
@@ -122,13 +133,16 @@ const mapStateToProps = state => {
     return {
         token: state.auth.token,
         users: state.auth.users,
-        loading: state.auth.loading
+        loading: state.auth.loading,
+        sectors: state.sector.sectors,
+		sector: state.auth.sector
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUsers: token => dispatch(getUsers(token))
+        getUsers: token => dispatch(getUsers(token)),
+        getSectors: token => dispatch(getSectors(token))
     };
 };
 

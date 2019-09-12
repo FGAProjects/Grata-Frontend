@@ -5,6 +5,8 @@ import { fail } from 'assert';
 import { Link } from 'react-router-dom';
 
 import { getUser, updateUser } from '../../store/actions/auth';
+import { getSectors } from '../../store/actions/sector';
+import { getSectorUser, dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 import './user.css';
 
@@ -26,6 +28,7 @@ class UserEdit extends Component {
 	componentDidMount() {
 		if (this.props.token !== undefined && this.props.token !== null) {
 			this.props.getUser(this.props.token, this.props.userId);
+			this.props.getSectors(this.props.token);
 		}
 	}
 
@@ -33,6 +36,7 @@ class UserEdit extends Component {
 		if (newProps.token !== this.props.token) {
 			if (newProps.token !== undefined && newProps.token !== null) {
 				this.props.getUser(newProps.token, newProps.userId);
+				this.props.getSectors(newProps.token);
 			}
 		}
 	}
@@ -41,29 +45,47 @@ class UserEdit extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				const user = JSON.parse(localStorage.getItem('user'));
+				const userGetItem = JSON.parse(localStorage.getItem('user'));
+				const userId = userGetItem.userId;
+				const username = this.props.username;
+				const email = this.props.email;
+				const token = userGetItem.token;
+				const sectors = this.props.sectors;
 				let is_administrator = false;
-				let username = this.props.username;
-				let email = this.props.email;
-				let userId = user.userId;
-				let token = user.token;
+				let sector_id = '';
 
 				if(values.userType === 'administrator') {
 					is_administrator = true;
 				}
+				
+				for(let aux = 0; aux < sectors.length; aux ++) {
+					if(sectors[aux].initials === values.sector) {
+						sector_id = sectors[aux].id;
+					} 
+				}
+
+				if(values.userType === 'administrator') {
+					is_administrator = true;
+				}
+
+				const user = {
+					userId: userId,
+					email: email,
+					username: username,
+					ramal: values.ramal,
+					name: values.name,
+					is_administrator: is_administrator,
+					sector: sector_id
+				}
+
 				if((this.props.updateUser(
-					token,
-					userId,
-					email,
-					username,
-					values.ramal,
-					values.name,
-					is_administrator)) !== fail) {
-						message.success('O Usuário ' + username + 
-										' Teve Suas Informações Alteradas Com Sucesso!');
+						token, user
+					)) !== fail) {
+					message.success('O Usuário ' + username + 
+									' Teve Suas Informações Alteradas Com Sucesso!');
 				} else {
 					message.error('Não Foi Possível Alterar Informações do Usuário.' + 
-									'Entre em contato com o desenvolvedor!');
+					     		  'Entre em contato com o desenvolvedor!');
 				}
 				this.props.history.push('/informacoes_usuario/');			
 			} else {
@@ -73,13 +95,35 @@ class UserEdit extends Component {
 	};
 
     render() {
+		const sectorId = this.props.sector;
+		const sectors = this.props.sectors;
+		const sector_name = getSectorUser(sectors, sectorId);
 		const { getFieldDecorator } = this.props.form;
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
 		}
-        : null;
+		: null;
+		
+		let dataSource = {
+            innerArray: [
+                
+            ]
+        }
+        
+        for(let aux = 0; aux < sectors.length; aux ++) {
+            dataSource.innerArray.push(
+                {
+                    key: sectors[aux].id,
+                    initials: sectors[aux].initials,
+                    name: sectors[aux].name,
+                }
+			); 
+		}
+
+		dataSource.innerArray.sort(dynamicSort('initials'));
+
 		return (
 			<Hoc>
 				{
@@ -106,6 +150,13 @@ class UserEdit extends Component {
 								<Form.Item label = 'Email' { ...formItemLayout } >
 									<Input 
 										value = { this.props.email } 
+										disabled = { true } 
+									/>
+								</Form.Item>
+
+								<Form.Item label = 'Setor' { ...formItemLayout } >
+									<Input 
+										value = { sector_name } 
 										disabled = { true } 
 									/>
 								</Form.Item>
@@ -164,6 +215,29 @@ class UserEdit extends Component {
 							}
 						</Form.Item>
 
+						<Form.Item label='Setor' hasFeedback>
+							{
+								getFieldDecorator('sector', {
+								rules: [
+									{
+										required: true,
+										message: 'Por favor, Escolha o Setor do Usuário!',
+									}
+									],
+								})(
+									<Select placeholder = 'Escolha o Setor' >
+										{ dataSource.innerArray.map(sector => 
+											<Option 
+												key = { sector.key } 
+												value = { sector.initials }>
+												{ sector.name }
+											</Option>)
+										}
+									</Select>  
+								)
+							}
+						</Form.Item>
+
 						<Form.Item label = 'Ramal' >
 							{
 								getFieldDecorator('ramal', {
@@ -178,6 +252,7 @@ class UserEdit extends Component {
 												style={{ color: 'rgba(0,0,0,.25)' }} 
 											/>
 										}
+										type = 'number'
 										placeholder="Ramal"
 									/>,
 								)
@@ -245,15 +320,17 @@ const mapStateToProps = state => {
 		name: state.auth.name,
 		email: state.auth.email,
 		is_participant: state.auth.is_participant,
-		is_administrator: state.auth.is_administrator
+		is_administrator: state.auth.is_administrator,
+		sectors: state.sector.sectors,
+		sector: state.auth.sector
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		getUser: (token, userId) => dispatch(getUser(token, userId)),
-		updateUser: (token, userId, email, username, ramal, name, is_administrator) => 
-			dispatch(updateUser(token, userId, email, username, ramal, name, is_administrator))
+		updateUser: (token, user) => dispatch(updateUser(token, user)),
+		getSectors: token => dispatch(getSectors(token))
 	};
 };
 

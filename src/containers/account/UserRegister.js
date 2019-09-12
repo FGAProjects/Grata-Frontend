@@ -4,9 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 
-import { dynamicSort } from '../utils';
 import { authSignup } from '../../store/actions/auth';
-import { getSectors } from '../../store/actions/sector';
 
 const Option = Select.Option;
   
@@ -16,57 +14,32 @@ class UserRegister extends Component {
 		confirmDirty: false,
 	};
 
-	componentDidMount() {
-        if (this.props.token !== undefined && this.props.token !== null) {
-            this.forceUpdate();
-            this.props.getSectors(this.props.token);
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(newProps) {
-        if (newProps.token !== this.props.token) {
-            if (newProps.token !== undefined && newProps.token !== null) {
-                this.forceUpdate();
-                this.props.getSectors(newProps.token);   
-            }
-        }
-    }
-
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				const sectors = this.props.sectors;
 				let is_administrator = false;
-				let sector_name = '';
 
 				if(values.userType === 'administrator') {
 					is_administrator = true;
 				}
-				
-				for(let aux = 0; aux < sectors.length; aux ++) {
-					if(sectors[aux].initials === values.sector) {
-						sector_name = sectors[aux].name;
-					} 
-				}
-
+			
 				const user = {
 					username: values.username,
 					name: values.name,
 					ramal: values.ramal,
 					email: values.email,
-					sector: sector_name,
 					password1: values.password1,
 					password2: values.password2,
 					is_administrator: is_administrator
 				}
 
 				if((this.props.onAuth(user)) !== fail) {
-					message.success('O usuário ' + values.username + 
-									' foi cadastrado com sucesso!');
+					message.success('O Usuário ' + values.username + 
+									' Foi Cadastrado Com Sucesso!');
 				} else {
-					message.error('Não foi possível cadastrar o usuário.' + 
-								  'Entre em contato com o desenvolvedor!');
+					message.error('Não Foi Possível Cadastrar o Usuário.' + 
+								  'Entre em Contato Com o Desenvolvedor!');
 				}
 				this.props.history.push('/');			
 			} else {
@@ -101,24 +74,6 @@ class UserRegister extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const sectors = this.props.sectors;
-        let dataSource = {
-            innerArray: [
-                
-            ]
-        }
-        
-        for(let aux = 0; aux < sectors.length; aux ++) {
-            dataSource.innerArray.push(
-                {
-                    key: sectors[aux].id,
-                    initials: sectors[aux].initials,
-                    name: sectors[aux].name,
-                }
-			); 
-		}
-
-		dataSource.innerArray.sort(dynamicSort('initials'));
 
 		return (
 			<Form onSubmit = { this.handleSubmit } >
@@ -222,29 +177,6 @@ class UserRegister extends Component {
 							/>,
 						)
 					}
-				</Form.Item>
-
-				<Form.Item label='Setor' hasFeedback>
-				{
-					getFieldDecorator('sector', {
-					rules: [
-						{
-							required: true,
-							message: 'Por favor, Escolha o Setor do Usuário!',
-						}
-						],
-					})(
-						<Select placeholder = 'Escolha o Setor' >
-							{ dataSource.innerArray.map(sector => 
-								<Option 
-									key = { sector.key } 
-									value = { sector.initials }>
-									{ sector.name }
-								</Option>)
-							}
-						</Select>  
-					)
-				}
 				</Form.Item>
 
 				<Form.Item label='Senha' hasFeedback>
@@ -354,19 +286,13 @@ const mapStateToProps = (state) => {
 	return {
 		loading: state.loading,
 		error: state.error,
-		sectors: state.sector.sectors,
 		token: state.auth.token
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAuth: (username, name, ramal, email, password1, password2, is_administrator) => 
-		dispatch(authSignup(
-				username, name, ramal, email, password1, password2, is_administrator
-			)
-		),
-		getSectors: token => dispatch(getSectors(token))
+		onAuth: (user) => dispatch(authSignup(user))
 	}
 }
 

@@ -22,7 +22,7 @@ export function getSectorUser(sectors, sectorId) {
 
     for(let aux = 0; aux < sectors.length; aux ++) {
         if(sectorId == null) {
-            sector_name = 'Não possui setor no momento';
+            sector_name = 'Não Possui Setor no Momento';
         } else {
             if(sectors[aux].id === sectorId) {
                 sector_name = sectors[aux].name;

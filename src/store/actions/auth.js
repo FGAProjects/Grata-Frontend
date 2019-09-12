@@ -88,7 +88,7 @@ export const authLogin = (username, password) => {
 	};
 };
 
-export const authSignup = ( user ) => {
+export const authSignup = (user) => {
 	return dispatch => {
 		dispatch(authStart());
 		axios.post('http://0.0.0.0:8000/rest-auth/registration/', user)
@@ -156,28 +156,27 @@ export const getUser = (token, userId) => {
 	};
 }
 
-export const updateUser = (token, userId, email, username, ramal, name, is_administrator) => {
+export const updateUser = (token, userObject) => {
+	console.log(userObject)
 	return dispatch => {
 		dispatch(authStart());
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
 		};
-		const user = { 
-			email, username, ramal, name, is_administrator,
-			is_participant: !is_administrator
-		};
-		axios.put(`http://0.0.0.0:8000/users/alterar_informacoes/${userId}/`, user)
+		axios.put(`http://0.0.0.0:8000/users/alterar_informacoes/${userObject.userId}/`, 
+		userObject)
 		.then(res => {
 			const user = {
 				token: token,
-				username,
-				userId: userId,
-				is_administrator,
-				ramal,
-				name,
-				email,
-				is_participant: !is_administrator,
+				username: userObject.username,
+				userId: userObject.userId,
+				is_administrator: userObject.is_administrator,
+				ramal: userObject.ramal,
+				name: userObject.name,
+				email: userObject.email,
+				sector: userObject.sector,
+				is_participant: !userObject.is_administrator,
 				expirationDate: new Date(new Date().getTime() + 3600 * 1000)
 			};
 			localStorage.setItem('user', JSON.stringify(user));

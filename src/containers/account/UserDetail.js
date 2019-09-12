@@ -21,6 +21,7 @@ class UserDetail extends Component {
 
 	componentDidMount() {
 		if (this.props.token !== undefined && this.props.token !== null) {
+			this.forceUpdate();
 			this.props.getUser(this.props.token, this.props.userId);
 			this.props.getSectors(this.props.token);
 		}
@@ -29,6 +30,7 @@ class UserDetail extends Component {
 	UNSAFE_componentWillReceiveProps(newProps) {
 		if (newProps.token !== this.props.token) {
 			if (newProps.token !== undefined && newProps.token !== null) {
+				this.forceUpdate();
 				this.props.getUser(newProps.token, newProps.userId);
 				this.props.getSectors(newProps.token);
 			}
@@ -62,7 +64,7 @@ class UserDetail extends Component {
 		const sectors = this.props.sectors;
 		const userId = this.props.userId;
 		const token = this.props.token;
-		let sector_name = '';
+		const sector_name = getSectorUser(sectors, sectorId);
 
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -70,8 +72,6 @@ class UserDetail extends Component {
             wrapperCol: { span: 14 },
 		}
 		: null;
-	
-		sector_name = getSectorUser(sectors, sectorId);
 
 		return (
 			<Hoc>
