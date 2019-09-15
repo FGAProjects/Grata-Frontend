@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { getUser, deleteUser } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { getSectorUser } from '../utils';
+import { getSectorName } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 const { confirm } = Modal;
@@ -64,7 +64,7 @@ class UserDetail extends Component {
 		const sectors = this.props.sectors;
 		const userId = this.props.userId;
 		const token = this.props.token;
-		const sector_name = getSectorUser(sectors, sectorId);
+		const sector_name = getSectorName(sectors, sectorId);
 
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {

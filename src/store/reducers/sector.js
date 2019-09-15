@@ -7,9 +7,7 @@ import { updateObject } from '../utility';
 
 const initialState = {
     sectors: [],
-    sectorId: null,
-    initials: null,
-    name: null,
+    currentSector: {},
     error: null,
     loading: false
 };
@@ -45,9 +43,7 @@ const getSectorDetailStart = (state, action) => {
 
 const getSectorDetailSuccess = (state, action) => {
     return updateObject(state, {
-        sectorId: action.sector.sectorId,
-        initials: action.sector.initials,
-        name: action.sector.name,
+        currentSector: action.sector,
         error: null,
         loading: false
     });

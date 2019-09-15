@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, message } from 'antd';
+import { Form, Input, Icon, Button, message, Select } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 
 import { createProject } from '../../store/actions/project';
+import { getSectors } from '../../store/actions/sector';
+import { dynamicSort } from '../utils';
+
+const Option = Select.Option;
 
 class ProjectCreate extends Component {
     
@@ -11,22 +15,45 @@ class ProjectCreate extends Component {
 		confirmDirty: false,
 	};
 
+	componentDidMount() {
+		if (this.props.token !== undefined && this.props.token !== null) {
+			this.props.getSectors(this.props.token);
+		}
+	}
+
+	UNSAFE_componentWillReceiveProps(newProps) {
+		if (newProps.token !== this.props.token) {
+			if (newProps.token !== undefined && newProps.token !== null) {
+				this.props.getSectors(newProps.token);
+			}
+		}
+	}
+
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-
+				const sectors = this.props.sectors;
 				const token = this.props.token;
+				let sector_id = '';
+
+				for(let aux = 0; aux < sectors.length; aux ++) {
+					if(sectors[aux].initials === values.sector) {
+						sector_id = sectors[aux].id;
+					} 
+				}
+
 				const project = {
 					title: values.title,
-					status: 'Pendente'
+					status: 'Pendente',
+					sector: sector_id
 				};
-				console.log(project)
+
 				if((this.props.createProject(token, project)) !== fail) {
-					message.success('O projeto foi cadastrado com sucesso');
+					message.success('O Projeto Foi Cadastrado Com Sucesso!');
 				} else {
-					message.error('Não foi possível cadastrar o projeto.' + 
-								  'Entre em contato com o desenvolvedor!');
+					message.error('Não Foi Possível Cadastrar o Projeto.' + 
+								  'Entre em Contato Com o Desenvolvedor!');
 				}
 				this.props.history.push('/');			
 			} else {
@@ -37,6 +64,25 @@ class ProjectCreate extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
+		const sectors = this.props.sectors;
+
+		let dataSource = {
+            innerArray: [
+                
+            ]
+        }
+        
+        for(let aux = 0; aux < sectors.length; aux ++) {
+            dataSource.innerArray.push(
+                {
+                    key: sectors[aux].id,
+                    initials: sectors[aux].initials,
+                    name: sectors[aux].name,
+                }
+			); 
+		}
+
+		dataSource.innerArray.sort(dynamicSort('initials'));
 
 		return (
 			<Form onSubmit = { this.handleSubmit } >
@@ -63,7 +109,30 @@ class ProjectCreate extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label = 'Status'>
+				<Form.Item label='Setor' hasFeedback >
+					{
+						getFieldDecorator('sector', {
+						rules: [
+							{
+								required: true,
+								message: 'Por favor, Escolha o Setor do Usuário!',
+							}
+							],
+						})(
+							<Select placeholder = 'Escolha o Setor' >
+								{ dataSource.innerArray.map(sector => 
+									<Option 
+										key = { sector.key } 
+										value = { sector.initials }>
+										{ sector.name }
+									</Option>)
+								}
+							</Select>  
+						)
+					}
+				</Form.Item>
+
+				<Form.Item label = 'Status' >
 					{
 						getFieldDecorator('status', {
 							
@@ -105,13 +174,15 @@ const mapStateToProps = (state) => {
 	return {
 		loading: state.loading,
 		error: state.error,
-		token: state.auth.token
+		token: state.auth.token,
+		sectors: state.sector.sectors
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		createProject: (token, project) => dispatch(createProject(token, project))
+		createProject: (token, project) => dispatch(createProject(token, project)),
+		getSectors: token => dispatch(getSectors(token))
 	}
 }
 

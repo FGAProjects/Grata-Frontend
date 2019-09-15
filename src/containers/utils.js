@@ -16,7 +16,7 @@ export function dynamicSort(property) {
     }
 }
 
-export function getSectorUser(sectors, sectorId) {
+export function getSectorName(sectors, sectorId) {
     
     let sector_name = '';
 

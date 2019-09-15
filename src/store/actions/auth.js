@@ -59,6 +59,27 @@ export const checkAuthTimeout = expirationTime => {
 	};
 };
 
+export const authCheckState = () => {
+  	return dispatch => {
+    	const user = JSON.parse(localStorage.getItem('user'));
+		if (user === undefined || user === null) {
+			dispatch(logout());
+		} else {
+			const expirationDate = new Date(user.expirationDate);
+			if (expirationDate <= new Date()) {
+				dispatch(logout());
+			} else {
+				dispatch(authSuccess(user));
+				dispatch(
+					checkAuthTimeout(
+						(expirationDate.getTime() - new Date().getTime()) / 1000
+					)
+				);
+			}
+		}
+  	};
+};
+
 export const authLogin = (username, password) => {
 	return dispatch => {
 		dispatch(authStart());
@@ -96,27 +117,6 @@ export const authSignup = (user) => {
 			dispatch(authFail(err));
 		});
 	};
-};
-
-export const authCheckState = () => {
-  	return dispatch => {
-    	const user = JSON.parse(localStorage.getItem('user'));
-		if (user === undefined || user === null) {
-			dispatch(logout());
-		} else {
-			const expirationDate = new Date(user.expirationDate);
-			if (expirationDate <= new Date()) {
-				dispatch(logout());
-			} else {
-				dispatch(authSuccess(user));
-				dispatch(
-					checkAuthTimeout(
-						(expirationDate.getTime() - new Date().getTime()) / 1000
-					)
-				);
-			}
-		}
-  	};
 };
 
 export const getUsers = (token) => {
@@ -157,7 +157,6 @@ export const getUser = (token, userId) => {
 }
 
 export const updateUser = (token, userObject) => {
-	console.log(userObject)
 	return dispatch => {
 		dispatch(authStart());
 		axios.defaults.headers = {

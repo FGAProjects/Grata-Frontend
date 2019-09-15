@@ -8,6 +8,7 @@ import { updateObject } from '../utility';
 const initialState = {
     projects: [],
     currentProject: {},
+    sector: null,
     error: null,
     loading: false
 };

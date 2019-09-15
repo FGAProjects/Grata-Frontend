@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Skeleton, Form, Input, Button, Icon, message } from 'antd';
+import { Skeleton, Form, Input, Button, Icon, message, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { fail } from 'assert';
 
-import { getSector, updateSector } from '../../store/actions/sector';
+import { getSector, updateSector, deleteSector } from '../../store/actions/sector';
 import Hoc from '../../hoc/hoc';
+
+const { confirm } = Modal;
 
 class SetorEdit extends Component {
 
@@ -58,9 +60,32 @@ class SetorEdit extends Component {
 
 			}	
 		});
-	};
+    };
+    
+    showDeleteConfirm = (token, sectorId) => {
+        const propsForms = this.props;
+		confirm ({
+			title: 'Exclusão de Setor',
+			content: 'Tem Certeza Que Deseja Excluir Este Setor ?',
+			okText: 'Sim',
+			okType: 'danger',
+			cancelText: 'Não',
+			onOk() {
+				propsForms.deleteSector(token, sectorId);
+				Modal.success({
+					title: 'Ação Concluída!',
+					content: 'Setor Excluído Com Sucesso!',
+                });
+                propsForms.history.push('/lista_de_setores/');
+			},
+			onCancel() {
+                message.success('Exclusão de Setor Cancelada Com Sucesso!');
+			},
+		});
+	}
 
     render() {
+        const { currentSector } = this.props;
         const { getFieldDecorator } = this.props.form;
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -80,14 +105,14 @@ class SetorEdit extends Component {
                             <Form layout = 'vertical' onSubmit = { this.handleSubmit } >
 								<Form.Item label = 'Sigla' { ...formItemLayout } >
 									<Input 
-										value = { this.props.initials } 
+										value = { currentSector.initials } 
 										disabled = { true } 
 									/>
 								</Form.Item>
 								
 								<Form.Item label = 'Nome' { ...formItemLayout } >
 									<Input 
-										value = { this.props.name } 
+										value = { currentSector.name } 
 										disabled = { true } 
 									/>
 								</Form.Item>
@@ -157,13 +182,35 @@ class SetorEdit extends Component {
                                         marginRight: '20px'
                                     }}
 								>
+                                    <Icon type = 'edit' />
 									Alterar Informações	
 								</Button>
-								<Button type='primary'>
+                                <Button 
+                                    type = 'primary' 
+                                >
 									<Link to = { '/lista_de_setores/' }>
+                                    <Icon 
+                                        style = {{
+                                            marginRight: '10px'
+                                        }}
+                                        type = 'stop' />
 										Cancelar
 									</Link>
 								</Button>
+                                <Button
+                                    style = {{
+                                        marginLeft: '20px'
+                                    }} 
+                                    onClick = { () => 
+                                        this.showDeleteConfirm(
+                                            this.props.token,
+                                            currentSector.id
+                                        )
+                                    } 
+                                    type = 'danger' >
+                                        <Icon type = 'delete' />
+                                        Excluir Setor
+                                </Button>
 							</div>
 						</Form.Item>
                     </Form> 
@@ -178,8 +225,7 @@ const SectorEditForm = Form.create()(SetorEdit);
 const mapStateToProps = state => {
     return {
         token: state.auth.token,
-        initials: state.sector.initials,
-        name: state.sector.name,
+        currentSector: state.sector.currentSector,
         loading: state.sector.loading
     };
 };
@@ -187,7 +233,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
         getSector: (token, sectorId) => dispatch(getSector(token, sectorId)),
-        updateSector: (token, sector) => dispatch(updateSector(token, sector))
+        updateSector: (token, sector) => dispatch(updateSector(token, sector)),
+        deleteSector: (token, sectorId) => dispatch(deleteSector(token, sectorId))
 	};
 };
 

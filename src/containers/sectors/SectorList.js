@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Skeleton, Table, Divider, Icon, Button, Modal, message } from 'antd';
+import { Skeleton, Table, Icon, Button } from 'antd';
 import { Link } from 'react-router-dom';
 
-import { getSectors, deleteSector } from '../../store/actions/sector';
+import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
-
-const { confirm } = Modal;
 
 class SectorList extends Component {
 
@@ -35,27 +33,6 @@ class SectorList extends Component {
             }
         }
     }
-
-    showDeleteConfirm = (token, sectorId) => {
-        const propsForms = this.props;
-		confirm ({
-			title: 'Exclusão de Setor',
-			content: 'Tem Certeza Que Deseja Excluir Este Setor ?',
-			okText: 'Sim',
-			okType: 'danger',
-			cancelText: 'Não',
-			onOk() {
-				propsForms.deleteSector(token, sectorId);
-				Modal.success({
-					title: 'Ação Concluída!',
-					content: 'Setor Excluído Com Sucesso!',
-                });
-			},
-			onCancel() {
-                message.success('Exclusão de Setor Cancelada Com Sucesso!');
-			},
-		});
-	}
 
     render() {
         const sectors = this.props.sectors;
@@ -89,14 +66,20 @@ class SectorList extends Component {
                                         title: 'Sigla',
                                         dataIndex: 'initials',
                                         key: 'initials',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
                                     },
                                     {
                                         title: 'Nome',
                                         dataIndex: 'name',
                                         key: 'name',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
                                     },
                                     {
-                                        title: 'Ações',
+                                        title: 'Ação',
                                         key: 'action',
                                         render: (record) => (
                                         <span>
@@ -111,18 +94,6 @@ class SectorList extends Component {
                                                         style = {{ marginRight: '10px' }} />
                                                         Editar Setor
                                                 </Link>
-                                            </Button>
-                                            <Divider type = 'vertical' />
-                                            <Button 
-                                                onClick = { () => 
-                                                            this.showDeleteConfirm(
-                                                                this.props.token,
-                                                                record.key
-                                                            )
-                                                        } 
-                                                type = 'danger' >
-                                                    <Icon type = 'delete' />
-                                                    Excluir Perfil {record.key}
                                             </Button>
                                         </span>
                                         ),
@@ -150,8 +121,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getSectors: token => dispatch(getSectors(token)),
-        deleteSector: (token, sectorId) => dispatch(deleteSector(token, sectorId))
+        getSectors: token => dispatch(getSectors(token))
     };
 };
 

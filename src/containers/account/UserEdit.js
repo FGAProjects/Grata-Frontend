@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { getUser, updateUser } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { getSectorUser, dynamicSort } from '../utils';
+import { getSectorName, dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 import './user.css';
 
@@ -97,7 +97,7 @@ class UserEdit extends Component {
     render() {
 		const sectorId = this.props.sector;
 		const sectors = this.props.sectors;
-		const sector_name = getSectorUser(sectors, sectorId);
+		const sector_name = getSectorName(sectors, sectorId);
 		const { getFieldDecorator } = this.props.form;
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -132,7 +132,7 @@ class UserEdit extends Component {
 					) : (
 						<Hoc>
 							<h1> Informações Cadastradas </h1>
-							<Form layout = 'vertical' onSubmit = { this.handleSubmit } >
+							<Form layout = 'vertical' >
 								<Form.Item label = 'Nome' { ...formItemLayout } >
 									<Input 
 										value = { this.props.name } 
@@ -215,7 +215,7 @@ class UserEdit extends Component {
 							}
 						</Form.Item>
 
-						<Form.Item label='Setor' hasFeedback>
+						<Form.Item label='Setor' hasFeedback >
 							{
 								getFieldDecorator('sector', {
 								rules: [

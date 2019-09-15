@@ -4,7 +4,7 @@ import { Skeleton, Table, Tag } from 'antd';
 
 import { getUsers } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { dynamicSort, getSectorUser } from '../utils';
+import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class UserList extends Component {
@@ -26,7 +26,6 @@ class UserList extends Component {
     }
 
     render() {
-        const sectorId = this.props.sector;
 		const sectors = this.props.sectors;
 		const users = this.props.users;
         let permission = '';
@@ -78,26 +77,41 @@ class UserList extends Component {
                                     title: 'Nome',
                                     dataIndex: 'name',
                                     key: 'name',
+                                    render: (text) => (
+                                        <b>{text}</b>
+                                    )
 								},
                                 {
                                     title: 'Usuário',
                                     dataIndex: 'username',
                                     key: 'username',
+                                    render: (text) => (
+                                        <b>{text}</b>
+                                    )
                                 },
                                 {
                                     title: 'Ramal',
                                     dataIndex: 'ramal',
                                     key: 'ramal',
+                                    render: (text) => (
+                                        <b>{text}</b>
+                                    )
                                 },
                                 {
                                     title: 'Setor',
                                     dataIndex: 'setor',
                                     key: 'setor',
+                                    render: (text) => (
+                                        <b>{text}</b>
+                                    )
                                 },
                                 {
                                     title: 'Email',
                                     dataIndex: 'email',
                                     key: 'email',
+                                    render: (text) => (
+                                        <b>{text}</b>
+                                    )
                                 },
                                 {
                                     title: 'Tipo de Permissão',
@@ -113,7 +127,7 @@ class UserList extends Component {
                                                 }
                                                 return (
                                                 <Tag color = { color } key = { tag }>
-                                                    { tag.toUpperCase() }
+                                                    <b> { tag.toUpperCase() } </b>
                                                 </Tag>
                                                 );
                                             })

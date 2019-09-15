@@ -25,24 +25,6 @@ const getSectorListFail = error => {
     };
 }
 
-export const getSectors = token => {
-    return dispatch => {
-        dispatch(getSectorListStart());
-        axios.defaults.headers = {
-            'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
-        };
-        axios.get('http://0.0.0.0:8000/sectors/')
-        .then(res => {
-            const sectors = res.data;
-            dispatch(getSectorListSuccess(sectors));
-        })
-        .catch(err => {
-            dispatch(getSectorListFail(err));
-        });
-    };
-};
-
 const getSectorDetailStart = () => {
     return {
         type: GET_SECTOR_DETAIL_START
@@ -63,24 +45,6 @@ const getSectorDetailFail = error => {
     }
 }
 
-export const getSector = (token, sectorId) => {
-    return dispatch => {
-        dispatch(getSectorDetailStart());
-        axios.defaults.headers = {
-            'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
-        };
-        axios.get(`http://0.0.0.0:8000/sectors/detail/${sectorId}/`)
-        .then(res => {
-            const sector = res.data;
-            dispatch(getSectorDetailSuccess(sector));
-        })
-        .catch(err => {
-            dispatch(getSectorDetailFail(err));
-        });
-    };
-};
-
 const createSectorStart = () => {
     return {
         type: CREATE_SECTOR_START
@@ -98,6 +62,42 @@ const createSectorFail = error => {
     return {
         type: CREATE_SECTOR_FAIL,
         error: error
+    };
+};
+
+export const getSectors = token => {
+    return dispatch => {
+        dispatch(getSectorListStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`
+        };
+        axios.get('http://0.0.0.0:8000/sectors/')
+        .then(res => {
+            const sectors = res.data;
+            dispatch(getSectorListSuccess(sectors));
+        })
+        .catch(err => {
+            dispatch(getSectorListFail(err));
+        });
+    };
+};
+
+export const getSector = (token, sectorId) => {
+    return dispatch => {
+        dispatch(getSectorDetailStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`
+        };
+        axios.get(`http://0.0.0.0:8000/sectors/detail/${sectorId}/`)
+        .then(res => {
+            const sector = res.data;
+            dispatch(getSectorDetailSuccess(sector));
+        })
+        .catch(err => {
+            dispatch(getSectorDetailFail(err));
+        });
     };
 };
   
@@ -120,7 +120,6 @@ export const createSector = (token, sector) => {
 
 export const updateSector = (token, sectorObject) => {
 	return dispatch => {
-        console.log(sectorObject)
 		dispatch(getSectorListStart());
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
