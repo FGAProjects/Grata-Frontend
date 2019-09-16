@@ -172,8 +172,8 @@ const ProjectCreateForm = Form.create()(ProjectCreate);
 const mapStateToProps = (state) => {
 
 	return {
-		loading: state.loading,
-		error: state.error,
+		loading: state.project.loading,
+		error: state.project.error,
 		token: state.auth.token,
 		sectors: state.sector.sectors
 	}

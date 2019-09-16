@@ -145,7 +145,7 @@ export const getUser = (token, userId) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
 		};
-		axios.get(`http://0.0.0.0:8000/users/informacoes/${userId}/`)
+		axios.get(`http://0.0.0.0:8000/users/informacoes/${ userId }/`)
 		.then(res => {
 			const user = res.data;
 			dispatch(authSuccess(user));
@@ -163,7 +163,7 @@ export const updateUser = (token, userObject) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
 		};
-		axios.put(`http://0.0.0.0:8000/users/alterar_informacoes/${userObject.userId}/`, 
+		axios.put(`http://0.0.0.0:8000/users/alterar_informacoes/${ userObject.userId }/`, 
 		userObject)
 		.then(res => {
 			const user = {
@@ -194,7 +194,7 @@ export const deleteUser = (token, userId) => {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${token}`
 		};
-		axios.delete(`http://0.0.0.0:8000/users/excluir_usuario/${userId}/`)
+		axios.delete(`http://0.0.0.0:8000/users/excluir_usuario/${ userId }/`)
 		dispatch(logout());
 	};
 }

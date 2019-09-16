@@ -90,7 +90,7 @@ export const getSector = (token, sectorId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`
         };
-        axios.get(`http://0.0.0.0:8000/sectors/detail/${sectorId}/`)
+        axios.get(`http://0.0.0.0:8000/sectors/detail/${ sectorId }/`)
         .then(res => {
             const sector = res.data;
             dispatch(getSectorDetailSuccess(sector));
@@ -125,7 +125,7 @@ export const updateSector = (token, sectorObject) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
 		};
-		axios.put(`http://0.0.0.0:8000/sectors/update/${sectorObject.id}/`, sectorObject)
+		axios.put(`http://0.0.0.0:8000/sectors/update/${ sectorObject.id }/`, sectorObject)
 		.then(res => {
 			const sector = {
                 sectorId: sectorObject.id,
@@ -146,6 +146,6 @@ export const deleteSector = (token, sectorId) => {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${ token }`
 		};
-        axios.delete(`http://0.0.0.0:8000/sectors/delete/${sectorId}/`);
+        axios.delete(`http://0.0.0.0:8000/sectors/delete/${ sectorId }/`);
 	};
 }

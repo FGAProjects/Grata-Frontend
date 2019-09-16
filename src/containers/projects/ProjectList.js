@@ -63,7 +63,7 @@ class ProjectsList extends Component {
                                     dataIndex: 'title',
                                     key: 'title',
                                     render: (text, record) => (
-                                        <Link to = {`/informacoes_projeto/${record.key}`}>
+                                        <Link to = {`/lista_de_reunioes/${record.key}`}>
                                             <List.Item>
                                                 <b>{text}</b>
                                             </List.Item>

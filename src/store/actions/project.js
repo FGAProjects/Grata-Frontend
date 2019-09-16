@@ -25,24 +25,6 @@ const getProjectListFail = error => {
     };
 };
 
-export const getProjects = token => {
-    return dispatch => {
-        dispatch(getProjectListStart());
-        axios.defaults.headers = {
-            'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
-        };
-        axios.get('http://0.0.0.0:8000/projects/')
-        .then(res => {
-            const projects = res.data;
-            dispatch(getProjectListSuccess(projects));
-        })
-        .catch(err => {
-            dispatch(getProjectListFail(err));
-        });
-    };
-};
-
 const getProjectDetailStart = () => {
     return {
         type: GET_PROJECT_DETAIL_START
@@ -63,24 +45,6 @@ const getProjectDetailFail = error => {
     };
 };
 
-export const getProject = (token, projectId) => {
-    return dispatch => {
-        dispatch(getProjectDetailStart());
-        axios.defaults.headers = {
-            'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
-        };
-        axios.get(`http://0.0.0.0:8000/projects/detail/${projectId}/`)
-        .then(res => {
-            const project = res.data;
-            dispatch(getProjectDetailSuccess(project));
-        })
-        .catch(err => {
-            dispatch(getProjectDetailFail(err));
-        });
-    };
-};
-
 const createProjectStart = () => {
     return {
         type: CREATE_PROJECT_START
@@ -98,6 +62,42 @@ const createProjectStart = () => {
     return {
         type: CREATE_PROJECT_FAIL,
         error: error
+    };
+};
+
+export const getProjects = token => {
+    return dispatch => {
+        dispatch(getProjectListStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`
+        };
+        axios.get('http://0.0.0.0:8000/projects/')
+        .then(res => {
+            const projects = res.data;
+            dispatch(getProjectListSuccess(projects));
+        })
+        .catch(err => {
+            dispatch(getProjectListFail(err));
+        });
+    };
+};
+
+export const getProject = (token, projectId) => {
+    return dispatch => {
+        dispatch(getProjectDetailStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`
+        };
+        axios.get(`http://0.0.0.0:8000/projects/detail/${ projectId }/`)
+        .then(res => {
+            const project = res.data;
+            dispatch(getProjectDetailSuccess(project));
+        })
+        .catch(err => {
+            dispatch(getProjectDetailFail(err));
+        });
     };
 };
   
@@ -125,7 +125,7 @@ export const updateProject = (token, projectObject) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
         };
-        axios.put(`http://0.0.0.0:8000/projects/update/${projectObject.projectId}/`, 
+        axios.put(`http://0.0.0.0:8000/projects/update/${ projectObject.projectId }/`, 
         projectObject)
 		.then(res => {
 			const project = {
@@ -148,6 +148,6 @@ export const deleteProject = (token, projectId) => {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${ token }`
 		};
-        axios.delete(`http://0.0.0.0:8000/projects/delete/${projectId}/`);
+        axios.delete(`http://0.0.0.0:8000/projects/delete/${ projectId }/`);
 	};
 }
