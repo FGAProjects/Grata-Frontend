@@ -5,6 +5,8 @@ import * as serviceWorker from './serviceWorker';
 import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { ConfigProvider } from 'antd';
+import pt_BR from 'antd/es/locale/pt_BR';
 
 import authReducer from './store/reducers/auth';
 import projectReducer from './store/reducers/project';
@@ -23,9 +25,11 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));
 
 const app = (
-	<Provider store = { store } >
-		<App />
-	</Provider>
+	<ConfigProvider locale = { pt_BR }>
+		<Provider store = { store } >
+			<App />
+		</Provider>
+	</ConfigProvider>
 );
 
 ReactDOM.render(app, document.getElementById('root'));

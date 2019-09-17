@@ -52,7 +52,7 @@ class UserEdit extends Component {
 				const token = userGetItem.token;
 				const sectors = this.props.sectors;
 				let is_administrator = false;
-				let sector_id = '';
+				let sector_id = 0;
 
 				if(values.userType === 'administrator') {
 					is_administrator = true;
@@ -76,7 +76,7 @@ class UserEdit extends Component {
 					name: values.name,
 					is_administrator: is_administrator,
 					sector: sector_id
-				}
+				};
 
 				if((this.props.updateUser(
 						token, user
@@ -84,7 +84,7 @@ class UserEdit extends Component {
 					message.success('O Usuário ' + username + 
 									' Teve Suas Informações Alteradas Com Sucesso!');
 				} else {
-					message.error('Não Foi Possível Alterar Informações do Usuário.' + 
+					message.error('Não Foi Possível Alterar Informações do Usuário. ' + 
 					     		  'Entre em contato com o desenvolvedor!');
 				}
 				this.props.history.push('/informacoes_usuario/');			
@@ -295,7 +295,7 @@ class UserEdit extends Component {
 									Alterar Informações	
 								</Button>
 								<Button type = 'primary' >
-									<Link to = { '/informacoes_usuario/' }>
+									<Link to = { '/informacoes_usuario/' } >
 										Cancelar
 									</Link>
 								</Button>

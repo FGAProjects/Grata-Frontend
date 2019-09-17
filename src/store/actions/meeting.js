@@ -120,7 +120,7 @@ export const createMeeting = (token, meeting) => {
 
 export const updateMeeting = (token, meetingObject) => {
 	return dispatch => {
-		dispatch(getSectorListStart());
+		dispatch(getMeetingListStart());
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`

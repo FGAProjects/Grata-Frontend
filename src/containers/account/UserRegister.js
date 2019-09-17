@@ -38,7 +38,7 @@ class UserRegister extends Component {
 					message.success('O Usuário ' + values.username + 
 									' Foi Cadastrado Com Sucesso!');
 				} else {
-					message.error('Não Foi Possível Cadastrar o Usuário.' + 
+					message.error('Não Foi Possível Cadastrar o Usuário. ' + 
 								  'Entre em Contato Com o Desenvolvedor!');
 				}
 				this.props.history.push('/');			
@@ -100,7 +100,7 @@ class UserRegister extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label = 'Usuário'>
+				<Form.Item label = 'Usuário' >
 					{
 						getFieldDecorator('username', {
 							rules: [{ 
@@ -127,7 +127,7 @@ class UserRegister extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label = 'E-mail'>
+				<Form.Item label = 'E-mail' >
 					{
 						getFieldDecorator('email', {
 							rules: [
@@ -155,7 +155,7 @@ class UserRegister extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label = 'Ramal'>
+				<Form.Item label = 'Ramal' >
 					{
 						getFieldDecorator('ramal', {
 							rules: [{ 
@@ -179,7 +179,7 @@ class UserRegister extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label='Senha' hasFeedback>
+				<Form.Item label='Senha' hasFeedback >
 					{
 						getFieldDecorator('password1', {
 							rules: [
@@ -208,7 +208,7 @@ class UserRegister extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label='Repita a Senha' hasFeedback>
+				<Form.Item label = 'Repita a Senha' hasFeedback >
 					{
 						getFieldDecorator('password2', {
 							rules: [
@@ -238,31 +238,32 @@ class UserRegister extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label='Tipo de Usuário' hasFeedback>
-				{
-					getFieldDecorator('userType', {
-					rules: [
-						{
-							required: true,
-							message: 'Por favor, Escolha o Tipo de Usuário!',
-						}
-						],
-					})(
-						<Select placeholder = 'Escolha o Tipo de Usuário' >
-							<Option value = 'administrator'> Administrador </Option>
-							<Option value = 'participant'> Participante da Reunião </Option>
-						</Select>  
-					)
-				}
+				<Form.Item label = 'Tipo de Usuário' hasFeedback >
+					{
+						getFieldDecorator('userType', {
+						rules: [
+							{
+								required: true,
+								message: 'Por favor, Escolha o Tipo de Usuário!',
+							}
+							],
+						})(
+							<Select placeholder = 'Escolha o Tipo de Usuário' >
+								<Option value = 'administrator'> Administrador </Option>
+								<Option value = 'participant'> Participante da Reunião </Option>
+							</Select>  
+						)
+					}
 				</Form.Item>
 
-				<Form.Item>
+				<Form.Item >
 					<Button 
 						type = 'primary' 
 						htmlType = 'submit' 
 						style = {{
 							marginRight: '10px'
-						}} >
+						}} 
+					>
 						Cadastrar
 					</Button>
 					Ou
@@ -270,7 +271,8 @@ class UserRegister extends Component {
 						style = {{
 							marginRight: '10px'
 						}} 
-						to = '/login/'> 
+						to = '/login/'
+					> 
 						Entrar
 					</NavLink>
 				</Form.Item>
