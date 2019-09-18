@@ -42,12 +42,13 @@ class UserList extends Component {
             } else {
                 permission = 'Participante da Reunião';
             }
+            if(users[aux].sector === null || users[aux].sector === undefined) {
+                sectors_name = 'Não Possui Setor no Momento';
+            }
             for(let auxSector = 0; auxSector < sectors.length; auxSector ++) {
                 if(users[aux].sector === sectors[auxSector].id) {
                     sectors_name = sectors[auxSector].name;
                     break;
-                } else {
-                    sectors_name = 'Não Possui Setor no Momento';
                 }
             }
 
@@ -153,7 +154,6 @@ const mapStateToProps = state => {
         users: state.auth.users,
         loading: state.auth.loading,
         sectors: state.sector.sectors,
-		sector: state.auth.sector
     };
 };
 

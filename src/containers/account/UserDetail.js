@@ -21,8 +21,7 @@ class UserDetail extends Component {
 
 	componentDidMount() {
 		if (this.props.token !== undefined && this.props.token !== null) {
-			this.forceUpdate();
-			this.props.getUser(this.props.token, this.props.userId);
+			this.props.getUser(this.props.token, this.props.currentUser.userId);
 			this.props.getSectors(this.props.token);
 		}
 	}
@@ -30,8 +29,7 @@ class UserDetail extends Component {
 	UNSAFE_componentWillReceiveProps(newProps) {
 		if (newProps.token !== this.props.token) {
 			if (newProps.token !== undefined && newProps.token !== null) {
-				this.forceUpdate();
-				this.props.getUser(newProps.token, newProps.userId);
+				this.props.getUser(newProps.token, newProps.currentUser.userId);
 				this.props.getSectors(newProps.token);
 			}
 		}
@@ -60,11 +58,10 @@ class UserDetail extends Component {
 	}
 
 	render() {
-		const sectorId = this.props.sector;
+		const { currentUser } = this.props;
 		const sectors = this.props.sectors;
-		const userId = this.props.userId;
 		const token = this.props.token;
-		const sector_name = getSectorName(sectors, sectorId);
+		const sector_name = getSectorName(sectors, currentUser.sector);
 
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -84,21 +81,21 @@ class UserDetail extends Component {
 							<Form layout = 'vertical'>
 								<Form.Item label = 'Nome' { ...formItemLayout } >
 									<Input 
-										value = { this.props.name } 
+										value = { currentUser.name } 
 										disabled = { true } 
 									/>
 								</Form.Item>
 								
 								<Form.Item label = 'Usuário' { ...formItemLayout } >
 									<Input 
-										value = { this.props.username } 
+										value = { currentUser.username } 
 										disabled = { true } 
 									/>
 								</Form.Item>
 								
 								<Form.Item label = 'Email' { ...formItemLayout } >
 									<Input 
-										value = { this.props.email } 
+										value = { currentUser.email } 
 										disabled = { true } 
 									/>
 								</Form.Item>
@@ -112,12 +109,12 @@ class UserDetail extends Component {
 								
 								<Form.Item label = 'Ramal' { ...formItemLayout }>
 									<Input 
-										value = { this.props.ramal } 
+										value = { currentUser.ramal } 
 										disabled = { true } />
 								</Form.Item>
 
 								{
-									this.props.is_administrator === true ? (
+									currentUser.is_administrator === true ? (
 										<Form.Item label = 'Tipo de Usuário' 
 											{ ...formItemLayout } >
 											<Input 
@@ -128,7 +125,7 @@ class UserDetail extends Component {
 								}
 
 								{
-									this.props.is_participant === true ? (
+									currentUser.is_participant === true ? (
 										<Form.Item label = 'Tipo de Usuário' 
 											{ ...formItemLayout } >
 											<Input 
@@ -157,8 +154,8 @@ class UserDetail extends Component {
 											onClick = { () => 
 													this.showDeleteConfirm(
 														token,
-														this.props.name,
-														userId)} 
+														currentUser.name,
+														currentUser.userId)} 
 											type = 'danger' >
 												<Icon type = 'delete' />
 												Excluir Perfil 
@@ -179,14 +176,7 @@ const UserDetailForm = Form.create()(UserDetail);
 const mapStateToProps = state => {
 	return {
 		token: state.auth.token,
-		username: state.auth.username,
-		loading: state.auth.loading,
-		userId: state.auth.userId,
-		ramal: state.auth.ramal,
-		name: state.auth.name,
-		email: state.auth.email,
-		is_participant: state.auth.is_participant,
-		is_administrator: state.auth.is_administrator,
+		currentUser: state.auth.currentUser,
 		sectors: state.sector.sectors,
 		sector: state.auth.sector
 	};

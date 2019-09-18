@@ -67,7 +67,8 @@ class MeetingCreate extends Component {
                     initial_hour: fieldsValue['time-picker-initial'].format('HH:mm:ss'),
                     final_hour: fieldsValue['time-picker-final'].format('HH:mm:ss'),
                     meeting_leader: user_id,
-                    place: sector_id
+					place: sector_id,
+					project: project_id
                 };
 
                 if((this.props.createMeeting(token, meeting)) !== fail) {

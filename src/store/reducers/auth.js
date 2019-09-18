@@ -6,14 +6,8 @@ import { updateObject } from '../utility';
 
 const initialState = {
 	users: [],
+	currentUser: {},
     token: null,
-    username: null,
-	is_student: null,
-	sector: null,
-    ramal: null,
-    is_teacher: null,
-    name: null,
-    userId: null,
     error: null,
     loading: false
 };
@@ -28,15 +22,7 @@ const authStart = (state, action) => {
 const authSuccess = (state, action) => {
 	return updateObject(state, {
 		token: action.user.token,
-		username: action.user.username,
-		password: action.user.password,
-		name: action.user.name,
-		is_administrator: action.user.is_administrator,
-		is_participant: action.user.is_participant,
-		ramal: action.user.ramal,
-		userId: action.user.userId,
-		sector: action.user.sector,
-		email: action.user.email,
+		currentUser: action.user,
 		error: null,
 		loading: false
 	});

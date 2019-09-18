@@ -107,7 +107,7 @@ class ProjectEdit extends Component {
 		}
 		: null;
         const sectors = this.props.sectors;
-        const sector_name = getSectorName(sectors, currentProject.id);
+        const sector_name = getSectorName(sectors, currentProject.sector);
 
 		let dataSource = {
             innerArray: [
@@ -238,6 +238,10 @@ class ProjectEdit extends Component {
                                     type = 'primary' 
                                     htmlType = 'submit' 
 								>
+                                    <Icon style = {{
+                                            marginRight: '10px'
+                                        }}
+                                        type = 'edit' />
 									Alterar Informações	
 								</Button>
                                 <Button 

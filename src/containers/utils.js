@@ -17,18 +17,18 @@ export function dynamicSort(property) {
 }
 
 export function getSectorName(sectors, sectorId) {
-    
+
     let sector_name = '';
 
-    for(let aux = 0; aux < sectors.length; aux ++) {
-        if(sectorId == null) {
-            sector_name = 'Não Possui Setor no Momento';
-        } else {
+    if(sectorId === null) {
+        sector_name = 'Não Possui Setor no Momento';
+    } else {
+        for(let aux = 0; aux < sectors.length; aux ++) {
             if(sectors[aux].id === sectorId) {
                 sector_name = sectors[aux].name;
             }
         }
     }
-
+    
     return sector_name;
 }
