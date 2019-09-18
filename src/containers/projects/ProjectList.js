@@ -12,15 +12,16 @@ class ProjectsList extends Component {
 
     componentDidMount() {
         if (this.props.token !== undefined && this.props.token !== null) {
+            this.forceUpdate();
             this.props.getProjects(this.props.token);
             this.props.getSectors(this.props.token);
-
         }
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
         if (newProps.token !== this.props.token) {
             if (newProps.token !== undefined && newProps.token !== null) {
+                this.forceUpdate();
                 this.props.getProjects(newProps.token);
                 this.props.getSectors(newProps.token);
             }

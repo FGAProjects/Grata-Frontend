@@ -11,6 +11,7 @@ class UserList extends Component {
 
     componentDidMount() {
         if (this.props.token !== undefined && this.props.token !== null) {
+            this.forceUpdate();
             this.props.getUsers(this.props.token);
             this.props.getSectors(this.props.token);
         }
@@ -19,6 +20,7 @@ class UserList extends Component {
     UNSAFE_componentWillReceiveProps(newProps) {
         if (newProps.token !== this.props.token) {
             if (newProps.token !== undefined && newProps.token !== null) {
+                this.forceUpdate();
                 this.props.getUsers(newProps.token);
                 this.props.getSectors(newProps.token);
             }

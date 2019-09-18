@@ -90,7 +90,7 @@ class MeetingList extends Component {
 					}}
 					size = 'large'
 				>
-					<Link to = { `/criar_reuniao/projeto${ projectId } `} >
+					<Link to = { `/criar_reuniao/projeto/${ projectId } `} >
 						Nova Reunião
 					</Link>
 				</Button>

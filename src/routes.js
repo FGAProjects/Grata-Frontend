@@ -28,7 +28,7 @@ const BaseRouter = () => (
         <Route exact path = '/criar_projeto/' component = { ProjectCreate } />
         <Route exact path = '/editar_projeto/:id' component = { ProjectEdit } />
         <Route exact path = '/lista_projetos/' component = { ProjectList } />
-        <Route exact path = '/criar_reuniao/projeto:id' component = { MeetingCreate } />
+        <Route exact path = '/criar_reuniao/projeto/:id' component = { MeetingCreate } />
         <Route exact path = '/lista_de_reunioes/:id' component = { MeetingList } />
         <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
         <Route exact path = '/editar_setor/:id' component = { SectorEdit } />
