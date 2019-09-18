@@ -8,7 +8,7 @@ import { createMeeting } from '../../store/actions/meeting';
 import { getProject } from '../../store/actions/project';
 import { getUsers } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { dynamicSort } from '../utils';
+import { dynamicSort, getSectorInProject, getUsersInSector } from '../utils';
 
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -42,55 +42,54 @@ class MeetingCreate extends Component {
 
     handleSubmit = e => {
 		e.preventDefault();
-		this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
+		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 
-                const users = this.props.users;
-                const sectors = this.props.sectors;
-                const token = this.props.token;
+				const users = this.props.users;
+				const sectors = this.props.sectors;
+				const token = this.props.token;
+				const { currentProject } = this.props;
                 const project_id = this.props.match.params.id;
-                const date_value = fieldsValue['range-picker'];
+                const date_value = values['range-picker'];
                 let user_id = 0;
 				let sector_id = 0;
+				let sector_name = '';
 
-				console.log(fieldsValue)
+				sector_name = getSectorInProject(sectors, currentProject);
+
+				for(let aux = 0; aux < users.length; aux ++) {
+                    if(users[aux].username === values.administrator) {
+                        user_id = users[aux].id;
+                    }
+				}
+
+				for(let aux = 0; aux < sectors.length; aux ++) {
+                    if(sectors[aux].name === sector_name) {
+                        sector_id = sectors[aux].id;
+                    }
+				}
+				const meeting = {
+					title: values.title,
+					subject_matter: values.subject_matter,
+					status: 'Pendente',
+					initial_date: date_value[0].format('DD/MM/YYYY'),
+					final_date: date_value[1].format('DD/MM/YYYY'),
+					initial_hour: values['time-picker-initial'].format('HH:mm:ss'),
+					final_hour: values['time-picker-final'].format('HH:mm:ss'),
+					meeting_leader: user_id,
+					place: sector_id,
+					project: project_id
+				};
+				if((this.props.createMeeting(token, meeting)) !== fail) {
+					message.success('Reunião Criada Com Sucesso!');
+				} else {
+					message.error('Não Foi Possível Criar a Reunião. ' + 
+								  'Entre em Contato Com o Desenvolvedor!');
+				} 
+				this.props.history.push(`/lista_de_reunioes/${project_id}`);
+			} else {
+
 			}
-
-            //     for(let aux = 0; aux < users.length; aux ++) {
-            //         if(users[aux].username === fieldsValue.administrator) {
-            //             user_id = users[aux].id;
-            //         }
-            //     }
-
-            //     for(let aux = 0; aux < sectors.length; aux ++) {
-            //         if(sectors[aux].initials === fieldsValue.local) {
-            //             sector_id = sectors[aux].id;
-            //         }
-            //     }
-
-            //     const meeting = {
-            //         title: fieldsValue.title,
-            //         subject_matter: fieldsValue.subject_matter,
-            //         status: 'Pendente',
-            //         initial_date: date_value[0].format('DD/MM/YYYY'),
-            //         final_date: date_value[1].format('DD/MM/YYYY'),
-            //         initial_hour: fieldsValue['time-picker-initial'].format('HH:mm:ss'),
-            //         final_hour: fieldsValue['time-picker-final'].format('HH:mm:ss'),
-            //         meeting_leader: user_id,
-			// 		place: sector_id,
-			// 		project: project_id
-            //     };
-
-            //     if((this.props.createMeeting(token, meeting)) !== fail) {
-            //         message.success('Reunião Criada Com Sucesso!');
-            //     } else {
-            //         message.error('Não Foi Possível Criar a Reunião. ' + 
-            //                       'Entre em Contato Com o Desenvolvedor!');
-            //     } 
-            //     this.props.history.push(`/lista_de_reunioes/${project_id}`);			
-			// } else {
-
-			// }	
 		});
 	};
 
@@ -124,56 +123,19 @@ class MeetingCreate extends Component {
 			}],
 		};
 		let sector_name = '';
-		let dataSourceSectors = {
-            innerArray: [
-                
-            ]
-		}
 		let dataSourceUsers = {
 			innerArrayUsers: [
 
 			]
 		}
-        
-        for(let aux = 0; aux < sectors.length; aux ++) {
-			if(currentProject.sector === sectors[aux].id) {
-				sector_name = sectors[aux].name;
-				dataSourceSectors.innerArray.push(
-					{
-						key: sectors[aux].id,
-						initials: sectors[aux].initials,
-						name: sector_name,
-					}
-				);
-				break;
-			} else {
 
-			}
-		}
-
-		for(let aux = 0; aux < users.length; aux ++) {
-			if(users[aux].is_administrator === true) {
-				for(let auxSector = 0; auxSector < sectors.length; auxSector ++) {
-					if(users[aux].sector === sectors[auxSector].id && users[aux].sector !== null) {
-						dataSourceUsers.innerArrayUsers.push(
-							{
-								key: users[aux].id,
-								name: users[aux].name,
-								username: users[aux].username
-							}
-						);
-					}
-				}
-			} else {
-
-			}
-		}
-
+		sector_name = getSectorInProject(sectors, currentProject);
+		dataSourceUsers.innerArrayUsers = getUsersInSector(users, sectors, currentProject);
 		dataSourceUsers.innerArrayUsers.sort(dynamicSort('name'));
 
 		return (
 			<Form { ...formItemLayout } onSubmit = { this.handleSubmit } >
-				<Form.Item label = 'Título' >
+				<Form.Item label = 'Título' hasFeedback >
 					{
 						getFieldDecorator('title', {
 							rules: [{ 
@@ -196,7 +158,7 @@ class MeetingCreate extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label = 'Assunto' >
+				<Form.Item label = 'Assunto' hasFeedback >
 					{
 						getFieldDecorator('subject_matter', {
 							rules: [{ 
@@ -291,7 +253,7 @@ class MeetingCreate extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label = 'Data Inicio - Data Fim' >
+				<Form.Item label = 'Data Inicio - Data Fim' hasFeedback >
 					{
 						getFieldDecorator('range-picker', rangeConfig) (
 							<RangePicker showTime format = 'DD/MM/YYYY' />
@@ -307,7 +269,7 @@ class MeetingCreate extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item label = 'Hora de Encerramento' >
+				<Form.Item label = 'Hora de Encerramento' hasFeedback >
 					{
 						getFieldDecorator('time-picker-final', config) (
 							<TimePicker />

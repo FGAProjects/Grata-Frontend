@@ -3,31 +3,33 @@ import { List, Skeleton, Table, Tag, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { getProjects } from '../../store/actions/project';
+import { getProject } from '../../store/actions/project';
 import { getMeetings } from '../../store/actions/meeting';
 import { getUsers } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { getSectorName, dynamicSort } from '../utils';
+import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class MeetingList extends Component {
 
 	componentDidMount() {
         if (this.props.token !== undefined && this.props.token !== null) {
+			const project_id = this.props.match.params.id;
             this.props.getSectors(this.props.token);
 			this.props.getUsers(this.props.token);
 			this.props.getMeetings(this.props.token);
-			this.props.getProjects(this.props.getProjects);
+			this.props.getProject(this.props.token, project_id);
         }
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
         if (newProps.token !== this.props.token) {
             if (newProps.token !== undefined && newProps.token !== null) {
+				const project_id = newProps.match.params.id;
 				this.props.getSectors(newProps.token);
 				this.props.getUsers(newProps.token);
 				this.props.getMeetings(newProps.token);
-				this.props.getProjects(newProps.token);
+				this.props.getProject(newProps.token, project_id);
             }
         }
     }
@@ -37,8 +39,8 @@ class MeetingList extends Component {
 		const meetings = this.props.meetings;
 		const users = this.props.users;
 		const sectors = this.props.sectors;
-		const projects = this.props.projects;
-		let user_sector = '';
+		const { currentProject } = this.props;
+		console.log(currentProject)
 		let name_user = '';
 		let dataSource = {
             innerArray: [
@@ -47,38 +49,32 @@ class MeetingList extends Component {
 		}
 		
 		for(let aux = 0; aux < meetings.length; aux ++) {
-			
 			for(let auxUsers = 0; auxUsers < users.length; auxUsers ++) {
-				if(users[auxUsers].sector === meetings[aux].place) {
+				if(users[auxUsers].sector === meetings[aux].place &&
+					users[auxUsers].sector === currentProject.id) {
+					
 					name_user = users[auxUsers].name;
-					console.log(name_user)
+					dataSource.innerArray.push(
+						{
+							key: meetings[aux].id,
+							title: meetings[aux].title,
+							initial_date: meetings[aux].initial_date,
+							final_date: meetings[aux].final_date,
+							initial_hour: meetings[aux].initial_hour,
+							final_hour: meetings[aux].final_hour,
+							sector: sectors[meetings[aux].place - 1].name,
+							meeting_leader: name_user,
+							tags: [meetings[aux].status]
+						}
+					);
 					break;
-				} 
+				} else {
+
+				}
 			}
-
-            dataSource.innerArray.push(
-                {
-                    key: meetings[aux].id,
-					title: meetings[aux].title,
-					initial_date: meetings[aux].initial_date,
-					final_date: meetings[aux].final_date,
-					initial_hour: meetings[aux].initial_hour,
-					final_hour: meetings[aux].final_hour,
-					meeting_leader: name_user,
-                    tags: [meetings[aux].status]
-                }
-			);
-
-        }
+		}
         
         dataSource.innerArray.sort(dynamicSort('title'));
-		
-		// for(let aux = 0; aux < meetings.length; aux ++) {
-		// 	user_sector = users.find(user => user.sector === meetings[aux].place);
-		// 	name_user = user_sector.name
-		// }
-
-		// console.log(name_user)
 		
 		return (
 			<div align = 'right'>
@@ -210,7 +206,7 @@ const mapStateToProps = state => {
         loading: state.meeting.loading,
 		sectors: state.sector.sectors,
 		meetings: state.meeting.meetings,
-		projects: state.project.projects
+		currentProject: state.project.currentProject
     };
 };
 
@@ -219,7 +215,7 @@ const mapDispatchToProps = dispatch => {
 		getSectors: token => dispatch(getSectors(token)),
 		getUsers: token => dispatch(getUsers(token)),
 		getMeetings: token => dispatch(getMeetings(token)),
-		getProjects: token => dispatch(getProjects(token))
+		getProject: (token, project_id) => dispatch(getProject(token, project_id))
     };
 };
 
