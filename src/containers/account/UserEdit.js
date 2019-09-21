@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { getUser, updateUser } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { getSectorName, dynamicSort } from '../utils';
+import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 import './user.css';
 
@@ -26,15 +26,20 @@ class UserEdit extends Component {
 	};
 	
 	componentDidMount() {
+		
 		if (this.props.token !== undefined && this.props.token !== null) {
+		
 			this.props.getUser(this.props.token, this.props.currentUser.userId);
 			this.props.getSectors(this.props.token);
 		}
 	}
 
 	UNSAFE_componentWillReceiveProps(newProps) {
+		
 		if (newProps.token !== this.props.token) {
+		
 			if (newProps.token !== undefined && newProps.token !== null) {
+		
 				this.props.getUser(newProps.token, newProps.currentUser.userId);
 				this.props.getSectors(newProps.token);
 			}
@@ -42,9 +47,12 @@ class UserEdit extends Component {
 	}
 
 	handleSubmit = e => {
+		
 		e.preventDefault();
+		
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
+		
 				const { currentUser } = this.props;
 				const userGetItem = JSON.parse(localStorage.getItem('user'));
 				const token = userGetItem.token;
@@ -53,13 +61,16 @@ class UserEdit extends Component {
 				let sector_id = 0;
 
 				if(values.sector === undefined) {
+		
 					message.warning('O Setor Não Pode Ser Nulo.' + 
 									'Caso Não Tenha Setores Cadastrados, ' +
 									'Entre em Contato Com o Administrador do Setor ' + 
 									'ou Com o Desenvolvedor');
 					this.props.history.push('/informacoes_usuario/');
 				} else {
+		
 					for(let aux = 0; aux < sectors.length; aux ++) {
+		
 						if(sectors[aux].initials === values.sector) {
 							sector_id = sectors[aux].id;
 						} 
@@ -97,7 +108,6 @@ class UserEdit extends Component {
     render() {
 		const { currentUser } = this.props;
 		const sectors = this.props.sectors;
-		const sector_name = getSectorName(sectors, currentUser.sector);
 		const { getFieldDecorator } = this.props.form;
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -117,7 +127,7 @@ class UserEdit extends Component {
                 {
                     key: sectors[aux].id,
                     initials: sectors[aux].initials,
-                    name: sectors[aux].name,
+                    name: sectors[aux].name
                 }
 			); 
 		}
@@ -156,7 +166,7 @@ class UserEdit extends Component {
 
 								<Form.Item label = 'Setor' { ...formItemLayout } >
 									<Input 
-										value = { sector_name } 
+										value = { currentUser.sector } 
 										disabled = { true } 
 									/>
 								</Form.Item>

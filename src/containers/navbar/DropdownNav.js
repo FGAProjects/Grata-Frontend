@@ -85,7 +85,7 @@ class DropdownNav extends Component {
 						</Menu.Item>
 						<Menu.Item key = '1' >
 							<Icon type = 'ordered-list' />
-								<Link to = { '/lista_projetos/' } >
+								<Link to = { '/' } >
 									Visualizar Projetos
 								</Link>
 						</Menu.Item>

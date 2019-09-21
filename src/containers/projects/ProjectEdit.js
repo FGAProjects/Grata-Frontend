@@ -22,7 +22,9 @@ class ProjectEdit extends Component {
 	}
 
     componentDidMount() {
+        
         if (this.props.token !== undefined && this.props.token !== null) {
+        
             const projectId = this.props.match.params.id;
 			this.props.getSectors(this.props.token);
             this.props.getProject(this.props.token, projectId);
@@ -30,8 +32,11 @@ class ProjectEdit extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
+        
         if (newProps.token !== this.props.token) {
+        
             if (newProps.token !== undefined && newProps.token !== null) {
+        
                 const projectId = this.props.match.params.id;
                 this.props.getSectors(newProps.token);
                 this.props.getProject(newProps.token, projectId);
@@ -40,16 +45,20 @@ class ProjectEdit extends Component {
     }
 
     handleSubmit = e => {
-		e.preventDefault();
+        
+        e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
-			if (!err) {
+        
+            if (!err) {
+                
                 const { currentProject } = this.props;
 				const sectors = this.props.sectors;
 				const token = this.props.token;
 				let sector_id = '';
 
 				for(let aux = 0; aux < sectors.length; aux ++) {
-					if(sectors[aux].initials === values.sector) {
+                    
+                    if(sectors[aux].initials === values.sector) {
 						sector_id = sectors[aux].id;
 					} 
 				}
@@ -57,7 +66,7 @@ class ProjectEdit extends Component {
 				const project = {
                     projectId: currentProject.id,
 					title: values.title,
-					status: 'Pendente',
+					status: currentProject.status,
 					sector: sector_id
                 };
                 
@@ -68,28 +77,33 @@ class ProjectEdit extends Component {
 					message.error('Não foi possível cadastrar o projeto.' + 
 								  'Entre em contato com o desenvolvedor!');
 				}
-				this.props.history.push('/lista_projetos/');			
+				this.props.history.push('/');			
 			} else {
 
 			}	
 		});
     };
     
-    showDeleteConfirm = (token, sectorId) => {
+    showDeleteConfirm = (token, project_id) => {
+        
         const propsForms = this.props;
-		confirm ({
-			title: 'Exclusão de Projeto',
+        
+        confirm ({
+            
+            title: 'Exclusão de Projeto',
 			content: 'Tem Certeza Que Deseja Excluir Este Projeto ?',
 			okText: 'Sim',
 			okType: 'danger',
 			cancelText: 'Não',
-			onOk() {
-				propsForms.deleteProject(token, sectorId);
+            
+            onOk() {
+            
+                propsForms.deleteProject(token, project_id);
 				Modal.success({
 					title: 'Ação Concluída!',
 					content: 'Projeto Excluído Com Sucesso!',
                 });
-                propsForms.history.push('/lista_projetos/');
+                propsForms.history.push('/');
 			},
 			onCancel() {
                 message.success('Exclusão de Projeto Cancelada Com Sucesso!');
@@ -98,6 +112,7 @@ class ProjectEdit extends Component {
 	}
 
     render() {
+        
         const { currentProject } = this.props;
         const { getFieldDecorator } = this.props.form;
         const { formLayout } = this.state;
@@ -107,7 +122,6 @@ class ProjectEdit extends Component {
 		}
 		: null;
         const sectors = this.props.sectors;
-        const sector_name = getSectorName(sectors, currentProject.sector);
 
 		let dataSource = {
             innerArray: [
@@ -120,7 +134,7 @@ class ProjectEdit extends Component {
                 {
                     key: sectors[aux].id,
                     initials: sectors[aux].initials,
-                    name: sectors[aux].name,
+                    name: sectors[aux].name
                 }
 			); 
 		}
@@ -154,13 +168,12 @@ class ProjectEdit extends Component {
                             <Form layout = 'vertical' >
                                 <Form.Item label = 'Setor' { ...formItemLayout } >
                                     <Input 
-                                        value = { sector_name } 
+                                        value = { currentProject.sector } 
                                         disabled = { true } 
                                     />
                                 </Form.Item>
                             </Form>
                         </Hoc>
-                        
                     )
                 }
                 <Hoc>
@@ -250,7 +263,7 @@ class ProjectEdit extends Component {
                                         marginLeft: '20px'
                                     }} 
                                 >
-									<Link to = { '/lista_projetos/' }>
+									<Link to = { '/' }>
                                     <Icon 
                                         style = {{
                                             marginRight: '10px'
@@ -285,7 +298,9 @@ class ProjectEdit extends Component {
 const ProjectEditForm = Form.create()(ProjectEdit);
 
 const mapStateToProps = state => {
+    
     return {
+    
         token: state.auth.token,
         currentProject: state.project.currentProject,
         loading: state.project.loading,
@@ -294,7 +309,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+    
     return {
+    
         getProject: (token, id) => dispatch(getProject(token, id)),
         getSectors: token => dispatch(getSectors(token)),
         updateProject: (token, project) => dispatch(updateProject(token, project)),

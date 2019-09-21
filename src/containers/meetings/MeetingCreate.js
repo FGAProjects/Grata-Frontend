@@ -141,6 +141,9 @@ class MeetingCreate extends Component {
 							rules: [{ 
 								required: true, 
 								message: 'Por favor, Insira o Título da Reunião!'
+							},{
+								max: 30,
+								message: 'O Título Pode Ter no Máximo 30 Caracteres!',
 							}],
 						})(
 							<Input
@@ -164,6 +167,9 @@ class MeetingCreate extends Component {
 							rules: [{ 
 								required: true, 
 								message: 'Por favor, Insira o Assunto da Reunião!'
+							},{
+								max: 40,
+								message: 'O Título Pode Ter no Máximo 40 Caracteres!',
 							}],
 						})(
 							<Input

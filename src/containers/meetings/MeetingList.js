@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getProject } from '../../store/actions/project';
-import { getMeetings } from '../../store/actions/meeting';
+import { getMeetings } from '../../store/actions/meetingsInProject';
 import { getUsers } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { dynamicSort } from '../utils';
+import { dynamicSort, getMeetingInProject } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class MeetingList extends Component {
@@ -17,7 +17,7 @@ class MeetingList extends Component {
 			const project_id = this.props.match.params.id;
             this.props.getSectors(this.props.token);
 			this.props.getUsers(this.props.token);
-			this.props.getMeetings(this.props.token);
+			this.props.getMeetings(this.props.token, project_id);
 			this.props.getProject(this.props.token, project_id);
         }
     }
@@ -28,7 +28,7 @@ class MeetingList extends Component {
 				const project_id = newProps.match.params.id;
 				this.props.getSectors(newProps.token);
 				this.props.getUsers(newProps.token);
-				this.props.getMeetings(newProps.token);
+				this.props.getMeetings(newProps.token, project_id);
 				this.props.getProject(newProps.token, project_id);
             }
         }
@@ -40,40 +40,22 @@ class MeetingList extends Component {
 		const users = this.props.users;
 		const sectors = this.props.sectors;
 		const { currentProject } = this.props;
-		console.log(currentProject)
 		let name_user = '';
 		let dataSource = {
             innerArray: [
                 
             ]
 		}
-		
-		for(let aux = 0; aux < meetings.length; aux ++) {
-			for(let auxUsers = 0; auxUsers < users.length; auxUsers ++) {
-				if(users[auxUsers].sector === meetings[aux].place &&
-					users[auxUsers].sector === currentProject.id) {
-					
-					name_user = users[auxUsers].name;
-					dataSource.innerArray.push(
-						{
-							key: meetings[aux].id,
-							title: meetings[aux].title,
-							initial_date: meetings[aux].initial_date,
-							final_date: meetings[aux].final_date,
-							initial_hour: meetings[aux].initial_hour,
-							final_hour: meetings[aux].final_hour,
-							sector: sectors[meetings[aux].place - 1].name,
-							meeting_leader: name_user,
-							tags: [meetings[aux].status]
-						}
-					);
-					break;
-				} else {
 
-				}
-			}
-		}
-        
+		// console.log(meetings)
+		// for(let aux in meetings.meetings_in_project) {
+		// 	console.log(meetings.meetings_in_project[aux].title)
+		// }
+
+		
+
+		dataSource.innerArray = getMeetingInProject(meetings, users, 
+													currentProject, name_user, sectors)        
         dataSource.innerArray.sort(dynamicSort('title'));
 		
 		return (
@@ -214,7 +196,7 @@ const mapDispatchToProps = dispatch => {
     return {
 		getSectors: token => dispatch(getSectors(token)),
 		getUsers: token => dispatch(getUsers(token)),
-		getMeetings: token => dispatch(getMeetings(token)),
+		getMeetings: (token, project_id) => dispatch(getMeetings(token, project_id)),
 		getProject: (token, project_id) => dispatch(getProject(token, project_id))
     };
 };

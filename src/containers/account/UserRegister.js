@@ -15,8 +15,11 @@ class UserRegister extends Component {
 	};
 
 	handleSubmit = e => {
+		
 		e.preventDefault();
+		
 		this.props.form.validateFieldsAndScroll((err, values) => {
+		
 			if (!err) {
 				let is_administrator = false;
 
@@ -49,6 +52,7 @@ class UserRegister extends Component {
 	};
 
 	handleConfirmBlur = e => {
+		
 		const { value } = e.target;
 		this.setState({ 
 			confirmDirty: this.state.confirmDirty || !!value 
@@ -56,6 +60,7 @@ class UserRegister extends Component {
 	};
 
 	compareToFirstPassword = (rule, value, callback) => {
+		
 		const { form } = this.props;
 		if (value && value !== form.getFieldValue('password1')) {
 			callback('As senhas digitadas não são iguais!');
@@ -65,6 +70,7 @@ class UserRegister extends Component {
 	};
 
 	validateToNextPassword = (rule, value, callback) => {
+		
 		const { form } = this.props;
 		if (value && this.state.confirmDirty) {
 			form.validateFields(['password2'], { force: true });
@@ -73,6 +79,7 @@ class UserRegister extends Component {
 	};
 
 	render() {
+		
 		const { getFieldDecorator } = this.props.form;
 
 		return (

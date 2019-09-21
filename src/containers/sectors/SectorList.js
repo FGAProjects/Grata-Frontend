@@ -10,15 +10,20 @@ import Hoc from '../../hoc/hoc';
 class SectorList extends Component {
 
     componentDidMount() {
+        
         if (this.props.token !== undefined && this.props.token !== null) {
+        
             this.forceUpdate();
             this.props.getSectors(this.props.token);
         }
     }
 
     componentWillReceiveProps(newProps) {
+        
         if (newProps.token !== this.props.token) {
+        
             if (newProps.token !== undefined && newProps.token !== null) {
+        
                 this.forceUpdate();
                 this.props.getSectors(newProps.token);   
             }
@@ -26,8 +31,11 @@ class SectorList extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
+        
         if (newProps.token !== this.props.token) {
+         
             if (newProps.token !== undefined && newProps.token !== null) {
+         
                 this.forceUpdate();
                 this.props.getSectors(newProps.token);   
             }
@@ -35,6 +43,7 @@ class SectorList extends Component {
     }
 
     render() {
+        
         const sectors = this.props.sectors;
         let dataSource = {
             innerArray: [
@@ -43,13 +52,12 @@ class SectorList extends Component {
         }
         
         for(let aux = 0; aux < sectors.length; aux ++) {
-            dataSource.innerArray.push(
-                {
-                    key: sectors[aux].id,
-                    initials: sectors[aux].initials,
-                    name: sectors[aux].name,
-                }
-			); 
+            
+            dataSource.innerArray.push({
+                key: sectors[aux].id,
+                initials: sectors[aux].initials,
+                name: sectors[aux].name
+            }); 
 		}
 
 		dataSource.innerArray.sort(dynamicSort('initials'));
@@ -112,6 +120,7 @@ class SectorList extends Component {
 }
 
 const mapStateToProps = state => {
+    
     return {
         token: state.auth.token,
         sectors: state.sector.sectors,
@@ -120,6 +129,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+    
     return {
         getSectors: token => dispatch(getSectors(token))
     };

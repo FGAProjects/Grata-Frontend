@@ -3,32 +3,34 @@ import { connect } from 'react-redux';
 import { Skeleton, Table, Tag } from 'antd';
 
 import { getUsers } from '../../store/actions/auth';
-import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class UserList extends Component {
 
     componentDidMount() {
+        
         if (this.props.token !== undefined && this.props.token !== null) {
+        
             this.forceUpdate();
             this.props.getUsers(this.props.token);
-            this.props.getSectors(this.props.token);
         }
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
+        
         if (newProps.token !== this.props.token) {
+        
             if (newProps.token !== undefined && newProps.token !== null) {
+        
                 this.forceUpdate();
                 this.props.getUsers(newProps.token);
-                this.props.getSectors(newProps.token);
             }
         }
     }
 
     render() {
-		const sectors = this.props.sectors;
+        
 		const users = this.props.users;
         let permission = '';
         let dataSource = {
@@ -36,22 +38,16 @@ class UserList extends Component {
                 
             ]
         };
-        let sectors_name = '';
 
         for(let aux = 0; aux < users.length; aux ++) {
+
             if(users[aux].is_administrator === true) {
                 permission = 'Administrador';
             } else {
                 permission = 'Participante da Reunião';
             }
             if(users[aux].sector === null || users[aux].sector === undefined) {
-                sectors_name = 'Não Possui Setor no Momento';
-            }
-            for(let auxSector = 0; auxSector < sectors.length; auxSector ++) {
-                if(users[aux].sector === sectors[auxSector].id) {
-                    sectors_name = sectors[auxSector].name;
-                    break;
-                }
+                users[aux].sector = 'Não Possui Setor no Momento';
             }
 
             dataSource.innerArray.push(
@@ -60,7 +56,7 @@ class UserList extends Component {
                     name: users[aux].name,
                     username: users[aux].username,
                     ramal: users[aux].ramal,
-                    setor: sectors_name,
+                    setor: users[aux].sector,
                     email: users[aux].email,
 					tags: [permission],
                 }
@@ -155,14 +151,12 @@ const mapStateToProps = state => {
         token: state.auth.token,
         users: state.auth.users,
         loading: state.auth.loading,
-        sectors: state.sector.sectors,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         getUsers: token => dispatch(getUsers(token)),
-        getSectors: token => dispatch(getSectors(token))
     };
 };
 

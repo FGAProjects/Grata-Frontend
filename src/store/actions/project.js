@@ -72,7 +72,7 @@ export const getProjects = token => {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`
         };
-        axios.get('http://0.0.0.0:8000/projects/')
+        axios.get('http://0.0.0.0:8000/projects/list_projects_sectors/')
         .then(res => {
             const projects = res.data;
             dispatch(getProjectListSuccess(projects));

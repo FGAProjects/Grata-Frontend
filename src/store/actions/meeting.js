@@ -1,29 +1,8 @@
 import axios from 'axios';
 import { 
-    MEETING_LIST_START, MEETING_LIST_SUCCESS, MEETING_LIST_FAIL,
     CREATE_MEETING_START, CREATE_MEETING_SUCCESS, CREATE_MEETING_FAIL,
     GET_MEETING_DETAIL_START, GET_MEETING_DETAIL_SUCCESS, GET_MEETING_DETAIL_FAIL
 } from './actionsTypes';
-
-const getMeetingListStart = () => {
-    return {
-        type: MEETING_LIST_START
-    };
-}
-
-const getMeetingListSuccess = meetings => {
-    return {
-        type: MEETING_LIST_SUCCESS,
-        meetings
-    };
-}
-
-const getMeetingListFail = error => {
-    return {
-        type: MEETING_LIST_FAIL,
-        error: error
-    };
-}
 
 const getMeetingDetailStart = () => {
     return {
@@ -64,24 +43,6 @@ const createMeetingFail = error => {
         error: error
     };
 }
-  
-export const getMeetings = token => {
-    return dispatch => {
-        dispatch(getMeetingListStart());
-        axios.defaults.headers = {
-            'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
-        };
-        axios.get('http://0.0.0.0:8000/meetings/')
-        .then(res => {
-            const meetings = res.data;
-            dispatch(getMeetingListSuccess(meetings));
-        })
-        .catch(err => {
-            dispatch(getMeetingListFail(err));
-        });
-    };
-};
 
 export const getMeeting = (token, meetingId) => {
     return dispatch => {
@@ -120,7 +81,7 @@ export const createMeeting = (token, meeting) => {
 
 export const updateMeeting = (token, meetingObject) => {
 	return dispatch => {
-		dispatch(getMeetingListStart());
+		dispatch(getMeetingDetailStart());
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
@@ -139,10 +100,10 @@ export const updateMeeting = (token, meetingObject) => {
                 meeting_leader: meetingObject.meeting_leader,
                 place: meetingObject.place
 			};
-			dispatch(getMeetingListSuccess(meeting));
+			dispatch(getMeetingDetailSuccess(meeting));
 		})
 		.catch(err => {
-			dispatch(getMeetingListFail(err));
+			dispatch(getMeetingDetailFail(err));
 		});
 	};
 }
