@@ -16,13 +16,16 @@ class ProjectCreate extends Component {
 	};
 
 	componentDidMount() {
+		
 		if (this.props.token !== undefined && this.props.token !== null) {
 			this.props.getSectors(this.props.token);
 		}
 	}
 
 	UNSAFE_componentWillReceiveProps(newProps) {
+		
 		if (newProps.token !== this.props.token) {
+		
 			if (newProps.token !== undefined && newProps.token !== null) {
 				this.props.getSectors(newProps.token);
 			}
@@ -30,18 +33,23 @@ class ProjectCreate extends Component {
 	}
 
 	handleSubmit = e => {
+		
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
+		
 				const sectors = this.props.sectors;
 				const token = this.props.token;
 				let sector_id = '';
 
 				for(let aux = 0; aux < sectors.length; aux ++) {
+		
 					if(sectors[aux].initials === values.sector) {
 						sector_id = sectors[aux].id;
 					} 
 				}
+
+				console.log(sector_id)
 
 				const project = {
 					title: values.title,

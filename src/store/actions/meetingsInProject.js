@@ -1,31 +1,37 @@
 import axios from 'axios';
 import { 
-    MEETING_LIST_START, MEETING_LIST_SUCCESS, MEETING_LIST_FAIL,
-    GET_USERS_IN_MEETING_START, GET_USERS_IN_MEETING_SUCCESS, GET_USERS_IN_MEETING_FAIL    
+    MEETING_LIST_START, MEETING_LIST_SUCCESS, MEETING_LIST_FAIL
 } from './actionsTypes';
 
 const getMeetingListStart = () => {
+    
     return {
         type: MEETING_LIST_START
     };
 }
 
 const getMeetingListSuccess = meetings => {
+    
     return {
+    
         type: MEETING_LIST_SUCCESS,
         meetings
     };
 }
 
 const getMeetingListFail = error => {
+    
     return {
+    
         type: MEETING_LIST_FAIL,
         error: error
     };
 }
 
 export const getMeetings = (token, projectId) => {
+    
     return dispatch => {
+    
         dispatch(getMeetingListStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',

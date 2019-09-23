@@ -7,13 +7,15 @@ import { getProject } from '../../store/actions/project';
 import { getMeetings } from '../../store/actions/meetingsInProject';
 import { getUsers } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { dynamicSort, getMeetingInProject } from '../utils';
+import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class MeetingList extends Component {
 
 	componentDidMount() {
-        if (this.props.token !== undefined && this.props.token !== null) {
+		
+		if (this.props.token !== undefined && this.props.token !== null) {
+		
 			const project_id = this.props.match.params.id;
             this.props.getSectors(this.props.token);
 			this.props.getUsers(this.props.token);
@@ -23,8 +25,11 @@ class MeetingList extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
-        if (newProps.token !== this.props.token) {
-            if (newProps.token !== undefined && newProps.token !== null) {
+		
+		if (newProps.token !== this.props.token) {
+		
+			if (newProps.token !== undefined && newProps.token !== null) {
+		
 				const project_id = newProps.match.params.id;
 				this.props.getSectors(newProps.token);
 				this.props.getUsers(newProps.token);
@@ -35,30 +40,35 @@ class MeetingList extends Component {
     }
 
     render() {
+		
 		const projectId = this.props.match.params.id;
 		const meetings = this.props.meetings;
-		const users = this.props.users;
-		const sectors = this.props.sectors;
-		const { currentProject } = this.props;
-		let name_user = '';
 		let dataSource = {
             innerArray: [
                 
             ]
 		}
 
-		// console.log(meetings)
-		// for(let aux in meetings.meetings_in_project) {
-		// 	console.log(meetings.meetings_in_project[aux].title)
-		// }
+		for (let aux = 0; aux < meetings.length; aux ++) {
 
-		
+			dataSource.innerArray.push(
+				{
+					key: meetings[aux].id,
+					title: meetings[aux].title,
+					initial_date: meetings[aux].initial_date,
+					final_date: meetings[aux].final_date,
+					initial_hour: meetings[aux].initial_hour,
+					final_hour: meetings[aux].final_hour,
+					sector: meetings[aux].sector,
+					tags: [meetings[aux].status]
+				}
+			);
+		}
 
-		dataSource.innerArray = getMeetingInProject(meetings, users, 
-													currentProject, name_user, sectors)        
         dataSource.innerArray.sort(dynamicSort('title'));
 		
 		return (
+
 			<div align = 'right'>
 				<Button 
 					type = 'primary' 
@@ -90,11 +100,6 @@ class MeetingList extends Component {
 												</List.Item>
 											</Link>
 										)   
-									},
-									{
-										title: 'Líder da Reunião',
-										dataIndex: 'meeting_leader',
-										key: 'meeting_leader',
 									},
 									{
 										title: 'Setor Responsável',
@@ -161,7 +166,7 @@ class MeetingList extends Component {
 													<Icon 
 														type = 'edit' 
 														style = {{ marginRight: '10px' }} />
-														<b> Editar Setor </b>
+														<b> Editar Projeto </b>
 												</Link>
 											</Button>
 										  </span>
@@ -182,8 +187,10 @@ class MeetingList extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-        token: state.auth.token,
+	
+	return {
+	
+		token: state.auth.token,
         users: state.auth.users,
         loading: state.meeting.loading,
 		sectors: state.sector.sectors,
@@ -193,7 +200,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return {
+	
+	return {
+	
 		getSectors: token => dispatch(getSectors(token)),
 		getUsers: token => dispatch(getUsers(token)),
 		getMeetings: (token, project_id) => dispatch(getMeetings(token, project_id)),

@@ -1,39 +1,40 @@
 import React, { Component } from 'react';
-import { DatePicker, TimePicker, Button, Form, Input, Icon, message, Select } from 'antd';
+import { DatePicker, TimePicker, Button, Form, Input, Icon, message } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { createMeeting } from '../../store/actions/meeting';
 import { getProject } from '../../store/actions/project';
-import { getUsers } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
-import { dynamicSort, getSectorInProject, getUsersInSector } from '../utils';
 
-const Option = Select.Option;
 const { RangePicker } = DatePicker;
 
 class MeetingCreate extends Component {
+
     state = {
 		confirmDirty: false,
 	};
 
 	componentDidMount() {
+		
 		if (this.props.token !== undefined && this.props.token !== null) {
+		
 			this.forceUpdate();
 			this.props.getSectors(this.props.token);
-			this.props.getUsers(this.props.getUsers);
 			this.props.getProject(this.props.token, this.props.match.params.id);
 			this.forceUpdate();
 		}
 	}
 
 	UNSAFE_componentWillReceiveProps(newProps) {
+		
 		if (newProps.token !== this.props.token) {
+		
 			if (newProps.token !== undefined && newProps.token !== null) {
+		
 				this.forceUpdate();
 				this.props.getSectors(newProps.token);
-				this.props.getUsers(newProps.token);
 				this.props.getProject(newProps.token, newProps.match.params.id);
 				this.forceUpdate();
 			}
@@ -41,11 +42,11 @@ class MeetingCreate extends Component {
 	}
 
     handleSubmit = e => {
+		
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 
-				const users = this.props.users;
 				const sectors = this.props.sectors;
 				const token = this.props.token;
 				const { currentProject } = this.props;
@@ -53,21 +54,14 @@ class MeetingCreate extends Component {
                 const date_value = values['range-picker'];
                 let user_id = 0;
 				let sector_id = 0;
-				let sector_name = '';
-
-				sector_name = getSectorInProject(sectors, currentProject);
-
-				for(let aux = 0; aux < users.length; aux ++) {
-                    if(users[aux].username === values.administrator) {
-                        user_id = users[aux].id;
-                    }
-				}
 
 				for(let aux = 0; aux < sectors.length; aux ++) {
-                    if(sectors[aux].name === sector_name) {
+		
+					if(sectors[aux].name === currentProject.sector) {
                         sector_id = sectors[aux].id;
                     }
 				}
+
 				const meeting = {
 					title: values.title,
 					subject_matter: values.subject_matter,
@@ -80,13 +74,14 @@ class MeetingCreate extends Component {
 					place: sector_id,
 					project: project_id
 				};
+
 				if((this.props.createMeeting(token, meeting)) !== fail) {
 					message.success('Reunião Criada Com Sucesso!');
 				} else {
 					message.error('Não Foi Possível Criar a Reunião. ' + 
 								  'Entre em Contato Com o Desenvolvedor!');
 				} 
-				this.props.history.push(`/lista_de_reunioes/${project_id}`);
+				this.props.history.push(`/lista_de_reunioes/${ project_id }`);
 			} else {
 
 			}
@@ -94,9 +89,8 @@ class MeetingCreate extends Component {
 	};
 
 	render() {
+
 		const { currentProject } = this.props;
-		const sectors = this.props.sectors;
-		const users = this.props.users;
 		const { getFieldDecorator } = this.props.form;
 		const formItemLayout = {
 			labelCol: {
@@ -115,23 +109,6 @@ class MeetingCreate extends Component {
 				message: 'Por Favor, Selecione a Hora!' 
 			}],
 		};
-		const config = {
-			rules: [{ 
-				type: 'object', 
-				required: true, 
-				message: 'Por Favor, Selecione a Hora!' 
-			}],
-		};
-		let sector_name = '';
-		let dataSourceUsers = {
-			innerArrayUsers: [
-
-			]
-		}
-
-		sector_name = getSectorInProject(sectors, currentProject);
-		dataSourceUsers.innerArrayUsers = getUsersInSector(users, sectors, currentProject);
-		dataSourceUsers.innerArrayUsers.sort(dynamicSort('name'));
 
 		return (
 			<Form { ...formItemLayout } onSubmit = { this.handleSubmit } >
@@ -210,36 +187,12 @@ class MeetingCreate extends Component {
 					}
 				</Form.Item>
 
-                <Form.Item label = 'Administrador Responsável' hasFeedback >
-					{
-						getFieldDecorator('administrator', {
-						rules: [
-							{
-								required: true,
-								message: 'Por favor, Escolha o Administrador Responsável!',
-							}
-							],
-						})(
-							<Select placeholder = 'Escolha o Responsável Pela Reunião' >
-								{ dataSourceUsers.innerArrayUsers.map(user => 
-									<Option 
-										key = { user.key } 
-										value = { user.username }>
-										{ user.name }
-									</Option>)
-								}
-							</Select>  
-						)
-					}
-				</Form.Item>
-
 				<Form.Item label = 'Local' hasFeedback >
 					{
 						getFieldDecorator('local', {
 						rules: [
 							{
 								required: false,
-								message: 'Por favor, Escolha o Local a Ser Realizada a Reunião!',
 							}
 							],
 						})(							
@@ -252,9 +205,9 @@ class MeetingCreate extends Component {
 										}} 
 									/>
 								}
-							placeholder = { sector_name }
-							disabled = { true }
-						/>
+								placeholder = { currentProject.sector }
+								disabled = { true }
+							/>
 						)
 					}
 				</Form.Item>
@@ -269,7 +222,7 @@ class MeetingCreate extends Component {
 
 				<Form.Item label = 'Hora de Inicio' >
 					{
-						getFieldDecorator('time-picker-initial', config) (
+						getFieldDecorator('time-picker-initial') (
 							<TimePicker />
 						)
 					}
@@ -277,30 +230,43 @@ class MeetingCreate extends Component {
 
 				<Form.Item label = 'Hora de Encerramento' hasFeedback >
 					{
-						getFieldDecorator('time-picker-final', config) (
+						getFieldDecorator('time-picker-final') (
 							<TimePicker />
 						)
 					}
 				</Form.Item>
 
-				<Form.Item>
-					<Button 
-						type = 'primary' 
-						htmlType = 'submit' 
-						style = {{
-							marginRight: '10px'
-						}} >
-						Cadastrar
-					</Button>
-					Ou
-					<NavLink 
-						style = {{
-							marginRight: '10px'
-						}} 
-						to = '/login/'> 
-						Entrar
-					</NavLink>
-				</Form.Item>
+				<div align = 'center' >
+					<Form.Item>
+						<Button 
+							type = 'primary' 
+							htmlType = 'submit' 
+							style = {{
+								marginRight: '10px'
+							}} >
+							<Icon 
+								style = {{
+									marginRight: '10px'
+								}}
+								type = 'save' />
+								Cadastrar Reunião
+						</Button>
+						<Button type = 'primary' 
+							style = {{
+								marginLeft: '50px'								
+							}}
+							>
+							<Link to = { `/lista_de_reunioes/${ currentProject.id }` } >
+								<Icon 
+									style = {{
+									marginRight: '10px'
+									}}
+									type = 'stop' />
+									Cancelar
+								</Link>
+						</Button>
+					</Form.Item>
+				</div>
 			</Form>
 		);
 	}
@@ -309,21 +275,23 @@ class MeetingCreate extends Component {
 const MeetingCreateForm = Form.create()(MeetingCreate);
 
 const mapStateToProps = (state) => {
+	
 	return {
+	
 		loading: state.meeting.loading,
 		error: state.meeting.error,
 		token: state.auth.token,
-		sectors: state.sector.sectors,
-		users: state.auth.users,
-		currentProject: state.project.currentProject
+		currentProject: state.project.currentProject,
+		sectors: state.sector.sectors
 	}
 }
 
 const mapDispatchToProps = dispatch => {
+	
 	return {
-        createMeeting: (token, meeting) => dispatch(createMeeting(token, meeting)),
+	
+		createMeeting: (token, meeting) => dispatch(createMeeting(token, meeting)),
 		getSectors: token => dispatch(getSectors(token)),
-		getUsers: token => dispatch(getUsers(token)),
 		getProject: (token, project_id) => dispatch(getProject(token, project_id))
 	}
 }

@@ -202,25 +202,27 @@ class ProjectEdit extends Component {
                             }
                         </Form.Item>
 
-                        <Form.Item label='Setor' hasFeedback >
+                        <Form.Item label = 'Setor' >
                             {
                                 getFieldDecorator('sector', {
                                 rules: [
                                     {
-                                        required: true,
-                                        message: 'Por favor, Escolha o Setor do Usuário!',
+                                        required: false,
                                     }
                                     ],
                                 })(
-                                    <Select placeholder = 'Escolha o Setor' >
-                                        { dataSource.innerArray.map(sector => 
-                                            <Option 
-                                                key = { sector.key } 
-                                                value = { sector.initials }>
-                                                { sector.name }
-                                            </Option>)
+                                    <Input
+                                        prefix = {
+                                            <Icon 
+                                                type = 'form' 
+                                                style = {{ 
+                                                    color: 'rgba(0,0,0,.25)' 
+                                                }} 
+                                            />
                                         }
-                                    </Select>  
+                                        placeholder = { currentProject.sector }
+                                        disabled = { true }
+                                    />  
                                 )
                             }
                         </Form.Item>

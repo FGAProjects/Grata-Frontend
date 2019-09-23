@@ -16,23 +16,6 @@ export function dynamicSort(property) {
     }
 }
 
-export function getSectorName(sectors, sectorId) {
-
-    let sector_name = '';
-
-    if(sectorId === null) {
-        sector_name = 'Não Possui Setor no Momento';
-    } else {
-        for(let aux = 0; aux < sectors.length; aux ++) {
-            if(sectors[aux].id === sectorId) {
-                sector_name = sectors[aux].name;
-            }
-        }
-    }
-    
-    return sector_name;
-}
-
 export function getSectorInProject(sectors, currentProject) {
 
     let sector_name = '';
@@ -78,41 +61,4 @@ export function getUsersInSector(users, sectors, currentProject) {
     }
 
     return dataSourceUsers.innerArrayUsers;
-}
-
-export function getMeetingInProject(meetings, users, currentProject, name_user, sectors) {
-
-    let dataSource = {
-        innerArray: [
-            
-        ]
-    }
-
-    for(let aux = 0; aux < meetings.length; aux ++) {
-        for(let auxUsers = 0; auxUsers < users.length; auxUsers ++) {
-            if(users[auxUsers].sector === meetings[aux].place &&
-                users[auxUsers].sector === currentProject.id) {
-                
-                name_user = users[auxUsers].name;
-                dataSource.innerArray.push(
-                    {
-                        key: meetings[aux].id,
-                        title: meetings[aux].title,
-                        initial_date: meetings[aux].initial_date,
-                        final_date: meetings[aux].final_date,
-                        initial_hour: meetings[aux].initial_hour,
-                        final_hour: meetings[aux].final_hour,
-                        sector: sectors[meetings[aux].place - 1].name,
-                        meeting_leader: name_user,
-                        tags: [meetings[aux].status]
-                    }
-                );
-                break;
-            } else {
-
-            }
-        }
-    }
-
-    return dataSource.innerArray;
 }
