@@ -12,7 +12,8 @@ const { confirm } = Modal;
 class SetorEdit extends Component {
 
     constructor() {
-		super();
+        
+        super();
 		this.state = {
 			formLayout: 'vertical',
 		};
@@ -23,15 +24,20 @@ class SetorEdit extends Component {
     };
     
     componentDidMount() {
-		if (this.props.token !== undefined && this.props.token !== null) {
+        
+        if (this.props.token !== undefined && this.props.token !== null) {
+        
             const sectorId = this.props.match.params.id;
 			this.props.getSector(this.props.token, sectorId);
 		}
 	}
 
 	UNSAFE_componentWillReceiveProps(newProps) {
-		if (newProps.token !== this.props.token) {
-			if (newProps.token !== undefined && newProps.token !== null) {
+        
+        if (newProps.token !== this.props.token) {
+        
+            if (newProps.token !== undefined && newProps.token !== null) {
+        
                 const sectorId = this.props.match.params.id;
 				this.props.getSector(newProps.token, sectorId);
 			}
@@ -39,15 +45,19 @@ class SetorEdit extends Component {
     }
     
     handleSubmit = e => {
-		e.preventDefault();
+        
+        e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
-			if (!err) {
+        
+            if (!err) {
+        
                 const token = this.props.token;
                 const sector = {
                     id: this.props.match.params.id,
                     initials: values.initials,
                     name: values.name
                 };
+        
                 if((this.props.updateSector(
                     token, sector
                 )) !== fail) {
@@ -63,14 +73,17 @@ class SetorEdit extends Component {
     };
     
     showDeleteConfirm = (token, sectorId) => {
+        
         const propsForms = this.props;
-		confirm ({
+        
+        confirm ({
 			title: 'Exclusão de Setor',
 			content: 'Tem Certeza Que Deseja Excluir Este Setor ?',
 			okText: 'Sim',
 			okType: 'danger',
 			cancelText: 'Não',
-			onOk() {
+        
+            onOk() {
 				propsForms.deleteSector(token, sectorId);
 				Modal.success({
 					title: 'Ação Concluída!',
@@ -78,13 +91,15 @@ class SetorEdit extends Component {
                 });
                 propsForms.history.push('/lista_de_setores/');
 			},
-			onCancel() {
+        
+            onCancel() {
                 message.success('Exclusão de Setor Cancelada Com Sucesso!');
 			},
 		});
 	}
 
     render() {
+        
         const { currentSector } = this.props;
         const { getFieldDecorator } = this.props.form;
 		const { formLayout } = this.state;
@@ -93,7 +108,9 @@ class SetorEdit extends Component {
             wrapperCol: { span: 14 },
 		}
         : null;
+        
         return (
+        
             <Hoc>
                 {
                     this.props.loading ? (

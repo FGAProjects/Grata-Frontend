@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Form, Input, Icon, Button, message, Select, Skeleton, Modal } from 'antd';
+import { Form, Input, Icon, Button, message, Skeleton, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { fail } from 'assert';
 
 import Hoc from '../../hoc/hoc';
 import { getProject, updateProject, deleteProject } from '../../store/actions/project';
 import { getSectors } from '../../store/actions/sector';
-import { dynamicSort, getSectorName } from '../utils';
+import { dynamicSort } from '../utils';
 
-const Option = Select.Option;
 const { confirm } = Modal;
 
 class ProjectEdit extends Component {

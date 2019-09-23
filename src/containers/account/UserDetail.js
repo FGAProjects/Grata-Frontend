@@ -70,6 +70,10 @@ class UserDetail extends Component {
 		}
 		: null;
 
+		if(currentUser.sector === null) {
+			currentUser.sector = 'Não Possui Setor no Momento';
+		}
+
 		return (
 			<Hoc>
 				{

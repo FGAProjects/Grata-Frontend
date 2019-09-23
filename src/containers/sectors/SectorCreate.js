@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Icon, Button, message } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
+import { Link } from 'react-router-dom';
 
 import { createSector } from '../../store/actions/sector';
 
@@ -12,6 +13,7 @@ class SectorCreate extends Component {
 	};
 
 	handleSubmit = e => {
+		
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
@@ -36,9 +38,11 @@ class SectorCreate extends Component {
 	};
 
 	render() {
+		
 		const { getFieldDecorator } = this.props.form;
 
 		return (
+		
 			<Form onSubmit = { this.handleSubmit } >
 				<Form.Item label = 'Sigla'>
 					{
@@ -87,14 +91,26 @@ class SectorCreate extends Component {
 				</Form.Item>
 
 				<Form.Item>
-					<Button 
-						type = 'primary' 
-						htmlType = 'submit' 
-						style = {{
-							marginRight: '10px'
-						}} >
-						Cadastrar Setor
-					</Button>
+					<div align = 'center'>
+						<Button 
+							type = 'primary' 
+							htmlType = 'submit' 
+							style = {{
+								marginRight: '10px'
+							}} >
+							Cadastrar Setor
+						</Button>
+						<Button type = 'primary' >
+							<Link to = { '/lista_de_setores/' } >
+							<Icon 
+								style = {{
+									marginRight: '10px'
+								}}
+								type = 'stop' />
+								Cancelar
+							</Link>
+						</Button>
+					</div>
 				</Form.Item>
 			</Form>
 		);

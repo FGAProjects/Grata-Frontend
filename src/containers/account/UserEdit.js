@@ -120,7 +120,11 @@ class UserEdit extends Component {
             innerArray: [
                 
             ]
-        }
+		}
+
+		if(currentUser.sector === null) {
+			currentUser.sector = 'Não Possui Setor no Momento';			
+		}
         
         for(let aux = 0; aux < sectors.length; aux ++) {
             dataSource.innerArray.push(
@@ -203,121 +207,157 @@ class UserEdit extends Component {
 					)
 				}
 				<Hoc>
-					<h1> Informações A Serem Alteradas </h1>
-					<Form layout = 'vertical' onSubmit = { this.handleSubmit } >
-						<Form.Item label = 'Nome Completo' >
-							{
-								getFieldDecorator('name', {
-									rules: [{ 
-										required: true, 
-										message: 'Por favor, Insira Seu Nome Completo!'
-									}],
-								})(
-									<Input
-										prefix = {
-											<Icon type = 'user' 
-												style = {{ color: 'rgba(0,0,0,.25)' }} 
-											/>
+					{
+						sectors.length === 0 ? (
+							<Hoc> 
+								<h1> Você Não Possui Setor Cadastrado um Antes e Volte Aqui Depois </h1>
+								<div align = 'center'>
+									<Button 
+										type = 'primary'
+										style = {{
+											marginRight: '40px'
+										}} >
+										<Link to = { '/criar_setor/' } >
+										<Icon 
+											style = {{
+												marginRight: '10px'
+											}}
+											type = 'highlight' />
+											Criar Setor
+										</Link>
+									</Button>
+									<Button type = 'primary' >
+										<Link to = { '/informacoes_usuario/' } >
+										<Icon 
+											style = {{
+												marginRight: '10px'
+											}}
+											type = 'stop' />
+											Cancelar
+										</Link>
+									</Button>
+								</div>
+							</Hoc>
+						) : (
+							<Hoc>
+								<h1> Informações A Serem Alteradas </h1>
+								<Form layout = 'vertical' onSubmit = { this.handleSubmit } >
+									<Form.Item label = 'Nome Completo' >
+										{
+											getFieldDecorator('name', {
+												rules: [{ 
+													required: true, 
+													message: 'Por favor, Insira Seu Nome Completo!'
+												}],
+											})(
+												<Input
+													prefix = {
+														<Icon type = 'user' 
+															style = {{ color: 'rgba(0,0,0,.25)' }} 
+														/>
+													}
+													placeholder = 'Nome Completo'
+												/>,
+											)
 										}
-										placeholder = 'Nome Completo'
-									/>,
-								)
-							}
-						</Form.Item>
+									</Form.Item>
 
-						<Form.Item label='Setor' hasFeedback >
-							{
-								getFieldDecorator('sector', {
-								rules: [
-									{
-										required: false,
-										message: 'Por favor, Escolha o Setor do Usuário!',
-									}
-									],
-								})(
-									<Select placeholder = 'Escolha o Setor' >
-										{ dataSource.innerArray.map(sector => 
-											<Option 
-												key = { sector.key } 
-												value = { sector.initials }>
-												{ sector.name }
-											</Option>)
+									<Form.Item label='Setor' hasFeedback >
+										{
+											getFieldDecorator('sector', {
+											rules: [
+												{
+													required: false,
+													message: 'Por favor, Escolha o Setor do Usuário!',
+												}
+												],
+											})(
+												<Select placeholder = 'Escolha o Setor' >
+													{ dataSource.innerArray.map(sector => 
+														<Option 
+															key = { sector.key } 
+															value = { sector.initials }>
+															{ sector.name }
+														</Option>)
+													}
+												</Select>  
+											)
 										}
-									</Select>  
-								)
-							}
-						</Form.Item>
+									</Form.Item>
 
-						<Form.Item label = 'Ramal' >
-							{
-								getFieldDecorator('ramal', {
-									rules: [{ 
-										required: true, 
-										message: 'Por favor, Coloque Seu Ramal!' 
-									}],
-								})(
-									<Input
-										prefix = {
-											<Icon type = 'phone' 
-												style={{ color: 'rgba(0,0,0,.25)' }} 
-											/>
+									<Form.Item label = 'Ramal' >
+										{
+											getFieldDecorator('ramal', {
+												rules: [{ 
+													required: true, 
+													message: 'Por favor, Coloque Seu Ramal!' 
+												}],
+											})(
+												<Input
+													prefix = {
+														<Icon type = 'phone' 
+															style={{ color: 'rgba(0,0,0,.25)' }} 
+														/>
+													}
+													type = 'number'
+													placeholder="Ramal"
+												/>,
+											)
 										}
-										type = 'number'
-										placeholder="Ramal"
-									/>,
-								)
-							}
-						</Form.Item>
+									</Form.Item>
 
-						<Form.Item label = 'Tipo de Usuário' hasFeedback >
-							{
-								getFieldDecorator('userType', {
-								rules: [
-									{
-										required: true,
-										message: 'Por favor, Escolha o Tipo de Usuário!',
-									}
-									],
-								})(
-									<Select placeholder = 'Escolha o tipo de usuário' >
-										<Option 
-											value = 'administrator' > 
-												Administrador
-										</Option>
-										<Option 
-											value = 'participant' > 
-												Participante da Reunião
-										</Option>
-									</Select>  
-								)
-							}
-						</Form.Item>
+									<Form.Item label = 'Tipo de Usuário' hasFeedback >
+										{
+											getFieldDecorator('userType', {
+											rules: [
+												{
+													required: true,
+													message: 'Por favor, Escolha o Tipo de Usuário!',
+												}
+												],
+											})(
+												<Select placeholder = 'Escolha o tipo de usuário' >
+													<Option 
+														value = 'administrator' > 
+															Administrador
+													</Option>
+													<Option 
+														value = 'participant' > 
+															Participante da Reunião
+													</Option>
+												</Select>  
+											)
+										}
+									</Form.Item>
 
-						<Form.Item>
-							<div align = 'center'>
-								<Button 
-									type = 'primary' 
-									htmlType = 'submit' 
-									style = {{
-										marginRight: '20px'
-									}}
-								>
-									<Icon type = 'edit' />
-										Alterar Informações	
-								</Button>
-								<Button type = 'primary' >
-									<Link to = { '/informacoes_usuario/' } >
-									<Icon 
-                                        style = {{
-                                            marginRight: '10px'
-                                        }}
-                                        type = 'stop' />
-										Cancelar
-									</Link>
-								</Button>
-							</div>
-						</Form.Item>
-					</Form>
+									<Form.Item>
+										<div align = 'center'>
+											<Button 
+												type = 'primary' 
+												htmlType = 'submit' 
+												style = {{
+													marginRight: '20px'
+												}}
+											>
+												<Icon type = 'edit' />
+													Alterar Informações	
+											</Button>
+											<Button type = 'primary' >
+												<Link to = { '/informacoes_usuario/' } >
+												<Icon 
+													style = {{
+														marginRight: '10px'
+													}}
+													type = 'stop' />
+													Cancelar
+												</Link>
+											</Button>
+										</div>
+									</Form.Item>
+								</Form>
+							</Hoc>
+						) 
+					}
 				</Hoc>
 			</Hoc>
 		);
