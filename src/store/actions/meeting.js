@@ -5,47 +5,59 @@ import {
 } from './actionsTypes';
 
 const getMeetingDetailStart = () => {
+    
     return {
         type: GET_MEETING_DETAIL_START 
     };
 }
 
 const getMeetingDetailSuccess = meeting => {
+    
     return {
+    
         type: GET_MEETING_DETAIL_SUCCESS,
         meeting
     };
 }
 
 const getMeetingDetailFail = error => {
+    
     return {
+    
         type: GET_MEETING_DETAIL_FAIL,
         error: error
     };
 }
 
 const createMeetingStart = () => {
+    
     return {
         type: CREATE_MEETING_START
     };
 }
 
 const createMeetingSuccess = meeting => {
+    
     return {
+    
         type: CREATE_MEETING_SUCCESS,
         meeting
     };
 }
 
 const createMeetingFail = error => {
+    
     return {
+    
         type: CREATE_MEETING_FAIL,
         error: error
     };
 }
 
 export const getMeeting = (token, meetingId) => {
+    
     return dispatch => {
+    
         dispatch(getMeetingDetailStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
@@ -63,15 +75,17 @@ export const getMeeting = (token, meetingId) => {
 };
   
 export const createMeeting = (token, meeting) => {
+
     return dispatch => {
+    
         dispatch(createMeetingStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
+            Authorization: `Token ${ token }`
         };
         axios.post('http://0.0.0.0:8000/meetings/create/', meeting)
-        .then(res => {
-            dispatch(createMeetingSuccess(res));
+        .then(meeting => {
+            dispatch(createMeetingSuccess(meeting));
         })
         .catch(err => {
             dispatch(createMeetingFail(err));
@@ -80,8 +94,10 @@ export const createMeeting = (token, meeting) => {
 };
 
 export const updateMeeting = (token, meetingObject) => {
-	return dispatch => {
-		dispatch(getMeetingDetailStart());
+    
+    return dispatch => {
+    
+        dispatch(getMeetingDetailStart());
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
@@ -109,7 +125,8 @@ export const updateMeeting = (token, meetingObject) => {
 }
 
 export const deleteMeeting = (token, meetingId) => {
-	return dispatch => {
+    
+    return dispatch => {
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${ token }`

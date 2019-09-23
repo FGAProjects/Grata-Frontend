@@ -85,7 +85,7 @@ class SectorCreate extends Component {
 									/>
 								}
 								placeholder = 'Nome do Setor'
-							/>,
+							/>
 						)
 					}
 				</Form.Item>
@@ -98,6 +98,9 @@ class SectorCreate extends Component {
 							style = {{
 								marginRight: '10px'
 							}} >
+							<Icon 
+								type = 'save' 
+							/>
 							Cadastrar Setor
 						</Button>
 						<Button type = 'primary' >
@@ -106,7 +109,8 @@ class SectorCreate extends Component {
 								style = {{
 									marginRight: '10px'
 								}}
-								type = 'stop' />
+								type = 'stop' 
+							/>
 								Cancelar
 							</Link>
 						</Button>

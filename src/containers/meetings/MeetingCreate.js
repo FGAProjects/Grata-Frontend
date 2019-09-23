@@ -52,7 +52,6 @@ class MeetingCreate extends Component {
 				const { currentProject } = this.props;
                 const project_id = this.props.match.params.id;
                 const date_value = values['range-picker'];
-                let user_id = 0;
 				let sector_id = 0;
 
 				for(let aux = 0; aux < sectors.length; aux ++) {
@@ -70,8 +69,7 @@ class MeetingCreate extends Component {
 					final_date: date_value[1].format('DD/MM/YYYY'),
 					initial_hour: values['time-picker-initial'].format('HH:mm:ss'),
 					final_hour: values['time-picker-final'].format('HH:mm:ss'),
-					meeting_leader: user_id,
-					place: sector_id,
+					sector: sector_id,
 					project: project_id
 				};
 

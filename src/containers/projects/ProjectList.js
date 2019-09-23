@@ -13,7 +13,6 @@ class ProjectsList extends Component {
         
         if (this.props.token !== undefined && this.props.token !== null) {
         
-            this.forceUpdate();
             this.props.getProjects(this.props.token);
             this.forceUpdate();
         }
@@ -25,7 +24,6 @@ class ProjectsList extends Component {
         
             if (newProps.token !== undefined && newProps.token !== null) {
         
-                this.forceUpdate();
                 this.props.getProjects(newProps.token);
                 this.forceUpdate();
             }

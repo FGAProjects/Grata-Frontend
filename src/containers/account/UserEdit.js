@@ -306,29 +306,58 @@ class UserEdit extends Component {
 										}
 									</Form.Item>
 
-									<Form.Item label = 'Tipo de Usuário' hasFeedback >
-										{
-											getFieldDecorator('userType', {
-											rules: [
+									{
+										currentUser.is_administrator === true ? (
+											<Form.Item label = 'Tipo de Usuário' hasFeedback >
 												{
-													required: true,
-													message: 'Por favor, Escolha o Tipo de Usuário!',
+													getFieldDecorator('userType', {
+													rules: [
+														{
+															required: true,
+															message: 'Por favor, Escolha o Tipo de Usuário!',
+														}
+														],
+													})(
+														<Select placeholder = 'Escolha o tipo de usuário' >
+															<Option 
+																value = 'administrator' > 
+																	Administrador
+															</Option>
+															<Option 
+																value = 'participant' > 
+																	Participante da Reunião
+															</Option>
+														</Select>  
+													)
 												}
-												],
-											})(
-												<Select placeholder = 'Escolha o tipo de usuário' >
-													<Option 
-														value = 'administrator' > 
-															Administrador
-													</Option>
-													<Option 
-														value = 'participant' > 
-															Participante da Reunião
-													</Option>
-												</Select>  
-											)
-										}
-									</Form.Item>
+											</Form.Item>
+										) : (
+											<Form.Item label = 'Tipo de Usuário' hasFeedback >
+												{
+													getFieldDecorator('userType', {
+													rules: [
+														{
+															required: false
+														}
+														],
+													})(
+														<Input
+															prefix = {
+																<Icon 
+																	type = 'form' 
+																	style = {{ 
+																		color: 'rgba(0,0,0,.25)' 
+																	}} 
+																/>
+															}
+															placeholder = 'Participante da Reunião'
+															disabled = { true }
+														/> 
+													)
+												}
+											</Form.Item>
+										)
+									}
 
 									<Form.Item>
 										<div align = 'center'>

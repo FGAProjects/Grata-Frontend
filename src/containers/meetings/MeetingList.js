@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { getProject } from '../../store/actions/project';
 import { getMeetings } from '../../store/actions/meetingsInProject';
-import { getUsers } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
@@ -18,9 +17,9 @@ class MeetingList extends Component {
 		
 			const project_id = this.props.match.params.id;
             this.props.getSectors(this.props.token);
-			this.props.getUsers(this.props.token);
 			this.props.getMeetings(this.props.token, project_id);
 			this.props.getProject(this.props.token, project_id);
+			this.forceUpdate();
         }
     }
 
@@ -32,9 +31,9 @@ class MeetingList extends Component {
 		
 				const project_id = newProps.match.params.id;
 				this.props.getSectors(newProps.token);
-				this.props.getUsers(newProps.token);
 				this.props.getMeetings(newProps.token, project_id);
 				this.props.getProject(newProps.token, project_id);
+				this.forceUpdate();
             }
         }
     }
@@ -94,7 +93,7 @@ class MeetingList extends Component {
 										dataIndex: 'title',
 										key: 'title',
 										render: (text, record) => (
-											<Link to = {`/lista_de_reunioes/${record.key}`}>
+											<Link to = {`/detalhes_reuniao/${ record.key }`}>
 												<List.Item>
 													<b>{text}</b>
 												</List.Item>
@@ -191,7 +190,6 @@ const mapStateToProps = state => {
 	return {
 	
 		token: state.auth.token,
-        users: state.auth.users,
         loading: state.meeting.loading,
 		sectors: state.sector.sectors,
 		meetings: state.meeting.meetings,
@@ -204,7 +202,6 @@ const mapDispatchToProps = dispatch => {
 	return {
 	
 		getSectors: token => dispatch(getSectors(token)),
-		getUsers: token => dispatch(getUsers(token)),
 		getMeetings: (token, project_id) => dispatch(getMeetings(token, project_id)),
 		getProject: (token, project_id) => dispatch(getProject(token, project_id))
     };

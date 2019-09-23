@@ -12,6 +12,7 @@ import ProjectCreate from './containers/projects/ProjectCreate';
 import ProjectEdit from './containers/projects/ProjectEdit';
 import MeetingCreate from './containers/meetings/MeetingCreate';
 import MeetingList from './containers/meetings/MeetingList';
+import MeetingDetail from './containers/meetings/MeetingDetail';
 import SectorCreate from './containers/sectors/SectorCreate';
 import SectorEdit from './containers/sectors/SectorEdit';
 import SectorList from './containers/sectors/SectorList';
@@ -28,6 +29,7 @@ const BaseRouter = () => (
         <Route exact path = '/editar_projeto/:id' component = { ProjectEdit } />
         <Route exact path = '/criar_reuniao/projeto/:id' component = { MeetingCreate } />
         <Route exact path = '/lista_de_reunioes/:id' component = { MeetingList } />
+        <Route exact path = '/detalhes_reuniao/:id' component = { MeetingDetail } />
         <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
         <Route exact path = '/editar_setor/:id' component = { SectorEdit } />
         <Route exact path = '/lista_de_setores/' component = { SectorList } />

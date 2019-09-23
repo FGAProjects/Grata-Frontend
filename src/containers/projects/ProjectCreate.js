@@ -49,8 +49,6 @@ class ProjectCreate extends Component {
 					} 
 				}
 
-				console.log(sector_id)
-
 				const project = {
 					title: values.title,
 					status: 'Pendente',
@@ -160,16 +158,23 @@ class ProjectCreate extends Component {
 					}
 				</Form.Item>
 
-				<Form.Item>
-					<Button 
-						type = 'primary' 
-						htmlType = 'submit' 
-						style = {{
-							marginRight: '10px'
-						}} >
-						Cadastrar
-					</Button>
-				</Form.Item>
+				<div align = 'center' >
+					<Form.Item>
+						<Button 
+							type = 'primary' 
+							htmlType = 'submit' 
+							style = {{
+								marginRight: '10px'
+							}} >
+							<Icon 
+								style = {{
+									marginRight: '10px'
+								}}
+								type = 'save' />
+								Cadastrar Projeto
+						</Button>
+					</Form.Item>
+				</div>
 			</Form>
 		);
 	}
