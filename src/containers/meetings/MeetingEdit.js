@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Skeleton, Form, Input, Button, Modal, message, Icon } from 'antd';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import { getMeeting } from '../../store/actions/meeting';
 import Hoc from '../../hoc/hoc';
+import { getMeeting } from '../../store/actions/meeting';
 
-class MeetingDetail extends Component {
+class MeetingEdit extends Component {
 
     constructor() {
 		super();
@@ -14,7 +14,7 @@ class MeetingDetail extends Component {
 			formLayout: 'vertical',
 		};
     }
-    
+
     componentDidMount() {
 
 		const meeting_id = this.props.match.params.id;
@@ -34,9 +34,9 @@ class MeetingDetail extends Component {
             }
         }
     }
-    
-    render() {
 
+    render() {
+        
         const { currentMeeting } = this.props;
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -52,38 +52,15 @@ class MeetingDetail extends Component {
 		: null;
 
         return (
-            <div align = 'right'>
-				<Button 
-					type = 'primary' 
-					htmlType = 'submit' 
-					style = {{
-						marginRight: '10px'
-					}}
-				>
-					<Link to = { `/criar_reuniao/projeto/${ 1 } `} >
-						Visualizar Ata
-					</Link>
-				</Button>
-
-                <Button 
-					type = 'primary' 
-					htmlType = 'submit' 
-					style = {{
-						marginRight: '10px'
-					}}
-				>
-					<Link to = { `/criar_reuniao/projeto/${ 1 } `} >
-						Marcar Reunião
-					</Link>
-				</Button>
-				<div align = 'center'>
-					<Hoc> 
-						{
-							this.props.loading ? (
-								<Skeleton active />
-							) : (
+            <Hoc>
+                <div align = 'center'>
+                    <Hoc>
+                        {
+                            this.props.loading ? (
+                                <Skeleton active />
+                            ) : (
                                 <Hoc>
-                                    <h1> Informações Pŕe-Cadastradas da Reunião </h1>
+                                    <h1> Informações Cadastradas da Reunião </h1>
                                     <Form layout = 'vertical' >
                                         <Form.Item label = 'Nome' { ...formItemLayout } >
                                             <Input 
@@ -151,53 +128,8 @@ class MeetingDetail extends Component {
                                             />
                                         </Form.Item>
 
-                                        {
-                                            currentMeeting.status === 'Pendente' ? (
-                                                <Form.Item>
-                                                    <div align = 'center'>
-                                                        <Button 
-                                                            type = 'primary' 
-                                                            htmlType = 'submit' 
-                                                            style = {{ 
-                                                                marginRight: '20px' 
-                                                            }}
-                                                        >
-                                                            <Link to = { `/editar_reuniao/${ currentMeeting.id }` } >
-                                                                <Icon 
-                                                                    type = 'edit' 
-                                                                    style = {{ marginRight: '10px' }} />
-                                                                    Editar Reunião
-                                                            </Link>
-                                                        </Button>
-                                                        <Button 
-                                                            type = 'primary' 
-                                                            htmlType = 'submit' 
-                                                            style = {{ 
-                                                                marginRight: '20px' 
-                                                            }}
-                                                        >
-                                                            <Link to = { `/lista_de_reunioes/${ this.props.match.params.id }` } >
-                                                                <Icon 
-                                                                    type = 'arrow-left' 
-                                                                    style = {{ marginRight: '10px' }} />
-                                                                    Voltar
-                                                            </Link>
-                                                        </Button>
-                                                        <Button 
-                                                            type = 'danger' 
-                                                            htmlType = 'submit' 
-                                                            style = {{ 
-                                                                marginRight: '20px' 
-                                                            }}
-                                                        >
-                                                            <Icon 
-                                                                type = 'delete' 
-                                                                style = {{ marginRight: '10px' }} />
-                                                                Excluir Reunião
-                                                        </Button>
-                                                    </div>
-                                                </Form.Item>
-                                            ) : (
+                                        <Form.Item>
+                                            <div align = 'center'>
                                                 <Button 
                                                     type = 'primary' 
                                                     htmlType = 'submit' 
@@ -205,27 +137,41 @@ class MeetingDetail extends Component {
                                                         marginRight: '20px' 
                                                     }}
                                                 >
-                                                    <Link to = { `/lista_de_reunioes/${ this.props.match.params.id }` } >
+                                                    <Link to = { `/editar_reuniao/${ currentMeeting.id }` } >
+                                                        <Icon 
+                                                            type = 'edit' 
+                                                            style = {{ marginRight: '10px' }} />
+                                                            Editar Reunião
+                                                    </Link>
+                                                </Button>
+                                                <Button 
+                                                    type = 'primary' 
+                                                    htmlType = 'submit' 
+                                                    style = {{ 
+                                                        marginRight: '20px' 
+                                                    }}
+                                                >
+                                                    <Link to = { `/detalhes_reuniao/${ this.props.match.params.id }` } >
                                                         <Icon 
                                                             type = 'arrow-left' 
                                                             style = {{ marginRight: '10px' }} />
                                                             Voltar
                                                     </Link>
                                                 </Button>
-                                            )
-                                        }
+                                            </div>
+                                        </Form.Item>
                                     </Form>
                                 </Hoc>
                             )
                         }
                     </Hoc>
                 </div>
-            </div>
+            </Hoc>
         )
     }
 }
 
-const MetailDetailForm = Form.create()(MeetingDetail);
+const MetailEditForm = Form.create()(MeetingEdit);
 
 const mapStateToProps = state => {
 	
@@ -241,8 +187,8 @@ const mapDispatchToProps = dispatch => {
 	
 	return {
 	
-		getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
+        getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MetailDetailForm);
+export default connect(mapStateToProps, mapDispatchToProps)(MetailEditForm);
