@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Skeleton, Form, Input, Button, Modal, message, Icon } from 'antd';
+import { Skeleton, Form, Input, Button, Modal, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -34,6 +34,23 @@ class MeetingDetail extends Component {
             }
         }
     }
+
+    info () {
+        
+        Modal.info({
+            title: 'Ata Incompleta',
+            content: (
+                <div>
+                    <p> A Ata ainda não possui elementos a serem mostrados. </p>
+                    <p> Cadastre os elementos informacionais da Ata clicando 
+                        no botão ao lado 'Marcar Reunião'. </p>
+                </div>
+            ),
+            onOk() {
+
+            },
+        });
+    }
     
     render() {
 
@@ -53,18 +70,31 @@ class MeetingDetail extends Component {
 
         return (
             <div align = 'right'>
-				<Button 
-					type = 'primary' 
-					htmlType = 'submit' 
-					style = {{
-						marginRight: '10px'
-					}}
-				>
-					<Link to = { `/criar_reuniao/projeto/${ 1 } `} >
-						Visualizar Ata
-					</Link>
-				</Button>
-
+                {
+                    currentMeeting.status === 'Pendente' ? (
+                        <Button 
+                            type = 'default' 
+                            style = {{
+                                marginRight: '10px'
+                            }}
+                            onClick = { this.info }
+                        >
+                            Visualizar Ata
+                        </Button>
+                    ) : (
+                        <Button 
+                            type = 'primary' 
+                            style = {{
+                                marginRight: '10px'
+                            }}
+                        >
+                            <Link to = { `/criar_reuniao/projeto/${ currentMeeting.id } `} >
+                                Visualizar Ata
+                            </Link>
+                        </Button>
+                    )
+                }
+				
                 <Button 
 					type = 'primary' 
 					htmlType = 'submit' 
@@ -72,7 +102,7 @@ class MeetingDetail extends Component {
 						marginRight: '10px'
 					}}
 				>
-					<Link to = { `/criar_reuniao/projeto/${ 1 } `} >
+					<Link to = { `/criar_reuniao/projeto/${ currentMeeting.id } `} >
 						Marcar Reunião
 					</Link>
 				</Button>
@@ -182,18 +212,6 @@ class MeetingDetail extends Component {
                                                                     style = {{ marginRight: '10px' }} />
                                                                     Voltar
                                                             </Link>
-                                                        </Button>
-                                                        <Button 
-                                                            type = 'danger' 
-                                                            htmlType = 'submit' 
-                                                            style = {{ 
-                                                                marginRight: '20px' 
-                                                            }}
-                                                        >
-                                                            <Icon 
-                                                                type = 'delete' 
-                                                                style = {{ marginRight: '10px' }} />
-                                                                Excluir Reunião
                                                         </Button>
                                                     </div>
                                                 </Form.Item>

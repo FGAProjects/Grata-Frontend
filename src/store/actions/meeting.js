@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { 
     CREATE_MEETING_START, CREATE_MEETING_SUCCESS, CREATE_MEETING_FAIL,
-    GET_MEETING_DETAIL_START, GET_MEETING_DETAIL_SUCCESS, GET_MEETING_DETAIL_FAIL
+    GET_MEETING_DETAIL_START, GET_MEETING_DETAIL_SUCCESS, GET_MEETING_DETAIL_FAIL,
+    MEETING_LIST_START, MEETING_LIST_SUCCESS, MEETING_LIST_FAIL
 } from './actionsTypes';
 
 const getMeetingDetailStart = () => {
@@ -54,6 +55,51 @@ const createMeetingFail = error => {
     };
 }
 
+const getMeetingListStart = () => {
+    
+    return {
+        type: MEETING_LIST_START
+    };
+}
+
+const getMeetingListSuccess = meetings => {
+    
+    return {
+    
+        type: MEETING_LIST_SUCCESS,
+        meetings
+    };
+}
+
+const getMeetingListFail = error => {
+    
+    return {
+    
+        type: MEETING_LIST_FAIL,
+        error: error
+    };
+}
+
+export const getMeetings = (token, projectId) => {
+    
+    return dispatch => {
+    
+        dispatch(getMeetingListStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`
+        };
+        axios.get(`http://0.0.0.0:8000/meetings/meetings_project/${ projectId }/`)
+        .then(res => {
+            const meetings = res.data;
+            dispatch(getMeetingListSuccess(meetings));
+        })
+        .catch(err => {
+            dispatch(getMeetingListFail(err));
+        });
+    };
+};
+
 export const getMeeting = (token, meetingId) => {
     
     return dispatch => {
@@ -94,29 +140,18 @@ export const createMeeting = (token, meeting) => {
 };
 
 export const updateMeeting = (token, meetingObject) => {
-    
+
     return dispatch => {
     
         dispatch(getMeetingDetailStart());
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
-		  	Authorization: `Token ${token}`
+		  	Authorization: `Token ${ token }`
 		};
-		axios.put(`http://0.0.0.0:8000/meetings/update/${ meetingObject.id }/`, meetingObject)
-		.then(res => {
-			const meeting = {
-                meetingId: meetingObject.id,
-                title: meetingObject.title,
-                subject_matter: meetingObject.subject_matter,
-                status: meetingObject.status,
-                first_date: meetingObject.first_date,
-                final_date: meetingObject.final_date,
-                first_hour: meetingObject.first_hour,
-                final_hour: meetingObject.final_hour,
-                meeting_leader: meetingObject.meeting_leader,
-                place: meetingObject.place
-			};
-			dispatch(getMeetingDetailSuccess(meeting));
+        axios.put(`http://0.0.0.0:8000/meetings/update/${ meetingObject.meetingId }/`, 
+        meetingObject)
+		.then(meeting => {
+			dispatch(getMeetingDetailSuccess(meeting.data));
 		})
 		.catch(err => {
 			dispatch(getMeetingDetailFail(err));

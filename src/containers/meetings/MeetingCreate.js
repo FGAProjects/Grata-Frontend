@@ -20,7 +20,6 @@ class MeetingCreate extends Component {
 		
 		if (this.props.token !== undefined && this.props.token !== null) {
 		
-			this.forceUpdate();
 			this.props.getSectors(this.props.token);
 			this.props.getProject(this.props.token, this.props.match.params.id);
 			this.forceUpdate();
@@ -33,7 +32,6 @@ class MeetingCreate extends Component {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
 		
-				this.forceUpdate();
 				this.props.getSectors(newProps.token);
 				this.props.getProject(newProps.token, newProps.match.params.id);
 				this.forceUpdate();
@@ -99,7 +97,7 @@ class MeetingCreate extends Component {
 			  xs: { span: 24 },
 			  sm: { span: 16 },
 			},
-		  };
+		};
 		const rangeConfig = {
 			rules: [{ 
 				type: 'array', 
@@ -109,6 +107,7 @@ class MeetingCreate extends Component {
 		};
 
 		return (
+			
 			<Form { ...formItemLayout } onSubmit = { this.handleSubmit } >
 				<Form.Item label = 'Título' hasFeedback >
 					{
@@ -212,7 +211,14 @@ class MeetingCreate extends Component {
 
 				<Form.Item label = 'Data Inicio - Data Fim' hasFeedback >
 					{
-						getFieldDecorator('range-picker', rangeConfig) (
+						getFieldDecorator('range-picker', {
+							rules: [
+								{
+									required: true,
+									message: 'Por Favor, Selecione as Datas de Inicio e Fim!'
+								}
+							],	
+						}, rangeConfig) (
 							<RangePicker showTime format = 'DD/MM/YYYY' />
 						)
 					}
@@ -220,7 +226,14 @@ class MeetingCreate extends Component {
 
 				<Form.Item label = 'Hora de Inicio' >
 					{
-						getFieldDecorator('time-picker-initial') (
+						getFieldDecorator('time-picker-initial', {
+							rules: [
+								{
+									required: true,
+									message: 'Por Favor, Selecione a Hora de Inicio!'
+								}
+							],
+						}) (
 							<TimePicker />
 						)
 					}
@@ -228,7 +241,14 @@ class MeetingCreate extends Component {
 
 				<Form.Item label = 'Hora de Encerramento' hasFeedback >
 					{
-						getFieldDecorator('time-picker-final') (
+						getFieldDecorator('time-picker-final', {
+							rules: [
+								{
+									required: true,
+									message: 'Por Favor, Selecione a Hora de Encerramento!'
+								}
+							],
+						}) (
 							<TimePicker />
 						)
 					}

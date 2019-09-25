@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Skeleton, Form, Input, Button, Modal, message, Icon } from 'antd';
+import { Skeleton, Form, Input, Button, message, Icon, DatePicker, Modal ,TimePicker } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { fail } from 'assert';
 
 import Hoc from '../../hoc/hoc';
-import { getMeeting } from '../../store/actions/meeting';
+import { getProjects } from '../../store/actions/project';
+import { getSectors } from '../../store/actions/sector';
+import { getMeeting, updateMeeting, deleteMeeting } from '../../store/actions/meeting';
+
+const { RangePicker } = DatePicker;
+const { confirm } = Modal;
 
 class MeetingEdit extends Component {
 
@@ -15,45 +21,138 @@ class MeetingEdit extends Component {
 		};
     }
 
-    componentDidMount() {
-
-		const meeting_id = this.props.match.params.id;
-        this.props.getMeeting(this.props.token, meeting_id);
-        this.forceUpdate();
-	}
-
-    UNSAFE_componentWillReceiveProps(newProps) {
+    async UNSAFE_componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
 		
 				const meeting_id = newProps.match.params.id;
+				this.props.getProjects(newProps.token);
+				this.props.getSectors(newProps.token);
 				this.props.getMeeting(newProps.token, meeting_id);
 				this.forceUpdate();
             }
         }
-    }
+	}
+	
+	showDeleteConfirm = (token, meetingId, project_id) => {
+		
+		const propsForms = this.props;
+		
+		confirm ({
+			title: 'Exclusão de Reunião',
+			content: 'Tem Certeza Que Deseja Excluir Esta Reunião ?',
+			okText: 'Sim',
+			okType: 'danger',
+			cancelText: 'Não',
+		
+			onOk() {
+				propsForms.deleteMeeting(token, meetingId);
+				Modal.success({
+					title: 'Ação Concluída!',
+					content: 'Reunião Excluída Com Sucesso!',
+				});
+				propsForms.history.push(`/lista_de_reunioes/${ project_id }`)
+			},
+			onCancel() {
+				message.success('Exclusão de Reunião Cancelada Com Sucesso!');
+			},
+		});
+	}
+
+    handleSubmit = e => {
+		
+		e.preventDefault();
+		this.props.form.validateFieldsAndScroll((err, values) => {
+			if (!err) {
+
+				const { currentMeeting } = this.props;
+				const sectors = this.props.sectors;
+				const projects = this.props.projects;
+				const token = this.props.token;
+                const date_value = values['range-picker'];
+				let sector_id = 0;
+				let project_id = 0;
+
+				for(let aux = 0; aux < sectors.length; aux ++) {
+
+					if(sectors[aux].name === currentMeeting.sector) {
+                        sector_id = sectors[aux].id;
+                    }
+				}
+
+				for(let aux = 0; aux < projects.length; aux ++) {
+
+					if(projects[aux].title === currentMeeting.project) {
+						project_id = projects[aux].id;
+					}
+				}
+
+				const meeting = {
+					meetingId: currentMeeting.id,
+					title: values.title,
+					subject_matter: values.subject_matter,
+					status: 'Pendente',
+					initial_date: date_value[0].format('DD/MM/YYYY'),
+					final_date: date_value[1].format('DD/MM/YYYY'),
+					initial_hour: values['time-picker-initial'].format('HH:mm:ss'),
+					final_hour: values['time-picker-final'].format('HH:mm:ss'),
+					sector: sector_id,
+					project: project_id,
+					topics: [
+
+					]
+				};
+
+				if((this.props.updateMeeting(token, meeting)) !== fail) {
+					message.success('As Informações da Reunião Foram Alteradas Com Sucesso!');
+				} else {
+					message.error('Não Foi Possível Alterar as Informações da Reunião. ' + 
+								  'Entre em Contato Com o Desenvolvedor!');
+				} 
+				this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }`);
+			} else {
+
+			}
+		});
+	};
 
     render() {
         
         const { currentMeeting } = this.props;
 		const { formLayout } = this.state;
+		const projects = this.props.projects;
+		let project_id = 0;
+		const { getFieldDecorator } = this.props.form;
 		const formItemLayout = formLayout === 'vertical'? {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
 		}
         : null;
-        
+        const rangeConfig = {
+			rules: [{ 
+				type: 'array', 
+				required: true, 
+				message: 'Por Favor, Selecione a Hora!' 
+			}],
+		};        
         const formItemLayoutMinimum = formLayout === 'vertical'? {
             labelCol: { span: 4 },
             wrapperCol: { span: 2 },
 		}
 		: null;
 
+		for(let aux = 0; aux < projects.length; aux ++) {
+
+			if(projects[aux].title === currentMeeting.project) {
+				project_id = projects[aux].id;
+			}
+		}
+
         return (
             <Hoc>
-                <div align = 'center'>
+                <div>
                     <Hoc>
                         {
                             this.props.loading ? (
@@ -62,7 +161,7 @@ class MeetingEdit extends Component {
                                 <Hoc>
                                     <h1> Informações Cadastradas da Reunião </h1>
                                     <Form layout = 'vertical' >
-                                        <Form.Item label = 'Nome' { ...formItemLayout } >
+                                        <Form.Item label = 'Título' { ...formItemLayout } >
                                             <Input 
                                                 value = { currentMeeting.title } 
                                                 disabled = { true } 
@@ -127,40 +226,204 @@ class MeetingEdit extends Component {
                                                 disabled = { true } 
                                             />
                                         </Form.Item>
+									</Form>
 
-                                        <Form.Item>
-                                            <div align = 'center'>
-                                                <Button 
-                                                    type = 'primary' 
-                                                    htmlType = 'submit' 
-                                                    style = {{ 
-                                                        marginRight: '20px' 
-                                                    }}
-                                                >
-                                                    <Link to = { `/editar_reuniao/${ currentMeeting.id }` } >
-                                                        <Icon 
-                                                            type = 'edit' 
-                                                            style = {{ marginRight: '10px' }} />
-                                                            Editar Reunião
-                                                    </Link>
-                                                </Button>
-                                                <Button 
-                                                    type = 'primary' 
-                                                    htmlType = 'submit' 
-                                                    style = {{ 
-                                                        marginRight: '20px' 
-                                                    }}
-                                                >
-                                                    <Link to = { `/detalhes_reuniao/${ this.props.match.params.id }` } >
-                                                        <Icon 
-                                                            type = 'arrow-left' 
-                                                            style = {{ marginRight: '10px' }} />
-                                                            Voltar
-                                                    </Link>
-                                                </Button>
-                                            </div>
-                                        </Form.Item>
-                                    </Form>
+									<h1> Informações a Serem Alteradas </h1>
+									<Form layout = 'vertical' { ...formItemLayout } onSubmit = { this.handleSubmit } >
+										<Form.Item label = 'Título' hasFeedback >
+											{
+												getFieldDecorator('title', {
+													rules: [{ 
+														required: true, 
+														message: 'Por favor, Insira o Título da Reunião!'
+													},{
+														max: 30,
+														message: 'O Título Pode Ter no Máximo 30 Caracteres!',
+													}],
+												})(
+													<Input
+														prefix = {
+															<Icon 
+																type = 'form' 
+																style = {{ 
+																	color: 'rgba(0,0,0,.25)' 
+																}} 
+															/>
+														}
+														placeholder = 'Ex: O Título Dessa Reunião é ...'
+													/>,
+												)
+											}
+										</Form.Item>
+
+										<Form.Item label = 'Assunto' hasFeedback >
+											{
+												getFieldDecorator('subject_matter', {
+													rules: [{ 
+														required: true, 
+														message: 'Por favor, Insira o Assunto da Reunião!'
+													},{
+														max: 40,
+														message: 'O Título Pode Ter no Máximo 40 Caracteres!'
+													}],
+												})(
+													<Input
+														prefix = {
+															<Icon 
+																type = 'form' 
+																style = {{ 
+																	color: 'rgba(0,0,0,.25)' 
+																}} 
+															/>
+														}
+														placeholder = 'Ex: O Assunto Dessa Reunião é ...'
+													/>,
+												)
+											}
+										</Form.Item>
+
+										<Form.Item label = 'Status' >
+											{
+												getFieldDecorator('status', {
+													rules: [{ 
+														required: false 
+													}],
+												})(
+													<Input
+														prefix = {
+															<Icon 
+																type = 'form' 
+																style = {{ 
+																	color: 'rgba(0,0,0,.25)' 
+																}} 
+															/>
+														}
+														placeholder = 'Pendente'
+														disabled = { true }
+													/>,
+												)
+											}
+										</Form.Item>
+
+										<Form.Item label = 'Local' hasFeedback >
+											{
+												getFieldDecorator('local', {
+												rules: [
+													{
+														required: false,
+													}
+													],
+												})(							
+													<Input
+														prefix = {
+															<Icon 
+																type = 'form' 
+																style = {{ 
+																	color: 'rgba(0,0,0,.25)' 
+																}} 
+															/>
+														}
+														placeholder = { currentMeeting.sector }
+														disabled = { true }
+													/>
+												)
+											}
+										</Form.Item>
+
+										<Form.Item label = 'Data Inicio - Data Fim' hasFeedback >
+											{
+												getFieldDecorator('range-picker', {
+													rules: [
+														{
+															required: true,
+															message: 'Por Favor, Selecione as Datas de Inicio e Fim!'
+														}
+													],	
+												}, rangeConfig) (
+													<RangePicker showTime format = 'DD/MM/YYYY' />
+												)
+											}
+										</Form.Item>
+
+										<Form.Item label = 'Hora de Inicio' >
+											{
+												getFieldDecorator('time-picker-initial', {
+													rules: [
+														{
+															required: true,
+															message: 'Por Favor, Selecione a Hora de Inicio!'
+														}
+													],
+												}) (
+													<TimePicker />
+												)
+											}
+										</Form.Item>
+
+										<Form.Item label = 'Hora de Encerramento' hasFeedback >
+											{
+												getFieldDecorator('time-picker-final', {
+													rules: [
+														{
+															required: true,
+															message: 'Por Favor, Selecione a Hora de Encerramento!'
+														}
+													],
+												}) (
+													<TimePicker />
+												)
+											}
+										</Form.Item>
+
+										<Form.Item>
+											<div align = 'right' >
+												<Button 
+														type = 'primary' 
+														htmlType = 'submit' 
+														style = {{ 
+															marginRight: '20px' 
+														}}
+													>
+													<Link to = { `/detalhes_reuniao/${ this.props.match.params.id }` } >
+														<Icon 
+															type = 'arrow-left' 
+															style = {{ marginRight: '10px' }} />
+															Voltar
+													</Link>
+												</Button>
+												<Button 
+													type = 'primary' 
+													htmlType = 'submit' 
+													style = {{ 
+														marginRight: '20px' 
+													}}
+												>
+													<Icon 
+														type = 'edit' 
+														style = {{ marginRight: '10px' }} />
+														Alterar Informações
+												</Button>
+												<Button 
+													onClick = { () => this.showDeleteConfirm(
+														this.props.token, 
+														currentMeeting.id, 
+														project_id
+													)}
+
+													type = 'danger' 
+													htmlType = 'submit' 
+													style = {{ 
+														marginRight: '20px' 
+													}}
+												>
+													<Icon 
+														type = 'delete' 
+														style = {{ marginRight: '10px' }} />
+														Excluir Reunião
+												</Button>
+											</div>
+										</Form.Item>
+									</Form>	
                                 </Hoc>
                             )
                         }
@@ -171,7 +434,7 @@ class MeetingEdit extends Component {
     }
 }
 
-const MetailEditForm = Form.create()(MeetingEdit);
+const MeetingDetailEditForm = Form.create()(MeetingEdit);
 
 const mapStateToProps = state => {
 	
@@ -179,7 +442,9 @@ const mapStateToProps = state => {
 	
 		token: state.auth.token,
         loading: state.meeting.loading,
-		currentMeeting: state.meeting.currentMeeting
+		currentMeeting: state.meeting.currentMeeting,
+		sectors: state.sector.sectors,
+		projects: state.project.projects
     };
 };
 
@@ -187,8 +452,12 @@ const mapDispatchToProps = dispatch => {
 	
 	return {
 	
-        getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id))
+		getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
+		getSectors: token => dispatch(getSectors(token)),
+		getProjects: token => dispatch(getProjects(token)),		
+		updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting)),
+		deleteMeeting: (token, meeting_id) => dispatch(deleteMeeting(token, meeting_id))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MetailEditForm);
+export default connect(mapStateToProps, mapDispatchToProps)(MeetingDetailEditForm);

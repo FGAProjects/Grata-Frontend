@@ -8,24 +8,34 @@ import Hoc from '../../hoc/hoc';
 
 class UserList extends Component {
 
-    componentDidMount() {
-        
-        if (this.props.token !== undefined && this.props.token !== null) {
-        
-            this.forceUpdate();
-            this.props.getUsers(this.props.token);
-        }
-    }
+    async componentDidMount() {
 
-    UNSAFE_componentWillReceiveProps(newProps) {
-        
-        if (newProps.token !== this.props.token) {
-        
-            if (newProps.token !== undefined && newProps.token !== null) {
+        try {
+
+            if (this.props.token !== undefined && this.props.token !== null) {
         
                 this.forceUpdate();
-                this.props.getUsers(newProps.token);
+                this.props.getUsers(this.props.token);
             }
+        } catch (error) {
+            console.log(error);
+        }    
+    }
+
+    async UNSAFE_componentWillReceiveProps(newProps) {
+
+        try {
+
+            if (newProps.token !== this.props.token) {
+        
+                if (newProps.token !== undefined && newProps.token !== null) {
+            
+                    this.forceUpdate();
+                    this.props.getUsers(newProps.token);
+                }
+            }
+        } catch(error) {
+            console.log(error);
         }
     }
 

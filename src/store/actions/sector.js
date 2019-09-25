@@ -70,7 +70,7 @@ export const getSectors = token => {
         dispatch(getSectorListStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
+            Authorization: `Token ${ token }`
         };
         axios.get('http://0.0.0.0:8000/sectors/')
         .then(res => {
@@ -88,7 +88,7 @@ export const getSector = (token, sectorId) => {
         dispatch(getSectorDetailStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
+            Authorization: `Token ${ token }`
         };
         axios.get(`http://0.0.0.0:8000/sectors/detail/${ sectorId }/`)
         .then(res => {

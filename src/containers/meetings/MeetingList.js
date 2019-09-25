@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getProject } from '../../store/actions/project';
-import { getMeetings } from '../../store/actions/meetingsInProject';
+import { getMeetings } from '../../store/actions/meeting';
 import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
