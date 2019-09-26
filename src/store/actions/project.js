@@ -3,70 +3,86 @@ import {
         PROJECT_LIST_START, PROJECT_LIST_SUCCESS, PROJECT_LIST_FAIL,
         GET_PROJECT_DETAIL_START, GET_PROJECT_DETAIL_SUCCESS, GET_PROJECT_DETAIL_FAIL,
         CREATE_PROJECT_START, CREATE_PROJECT_SUCCESS, CREATE_PROJECT_FAIL
-    } from './actionsTypes';
+} from './actionsTypes';
 
 const getProjectListStart = () => {
+    
     return {
         type: PROJECT_LIST_START
     };
 };
 
 const getProjectListSuccess = projects => {
+    
     return {
+    
         type: PROJECT_LIST_SUCCESS,
         projects
     };
 };
 
 const getProjectListFail = error => {
+    
     return {
-      type: PROJECT_LIST_FAIL,
-      error: error
+    
+        type: PROJECT_LIST_FAIL,
+        error: error
     };
 };
 
 const getProjectDetailStart = () => {
+    
     return {
         type: GET_PROJECT_DETAIL_START
     };
 };
   
 const getProjectDetailSuccess = project => {
+    
     return {
+    
         type: GET_PROJECT_DETAIL_SUCCESS,
         project
     };
 };
   
 const getProjectDetailFail = error => {
+    
     return {
+    
         type: GET_PROJECT_DETAIL_FAIL,
         error: error
     };
 };
 
 const createProjectStart = () => {
+    
     return {
         type: CREATE_PROJECT_START
     };
 };
   
-  const createProjectSuccess = project => {
+const createProjectSuccess = project => {
+    
     return {
         type: CREATE_PROJECT_SUCCESS,
         project
     };
 };
   
-  const createProjectFail = error => {
+const createProjectFail = error => {
+    
     return {
+    
         type: CREATE_PROJECT_FAIL,
         error: error
     };
 };
 
 export const getProjects = token => {
+    
     return dispatch => {
+    
         dispatch(getProjectListStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
@@ -84,7 +100,9 @@ export const getProjects = token => {
 };
 
 export const getProject = (token, projectId) => {
+    
     return dispatch => {
+    
         dispatch(getProjectDetailStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
@@ -104,6 +122,7 @@ export const getProject = (token, projectId) => {
 export const createProject = (token, project) => {
 
     return dispatch => {
+    
         dispatch(createProjectStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
@@ -120,7 +139,9 @@ export const createProject = (token, project) => {
 };
 
 export const updateProject = (token, projectObject) => {
+    
     return dispatch => {
+    
         dispatch(getProjectListStart());
         axios.defaults.headers = {
 			'Content-Type': 'application/json',
@@ -144,8 +165,10 @@ export const updateProject = (token, projectObject) => {
 }
 
 export const deleteProject = (token, projectId) => {
-	return dispatch => {
-		axios.defaults.headers = {
+    
+    return dispatch => {
+    
+        axios.defaults.headers = {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${ token }`
 		};

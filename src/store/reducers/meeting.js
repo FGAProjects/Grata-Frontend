@@ -6,6 +6,7 @@ import {
 import { updateObject } from '../utility';
 
 const initialState = {
+    
     meetings: [],
     currentMeeting: {},
     error: null,
@@ -13,14 +14,18 @@ const initialState = {
 };
 
 const getMeetingListStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });
 };
 
 const getMeetingListSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         meetings: action.meetings,
         error: null,
         loading: false
@@ -28,21 +33,27 @@ const getMeetingListSuccess = (state, action) => {
 };
 
 const getMeetingListFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
 
 const getMeetingDetailStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });
 };
 
 const getMeetingDetailSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         currentMeeting: action.meeting,
         error: null,
         loading: false
@@ -50,35 +61,45 @@ const getMeetingDetailSuccess = (state, action) => {
 };
 
 const getMeetingDetailFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
 
 const createMeetingStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });
 };
 
 const createMeetingSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: false
     });
 };
 
 const createMeetingFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
 
 const reducer = (state = initialState, action) => {
+    
     switch (action.type) {
+    
         case MEETING_LIST_START:
             return getMeetingListStart(state, action);
         case MEETING_LIST_SUCCESS:

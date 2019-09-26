@@ -5,53 +5,65 @@ import {
 } from './actionsTypes';
 
 export const authStart = () => {
-    return {
+	
+	return {
     	type: AUTH_START
   	};
 };
 
 export const authSuccess = user => {
-  	return {
+	  
+	return {
     	type: AUTH_SUCCESS,
     	user
   	};
 };
 
 export const authFail = error => {
-  	return {
-    	type: AUTH_FAIL,
+	  
+	return {
+	
+		type: AUTH_FAIL,
     	error: error
   	};
 };
 
 export const logout = () => {
+	
 	localStorage.removeItem('user');
+	
 	return {
 		type: AUTH_LOGOUT
 	};
 };
 
 const getUserListStart = () => {
-    return {
+	
+	return {
         type: USER_LIST_START
     };
 };
 
 const getUserListSuccess = users => {
-    return {
-        type: USER_LIST_SUCCESS,
+	
+	return {
+	
+		type: USER_LIST_SUCCESS,
         users
     };
 };
 
 const getUserListFail = error => {
-    return {
-      	type: USER_LIST_FAIL,
+	
+	return {
+	
+		type: USER_LIST_FAIL,
       	error: error
     };
 };
 
 export const checkAuthTimeout = expirationTime => {
+	
 	return dispatch => {
 		setTimeout(() => {
 			dispatch(logout());
@@ -60,15 +72,21 @@ export const checkAuthTimeout = expirationTime => {
 };
 
 export const authCheckState = () => {
-  	return dispatch => {
-    	const user = JSON.parse(localStorage.getItem('user'));
+	  
+	return dispatch => {
+	
+		const user = JSON.parse(localStorage.getItem('user'));
+	
 		if (user === undefined || user === null) {
 			dispatch(logout());
 		} else {
+	
 			const expirationDate = new Date(user.expirationDate);
+	
 			if (expirationDate <= new Date()) {
 				dispatch(logout());
 			} else {
+	
 				dispatch(authSuccess(user));
 				dispatch(
 					checkAuthTimeout(
@@ -81,7 +99,9 @@ export const authCheckState = () => {
 };
 
 export const authLogin = (username, password) => {
+	
 	return dispatch => {
+	
 		dispatch(authStart());
 		axios.post('http://0.0.0.0:8000/rest-auth/login/', {
 			username: username,
@@ -110,7 +130,9 @@ export const authLogin = (username, password) => {
 };
 
 export const authSignup = (user) => {
+	
 	return dispatch => {
+	
 		dispatch(authStart());
 		axios.post('http://0.0.0.0:8000/rest-auth/registration/', user)
 		.catch(err => {
@@ -120,8 +142,10 @@ export const authSignup = (user) => {
 };
 
 export const getUsers = (token) => {
+	
 	return dispatch => {
-        dispatch(getUserListStart());
+	
+		dispatch(getUserListStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`
@@ -139,7 +163,9 @@ export const getUsers = (token) => {
 }
 
 export const getUser = (token, userId) => {
+	
 	return dispatch => {
+	
 		dispatch(authStart());
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
@@ -157,7 +183,9 @@ export const getUser = (token, userId) => {
 }
 
 export const updateUser = (token, userObject) => {
+	
 	return dispatch => {
+	
 		dispatch(authStart());
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
@@ -189,7 +217,9 @@ export const updateUser = (token, userObject) => {
 }
 
 export const deleteUser = (token, userId) => {
+	
 	return dispatch => {
+	
 		axios.defaults.headers = {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${token}`

@@ -102,7 +102,7 @@ class MeetingDetail extends Component {
 						marginRight: '10px'
 					}}
 				>
-					<Link to = { `/criar_reuniao/projeto/${ currentMeeting.id } `} >
+					<Link to = { `/criar_topicos/${ currentMeeting.id } `} >
 						Marcar Reunião
 					</Link>
 				</Button>

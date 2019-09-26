@@ -21,7 +21,7 @@ class MeetingEdit extends Component {
 		};
     }
 
-    async UNSAFE_componentWillReceiveProps(newProps) {
+    async componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		

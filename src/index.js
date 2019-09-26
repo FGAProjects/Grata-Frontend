@@ -12,6 +12,7 @@ import authReducer from './store/reducers/auth';
 import projectReducer from './store/reducers/project';
 import sectorReducer from './store/reducers/sector';
 import meetingReducer from './store/reducers/meeting';
+import topicReducer from './store/reducers/topic';
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
 	auth: authReducer,
 	project: projectReducer,
 	sector: sectorReducer,
-	meeting: meetingReducer
+	meeting: meetingReducer,
+	topic: topicReducer
 });
 
 const store = createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));

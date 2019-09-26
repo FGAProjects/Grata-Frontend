@@ -14,6 +14,7 @@ import MeetingCreate from './containers/meetings/MeetingCreate';
 import MeetingList from './containers/meetings/MeetingList';
 import MeetingDetail from './containers/meetings/MeetingDetail';
 import MeetingEdit from './containers/meetings/MeetingEdit';
+import Topics from './containers/topics/Topics';
 import SectorCreate from './containers/sectors/SectorCreate';
 import SectorEdit from './containers/sectors/SectorEdit';
 import SectorList from './containers/sectors/SectorList';
@@ -32,6 +33,7 @@ const BaseRouter = () => (
         <Route exact path = '/lista_de_reunioes/:id' component = { MeetingList } />
         <Route exact path = '/detalhes_reuniao/:id' component = { MeetingDetail } />
         <Route exact path = '/editar_reuniao/:id' component = { MeetingEdit } />
+        <Route exact path = '/criar_topicos/:id' component = { Topics } />
         <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
         <Route exact path = '/editar_setor/:id' component = { SectorEdit } />
         <Route exact path = '/lista_de_setores/' component = { SectorList } />
