@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 import { createMeeting } from '../../store/actions/meeting';
 import { getProject } from '../../store/actions/project';
-import { getSectors } from '../../store/actions/sector';
 
 const { RangePicker } = DatePicker;
 
@@ -20,8 +19,7 @@ class MeetingCreate extends Component {
 		
 		if (this.props.token !== undefined && this.props.token !== null) {
 		
-			this.props.getSectors(this.props.token);
-			this.props.getProject(this.props.token, this.props.match.params.id);
+			this.props.getProject(this.props.token, this.props.match.params.project_id);
 			this.forceUpdate();
 		}
 	}
@@ -32,8 +30,7 @@ class MeetingCreate extends Component {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
 		
-				this.props.getSectors(newProps.token);
-				this.props.getProject(newProps.token, newProps.match.params.id);
+				this.props.getProject(newProps.token, newProps.match.params.project_id);
 				this.forceUpdate();
 			}
 		}
@@ -45,19 +42,12 @@ class MeetingCreate extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 
-				const sectors = this.props.sectors;
+				const sector_id = this.props.match.params.sector_id;
+				console.log(sector_id)
 				const token = this.props.token;
-				const { currentProject } = this.props;
-                const project_id = this.props.match.params.id;
+				const project_id = this.props.match.params.project_id;
+				console.log(project_id)				
                 const date_value = values['range-picker'];
-				let sector_id = 0;
-
-				for(let aux = 0; aux < sectors.length; aux ++) {
-		
-					if(sectors[aux].name === currentProject.sector) {
-                        sector_id = sectors[aux].id;
-                    }
-				}
 
 				const meeting = {
 					title: values.title,
@@ -77,7 +67,7 @@ class MeetingCreate extends Component {
 					message.error('Não Foi Possível Criar a Reunião. ' + 
 								  'Entre em Contato Com o Desenvolvedor!');
 				} 
-				this.props.history.push(`/lista_de_reunioes/${ project_id }`);
+				this.props.history.push(`/lista_de_reunioes/${ project_id }/${ sector_id }`);
 			} else {
 
 			}
@@ -300,7 +290,6 @@ const mapStateToProps = (state) => {
 		error: state.meeting.error,
 		token: state.auth.token,
 		currentProject: state.project.currentProject,
-		sectors: state.sector.sectors
 	}
 }
 
@@ -309,7 +298,6 @@ const mapDispatchToProps = dispatch => {
 	return {
 	
 		createMeeting: (token, meeting) => dispatch(createMeeting(token, meeting)),
-		getSectors: token => dispatch(getSectors(token)),
 		getProject: (token, project_id) => dispatch(getProject(token, project_id))
 	}
 }

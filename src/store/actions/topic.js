@@ -82,8 +82,9 @@ export const getTopics = (token, meeting_id) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/meetings/meetings_topics/${ meeting_id }/`)
+        axios.get(`http://0.0.0.0:8000/topics/topics_in_meeting/${ meeting_id }/`)
         .then(res => {
+
             const topics = res.data;
             dispatch(getTopicListSuccess(topics));
         })

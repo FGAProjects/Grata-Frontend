@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { List, Skeleton, Table, Tag, Button, Icon } from 'antd';
 
 import { getProjects } from '../../store/actions/project';
+import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 
@@ -14,16 +15,18 @@ class ProjectsList extends Component {
         if (this.props.token !== undefined && this.props.token !== null) {
         
             this.props.getProjects(this.props.token);
+            this.props.getSectors(this.props.token);
             this.forceUpdate();
         }
     }
 
-    UNSAFE_componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
         
         if (newProps.token !== this.props.token) {
         
             if (newProps.token !== undefined && newProps.token !== null) {
-        
+
+                this.props.getSectors(newProps.token);
                 this.props.getProjects(newProps.token);
                 this.forceUpdate();
             }
@@ -33,6 +36,8 @@ class ProjectsList extends Component {
     render() {
         
         const projects = this.props.projects;
+        const sectors = this.props.sectors;
+        let sector_id = 0;
         let dataSource = {
             innerArray: [
                 
@@ -40,6 +45,13 @@ class ProjectsList extends Component {
         }
         
         for(let aux = 0; aux < projects.length; aux ++) {
+
+            for(let auxSectors = 0; auxSectors < sectors.length; auxSectors ++) {
+                
+                if(sectors[auxSectors].name === projects[aux].sector) {
+                    sector_id = sectors[auxSectors].id;
+                }
+            }
             
             dataSource.innerArray.push({
                 key: projects[aux].id,
@@ -64,7 +76,7 @@ class ProjectsList extends Component {
                                     dataIndex: 'title',
                                     key: 'title',
                                     render: (text, record) => (
-                                        <Link to = { `/lista_de_reunioes/${ record.key }`} >
+                                        <Link to = { `/lista_de_reunioes/${ record.key }/${ 1 }`} >
                                             <List.Item>
                                                 <b>{text}</b>
                                             </List.Item>
@@ -115,7 +127,7 @@ class ProjectsList extends Component {
                                                 marginRight: '20px' 
                                             }}
                                     >
-                                            <Link to = { `/editar_projeto/${ record.key }`} >
+                                            <Link to = { `/editar_projeto/${ record.key }/${ sector_id }`} >
                                                 <Icon 
                                                     type = 'edit' 
                                                     style = {{ marginRight: '10px' }} />
@@ -144,13 +156,16 @@ const mapStateToProps = state => {
         token: state.auth.token,
         projects: state.project.projects,
         loading: state.project.loading,
+        sectors: state.sector.sectors
     };
 };
 
 const mapDispatchToProps = dispatch => {
     
     return {
+        
         getProjects: token => dispatch(getProjects(token)),
+        getSectors: token => dispatch(getSectors(token))
     };
 };
 

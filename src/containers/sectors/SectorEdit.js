@@ -22,24 +22,15 @@ class SetorEdit extends Component {
 	state = {
 		confirmDirty: false,
     };
-    
-    componentDidMount() {
-        
-        if (this.props.token !== undefined && this.props.token !== null) {
-        
-            const sectorId = this.props.match.params.id;
-			this.props.getSector(this.props.token, sectorId);
-		}
-	}
 
-	UNSAFE_componentWillReceiveProps(newProps) {
+	componentWillReceiveProps(newProps) {
         
         if (newProps.token !== this.props.token) {
         
             if (newProps.token !== undefined && newProps.token !== null) {
         
-                const sectorId = this.props.match.params.id;
-				this.props.getSector(newProps.token, sectorId);
+                const sector_id = newProps.match.params.sector_id;
+				this.props.getSector(newProps.token, sector_id);
 			}
 		}
     }

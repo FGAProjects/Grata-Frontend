@@ -14,21 +14,24 @@ class MeetingDetail extends Component {
 			formLayout: 'vertical',
 		};
     }
-    
+
     componentDidMount() {
+        
+        if (this.props.token !== undefined && this.props.token !== null) {
+        
+            const meeting_id = this.props.match.params.meeting_id;
+            this.props.getMeeting(this.props.token, meeting_id);
+            this.forceUpdate();
+        }
+    }
 
-		const meeting_id = this.props.match.params.id;
-        this.props.getMeeting(this.props.token, meeting_id);
-        this.forceUpdate();
-	}
-
-    UNSAFE_componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
 		
-				const meeting_id = newProps.match.params.id;
+				const meeting_id = newProps.match.params.meeting_id;
 				this.props.getMeeting(newProps.token, meeting_id);
 				this.forceUpdate();
             }
@@ -54,6 +57,8 @@ class MeetingDetail extends Component {
     
     render() {
 
+        const sector_id = this.props.match.params.sector_id;
+        const project_id = this.props.match.params.project_id;
         const { currentMeeting } = this.props;
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -102,7 +107,7 @@ class MeetingDetail extends Component {
 						marginRight: '10px'
 					}}
 				>
-					<Link to = { `/criar_topicos/${ currentMeeting.id } `} >
+					<Link to = { `/criar_topicos/${ currentMeeting.id }/${ project_id }/${ sector_id } `} >
 						Marcar Reunião
 					</Link>
 				</Button>
@@ -192,7 +197,7 @@ class MeetingDetail extends Component {
                                                                 marginRight: '20px' 
                                                             }}
                                                         >
-                                                            <Link to = { `/editar_reuniao/${ currentMeeting.id }` } >
+                                                            <Link to = { `/editar_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }` } >
                                                                 <Icon 
                                                                     type = 'edit' 
                                                                     style = {{ marginRight: '10px' }} />
@@ -206,7 +211,7 @@ class MeetingDetail extends Component {
                                                                 marginRight: '20px' 
                                                             }}
                                                         >
-                                                            <Link to = { `/lista_de_reunioes/${ this.props.match.params.id }` } >
+                                                            <Link to = { `/lista_de_reunioes/${ project_id }/${ sector_id }` } >
                                                                 <Icon 
                                                                     type = 'arrow-left' 
                                                                     style = {{ marginRight: '10px' }} />
@@ -223,7 +228,7 @@ class MeetingDetail extends Component {
                                                         marginRight: '20px' 
                                                     }}
                                                 >
-                                                    <Link to = { `/lista_de_reunioes/${ this.props.match.params.id }` } >
+                                                    <Link to = { `/lista_de_reunioes/${ project_id }/${ sector_id }` } >
                                                         <Icon 
                                                             type = 'arrow-left' 
                                                             style = {{ marginRight: '10px' }} />

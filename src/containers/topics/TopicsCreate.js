@@ -3,24 +3,29 @@ import { Form, Input, Icon, Button, message } from 'antd';
 import { connect } from 'react-redux';
 
 import { createTopic } from '../../store/actions/topic';
-import { getProjects } from '../../store/actions/project';
-import { getSectors } from '../../store/actions/sector';
-import { updateMeeting, getMeeting } from '../../store/actions/meeting';
-import { fail } from 'assert';
+import { getMeeting } from '../../store/actions/meeting';
 
 let id = 0;
 
 class Topics extends Component {
+
+    componentDidMount() {
+        
+        if (this.props.token !== undefined && this.props.token !== null) {
+        
+            const meeting_id = this.props.match.params.meeting_id;
+            this.props.getMeeting(this.props.token, meeting_id);
+            this.forceUpdate();
+        }
+    }
 
     componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
-        
-				const meeting_id = newProps.match.params.id;
-				this.props.getProjects(newProps.token);
-				this.props.getSectors(newProps.token);
+		
+				const meeting_id = newProps.match.params.meeting_id;
 				this.props.getMeeting(newProps.token, meeting_id);
 				this.forceUpdate();
             }
@@ -28,20 +33,25 @@ class Topics extends Component {
     }
 
     remove = k => {
+        
         const { form } = this.props;
         const keys = form.getFieldValue('keys');
+        
         if (keys.length === 1) {
             return;
         }
+        
         form.setFieldsValue({
             keys: keys.filter(key => key !== k),
         });
     };
     
     add = () => {
+        
         const { form } = this.props;
         const keys = form.getFieldValue('keys');
         const nextKeys = keys.concat(id++);
+        
         form.setFieldsValue({
             keys: nextKeys,
         });
@@ -54,102 +64,18 @@ class Topics extends Component {
             if (!err) {
                 
                 const token = this.props.token;
-                const topics = {
-                    title: ''
-                };
                 const topicsMeeting = [];
-                const sectors = this.props.sectors;
-				const projects = this.props.projects;
                 const { currentMeeting } = this.props;
-                let sector_id = 0;
-				let project_id = 0;
-
-				for(let aux = 0; aux < sectors.length; aux ++) {
-
-					if(sectors[aux].name === currentMeeting.sector) {
-                        sector_id = sectors[aux].id;
-                    }
-				}
-
-				for(let aux = 0; aux < projects.length; aux ++) {
-
-					if(projects[aux].title === currentMeeting.project) {
-						project_id = projects[aux].id;
-					}
-                }
-                
-                const meeting = {
-					meetingId: currentMeeting.id,
-					title: currentMeeting.title,
-					subject_matter: currentMeeting.subject_matter,
-					status: currentMeeting.status,
-					initial_date: currentMeeting.initial_date,
-					final_date: currentMeeting.final_date,
-					initial_hour: currentMeeting.initial_hour,
-					final_hour: currentMeeting.final_hour,
-					sector: sector_id,
-					project: project_id,
-					topics: [
-
-					]
-                };
-
 
                 for(let aux = 0; aux < values.topics.length; aux ++) {
-                    topics.title = values.topics[aux];
-                    if((this.props.createTopic(token, topics)) !== fail) {
                     
-                    }
-                        // if((this.props.updateMeeting(token, meeting)) !== fail) {
-                        //     message.success('Tópicos Adicionados Com Sucesso!');
-                        // } else {
-                        //     message.error('Não Foi Possível Adicionar os Tópicos. ' + 
-                        //                 'Entre em Contato Com o Desenvolvedor!');
-                        // } 
-                        // this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }`);
+                    topicsMeeting.push({
+                        title: values.topics[aux],
+                        meeting: currentMeeting.id
+                    });
+                    this.props.createTopic(token, topicsMeeting[aux]);
+                    message.success('Tópicos Adicionados Com Sucesso!')
                 }
-
-                console.log(topics)
-                
-                    
-
-                //       if (!err) {
-//         console.log("Received values of form: ", values);
-//         const questions = [];
-//         for (let i = 0; i < values.questions.length; i += 1) {
-//           questions.push({
-//             title: values.question[i],
-//             choices: values.questions[i].choices.filter(el => el !== null),
-//             answer: values.answers[i]
-//           });
-//         }
-//         const asnt = {
-//           teacher: this.props.username,
-//           title: values.title,
-//           questions
-//         };
-
-                    // if((this.props.createTopic(token, topic)) !== fail) {
-                    //     // if((this.props.updateMeeting(token, meeting)) !== fail) {
-                    //     //     message.success('Tópicos Adicionados Com Sucesso!');
-                    //     // } else {
-                    //     //     message.error('Não Foi Possível Adicionar os Tópicos. ' + 
-                    //     //                 'Entre em Contato Com o Desenvolvedor!');
-                    //     // } 
-                    //     // this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }`);
-                    // }   
-
-               
-
-                // if((this.props.createTopic(token, topics)) !== fail) {
-                //     if((this.props.updateMeeting(token, meeting)) !== fail) {
-                //         message.success('Tópicos Adicionados Com Sucesso!');
-                //     } else {
-                //         message.error('Não Foi Possível Adicionar os Tópicos. ' + 
-                //                       'Entre em Contato Com o Desenvolvedor!');
-                //     } 
-                //     // this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }`);
-                // }
             }
         });
     };
@@ -217,6 +143,7 @@ class Topics extends Component {
         return(
 
             <div align = 'center' >
+                <h1> Tópicos da Reunião </h1>
                 <Form onSubmit = { this.handleSubmit }>
                     { formItems }
                     <Form.Item {...formItemLayoutWithOutLabel }>
@@ -254,9 +181,7 @@ const mapStateToProps = state => {
 	
 		token: state.auth.token,
         loading: state.topic.loading,
-        sectors: state.sector.sectors,
-		projects: state.project.projects,
-		currentMeeting: state.meeting.currentMeeting
+        currentMeeting: state.meeting.currentMeeting,
     };
 };
 
@@ -264,10 +189,7 @@ const mapDispatchToProps = dispatch => {
 	
 	return {
         
-        getSectors: token => dispatch(getSectors(token)),
-		getProjects: token => dispatch(getProjects(token)),
-        getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
-        updateMeeting: (token, meeting_id) => dispatch(updateMeeting(token, meeting_id)),
+		getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
         createTopic: (token, topic) => dispatch(createTopic(token, topic))
     };
 };

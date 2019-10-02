@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { fail } from 'assert';
 
 import Hoc from '../../hoc/hoc';
-import { getProjects } from '../../store/actions/project';
-import { getSectors } from '../../store/actions/sector';
 import { getMeeting, updateMeeting, deleteMeeting } from '../../store/actions/meeting';
 
 const { RangePicker } = DatePicker;
@@ -27,16 +25,14 @@ class MeetingEdit extends Component {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
 		
-				const meeting_id = newProps.match.params.id;
-				this.props.getProjects(newProps.token);
-				this.props.getSectors(newProps.token);
+				const meeting_id = newProps.match.params.meeting_id;
 				this.props.getMeeting(newProps.token, meeting_id);
 				this.forceUpdate();
             }
         }
 	}
 	
-	showDeleteConfirm = (token, meetingId, project_id) => {
+	showDeleteConfirm = (token, meetingId, project_id, sector_id) => {
 		
 		const propsForms = this.props;
 		
@@ -53,7 +49,7 @@ class MeetingEdit extends Component {
 					title: 'Ação Concluída!',
 					content: 'Reunião Excluída Com Sucesso!',
 				});
-				propsForms.history.push(`/lista_de_reunioes/${ project_id }`)
+				propsForms.history.push(`/lista_de_reunioes/${ project_id }/${ sector_id }`)
 			},
 			onCancel() {
 				message.success('Exclusão de Reunião Cancelada Com Sucesso!');
@@ -68,26 +64,10 @@ class MeetingEdit extends Component {
 			if (!err) {
 
 				const { currentMeeting } = this.props;
-				const sectors = this.props.sectors;
-				const projects = this.props.projects;
 				const token = this.props.token;
                 const date_value = values['range-picker'];
-				let sector_id = 0;
-				let project_id = 0;
-
-				for(let aux = 0; aux < sectors.length; aux ++) {
-
-					if(sectors[aux].name === currentMeeting.sector) {
-                        sector_id = sectors[aux].id;
-                    }
-				}
-
-				for(let aux = 0; aux < projects.length; aux ++) {
-
-					if(projects[aux].title === currentMeeting.project) {
-						project_id = projects[aux].id;
-					}
-				}
+				const sector_id = parseInt(this.props.match.params.sector_id);
+				const project_id = parseInt(this.props.match.params.project_id);
 
 				const meeting = {
 					meetingId: currentMeeting.id,
@@ -100,10 +80,9 @@ class MeetingEdit extends Component {
 					final_hour: values['time-picker-final'].format('HH:mm:ss'),
 					sector: sector_id,
 					project: project_id,
-					topics: [
-
-					]
 				};
+
+				console.log(meeting)
 
 				if((this.props.updateMeeting(token, meeting)) !== fail) {
 					message.success('As Informações da Reunião Foram Alteradas Com Sucesso!');
@@ -111,7 +90,9 @@ class MeetingEdit extends Component {
 					message.error('Não Foi Possível Alterar as Informações da Reunião. ' + 
 								  'Entre em Contato Com o Desenvolvedor!');
 				} 
-				this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }`);
+				this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/
+														   ${ project_id }/
+														   ${ sector_id }`);
 			} else {
 
 			}
@@ -119,11 +100,11 @@ class MeetingEdit extends Component {
 	};
 
     render() {
-        
+		
+		const project_id = this.props.match.params.project_id;
+		const sector_id = this.props.match.params.sector_id;
         const { currentMeeting } = this.props;
 		const { formLayout } = this.state;
-		const projects = this.props.projects;
-		let project_id = 0;
 		const { getFieldDecorator } = this.props.form;
 		const formItemLayout = formLayout === 'vertical'? {
             labelCol: { span: 4 },
@@ -142,13 +123,6 @@ class MeetingEdit extends Component {
             wrapperCol: { span: 2 },
 		}
 		: null;
-
-		for(let aux = 0; aux < projects.length; aux ++) {
-
-			if(projects[aux].title === currentMeeting.project) {
-				project_id = projects[aux].id;
-			}
-		}
 
         return (
             <Hoc>
@@ -383,8 +357,10 @@ class MeetingEdit extends Component {
 														style = {{ 
 															marginRight: '20px' 
 														}}
-													>
-													<Link to = { `/detalhes_reuniao/${ this.props.match.params.id }` } >
+												>
+													<Link to = { `/detalhes_reuniao/${ currentMeeting.id }/
+																					${ project_id }/
+																					${ sector_id }` } >
 														<Icon 
 															type = 'arrow-left' 
 															style = {{ marginRight: '10px' }} />
@@ -407,7 +383,8 @@ class MeetingEdit extends Component {
 													onClick = { () => this.showDeleteConfirm(
 														this.props.token, 
 														currentMeeting.id, 
-														project_id
+														project_id,
+														sector_id
 													)}
 
 													type = 'danger' 
@@ -443,7 +420,6 @@ const mapStateToProps = state => {
 		token: state.auth.token,
         loading: state.meeting.loading,
 		currentMeeting: state.meeting.currentMeeting,
-		sectors: state.sector.sectors,
 		projects: state.project.projects
     };
 };
@@ -453,8 +429,6 @@ const mapDispatchToProps = dispatch => {
 	return {
 	
 		getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
-		getSectors: token => dispatch(getSectors(token)),
-		getProjects: token => dispatch(getProjects(token)),		
 		updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting)),
 		deleteMeeting: (token, meeting_id) => dispatch(deleteMeeting(token, meeting_id))
     };

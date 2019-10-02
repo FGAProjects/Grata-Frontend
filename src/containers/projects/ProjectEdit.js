@@ -6,8 +6,6 @@ import { fail } from 'assert';
 
 import Hoc from '../../hoc/hoc';
 import { getProject, updateProject, deleteProject } from '../../store/actions/project';
-import { getSectors } from '../../store/actions/sector';
-import { dynamicSort } from '../utils';
 
 const { confirm } = Modal;
 
@@ -24,9 +22,8 @@ class ProjectEdit extends Component {
         
         if (this.props.token !== undefined && this.props.token !== null) {
         
-            const projectId = this.props.match.params.id;
-			this.props.getSectors(this.props.token);
-            this.props.getProject(this.props.token, projectId);
+            const project_id = this.props.match.params.project_id;
+            this.props.getProject(this.props.token, project_id);
         }
     }
 
@@ -36,9 +33,8 @@ class ProjectEdit extends Component {
         
             if (newProps.token !== undefined && newProps.token !== null) {
         
-                const projectId = this.props.match.params.id;
-                this.props.getSectors(newProps.token);
-                this.props.getProject(newProps.token, projectId);
+                const project_id = this.props.match.params.project_id;
+                this.props.getProject(newProps.token, project_id);
             }
         }
     }
@@ -51,17 +47,9 @@ class ProjectEdit extends Component {
             if (!err) {
                 
                 const { currentProject } = this.props;
-				const sectors = this.props.sectors;
+                const sector_id = this.props.match.params.sector_id;
 				const token = this.props.token;
-				let sector_id = '';
-
-				for(let aux = 0; aux < sectors.length; aux ++) {
-                    
-                    if(sectors[aux].initials === values.sector) {
-						sector_id = sectors[aux].id;
-					} 
-				}
-
+				
 				const project = {
                     projectId: currentProject.id,
 					title: values.title,
@@ -76,7 +64,7 @@ class ProjectEdit extends Component {
 					message.error('Não foi possível cadastrar o projeto.' + 
 								  'Entre em contato com o desenvolvedor!');
 				}
-				this.props.history.push('/');			
+				this.props.history.push('/lista_de_projetos/');			
 			} else {
 
 			}	
@@ -102,7 +90,7 @@ class ProjectEdit extends Component {
 					title: 'Ação Concluída!',
 					content: 'Projeto Excluído Com Sucesso!',
                 });
-                propsForms.history.push('/');
+                propsForms.history.push('/lista_de_projetos/');
 			},
 			onCancel() {
                 message.success('Exclusão de Projeto Cancelada Com Sucesso!');
@@ -120,27 +108,9 @@ class ProjectEdit extends Component {
             wrapperCol: { span: 14 },
 		}
 		: null;
-        const sectors = this.props.sectors;
-
-		let dataSource = {
-            innerArray: [
-                
-            ]
-        }
-        
-        for(let aux = 0; aux < sectors.length; aux ++) {
-            dataSource.innerArray.push(
-                {
-                    key: sectors[aux].id,
-                    initials: sectors[aux].initials,
-                    name: sectors[aux].name
-                }
-			); 
-		}
-
-		dataSource.innerArray.sort(dynamicSort('initials'));
 
         return(
+
             <Hoc>
                 {
                     this.props.loading ? (
@@ -304,8 +274,7 @@ const mapStateToProps = state => {
     
         token: state.auth.token,
         currentProject: state.project.currentProject,
-        loading: state.project.loading,
-		sectors: state.sector.sectors
+        loading: state.project.loading
     };
 };
 
@@ -314,7 +283,6 @@ const mapDispatchToProps = dispatch => {
     return {
     
         getProject: (token, id) => dispatch(getProject(token, id)),
-        getSectors: token => dispatch(getSectors(token)),
         updateProject: (token, project) => dispatch(updateProject(token, project)),
         deleteProject: (token, projectId) => dispatch(deleteProject(token, projectId))
     };

@@ -1,27 +1,24 @@
 import React, { Component } from 'react';
-import { List, Skeleton, Table, Tag, Button, Icon } from 'antd';
+import { List, Skeleton, Table, Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getProject } from '../../store/actions/project';
 import { getMeetings } from '../../store/actions/meeting';
-import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class MeetingList extends Component {
 
 	componentDidMount() {
-		
+
 		if (this.props.token !== undefined && this.props.token !== null) {
-		
-			const project_id = this.props.match.params.id;
-            this.props.getSectors(this.props.token);
+			const project_id = this.props.match.params.project_id;
 			this.props.getMeetings(this.props.token, project_id);
 			this.props.getProject(this.props.token, project_id);
 			this.forceUpdate();
-        }
-    }
+		}
+	}
 
     UNSAFE_componentWillReceiveProps(newProps) {
 		
@@ -29,8 +26,7 @@ class MeetingList extends Component {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
 		
-				const project_id = newProps.match.params.id;
-				this.props.getSectors(newProps.token);
+				const project_id = newProps.match.params.project_id;
 				this.props.getMeetings(newProps.token, project_id);
 				this.props.getProject(newProps.token, project_id);
 				this.forceUpdate();
@@ -40,8 +36,9 @@ class MeetingList extends Component {
 
     render() {
 		
-		const projectId = this.props.match.params.id;
+		const project_id = this.props.match.params.project_id;
 		const meetings = this.props.meetings;
+		const sector_id = this.props.match.params.sector_id;
 		let dataSource = {
             innerArray: [
                 
@@ -77,7 +74,7 @@ class MeetingList extends Component {
 					}}
 					size = 'large'
 				>
-					<Link to = { `/criar_reuniao/projeto/${ projectId } `} >
+					<Link to = { `/criar_reuniao/projeto/${ project_id }/${ sector_id } `} >
 						Nova Reunião
 					</Link>
 				</Button>
@@ -93,7 +90,7 @@ class MeetingList extends Component {
 										dataIndex: 'title',
 										key: 'title',
 										render: (text, record) => (
-											<Link to = {`/detalhes_reuniao/${ record.key }`}>
+											<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }/${ sector_id }`}>
 												<List.Item>
 													<b>{text}</b>
 												</List.Item>
@@ -149,28 +146,6 @@ class MeetingList extends Component {
 											</span>
 										),
 									},
-									{
-										title: 'Ação',
-										key: 'action',
-										render: (record) => (
-										  <span>
-											<Button 
-												type = 'primary' 
-												htmlType = 'submit' 
-												style = {{ 
-													marginRight: '20px' 
-												}}
-										>
-												<Link to = {`/editar_projeto/${record.key}`} >
-													<Icon 
-														type = 'edit' 
-														style = {{ marginRight: '10px' }} />
-														<b> Editar Projeto </b>
-												</Link>
-											</Button>
-										  </span>
-										),
-									},
 								]}
 								dataSource = {
 									dataSource.innerArray
@@ -191,7 +166,6 @@ const mapStateToProps = state => {
 	
 		token: state.auth.token,
         loading: state.meeting.loading,
-		sectors: state.sector.sectors,
 		meetings: state.meeting.meetings,
 		currentProject: state.project.currentProject
     };
@@ -201,7 +175,6 @@ const mapDispatchToProps = dispatch => {
 	
 	return {
 	
-		getSectors: token => dispatch(getSectors(token)),
 		getMeetings: (token, project_id) => dispatch(getMeetings(token, project_id)),
 		getProject: (token, project_id) => dispatch(getProject(token, project_id))
     };
