@@ -70,7 +70,8 @@ class MeetingEdit extends Component {
 				const project_id = parseInt(this.props.match.params.project_id);
 
 				const meeting = {
-					meetingId: currentMeeting.id,
+
+					meeting: currentMeeting.id,
 					title: values.title,
 					subject_matter: values.subject_matter,
 					status: 'Pendente',
@@ -82,17 +83,14 @@ class MeetingEdit extends Component {
 					project: project_id,
 				};
 
-				console.log(meeting)
-
 				if((this.props.updateMeeting(token, meeting)) !== fail) {
 					message.success('As Informações da Reunião Foram Alteradas Com Sucesso!');
+					this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
+
 				} else {
 					message.error('Não Foi Possível Alterar as Informações da Reunião. ' + 
 								  'Entre em Contato Com o Desenvolvedor!');
 				} 
-				this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/
-														   ${ project_id }/
-														   ${ sector_id }`);
 			} else {
 
 			}

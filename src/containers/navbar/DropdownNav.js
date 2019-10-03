@@ -92,7 +92,7 @@ class DropdownNav extends Component {
 					</Menu>
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
-						href ={ `/informacoes_usuario/` } >
+						href ={ `/lista_de_projetos/` } >
 						<Icon type = 'unordered-list' />  Projetos <Icon type='down' />
 					</a>
 				</Dropdown>

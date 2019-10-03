@@ -148,7 +148,7 @@ export const updateMeeting = (token, meetingObject) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${ token }`
 		};
-        axios.put(`http://0.0.0.0:8000/meetings/update/${ meetingObject.meetingId }/`, 
+        axios.put(`http://0.0.0.0:8000/meetings/update/${ meetingObject.meeting }/`, 
         meetingObject)
 		.then(meeting => {
 			dispatch(getMeetingDetailSuccess(meeting.data));

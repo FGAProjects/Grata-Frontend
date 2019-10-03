@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Icon, Button, message } from 'antd';
 import { connect } from 'react-redux';
 
-import { createTopic } from '../../store/actions/topic';
-import { getMeeting } from '../../store/actions/meeting';
+import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 
 let id = 0;
 
@@ -64,18 +63,35 @@ class Topics extends Component {
             if (!err) {
                 
                 const token = this.props.token;
-                const topicsMeeting = [];
+                const topics = [];
                 const { currentMeeting } = this.props;
+                const sector_id = this.props.match.params.sector_id;
+                const project_id = this.props.match.params.project_id;
 
                 for(let aux = 0; aux < values.topics.length; aux ++) {
-                    
-                    topicsMeeting.push({
-                        title: values.topics[aux],
-                        meeting: currentMeeting.id
+
+                    topics.push({
+                        title: values.topics[aux]
                     });
-                    this.props.createTopic(token, topicsMeeting[aux]);
-                    message.success('Tópicos Adicionados Com Sucesso!')
                 }
+
+                const meeting = {
+
+                    meeting: currentMeeting.id,
+                    title: currentMeeting.title,
+                    subject_matter: currentMeeting.subject_matter,
+                    status: currentMeeting.status,
+                    initial_date: currentMeeting.initial_date,
+                    final_date: currentMeeting.final_date,
+                    initial_hour: currentMeeting.initial_hour,
+                    final_hour: currentMeeting.final_hour,
+                    sector: sector_id,
+                    project: project_id,
+                    topics
+                };
+
+                this.props.updateMeeting(token, meeting);
+                message.success('Tópicos Adicionados Com Sucesso');
             }
         });
     };
@@ -84,20 +100,20 @@ class Topics extends Component {
 
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
-        labelCol: {
-            xs: { span: 24 },
-            sm: { span: 4 },
-        },
-        wrapperCol: {
-            xs: { span: 24 },
-            sm: { span: 20 },
-        },
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 4 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 20 },
+            },
         };
         const formItemLayoutWithOutLabel = {
-        wrapperCol: {
-            xs: { span: 24, offset: 0 },
-            sm: { span: 20, offset: 4 },
-        },
+            wrapperCol: {
+                xs: { span: 24, offset: 0 },
+                sm: { span: 20, offset: 4 },
+            },
         };
         getFieldDecorator('keys', { initialValue: [] });
         const keys = getFieldValue('keys');
@@ -180,7 +196,7 @@ const mapStateToProps = state => {
 	return {
 	
 		token: state.auth.token,
-        loading: state.topic.loading,
+        loading: state.meeting.loading,
         currentMeeting: state.meeting.currentMeeting,
     };
 };
@@ -189,8 +205,8 @@ const mapDispatchToProps = dispatch => {
 	
 	return {
         
-		getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
-        createTopic: (token, topic) => dispatch(createTopic(token, topic))
+        getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
+        updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting))
     };
 };
 
