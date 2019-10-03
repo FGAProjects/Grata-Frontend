@@ -84,73 +84,74 @@ class MeetingList extends Component {
 							this.props.loading ? (
 								<Skeleton active />
 							) : (
-								<Table columns = {
-									[{
-										title: 'Título',
-										dataIndex: 'title',
-										key: 'title',
-										render: (text, record) => (
-											<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }/${ sector_id }`}>
-												<List.Item>
-													<b>{text}</b>
-												</List.Item>
-											</Link>
-										)   
-									},
-									{
-										title: 'Setor Responsável',
-										dataIndex: 'sector',
-										key: 'sector',
-									},
-									{
-										title: 'Data de Inicio',
-										dataIndex: 'initial_date',
-										key: 'initial_date',
-									},
-									{
-										title: 'Data de Encerramento',
-										dataIndex: 'final_date',
-										key: 'final_date',
-									},
-									{
-										title: 'Hora de Inicio',
-										dataIndex: 'initial_hour',
-										key: 'initial_hour',
-									},
-									{
-										title: 'Hora de Encerramento',
-										dataIndex: 'final_hour',
-										key: 'final_hour',
-									},
-									{
-										title: 'Status',
-										key: 'tags',
-										dataIndex: 'tags',
-										render: tags => (
-											<span>
-											{
-												tags.map(tag => {
-													let color = tag.length > 5 ? 'geekblue' : 'green';
-													if (tag === 'Pendente') {
-														color = 'orange';
-													} else {
-														color = 'green';
-													}
-													return (
-													<Tag color = { color } key = { tag }>
-														<b> { tag.toUpperCase() } </b> 
-													</Tag>
-													);
-												})
-											}
-											</span>
-										),
-									},
-								]}
-								dataSource = {
-									dataSource.innerArray
-								} 
-							/>
+								<Hoc> 
+									<Table columns = {
+										[{
+											title: 'Título',
+											dataIndex: 'title',
+											key: 'title',
+											render: (text, record) => (
+												<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }/${ sector_id }`}>
+													<List.Item>
+														<b>{text}</b>
+													</List.Item>
+												</Link>
+											)   
+										},
+										{
+											title: 'Setor Responsável',
+											dataIndex: 'sector',
+											key: 'sector',
+										},
+										{
+											title: 'Data de Inicio',
+											dataIndex: 'initial_date',
+											key: 'initial_date',
+										},
+										{
+											title: 'Data de Encerramento',
+											dataIndex: 'final_date',
+											key: 'final_date',
+										},
+										{
+											title: 'Hora de Inicio',
+											dataIndex: 'initial_hour',
+											key: 'initial_hour',
+										},
+										{
+											title: 'Hora de Encerramento',
+											dataIndex: 'final_hour',
+											key: 'final_hour',
+										},
+										{
+											title: 'Status',
+											key: 'tags',
+											dataIndex: 'tags',
+											render: tags => (
+												<span>
+												{
+													tags.map(tag => {
+														let color = tag.length > 5 ? 'geekblue' : 'green';
+														if (tag === 'Pendente') {
+															color = 'orange';
+														} else {
+															color = 'green';
+														}
+														return (
+														<Tag color = { color } key = { tag }>
+															<b> { tag.toUpperCase() } </b> 
+														</Tag>
+														);
+													})
+												}
+												</span>
+											),
+										},
+									]}
+									dataSource = {
+										dataSource.innerArray
+									} />
+								</Hoc>
 							)
 						}
 					</Hoc>

@@ -19,6 +19,7 @@ import TopicsCreate from './containers/topics/TopicsCreate';
 import SectorCreate from './containers/sectors/SectorCreate';
 import SectorEdit from './containers/sectors/SectorEdit';
 import SectorList from './containers/sectors/SectorList';
+import RulesCreate from './containers/rules/RulesCreate';
 
 const BaseRouter = () => (
     <Hoc>
@@ -43,6 +44,8 @@ const BaseRouter = () => (
         <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
         <Route exact path = '/editar_setor/:sector_id' component = { SectorEdit } />
         <Route exact path = '/lista_de_setores/' component = { SectorList } />
+        <Route exact path = '/criar_regras/:meeting_id/:project_id/:sector_id' 
+                            component = { RulesCreate } />
     </Hoc>
 );
 

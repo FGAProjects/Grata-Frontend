@@ -6,7 +6,7 @@ import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 
 let id = 0;
 
-class Topics extends Component {
+class Rules extends Component {
 
     componentDidMount() {
         
@@ -63,17 +63,17 @@ class Topics extends Component {
             if (!err) {
                 
                 const token = this.props.token;
-                const topics = [];
+                const rules = [];
                 const { currentMeeting } = this.props;
                 const sector_id = this.props.match.params.sector_id;
                 const project_id = this.props.match.params.project_id;
 
-                if(values.topics.length > 0) {
+                if(values.rulesConduct.length > 0) {
 
-                    for(let aux = 0; aux < values.topics.length; aux ++) {
+                    for(let aux = 0; aux < values.rulesConduct.length; aux ++) {
 
-                        topics.push({
-                            title: values.topics[aux]
+                        rules.push({
+                            title: values.rulesConduct[aux]
                         });
                     }
     
@@ -89,15 +89,15 @@ class Topics extends Component {
                         final_hour: currentMeeting.final_hour,
                         sector: sector_id,
                         project: project_id,
-                        topics
+                        rules
                     };
     
                     this.props.updateMeeting(token, meeting);
-                    message.success('Tópicos Adicionados Com Sucesso!');
+                    message.success('Regras de Conduta Foram Adicionadas Com Sucesso');
                     this.props.history.push(`/criar_regras/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
                 } else {
 
-                    message.warning('Nenhum Tópico Adicionado a Reunião.');
+                    message.warning('Nenhuma Regra de Conduta Foi Adicionada a Reunião');
                     this.props.history.push(`/criar_regras/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
                 }
             }
@@ -128,23 +128,23 @@ class Topics extends Component {
         const formItems = keys.map((k, index) => (
             <Form.Item
                 { ...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel) }
-                label = { index === 0 ? 'Tópicos' : '' }
+                label = { index === 0 ? 'Regras de Conduta' : '' }
                 required = { false }
                 key = { k }
             >
                 {
-                    getFieldDecorator(`topics[${k}]`, {
+                    getFieldDecorator(`rulesConduct[${k}]`, {
                     validateTrigger: ['onChange', 'onBlur'],
                     rules: [
                         {
                             required: true,
                             whitespace: true,
-                            message: 'Por Favor, Adicione um Tópico ou Excluia Este Campo.',
+                            message: 'Por Favor, Adicione uma Regra de Conduta ou Excluia Este Campo.'
                         },
                     ],
                     })(
                         <Input 
-                            placeholder = 'Título do Tópico' 
+                            placeholder = 'Regras de Conduta da Reunião' 
                             style = {{ 
                                 width: '60%', 
                                 marginRight: 8 
@@ -167,7 +167,7 @@ class Topics extends Component {
         return(
 
             <div align = 'center' >
-                <h1> Tópicos da Reunião </h1>
+                <h1> Regras de Conduta </h1>
                 <Form onSubmit = { this.handleSubmit }>
                     { formItems }
                     <Form.Item {...formItemLayoutWithOutLabel }>
@@ -178,7 +178,7 @@ class Topics extends Component {
                                 width: '60%' 
                             }}
                         >
-                            <Icon type="plus" /> Adicionar Tópico
+                            <Icon type="plus" /> Adicionar Regra
                         </Button>
                     </Form.Item>
 
@@ -197,7 +197,7 @@ class Topics extends Component {
     }
 }
 
-const TopicsDynamicFieldSet = Form.create()(Topics);
+const RulesDynamicFieldSet = Form.create()(Rules);
 
 const mapStateToProps = state => {
 	
@@ -218,4 +218,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopicsDynamicFieldSet);
+export default connect(mapStateToProps, mapDispatchToProps)(RulesDynamicFieldSet);
