@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Icon } from 'antd';
+import { Layout, Icon } from '../user/node_modules/antd';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 

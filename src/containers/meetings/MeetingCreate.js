@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, TimePicker, Button, Form, Input, Icon, message } from 'antd';
+import { DatePicker, TimePicker, Button, Form, Input, Icon, message } from '../user/node_modules/antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 import { Link } from 'react-router-dom';

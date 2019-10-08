@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, message, Select } from 'antd';
+import { Form, Input, Icon, Button, message, Select } from '../user/node_modules/antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 

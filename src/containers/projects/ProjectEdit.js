@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Form, Input, Icon, Button, message, Skeleton, Modal } from 'antd';
+import { Form, Input, Icon, Button, message, Skeleton, Modal } from '../user/node_modules/antd';
 import { Link } from 'react-router-dom';
 import { fail } from 'assert';
 

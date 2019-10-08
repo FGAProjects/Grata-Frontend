@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, message } from 'antd';
+import { Form, Input, Icon, Button, message } from '../user/node_modules/antd';
 import { connect } from 'react-redux';
 
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';

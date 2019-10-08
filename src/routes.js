@@ -2,12 +2,13 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import Hoc from "./hoc/hoc";
 
-import Login from './containers/account/Login';
+import Login from './containers/user/Login';
 import Homepage from './containers/homepage/Homepage';
-import UserRegister from './containers/account/UserRegister';
-import UserDetail from './containers/account/UserDetail';
-import UserEdit from './containers/account/UserEdit';
-import UserList from './containers/account/UserList';
+import UserRegister from './containers/user/UserRegister';
+import UserDetail from './containers/user/UserDetail';
+import UserEdit from './containers/user/UserEdit';
+import UserList from './containers/user/UserList';
+import UserMeeting from './containers/user/UserListMeeting';
 import ProjectList from './containers/projects/ProjectList';
 import ProjectCreate from './containers/projects/ProjectCreate';
 import ProjectEdit from './containers/projects/ProjectEdit';
@@ -46,6 +47,8 @@ const BaseRouter = () => (
         <Route exact path = '/lista_de_setores/' component = { SectorList } />
         <Route exact path = '/criar_regras/:meeting_id/:project_id/:sector_id' 
                             component = { RulesCreate } />
+        <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/:project_id/:sector_id' 
+                            component = { UserMeeting } />
     </Hoc>
 );
 

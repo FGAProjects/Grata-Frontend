@@ -8,7 +8,7 @@ import Hoc from '../../hoc/hoc';
 
 class UserList extends Component {
 
-    async componentDidMount() {
+    componentDidMount() {
 
         try {
 
@@ -22,7 +22,7 @@ class UserList extends Component {
         }    
     }
 
-    async UNSAFE_componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
 
         try {
 
@@ -56,21 +56,20 @@ class UserList extends Component {
             } else {
                 permission = 'Participante da Reunião';
             }
+            
             if(users[aux].sector === null || users[aux].sector === undefined) {
                 users[aux].sector = 'Não Possui Setor no Momento';
             }
 
-            dataSource.innerArray.push(
-                {
-                    key: users[aux].id,
-                    name: users[aux].name,
-                    username: users[aux].username,
-                    ramal: users[aux].ramal,
-                    setor: users[aux].sector,
-                    email: users[aux].email,
-					tags: [permission],
-                }
-			); 
+            dataSource.innerArray.push({
+                key: users[aux].id,
+                name: users[aux].name,
+                username: users[aux].username,
+                ramal: users[aux].ramal,
+                setor: users[aux].sector,
+                email: users[aux].email,
+                tags: [permission]
+            }); 
 		}
 
 		dataSource.innerArray.sort(dynamicSort('name'))
@@ -160,7 +159,7 @@ const mapStateToProps = state => {
     return {
         token: state.auth.token,
         users: state.auth.users,
-        loading: state.auth.loading,
+        loading: state.auth.loading
     };
 };
 

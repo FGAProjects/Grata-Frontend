@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Skeleton, Table, Tag, Button } from 'antd';
+import { List, Skeleton, Table, Tag, Button } from '../user/node_modules/antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 

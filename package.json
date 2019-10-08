@@ -19,7 +19,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -47,10 +47,5 @@
   "author": {
     "name": "Victor Hugo Lopes Mota",
     "licence": "GPL v.3"
-  },
-  "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
-    "@babel/runtime": "^7.6.2"
   }
 }
