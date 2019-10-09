@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Skeleton, Table, Icon, Button } from '../user/node_modules/antd';
+import { Skeleton, Table, Icon, Button } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { getSectors } from '../../store/actions/sector';

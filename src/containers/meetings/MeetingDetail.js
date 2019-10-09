@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Skeleton, Form, Input, Button, Modal, Icon } from '../user/node_modules/antd';
+import { Skeleton, Form, Input, Button, Modal, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 

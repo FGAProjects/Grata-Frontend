@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, message, Select } from '../user/node_modules/antd';
+import { Form, Input, Icon, Button, message, Select } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 
@@ -22,7 +22,7 @@ class ProjectCreate extends Component {
 		}
 	}
 
-	UNSAFE_componentWillReceiveProps(newProps) {
+	componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
@@ -40,6 +40,7 @@ class ProjectCreate extends Component {
 		
 				const sectors = this.props.sectors;
 				const token = this.props.token;
+				console.log(token)
 				let sector_id = '';
 
 				for(let aux = 0; aux < sectors.length; aux ++) {

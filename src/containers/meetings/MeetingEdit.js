@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Skeleton, Form, Input, Button, message, Icon, DatePicker, Modal ,TimePicker } from '../user/node_modules/antd';
+import { Skeleton, Form, Input, Button, message, Icon, DatePicker, Modal ,TimePicker } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fail } from 'assert';

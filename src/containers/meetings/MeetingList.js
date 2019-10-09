@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Skeleton, Table, Tag, Button } from '../user/node_modules/antd';
+import { List, Skeleton, Table, Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -13,10 +13,11 @@ class MeetingList extends Component {
 	componentDidMount() {
 
 		if (this.props.token !== undefined && this.props.token !== null) {
+			
+			this.forceUpdate();
 			const project_id = this.props.match.params.project_id;
 			this.props.getMeetings(this.props.token, project_id);
 			this.props.getProject(this.props.token, project_id);
-			this.forceUpdate();
 		}
 	}
 
@@ -25,11 +26,11 @@ class MeetingList extends Component {
 		if (newProps.token !== this.props.token) {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
-		
+				
+				this.forceUpdate();
 				const project_id = newProps.match.params.project_id;
 				this.props.getMeetings(newProps.token, project_id);
 				this.props.getProject(newProps.token, project_id);
-				this.forceUpdate();
             }
         }
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, message } from '../user/node_modules/antd';
+import { Form, Input, Icon, Button, message } from 'antd';
 import { connect } from 'react-redux';
 
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
@@ -68,38 +68,31 @@ class Topics extends Component {
                 const sector_id = this.props.match.params.sector_id;
                 const project_id = this.props.match.params.project_id;
 
-                if(values.topics.length > 0) {
+                for(let aux = 0; aux < values.topics.length; aux ++) {
 
-                    for(let aux = 0; aux < values.topics.length; aux ++) {
-
-                        topics.push({
-                            title: values.topics[aux]
-                        });
-                    }
-    
-                    const meeting = {
-    
-                        meeting: currentMeeting.id,
-                        title: currentMeeting.title,
-                        subject_matter: currentMeeting.subject_matter,
-                        status: currentMeeting.status,
-                        initial_date: currentMeeting.initial_date,
-                        final_date: currentMeeting.final_date,
-                        initial_hour: currentMeeting.initial_hour,
-                        final_hour: currentMeeting.final_hour,
-                        sector: sector_id,
-                        project: project_id,
-                        topics
-                    };
-    
-                    this.props.updateMeeting(token, meeting);
-                    message.success('Tópicos Adicionados Com Sucesso!');
-                    this.props.history.push(`/criar_regras/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
-                } else {
-
-                    message.warning('Nenhum Tópico Adicionado a Reunião.');
-                    this.props.history.push(`/criar_regras/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
+                    topics.push({
+                        title: values.topics[aux]
+                    });
                 }
+    
+                const meeting = {
+
+                    meeting: currentMeeting.id,
+                    title: currentMeeting.title,
+                    subject_matter: currentMeeting.subject_matter,
+                    status: currentMeeting.status,
+                    initial_date: currentMeeting.initial_date,
+                    final_date: currentMeeting.final_date,
+                    initial_hour: currentMeeting.initial_hour,
+                    final_hour: currentMeeting.final_hour,
+                    sector: sector_id,
+                    project: project_id,
+                    topics
+                };
+    
+                this.props.updateMeeting(token, meeting);
+                message.success('Tópicos Adicionados Com Sucesso!');
+                this.props.history.push(`/criar_regras/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
             }
         });
     };

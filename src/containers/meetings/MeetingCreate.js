@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, TimePicker, Button, Form, Input, Icon, message } from '../user/node_modules/antd';
+import { DatePicker, TimePicker, Button, Form, Input, Icon, message } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 import { Link } from 'react-router-dom';
@@ -43,10 +43,8 @@ class MeetingCreate extends Component {
 			if (!err) {
 
 				const sector_id = this.props.match.params.sector_id;
-				console.log(sector_id)
 				const token = this.props.token;
 				const project_id = this.props.match.params.project_id;
-				console.log(project_id)				
                 const date_value = values['range-picker'];
 
 				const meeting = {
@@ -58,7 +56,13 @@ class MeetingCreate extends Component {
 					initial_hour: values['time-picker-initial'].format('HH:mm:ss'),
 					final_hour: values['time-picker-final'].format('HH:mm:ss'),
 					sector: sector_id,
-					project: project_id
+					project: project_id,
+					topics: [
+
+					],
+					rules: [
+						
+					]
 				};
 
 				if((this.props.createMeeting(token, meeting)) !== fail) {
