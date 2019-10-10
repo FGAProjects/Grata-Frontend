@@ -92,7 +92,7 @@ class Rules extends Component {
 
                 this.props.updateMeeting(token, meeting);
                 message.success('Regras de Conduta Foram Adicionadas Com Sucesso');
-                this.props.history.push(`/criar_regras/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
+                this.props.history.push(`/adicionar_usuarios_a_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
             }
         });
     };

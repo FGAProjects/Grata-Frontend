@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Skeleton, Table, Tag } from 'antd';
+import { Skeleton, Table, Tag, Button } from 'antd';
 
 import { getUsers } from '../../store/actions/auth';
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
@@ -8,6 +8,39 @@ import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 
 class UserListMeeting extends Component {
+
+    state = {
+        toggle:true
+    }
+
+    constructor(props) {
+        
+        super(props);
+        this._onStateChange = this._onStateChange.bind(this);
+    }
+
+    _onStateChange(newState){
+        
+        const value = newState ? 'Adicionar':'Remover'
+        this.setState({
+            toogleText:value
+        });
+    }
+
+    _onPress(textValue) {
+
+        if(textValue === 'Adicionar') {
+            
+            const newState = !this.state.toggle;
+            this.setState({toggle:newState});
+            this.props.onStateChange && this.props.onStateChange(newState);
+        } else {
+            
+            const newState = !this.state.toggle;
+            this.setState({toggle:newState});
+            this.props.onStateChange && this.props.onStateChange(newState);
+        }
+    }
 
     componentDidMount() {
 
@@ -44,7 +77,10 @@ class UserListMeeting extends Component {
 
     render() {
         
-		const users = this.props.users;
+        const users = this.props.users;
+        const { toggle } = this.state;
+        const typeButton = toggle ? 'primary':'danger';
+        const textValue = toggle ? 'Adicionar':'Remover';
         let permission = '';
         let dataSource = {
             innerArray: [
@@ -65,10 +101,8 @@ class UserListMeeting extends Component {
                 dataSource.innerArray.push({
                     key: users[aux].id,
                     name: users[aux].name,
-                    username: users[aux].username,
                     ramal: users[aux].ramal,
                     setor: users[aux].sector,
-                    email: users[aux].email,
                     tags: [permission]
                 });
             }
@@ -92,14 +126,6 @@ class UserListMeeting extends Component {
                                     )
 								},
                                 {
-                                    title: 'Usuário',
-                                    dataIndex: 'username',
-                                    key: 'username',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
                                     title: 'Ramal',
                                     dataIndex: 'ramal',
                                     key: 'ramal',
@@ -111,14 +137,6 @@ class UserListMeeting extends Component {
                                     title: 'Setor',
                                     dataIndex: 'setor',
                                     key: 'setor',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
-                                    title: 'Email',
-                                    dataIndex: 'email',
-                                    key: 'email',
                                     render: (text) => (
                                         <b>{text}</b>
                                     )
@@ -145,6 +163,21 @@ class UserListMeeting extends Component {
                                         </span>
                                     ),
                                 },
+                                {
+                                    title: 'Adicionar/Remover',
+                                    key: 'action',
+                                    dataIndex: 'action',
+                                    render: action => (
+                                        <Button 
+											type = { typeButton } 
+											htmlType = 'submit' 
+                                            style = {{ marginRight: '20px' }}
+                                            onClick ={()=>this._onPress(textValue)}
+										>
+                                            { textValue }
+										</Button>
+                                    ),
+                                }
                             ]}
                             dataSource = {
 								dataSource.innerArray
@@ -158,7 +191,9 @@ class UserListMeeting extends Component {
 }
 
 const mapStateToProps = state => {
+    
     return {
+    
         token: state.auth.token,
         users: state.auth.users,
         loading: state.auth.loading,
@@ -167,6 +202,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+    
     return {
 
         getUsers: token => dispatch(getUsers(token)),
