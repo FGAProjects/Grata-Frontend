@@ -72,7 +72,7 @@ class UserList extends Component {
             }); 
 		}
 
-		dataSource.innerArray.sort(dynamicSort('name'))
+		dataSource.innerArray.sort(dynamicSort('name'));
 
         return (
             <Hoc>
