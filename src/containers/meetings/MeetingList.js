@@ -94,7 +94,7 @@ class MeetingList extends Component {
 											render: (text, record) => (
 												<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }/${ sector_id }`}>
 													<List.Item>
-														<b>{text}</b>
+														<b> { text } </b>
 													</List.Item>
 												</Link>
 											)   
@@ -132,10 +132,15 @@ class MeetingList extends Component {
 												<span>
 												{
 													tags.map(tag => {
-														let color = tag.length > 5 ? 'geekblue' : 'green';
+														let color = '';
 														if (tag === 'Pendente') {
 															color = 'orange';
-														} else {
+														} else if(tag === 'Agendada') {
+															color = 'geekblue';
+														} else if(tag === 'Cancelada') {
+															color = 'red';
+														}														
+														else {
 															color = 'green';
 														}
 														return (

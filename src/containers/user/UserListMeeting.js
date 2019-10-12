@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Skeleton, Transfer, Switch, Table, Tag } from 'antd';
+import { Skeleton, Transfer, Switch, Table, Tag, Button, Icon, message } from 'antd';
 import difference from 'lodash/difference';
 
 import { getUsers } from '../../store/actions/auth';
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 import { dynamicSort } from '../utils';
+import Hoc from '../../hoc/hoc';
 
 class UserListMeeting extends Component {
 
     state = {
         
-        showSearch: false,
+		showSearch: false,
+		cont: 0
     };
 
     componentDidMount() {
@@ -48,20 +50,57 @@ class UserListMeeting extends Component {
         }
 	}
 
+	handleSubmit = () => {
+		
+		if(this.state.targetKeys === undefined) {
+			message.warning('Por Favor, Adicione Pelo Menos Uma Pessoa a Reunião');
+		} else {
+
+			const token = this.props.token;
+			const { currentMeeting } = this.props;
+			const sector_id = this.props.match.params.sector_id;
+			const project_id = this.props.match.params.project_id;
+			const users = [];
+			const targetKeys = this.state.targetKeys;
+
+			for(let aux = 0; aux < targetKeys.length; aux ++) {
+				
+				users.push({
+					id: targetKeys[aux]
+				});
+			}
+
+			const meeting = {
+
+				meeting: currentMeeting.id,
+				status: 'Agendada',
+				title: currentMeeting.title,
+				subject_matter: currentMeeting.subject_matter,
+				initial_date: currentMeeting.initial_date,
+				final_date: currentMeeting.final_date,
+				initial_hour: currentMeeting.initial_hour,
+				final_hour: currentMeeting.final_hour,
+				sector: sector_id,
+				project: project_id,
+				users
+			};
+
+			this.props.updateMeeting(token, meeting);
+			message.success('Usuários Foram Adicionados a Reunião Com Sucesso');
+			this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
+		}
+	}
+
     onChange = nextTargetKeys => {
-        this.setState({ 
-            targetKeys: nextTargetKeys 
-        });
-    };
-    
-    triggerDisable = disabled => {
-        this.setState({ 
-            disabled 
-        });
+
+		this.setState({ 
+			targetKeys: nextTargetKeys
+		});
     };
 
     triggerShowSearch = showSearch => {
-        this.setState({ 
+		
+		this.setState({ 
             showSearch 
         });
     };
@@ -78,78 +117,102 @@ class UserListMeeting extends Component {
 
         for(let aux = 0; aux < users.length; aux ++) {
 
-            if(users[aux].sector !== null || users[aux].sector !== undefined) {
+            if(users[aux].sector === null || users[aux].sector === undefined) {
 
-                dataSource.innerArray.push({
+            } else {
+
+				dataSource.innerArray.push({
                     key: users[aux].id,
                     title: users[aux].name,
                     ramal: users[aux].ramal,
                     tag: [users[aux].sector],
                 });
-            }
+			}
 		}
 
 		dataSource.innerArray.sort(dynamicSort('title'));
 		
         return (
-            <div>
-                <TableTransfer
-                    dataSource = { dataSource.innerArray } 
-                    targetKeys = { targetKeys }
-                    showSearch = { showSearch }
-					onChange = { this.onChange }
-					operations = {[
-						'Adicionar',
-						'Remover'
-					]}
-                    filterOption = {(inputValue, item) =>
-                        item.title.indexOf(inputValue) !== -1 || item.tag.indexOf(inputValue) !== -1
-                    }
-                    leftColumns = {[
-						{
-							dataIndex: 'title',
-							title: 'Nome',
-							render: title =><Tag color = 'blue'><b> { title } </b></Tag>
-						},
-						{
-							dataIndex: 'ramal',
-							title: 'Ramal',
-							render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
-						},
-						{
-							dataIndex: 'tag',
-							title: 'Setor',
-							render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
-						}
-					]}
-                    rightColumns = {[
-						{
-							dataIndex: 'title',
-							title: 'Nome',
-							render: title =><Tag color = 'blue'><b> { title } </b></Tag>
-						},
-						{
-							dataIndex: 'ramal',
-							title: 'Ramal',
-							render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
-						},
-						{
-							dataIndex: 'tag',
-							title: 'Setor',
-							render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
-						}
-					]}
-                />
-                <Switch
-                    unCheckedChildren = "Pesquisar Por Nome"
-                    checkedChildren = "showSearch"
-                    checked = { showSearch }
-                    onChange = { this.triggerShowSearch }
-                    style = {{ 
-                        marginTop: 16 
-                    }}
-                />
-          </div>
+			<Hoc>
+				{
+					this.props.loading ? (
+                        <Skeleton active />
+                    ) : (
+							<Hoc>
+								<div>
+									<Switch
+										unCheckedChildren = "Pesquisar Por Nome"
+										checkedChildren = "Esconder Pesquisa"
+										checked = { showSearch }
+										onChange = { this.triggerShowSearch }
+									/>
+									<Button 
+										type = 'primary' 
+										htmlType = 'submit' 
+										style = {{
+											marginBottom: 20,
+											marginLeft: 870 
+										}}
+										onClick = { this.handleSubmit }
+									>
+										<Icon 
+											type = 'save' 
+										/>
+										Salvar e Agendar Reunião
+									</Button>
+								</div>
+
+								<TableTransfer
+									dataSource = { dataSource.innerArray } 
+									targetKeys = { targetKeys }
+									showSearch = { showSearch }
+									onChange = { this.onChange }
+									operations = {[
+										'Adicionar',
+										'Remover'
+									]}
+									filterOption = {(inputValue, item) =>
+										item.title.indexOf(inputValue) !== -1 || item.tag.indexOf(inputValue) !== -1
+									}
+									leftColumns = {[
+										{
+											dataIndex: 'title',
+											title: 'Nome',
+											render: title =><Tag color = 'blue'><b> { title } </b></Tag>
+										},
+										{
+											dataIndex: 'ramal',
+											title: 'Ramal',
+											render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
+										},
+										{
+											dataIndex: 'tag',
+											title: 'Setor',
+											render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+										}
+									]}
+									rightColumns = {[
+										{
+											dataIndex: 'title',
+											title: 'Nome',
+											render: title =><Tag color = 'blue'><b> { title } </b></Tag>
+										},
+										{
+											dataIndex: 'ramal',
+											title: 'Ramal',
+											render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
+										},
+										{
+											dataIndex: 'tag',
+											title: 'Setor',
+											render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+										}
+									]}
+								/>
+							</Hoc>
+						)
+					}
+			</Hoc>
         );
     }
 }

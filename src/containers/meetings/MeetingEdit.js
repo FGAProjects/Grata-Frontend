@@ -19,7 +19,7 @@ class MeetingEdit extends Component {
 		};
     }
 
-    async componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
@@ -74,7 +74,7 @@ class MeetingEdit extends Component {
 					meeting: currentMeeting.id,
 					title: values.title,
 					subject_matter: values.subject_matter,
-					status: 'Pendente',
+					status: currentMeeting.status,
 					initial_date: date_value[0].format('DD/MM/YYYY'),
 					final_date: date_value[1].format('DD/MM/YYYY'),
 					initial_hour: values['time-picker-initial'].format('HH:mm:ss'),
