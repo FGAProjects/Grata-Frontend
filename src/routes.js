@@ -21,6 +21,7 @@ import SectorCreate from './containers/sectors/SectorCreate';
 import SectorEdit from './containers/sectors/SectorEdit';
 import SectorList from './containers/sectors/SectorList';
 import RulesCreate from './containers/rules/RulesCreate';
+import PDFCreator from './containers/pdf/PDFCreator';
 
 const BaseRouter = () => (
     <Hoc>
@@ -49,6 +50,8 @@ const BaseRouter = () => (
                             component = { RulesCreate } />
         <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/:project_id/:sector_id' 
                             component = { UserMeeting } />
+        <Route exact path = '/visualizar_ata/:meeting_id/:project_id/:sector_id' 
+                            component = { PDFCreator } />
     </Hoc>
 );
 

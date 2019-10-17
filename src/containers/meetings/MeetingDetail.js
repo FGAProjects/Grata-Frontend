@@ -144,8 +144,8 @@ class MeetingDetail extends Component {
                                             marginRight: '10px'
                                         }}
                                     >
-                                        <Link to = { `/criar_reuniao/projeto/${ currentMeeting.id } `} >
-                                            Gerar PDF
+                                        <Link to = { `/visualizar_ata/${ currentMeeting.id }/${ project_id }/${ sector_id } `} >
+                                            Visualizar Ata
                                         </Link>
                                     </Button>
                                 )
