@@ -22,6 +22,7 @@ import SectorEdit from './containers/sectors/SectorEdit';
 import SectorList from './containers/sectors/SectorList';
 import RulesCreate from './containers/rules/RulesCreate';
 import Record from './containers/record/Record';
+import QuizCreator from './containers/quiz/QuizCreator';
 
 const BaseRouter = () => (
     <Hoc>
@@ -52,6 +53,8 @@ const BaseRouter = () => (
                             component = { UserMeeting } />
         <Route exact path = '/visualizar_ata/:meeting_id/:project_id/:sector_id' 
                             component = { Record } />
+        <Route exact path = '/criar_questionario/:meeting_id/' 
+                            component = { QuizCreator } />
     </Hoc>
 );
 

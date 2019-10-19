@@ -100,11 +100,34 @@ class MeetingDetail extends Component {
             },
         });
     }
+
+    confirmMeeting(token, currentMeeting, project_id, sector_id) {
+
+        const propsForms = this.props;
+
+        confirm({
+            title: ' Confirmação de Reunião',
+            content: 'Ao Confirmar a Reunião, Não Será Possível Editar Mais a Reunião',
+            onOk() {
+                currentMeeting.status = 'Confirmada';
+                propsForms.updateMeeting(token, currentMeeting);
+                Modal.success({
+					title: 'Ação Concluída!',
+					content: 'Reunião Confirmada Com Sucesso!',
+                });
+                propsForms.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }`)
+            },
+            onCancel() {
+                message.success('Ação Cancelada Com Sucesso!');
+            },
+        });
+    }
     
     render() {
 
         const sector_id = this.props.match.params.sector_id;
         const project_id = this.props.match.params.project_id;
+        const token = this.props.token;
         const { currentMeeting } = this.props;
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -126,6 +149,40 @@ class MeetingDetail extends Component {
                         <p></p>
                     ) : (
                         <Hoc>
+                            {
+                                currentMeeting.status === 'Agendada' ? (
+                                    <Button 
+                                        type = 'primary' 
+                                        htmlType = 'submit' 
+                                        style = {{
+                                            marginRight: '10px'
+                                        }}
+                                        onClick = { () => this.confirmMeeting(
+                                            token, 
+                                            currentMeeting,
+                                            project_id,
+                                            sector_id
+                                        )}
+                                    >
+                                        Confirmar Reunião
+                                    </Button>
+                                ) : null
+                            }
+                            {
+                                currentMeeting.status === 'Agendada' ? (
+                                    <Button
+                                        type = 'primary' 
+                                        htmlType = 'submit' 
+                                        style = {{
+                                            marginRight: '10px'
+                                        }}
+                                    >
+                                        <Link to = { `/criar_questionario/${ currentMeeting.id }/`} >
+                                            Adicionar Questionário
+                                        </Link>
+                                    </Button>
+                                ) : null
+                            }
                             {
                                 currentMeeting.status === 'Pendente' ? (
                                     <Button 
