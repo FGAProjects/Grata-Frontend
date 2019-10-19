@@ -42,12 +42,15 @@ class MeetingCreate extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 
+				const user = JSON.parse(localStorage.getItem('user'));
+				const userId = user.userId;
 				const sector_id = this.props.match.params.sector_id;
 				const token = this.props.token;
 				const project_id = this.props.match.params.project_id;
                 const date_value = values['range-picker'];
 
 				const meeting = {
+					
 					title: values.title,
 					subject_matter: values.subject_matter,
 					status: 'Pendente',
@@ -57,11 +60,18 @@ class MeetingCreate extends Component {
 					final_hour: values['time-picker-final'].format('HH:mm:ss'),
 					sector: sector_id,
 					project: project_id,
+					meeting_leader: userId,
 					topics: [
 
 					],
 					rules: [
 						
+					],
+					users: [
+
+					],
+					questionnaires: [
+
 					]
 				};
 
@@ -79,7 +89,7 @@ class MeetingCreate extends Component {
 	};
 
 	render() {
-
+		
 		const { currentProject } = this.props;
 		const { getFieldDecorator } = this.props.form;
 		const formItemLayout = {
@@ -93,7 +103,9 @@ class MeetingCreate extends Component {
 			},
 		};
 		const rangeConfig = {
+			
 			rules: [{ 
+			
 				type: 'array', 
 				required: true, 
 				message: 'Por Favor, Selecione a Hora!' 
@@ -293,7 +305,7 @@ const mapStateToProps = (state) => {
 		loading: state.meeting.loading,
 		error: state.meeting.error,
 		token: state.auth.token,
-		currentProject: state.project.currentProject,
+		currentProject: state.project.currentProject
 	}
 }
 

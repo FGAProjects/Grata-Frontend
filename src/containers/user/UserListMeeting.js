@@ -56,11 +56,11 @@ class UserListMeeting extends Component {
 			message.warning('Por Favor, Adicione Pelo Menos Uma Pessoa a Reunião');
 		} else {
 
-			const token = this.props.token;
 			const { currentMeeting } = this.props;
-			const sector_id = this.props.match.params.sector_id;
-			const project_id = this.props.match.params.project_id;
-			const users = [];
+			const token = this.props.token;
+			const users = [
+
+			];
 			const targetKeys = this.state.targetKeys;
 
 			for(let aux = 0; aux < targetKeys.length; aux ++) {
@@ -80,14 +80,14 @@ class UserListMeeting extends Component {
 				final_date: currentMeeting.final_date,
 				initial_hour: currentMeeting.initial_hour,
 				final_hour: currentMeeting.final_hour,
-				sector: sector_id,
-				project: project_id,
+				sector: currentMeeting.sector,
+				project: currentMeeting.project,
 				users
 			};
 
 			this.props.updateMeeting(token, meeting);
 			message.success('Usuários Foram Adicionados a Reunião Com Sucesso');
-			this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
+			this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/`);
 		}
 	}
 

@@ -52,7 +52,7 @@ class Rules extends Component {
         const nextKeys = keys.concat(id++);
         
         form.setFieldsValue({
-            keys: nextKeys,
+            keys: nextKeys
         });
     };
 
@@ -62,11 +62,11 @@ class Rules extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 
+                const { currentMeeting } = this.props;                
                 const token = this.props.token;
-                const rules = [];
-                const { currentMeeting } = this.props;
-                const sector_id = this.props.match.params.sector_id;
-                const project_id = this.props.match.params.project_id;
+                const rules = [
+
+                ];
 
                 for(let aux = 0; aux < values.rulesConduct.length; aux ++) {
 
@@ -85,14 +85,14 @@ class Rules extends Component {
                     final_date: currentMeeting.final_date,
                     initial_hour: currentMeeting.initial_hour,
                     final_hour: currentMeeting.final_hour,
-                    sector: sector_id,
-                    project: project_id,
+                    sector: currentMeeting.sector,
+                    project: currentMeeting.project,
                     rules
                 };
 
                 this.props.updateMeeting(token, meeting);
                 message.success('Regras de Conduta Foram Adicionadas Com Sucesso');
-                this.props.history.push(`/adicionar_usuarios_a_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
+                this.props.history.push(`/adicionar_usuarios_a_reuniao/${ currentMeeting.id }/`);
             }
         });
     };
@@ -101,6 +101,7 @@ class Rules extends Component {
 
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
+            
             labelCol: {
                 xs: { span: 24 },
                 sm: { span: 4 },
@@ -108,15 +109,18 @@ class Rules extends Component {
             wrapperCol: {
                 xs: { span: 24 },
                 sm: { span: 20 },
-            },
+            }
         };
         const formItemLayoutWithOutLabel = {
+            
             wrapperCol: {
                 xs: { span: 24, offset: 0 },
                 sm: { span: 20, offset: 4 },
-            },
+            }
         };
-        getFieldDecorator('keys', { initialValue: [] });
+        getFieldDecorator('keys', { 
+            initialValue: [] 
+        });
         const keys = getFieldValue('keys');
         const formItems = keys.map((k, index) => (
             <Form.Item

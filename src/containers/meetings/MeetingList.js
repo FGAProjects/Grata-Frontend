@@ -21,7 +21,7 @@ class MeetingList extends Component {
 		}
 	}
 
-    UNSAFE_componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
@@ -92,7 +92,7 @@ class MeetingList extends Component {
 											dataIndex: 'title',
 											key: 'title',
 											render: (text, record) => (
-												<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }/${ sector_id }`}>
+												<Link to = {`/detalhes_reuniao/${ record.key }/`}>
 													<List.Item>
 														<b> { text } </b>
 													</List.Item>

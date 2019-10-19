@@ -61,12 +61,12 @@ class Topics extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                
+
+                const { currentMeeting } = this.props;                
                 const token = this.props.token;
-                const topics = [];
-                const { currentMeeting } = this.props;
-                const sector_id = this.props.match.params.sector_id;
-                const project_id = this.props.match.params.project_id;
+                const topics = [
+
+                ];
 
                 for(let aux = 0; aux < values.topics.length; aux ++) {
 
@@ -85,14 +85,14 @@ class Topics extends Component {
                     final_date: currentMeeting.final_date,
                     initial_hour: currentMeeting.initial_hour,
                     final_hour: currentMeeting.final_hour,
-                    sector: sector_id,
-                    project: project_id,
+                    sector: currentMeeting.sector,
+                    project: currentMeeting.project,
                     topics
                 };
     
                 this.props.updateMeeting(token, meeting);
                 message.success('Tópicos Adicionados Com Sucesso!');
-                this.props.history.push(`/criar_regras/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
+                this.props.history.push(`/criar_regras/${ currentMeeting.id }/`);
             }
         });
     };

@@ -293,16 +293,18 @@ const UserRegisterForm = Form.create()(UserRegister);
 const mapStateToProps = (state) => {
 
 	return {
+		
 		loading: state.loading,
 		error: state.error,
 		token: state.auth.token
-	}
+	};
 }
 
 const mapDispatchToProps = dispatch => {
+
 	return {
 		onAuth: (user) => dispatch(authSignup(user))
-	}
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRegisterForm);

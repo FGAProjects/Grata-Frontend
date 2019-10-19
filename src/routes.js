@@ -37,19 +37,16 @@ const BaseRouter = () => (
         <Route exact path = '/editar_projeto/:project_id/:sector_id' component = { ProjectEdit } />
         <Route exact path = '/criar_reuniao/projeto/:project_id/:sector_id' 
                             component = { MeetingCreate } />
-        <Route exact path = '/lista_de_reunioes/:project_id/:sector_id' component = { MeetingList } />
-        <Route exact path = '/detalhes_reuniao/:meeting_id/:project_id/:sector_id' 
-                            component = { MeetingDetail } />
+        <Route exact path = '/lista_de_reunioes/:project_id/' component = { MeetingList } />
+        <Route exact path = '/detalhes_reuniao/:meeting_id/' component = { MeetingDetail } />
         <Route exact path = '/editar_reuniao/:meeting_id/:project_id/:sector_id' 
                             component = { MeetingEdit } />
-        <Route exact path = '/criar_topicos/:meeting_id/:project_id/:sector_id' 
-                            component = { TopicsCreate } />
+        <Route exact path = '/criar_topicos/:meeting_id/' component = { TopicsCreate } />
         <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
         <Route exact path = '/editar_setor/:sector_id' component = { SectorEdit } />
         <Route exact path = '/lista_de_setores/' component = { SectorList } />
-        <Route exact path = '/criar_regras/:meeting_id/:project_id/:sector_id' 
-                            component = { RulesCreate } />
-        <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/:project_id/:sector_id' 
+        <Route exact path = '/criar_regras/:meeting_id/' component = { RulesCreate } />
+        <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/' 
                             component = { UserMeeting } />
         <Route exact path = '/visualizar_ata/:meeting_id/:project_id/:sector_id' 
                             component = { Record } />

@@ -253,6 +253,15 @@ class MeetingDetail extends Component {
                                         </Form>
 
                                         <Form layout = 'vertical'>
+                                            <Form.Item label = 'Líder da Reunião' { ...formItemLayout } >
+                                                <Input 
+                                                    value = { currentMeeting.meeting_leader } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
+                                        </Form>
+
+                                        <Form layout = 'vertical'>
                                             <Form.Item label = 'Local' { ...formItemLayout } >
                                                 <Input 
                                                     value = { currentMeeting.sector } 
@@ -398,7 +407,7 @@ class MeetingDetail extends Component {
                     </Hoc>
                 </div>
             </div>
-        )
+        );
     }
 }
 
