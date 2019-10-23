@@ -52,6 +52,8 @@ const BaseRouter = () => (
                             component = { Record } />
         <Route exact path = '/criar_questionario/:meeting_id/' 
                             component = { QuizCreator } />
+        <Route exact path = '/responder_questionario/:meeting_id/' 
+                            component = { QuizCreator } />
     </Hoc>
 );
 
