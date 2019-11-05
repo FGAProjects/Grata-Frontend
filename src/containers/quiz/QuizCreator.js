@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Modal, Icon, message, Divider } from 'antd';
+// import { Form, Input, Button, Modal, Icon, message, Divider } from 'antd';
+import { Form, Input, Button, Icon, Divider } from 'antd';
 import { connect } from 'react-redux';
 
 import QuestionForm from './QuestionForm';
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 import Hoc from '../../hoc/hoc';
 
-let id = 0;
+// let id = 0;
 const FormItem = Form.Item;
 
 class QuizCreator extends Component {

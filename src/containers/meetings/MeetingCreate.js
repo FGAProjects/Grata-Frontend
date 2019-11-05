@@ -287,7 +287,7 @@ class MeetingCreate extends Component {
 									}}
 									type = 'stop' />
 									Cancelar
-								</Link>
+							</Link>
 						</Button>
 					</Form.Item>
 				</div>

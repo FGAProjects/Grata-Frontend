@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import AutoComplete from './AutoComplete';
 import Navbar from '../navbar/Navbar';
+import './layout.css';
 
 const { Content, Footer } = Layout;
 
-class CustomLayout extends React.Component {
+class CustomLayout extends Component {
   
 	render() {
 		return (
@@ -16,26 +17,18 @@ class CustomLayout extends React.Component {
 				<Navbar />
 				<Content 
 					style = {{ 
-						margin: '24px 42px 0', 
+						margin: '42px 42px 0', 
 						overflow: 'initial' 
-					}
-				} >
+					}} 
+				>
 					{
 						this.props.token !== null ? (
 							<AutoComplete />
 						) : null
 					}
-					<div 
-						style = {{ 
-							background: 'white', 
-							padding: 24, 
-							minHeight: 280	 
-						}}
-					>
-						{this.props.children}
-					</div>	
+					{ this.props.children }	
         		</Content>
-				<Footer style={{ textAlign: 'center' }}>
+				<Footer className = 'footer'>
 					Grata - Gerenciamento de Reuniões e Atas ©2019 
 					Criado por Victor Hugo Lopes Mota.
 				</Footer>
