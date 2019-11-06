@@ -7,11 +7,13 @@ import './navbar.css';
 class DropdownNav extends Component {
 
     render () {
+
 		return (
+
         	<div>
-				<Dropdown overlay = { 
+				<Dropdown className = 'dropdown' overlay = { 
 					<Menu>
-						<Menu.Item key = '0' >
+						<Menu.Item key = '0'>
 							<Icon type = 'user' />
 								<Link to = { '/informacoes_usuario/' } >
 									Visualizar Perfil
@@ -27,14 +29,14 @@ class DropdownNav extends Component {
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
 						href={ `/informacoes_usuario/` } >
-						<Icon type = 'user' />  Usuário <Icon type='down' />
+						<Icon type = 'user' />  Usuário <Icon type = 'down' />
 					</a>
 				</Dropdown>
 
 				<Dropdown overlay = { 
 					<Menu>
 						<Menu.Item key = '0' >
-							<Icon type="user-add" />
+							<Icon type = 'user-add' />
 								<Link to = '/adicionar_usuario/' >
 									Adicionar Usuário
 								</Link>
@@ -49,7 +51,7 @@ class DropdownNav extends Component {
 					</Menu>
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' href='/'>
-						<Icon type = 'team' /> Participante <Icon type='down' />
+						<Icon type = 'team' /> Participante <Icon type = 'down' />
 					</a>
 				</Dropdown>
 
@@ -71,7 +73,7 @@ class DropdownNav extends Component {
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
 						href={ `/lista_de_setores/` } >
-						<Icon type = 'unordered-list' />  Setores <Icon type='down' />
+						<Icon type = 'unordered-list' />  Setores <Icon type = 'down' />
 					</a>
 				</Dropdown>
 
@@ -93,11 +95,11 @@ class DropdownNav extends Component {
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
 						href ={ `/lista_de_projetos/` } >
-						<Icon type = 'unordered-list' />  Projetos <Icon type='down' />
+						<Icon type = 'unordered-list' />  Projetos <Icon type = 'down' />
 					</a>
 				</Dropdown>
 				<Dropdown trigger = { ['click'] } >
-					<a className = 'ant-dropdown-link' href='/' >
+					<a className = 'ant-dropdown-link' href ='/' >
 						<Icon type = 'book' /> Manuais
 					</a>
 				</Dropdown>

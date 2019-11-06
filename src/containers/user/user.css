@@ -1,10 +1,31 @@
-h1 {
-    display: block;
-    font-size: 2em;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    margin-left: 0;
-    margin-right: 0;
+.contentLogin {
+    position: absolute;
+    right: 350px;
+    left: 350px;
+    top: 100px;
+    bottom: 100px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.inputFormLogin {
+    top: 50px;
+    margin-top: 140px;
+    left: 155px;
+    width: 338px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.buttonSubmit {
+    position: absolute;
+    width: 194px;
+    height: 32px;
+    top: 50px;
+    left: 220px;
+    font-family: Roboto;
+    font-style: normal;
     font-weight: bold;
-    text-align: center;
+    border-radius: 10px;
 }

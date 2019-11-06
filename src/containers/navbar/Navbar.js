@@ -5,20 +5,21 @@ import { connect } from 'react-redux';
 
 import './navbar.css';
 import DropdownNav from './DropdownNav';
-import * as actions from '../../store/actions/auth';
+import { logout } from '../../store/actions/auth';
 
 const { Header } = Layout;
 
 class Navbar extends React.Component {
 
     render () {
+
         return (
+
             <Header className = 'header'>
                 <Menu   
                     className = 'menu'                        
-                    mode="horizontal"
-                    defaultSelectedKeys={["4"]}
-                    style={{ lineHeight: '63px'}}
+                    mode = 'horizontal'
+                    defaultSelectedKeys = {[ '4' ]}
                 >
                     {
                         this.props.token !== null ? (
@@ -27,16 +28,17 @@ class Navbar extends React.Component {
                             </Menu.Item>
                         ) : null
                     }
-                                       
                     {
                         this.props.token !== null ? (
-                            <Menu.Item key ='4' onClick = {this.props.logout}>
-                                <Icon type='logout' className = 'icon' />
-                                Logout
+                            <Menu.Item 
+                                key = '4' 
+                                onClick = { this.props.logout }>
+                                <Icon type = 'logout' className = 'icon' />
+                                    Logout
                             </Menu.Item>
                             ) : (
                             <Menu.Item key = '4'>
-                                <Link to='/login'>Login</Link>
+                                <Link to = '/login' > <p className = 'text'> Login </p></Link>
                             </Menu.Item>
                         )
                     }                 
@@ -54,7 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch )=> {
     return {
-        logout: () => dispatch(actions.logout())
+        logout: () => dispatch(logout())
     };
 };
 

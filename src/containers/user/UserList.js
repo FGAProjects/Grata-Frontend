@@ -18,7 +18,7 @@ class UserList extends Component {
                 this.props.getUsers(this.props.token);
             }
         } catch (error) {
-            console.log(error);
+
         }    
     }
 
@@ -35,7 +35,7 @@ class UserList extends Component {
                 }
             }
         } catch(error) {
-            console.log(error);
+
         }
     }
 
