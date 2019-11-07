@@ -12,15 +12,13 @@
 
 .text {
     color: white;
-    line-height: 19px;
+    line-height: 20px;
 } 
 
-.icon {
-    font-size: 40px;
-    color: #40a9ff;
+.text_logout {
+    color: white;    
 }
 
 .ant-dropdown-link {
     color: white;
-    background: black;
 }

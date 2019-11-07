@@ -17,7 +17,7 @@ class CustomLayout extends Component {
 				<Navbar />
 				<Content 
 					style = {{ 
-						margin: '42px 42px 0', 
+						margin: '25px 42px 0', 
 						overflow: 'initial' 
 					}} 
 				>

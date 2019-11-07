@@ -90,11 +90,7 @@ class Login extends React.Component {
                                     )}
                                 </Form.Item>
 
-                                <Button 
-                                        type = 'primary' 
-                                        htmlType = 'submit' 
-                                        className = 'buttonSubmit'
-                                    >
+                                <Button type = 'primary' htmlType = 'submit' className = 'buttonSubmit'>
                                     Login
                                 </Button>
                             </Form>

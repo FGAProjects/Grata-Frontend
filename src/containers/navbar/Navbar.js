@@ -16,11 +16,7 @@ class Navbar extends React.Component {
         return (
 
             <Header className = 'header'>
-                <Menu   
-                    className = 'menu'                        
-                    mode = 'horizontal'
-                    defaultSelectedKeys = {[ '4' ]}
-                >
+                <Menu className = 'menu' mode = 'horizontal'>
                     {
                         this.props.token !== null ? (
                             <Menu.Item>
@@ -30,14 +26,12 @@ class Navbar extends React.Component {
                     }
                     {
                         this.props.token !== null ? (
-                            <Menu.Item 
-                                key = '4' 
-                                onClick = { this.props.logout }>
-                                <Icon type = 'logout' className = 'icon' />
+                            <Menu.Item className = 'text_logout' onClick = { this.props.logout }>
+                                <Icon type = 'logout'  />
                                     Logout
                             </Menu.Item>
                             ) : (
-                            <Menu.Item key = '4'>
+                            <Menu.Item>
                                 <Link to = '/login' > <p className = 'text'> Login </p></Link>
                             </Menu.Item>
                         )
