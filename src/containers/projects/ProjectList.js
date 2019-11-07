@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Skeleton, Table, Tag, Button, Icon } from 'antd';
 
+import './project.css';
 import { getProjects } from '../../store/actions/project';
 import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
@@ -70,7 +71,8 @@ class ProjectsList extends Component {
                     this.props.loading ? (
                         <Skeleton active />
                     ) : (
-                            <Table columns = {
+                            <div className = 'contentProject'>
+                                <Table columns = {
                                 [{
                                     title: 'Título',
                                     dataIndex: 'title',
@@ -137,11 +139,12 @@ class ProjectsList extends Component {
                                       </span>
                                     ),
                                 },
-                            ]}
-                            dataSource = {
-								dataSource.innerArray
-							} 
-                        />
+                                ]}
+                                dataSource = {
+                                    dataSource.innerArray
+                                } 
+                            />
+                        </div>
                     )
                 }
             </Hoc>

@@ -3,7 +3,6 @@ import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import './homepage.css';
 import ProjectList from '../projects/ProjectList';
 
 const { Content } = Layout;
@@ -21,7 +20,7 @@ class Homepage extends Component {
                             <ProjectList/>
                         </Content>
                     ) : (
-                        <Content className = 'contentProjectOff'>
+                        <div className = 'contentProjectOff'>
                             <p className = 'textOff'>
                                 Bem Vindo ao sistema de Gerenciamento de Reuniões e Atas (Grata), o 
                                 software que a sua empresa necessita para alcançar maiores níveis de
@@ -42,7 +41,7 @@ class Homepage extends Component {
                                 Contato com o desenvolvedor via github: 
                                 <a href = 'https://github.com/MrVictor42'> MrVictor42</a>.
                             </p>
-                        </Content>
+                        </div>
                     )   
                 }
             </div>

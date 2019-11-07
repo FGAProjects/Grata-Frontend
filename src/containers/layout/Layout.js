@@ -7,7 +7,7 @@ import AutoComplete from './AutoComplete';
 import Navbar from '../navbar/Navbar';
 import './layout.css';
 
-const { Content, Footer } = Layout;
+const { Footer } = Layout;
 
 class CustomLayout extends Component {
   
@@ -15,23 +15,28 @@ class CustomLayout extends Component {
 		return (
 			<Layout className = 'layout' >
 				<Navbar />
-				<Content 
-					style = {{ 
-						margin: '25px 42px 0', 
-						overflow: 'initial' 
-					}} 
-				>
+				<div>
 					{
 						this.props.token !== null ? (
 							<AutoComplete />
 						) : null
 					}
-					{ this.props.children }	
-        		</Content>
-				<Footer className = 'footer'>
-					Grata - Gerenciamento de Reuniões e Atas ©2019 
-					Criado por Victor Hugo Lopes Mota.
-				</Footer>
+					{ this.props.children }
+				</div>
+
+				{
+					this.props.token === null ? (
+						<Footer className = 'footerOFF'>
+							Grata - Gerenciamento de Reuniões e Atas ©2019 
+							Criado por Victor Hugo Lopes Mota.
+						</Footer>
+					) : (
+						<Footer className = 'footerON'>
+							Grata - Gerenciamento de Reuniões e Atas ©2019 
+							Criado por Victor Hugo Lopes Mota.
+						</Footer>
+					)
+				}
 			</Layout>
 		);
 	}

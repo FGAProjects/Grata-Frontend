@@ -32,8 +32,8 @@ class AutoCompleteComponent extends Component {
 		
         return (
 
-			<div className = 'certain-category-search-wrapper' 
-				style = {{ width: '100%', paddingBottom: 30 }}>
+			<div className = 'autoComplete' 
+				style = {{ paddingBottom: 30 }}>
 				<AutoComplete
 					className = 'certain-category-search'
 					dropdownClassName = 'certain-category-search-dropdown'
