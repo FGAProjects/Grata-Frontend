@@ -1,0 +1,28 @@
+.contentLogin {
+    position: absolute;
+    right: 350px;
+    left: 350px;
+    top: 100px;
+    bottom: 100px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.inputFormLoginUser {
+    margin-top: 100px;
+    left: 155px;
+    right: 155px;
+    width: 338px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.inputFormLoginPassword {
+    margin-top: 20px;
+    left: 155px;
+    right: 155px;
+    width: 338px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}

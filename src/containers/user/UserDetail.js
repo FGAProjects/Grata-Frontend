@@ -11,6 +11,7 @@ const { confirm } = Modal;
 class UserDetail extends Component {
 
 	constructor() {
+		
 		super();
 		this.state = {
 			formLayout: 'vertical',
@@ -81,7 +82,7 @@ class UserDetail extends Component {
 						<Skeleton active />
 					) : (
 						<Hoc>
-							<div className = 'userContent'>
+							<div className = 'content'>
 								<h1 className = 'texth1'> Informações Cadastradas </h1>
 								<Form layout = 'vertical' className = 'formUser'>
 									<Form.Item 
@@ -154,8 +155,11 @@ class UserDetail extends Component {
 
 									{
 										currentUser.is_participant === true ? (
-											<Form.Item label = 'Tipo de Usuário' 
-												{ ...formItemLayout } >
+											<Form.Item 
+												label = 'Tipo de Usuário' 
+												{ ...formItemLayout }
+												className = 'formFields'	
+											>
 												<Input 
 													value = 'Participante da Reunião'
 													disabled = { true } />
@@ -166,7 +170,7 @@ class UserDetail extends Component {
 									<Form.Item>
 										<div align = 'center'>
 											<Button
-												className = 'buttomEdit' 
+												className = 'buttonEdit' 
 												type = 'ghost' 
 												htmlType = 'submit' 
 											>

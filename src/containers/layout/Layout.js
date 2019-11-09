@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 
 import AutoComplete from './AutoComplete';
 import Navbar from '../navbar/Navbar';
-import './layout.css';
-import '../user/user.css';
-import '../navbar/navbar.css';
-import '../projects/project.css';
+import '../css/layout.css';
+import '../css/buttons.css';
+import '../css/user.css';
+import '../css/navbar.css';
+import '../css/icon.css';
 
 const { Footer } = Layout;
 
@@ -46,7 +47,9 @@ class CustomLayout extends Component {
 }
 
 const mapStateToProps = state => {
+
   	return {
+
 		userId: state.auth.userId,
 		token: state.auth.token,
 		is_administrator: state.auth.is_administrator

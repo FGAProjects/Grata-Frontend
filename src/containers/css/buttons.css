@@ -1,0 +1,62 @@
+.buttonSubmit {
+    margin-bottom: 25px;
+    margin-right: 20px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background:#4FA1C1;
+    border-radius: 10px;
+}
+
+.buttonCancel {
+    margin-bottom: 25px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.buttonEdit {
+    margin-bottom: 25px;
+    margin-right: 20px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: orange;
+    border-radius: 10px;
+}
+
+.buttonDelete {
+    margin-bottom: 25px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: red;
+    border-radius: 10px;
+}
+
+.buttonSave {
+    margin-bottom: 25px;
+    margin-right: 20px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background:green;
+    border-radius: 10px;
+}
+
+.buttonSubmitLogin {
+    width: 194px;
+    height: 32px;
+    margin-top: 20px;
+    left: 220px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    border-radius: 10px;
+}

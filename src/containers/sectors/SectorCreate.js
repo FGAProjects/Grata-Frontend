@@ -8,9 +8,13 @@ import { createSector } from '../../store/actions/sector';
 
 class SectorCreate extends Component {
 
-    state = {
-		confirmDirty: false,
-	};
+	constructor() {
+		
+		super();
+		this.state = {
+			formLayout: 'vertical',
+		};
+	}
 
 	handleSubmit = e => {
 		
@@ -20,9 +24,11 @@ class SectorCreate extends Component {
 
 				const token = this.props.token;
 				const sector = {
+
 					initials: values.initials,
 					name: values.name
 				};
+
 				if((this.props.createSector(token, sector)) !== fail) {
 					message.success('O Setor ' + sector.initials + ' Foi Cadastrado Com Sucesso');
 				} else {
@@ -40,83 +46,60 @@ class SectorCreate extends Component {
 	render() {
 		
 		const { getFieldDecorator } = this.props.form;
+		const { formLayout } = this.state;
+		const formItemLayout = formLayout === 'vertical'? {
+            labelCol: { span: 4 },
+            wrapperCol: { span: 14 },
+		}
+		: null;
 
 		return (
-		
-			<Form onSubmit = { this.handleSubmit } >
-				<Form.Item label = 'Sigla'>
-					{
-						getFieldDecorator('initials', {
-							rules: [{ 
-								required: true, 
-								message: 'Por favor, Coloque a Sigla!' 
-							}],
-						})(
-							<Input
-								prefix = {
-									<Icon 
-										type = 'form' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' 
-										}} 
-									/>
-								}
-								placeholder = 'Sigla'
-							/>,
-						)
-					}
-				</Form.Item>
 
-				<Form.Item label = 'Nome do Setor'>
-					{
-						getFieldDecorator('name', {
-							rules: [{ 
-								required: true, 
-								message: 'Por favor, Coloque o Nome do Setor!' 
-							}],
-						})(
-							<Input
-								prefix = {
-									<Icon 
-										type = 'form' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' 
-										}} 
-									/>
-								}
-								placeholder = 'Nome do Setor'
-							/>
-						)
-					}
-				</Form.Item>
+			<div className = 'content'>
+				<h1 className = 'texth1'> Criação de Setor </h1>
+				<Form onSubmit = { this.handleSubmit } >
+					<Form.Item label = 'Sigla' className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('initials', {
+								rules: [{ 
+									required: true, 
+									message: 'Por favor, Coloque a Sigla!' 
+								}],
+							})(
+								<Input prefix = { <Icon type = 'form'/> } placeholder = 'Sigla'/>
+							)
+						}
+					</Form.Item>
 
-				<Form.Item>
-					<div align = 'center'>
-						<Button 
-							type = 'primary' 
-							htmlType = 'submit' 
-							style = {{
-								marginRight: '10px'
-							}} >
-							<Icon 
-								type = 'save' 
-							/>
-							Cadastrar Setor
-						</Button>
-						<Button type = 'primary' >
-							<Link to = { '/lista_de_setores/' } >
-							<Icon 
-								style = {{
-									marginRight: '10px'
-								}}
-								type = 'stop' 
-							/>
-								Cancelar
-							</Link>
-						</Button>
-					</div>
-				</Form.Item>
-			</Form>
+					<Form.Item label = 'Nome do Setor' className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('name', {
+								rules: [{ 
+									required: true, 
+									message: 'Por favor, Coloque o Nome do Setor!' 
+								}],
+							})(
+								<Input prefix = { <Icon type = 'form'/> } placeholder = 'Nome do Setor'/>
+							)
+						}
+					</Form.Item>
+
+					<Form.Item>
+						<div align = 'center'>
+							<Button className = 'buttonSave' type = 'ghost' htmlType = 'submit'>
+								<Icon type = 'save'/>
+								Cadastrar Setor
+							</Button>
+							<Button type = 'default' className = 'buttonCancel'>
+								<Link to = { '/lista_de_setores/' }>
+								<Icon className = 'icons' type = 'stop'/>
+									Cancelar
+								</Link>
+							</Button>
+						</div>
+					</Form.Item>
+				</Form>
+			</div>
 		);
 	}
 }

@@ -147,7 +147,7 @@ class UserEdit extends Component {
 						<Skeleton active />
 					) : (
 						<Hoc>
-							<div className = 'userContent'>
+							<div className = 'content'>
 								<h1 className = 'texth1'> Informações Cadastradas </h1>
 								<Form layout = 'vertical' className = 'formUser'>
 									<Form.Item 
@@ -241,34 +241,18 @@ class UserEdit extends Component {
 					{
 						sectors.length === 0 ? (
 							<Hoc>
-								<div align = 'center' className = 'userContent'>
-								<h1 
-									className = 'texth1'> 
+								<div align = 'center' className = 'content'>
+								<h1 className = 'texth1'> 
 									Você Não Possui Setor Cadastrado um Antes e Volte Aqui Depois 
 								</h1>
-									<Button
-										type = 'ghost'
-										className = 'buttonSubmit' 
-									>
+									<Button type = 'ghost' className = 'buttonSubmit'>
 										<Link to = { '/criar_setor/' } >
-										<Icon 
-											style = {{
-												marginRight: '10px'
-											}}
-											type = 'highlight' />
+										<Icon className = 'icons' type = 'highlight'/>
 											Criar Setor
 										</Link>
 									</Button>
-									<Button 
-										type = 'ghost'
-										className = 'buttonCancel'
-									>
-										<Link to = { '/informacoes_usuario/' } >
-										<Icon 
-											style = {{
-												marginRight: '10px'
-											}}
-											type = 'stop' />
+									<Button type = 'ghost' className = 'buttonCancel'>								<Link to = { '/informacoes_usuario/' } >
+										<Icon className = 'icons' type = 'stop'/>
 											Cancelar
 										</Link>
 									</Button>
@@ -276,150 +260,155 @@ class UserEdit extends Component {
 							</Hoc>
 						) : (
 							<Hoc>
-								<h1> Informações A Serem Alteradas </h1>
-								<Form layout = 'vertical' onSubmit = { this.handleSubmit } >
-									<Form.Item label = 'Nome Completo' >
-										{
-											getFieldDecorator('name', {
-												rules: [{ 
-													required: true, 
-													message: 'Por favor, Insira Seu Nome Completo!'
-												}],
-											})(
-												<Input
-													prefix = {
-														<Icon type = 'user' 
-															style = {{ color: 'rgba(0,0,0,.25)' }} 
-														/>
-													}
-													placeholder = 'Nome Completo'
-												/>,
-											)
-										}
-									</Form.Item>
+								<div className = 'content'>
+									<h1 className = 'texth1'> Informações A Serem Alteradas </h1>
+									<Form layout = 'vertical' onSubmit = { this.handleSubmit } >
+										<Form.Item 
+											label = 'Nome Completo'
+											{ ...formItemLayout }
+											className = 'formFields'
+										>
+											{
+												getFieldDecorator('name', {
+													rules: [{ 
+														required: true, 
+														message: 'Por favor, Insira Seu Nome Completo!'
+													}],
+												})(
+													<Input 
+														prefix = { <Icon type = 'user'/> }
+														placeholder = 'Nome Completo'
+													/>
+												)
+											}
+										</Form.Item>
 
-									<Form.Item label='Setor' hasFeedback >
-										{
-											getFieldDecorator('sector', {
-											rules: [
-												{
-													required: false,
-													message: 'Por favor, Escolha o Setor do Usuário!',
-												}
-												],
-											})(
-												<Select placeholder = 'Escolha o Setor' >
-													{ dataSource.innerArray.map(sector => 
-														<Option 
-															key = { sector.key } 
-															value = { sector.initials }>
-															{ sector.name }
-														</Option>)
+										<Form.Item 
+											label = 'Setor' 
+											hasFeedback 
+											{ ...formItemLayout }
+											className = 'formFields'
+										>
+											{
+												getFieldDecorator('sector', {
+												rules: [
+													{
+														required: true,
+														message: 'Por favor, Escolha o Setor do Usuário!',
 													}
-												</Select>  
-											)
-										}
-									</Form.Item>
-
-									<Form.Item label = 'Ramal' >
-										{
-											getFieldDecorator('ramal', {
-												rules: [{ 
-													required: true, 
-													message: 'Por favor, Coloque Seu Ramal!' 
-												}],
-											})(
-												<Input
-													prefix = {
-														<Icon type = 'phone' 
-															style={{ color: 'rgba(0,0,0,.25)' }} 
-														/>
-													}
-													type = 'number'
-													placeholder="Ramal"
-												/>,
-											)
-										}
-									</Form.Item>
-
-									{
-										currentUser.is_administrator === true ? (
-											<Form.Item label = 'Tipo de Usuário' hasFeedback >
-												{
-													getFieldDecorator('userType', {
-													rules: [
-														{
-															required: true,
-															message: 'Por favor, Escolha o Tipo de Usuário!',
-														}
-														],
-													})(
-														<Select placeholder = 'Escolha o tipo de usuário' >
+													],
+												})(
+													<Select placeholder = 'Escolha o Setor' >
+														{ dataSource.innerArray.map(sector => 
 															<Option 
-																value = 'administrator' > 
-																	Administrador
-															</Option>
-															<Option 
-																value = 'participant' > 
-																	Participante da Reunião
-															</Option>
-														</Select>  
-													)
-												}
-											</Form.Item>
-										) : (
-											<Form.Item label = 'Tipo de Usuário' hasFeedback >
-												{
-													getFieldDecorator('userType', {
-													rules: [
-														{
-															required: false
+																key = { sector.key } 
+																value = { sector.initials }>
+																{ sector.name }
+															</Option>)
 														}
-														],
-													})(
-														<Input
-															prefix = {
-																<Icon 
-																	type = 'form' 
-																	style = {{ 
-																		color: 'rgba(0,0,0,.25)' 
-																	}} 
-																/>
+													</Select>  
+												)
+											}
+										</Form.Item>
+
+										<Form.Item 
+											label = 'Ramal'
+											{ ...formItemLayout }
+											className = 'formFields'	
+										>
+											{
+												getFieldDecorator('ramal', {
+													rules: [{ 
+														required: true, 
+														message: 'Por favor, Coloque Seu Ramal!' 
+													}],
+												})(
+													<Input 
+														prefix = { <Icon type = 'phone'/> }
+														type = 'number'
+														placeholder = 'Ramal'
+													/>
+												)
+											}
+										</Form.Item>
+
+										{
+											currentUser.is_administrator === true ? (
+												<Form.Item 
+													label = 'Tipo de Usuário' 
+													hasFeedback
+													{ ...formItemLayout }
+													className = 'formFields'
+												>
+													{
+														getFieldDecorator('userType', {
+														rules: [
+															{
+																required: true,
+																message: 'Por favor,' + 
+																'Escolha o Tipo de Usuário!',
 															}
-															placeholder = 'Participante da Reunião'
-															disabled = { true }
-														/> 
-													)
-												}
-											</Form.Item>
-										)
-									}
+															],
+														})(
+															<Select 
+																placeholder = 'Escolha o tipo de usuário'>
+																<Option 
+																	value = 'administrator' > 
+																		Administrador
+																</Option>
+																<Option 
+																	value = 'participant' > 
+																		Participante da Reunião
+																</Option>
+															</Select>  
+														)
+													}
+												</Form.Item>
+											) : (
+												<Form.Item 
+													label = 'Tipo de Usuário' 
+													hasFeedback
+													{ ...formItemLayout }
+													className = 'formFields'	
+												>
+													{
+														getFieldDecorator('userType', {
+														rules: [
+															{
+																required: false
+															}
+															],
+														})(
+															<Input prefix = { <Icon type = 'form' /> }
+																placeholder = 'Participante da Reunião'
+																disabled = { true }
+															/> 
+														)
+													}
+												</Form.Item>
+											)
+										}
 
-									<Form.Item>
-										<div align = 'center'>
-											<Button 
-												type = 'primary' 
-												htmlType = 'submit' 
-												style = {{
-													marginRight: '20px'
-												}}
-											>
-												<Icon type = 'edit' />
-													Alterar Informações	
-											</Button>
-											<Button type = 'primary' >
-												<Link to = { '/informacoes_usuario/' } >
-												<Icon 
-													style = {{
-														marginRight: '10px'
-													}}
-													type = 'stop' />
-													Cancelar
-												</Link>
-											</Button>
-										</div>
-									</Form.Item>
-								</Form>
+										<Form.Item>
+											<div align = 'center'>
+												<Button 
+													type = 'ghost' 
+													htmlType = 'submit' 
+													className = 'buttonEdit' 
+												>
+													<Icon type = 'edit'/>
+														Alterar Informações	
+												</Button>
+												<Button type = 'ghost' className = 'buttonCancel'>
+													<Link to = { '/informacoes_usuario/' }>
+													<Icon type = 'stop' className = 'icons'/>
+														Cancelar
+													</Link>
+												</Button>
+											</div>
+										</Form.Item>
+									</Form>
+								</div>
 							</Hoc>
 						) 
 					}
@@ -432,15 +421,19 @@ class UserEdit extends Component {
 const UserEditForm = Form.create()(UserEdit);
 
 const mapStateToProps = state => {
+
 	return {
+	
 		token: state.auth.token,
 		currentUser: state.auth.currentUser,
-		sectors: state.sector.sectors,
+		sectors: state.sector.sectors
 	};
 };
 
 const mapDispatchToProps = dispatch => {
+	
 	return {
+	
 		getUser: (token, userId) => dispatch(getUser(token, userId)),
 		updateUser: (token, user) => dispatch(updateUser(token, user)),
 		getSectors: token => dispatch(getSectors(token))

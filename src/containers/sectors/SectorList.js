@@ -21,18 +21,6 @@ class SectorList extends Component {
     componentWillReceiveProps(newProps) {
         
         if (newProps.token !== this.props.token) {
-        
-            if (newProps.token !== undefined && newProps.token !== null) {
-        
-                this.forceUpdate();
-                this.props.getSectors(newProps.token);   
-            }
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(newProps) {
-        
-        if (newProps.token !== this.props.token) {
          
             if (newProps.token !== undefined && newProps.token !== null) {
          
@@ -68,14 +56,14 @@ class SectorList extends Component {
                     this.props.loading ? (
                         <Skeleton active />
                     ) : (
-                            <Table columns = {
-                                [
+                            <div className = 'contentList'>
+                                <Table columns = {[
                                     {
                                         title: 'Sigla',
                                         dataIndex: 'initials',
                                         key: 'initials',
                                         render: (text) => (
-                                            <b>{text}</b>
+                                            <b> { text } </b>
                                         )
                                     },
                                     {
@@ -83,7 +71,7 @@ class SectorList extends Component {
                                         dataIndex: 'name',
                                         key: 'name',
                                         render: (text) => (
-                                            <b>{text}</b>
+                                            <b> { text } </b>
                                         )
                                     },
                                     {
@@ -92,14 +80,13 @@ class SectorList extends Component {
                                         render: (record) => (
                                         <span>
                                             <Button 
-                                                type = 'primary' 
+                                                type = 'ghost'
+                                                className = 'buttonEdit' 
                                                 htmlType = 'submit' 
-                                                style = {{ marginRight: '20px' }}
+                                                style = {{ marginTop: '15px' }}
                                             >
                                                 <Link to = { `/editar_setor/${ record.key }` } >
-                                                    <Icon 
-                                                        type = 'edit' 
-                                                        style = {{ marginRight: '10px' }} />
+                                                    <Icon type = 'edit' className = 'icons'/>
                                                         Editar Setor
                                                 </Link>
                                             </Button>
@@ -107,11 +94,13 @@ class SectorList extends Component {
                                         ),
                                     },
                                 ]
-                            }
-                            dataSource = {
-								dataSource.innerArray
-							} 
-                        />
+                                }
+                                dataSource = {
+                                    dataSource.innerArray
+                                } 
+                            />
+                        </div>
+                            
                     )
                 }
             </Hoc>
@@ -122,6 +111,7 @@ class SectorList extends Component {
 const mapStateToProps = state => {
     
     return {
+
         token: state.auth.token,
         sectors: state.sector.sectors,
         loading: state.auth.loading

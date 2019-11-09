@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Icon, Input, AutoComplete } from 'antd';
 
-import './layout.css';
-
 const { Option, OptGroup } = AutoComplete;
 
 class AutoCompleteComponent extends Component {
@@ -23,7 +21,7 @@ class AutoCompleteComponent extends Component {
 			<OptGroup key = { group.title }>
 				{ group.children.map(opt => (
 					<Option key = { opt.title } value = { opt.title }>
-						{opt.title}
+						{ opt.title }
 						<span className = 'certain-search-item-count'> { opt.count } people</span>
 					</Option>
 				))}
@@ -32,15 +30,14 @@ class AutoCompleteComponent extends Component {
 		
         return (
 
-			<div className = 'autoComplete' 
-				style = {{ paddingBottom: 30 }}>
+			<div className = 'autoComplete'>
 				<AutoComplete
 					className = 'certain-category-search'
 					dropdownClassName = 'certain-category-search-dropdown'
 					dropdownMatchSelectWidth = { false }
-					dropdownStyle ={{ width: 300 }}
+					dropdownStyle = {{ width: 300 }}
 					size = 'large'
-					style ={{ width: '100%' }}
+					style = {{ width: '100%' }}
 					dataSource ={ options }
 					placeholder = 'Procure Por Reuniões Em Que Está Inserido'
 					optionLabelProp = 'value'
