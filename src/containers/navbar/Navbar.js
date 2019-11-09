@@ -3,7 +3,6 @@ import { Layout, Menu, Icon } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import './navbar.css';
 import DropdownNav from './DropdownNav';
 import { logout } from '../../store/actions/auth';
 

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Skeleton, Table, Tag, Button, Icon } from 'antd';
 
-import './project.css';
 import { getProjects } from '../../store/actions/project';
 import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';

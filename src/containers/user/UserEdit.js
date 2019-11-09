@@ -8,13 +8,13 @@ import { getUser, updateUser } from '../../store/actions/auth';
 import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
-import './user.css';
 
 const Option = Select.Option;
 
 class UserEdit extends Component {
 
     constructor() {
+		
 		super();
 		this.state = {
 			formLayout: 'vertical',
@@ -34,7 +34,7 @@ class UserEdit extends Component {
 		}
 	}
 
-	UNSAFE_componentWillReceiveProps(newProps) {
+	componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
@@ -51,6 +51,7 @@ class UserEdit extends Component {
 		e.preventDefault();
 		
 		this.props.form.validateFieldsAndScroll((err, values) => {
+			
 			if (!err) {
 		
 				const { currentUser } = this.props;
@@ -106,6 +107,7 @@ class UserEdit extends Component {
 	};
 
     render() {
+
 		const { currentUser } = this.props;
 		const sectors = this.props.sectors;
 		const { getFieldDecorator } = this.props.form;
@@ -145,78 +147,109 @@ class UserEdit extends Component {
 						<Skeleton active />
 					) : (
 						<Hoc>
-							<h1> Informações Cadastradas </h1>
-							<Form layout = 'vertical' >
-								<Form.Item label = 'Nome' { ...formItemLayout } >
-									<Input 
-										value = { currentUser.name } 
-										disabled = { true } 
-									/>
-								</Form.Item>
-								
-								<Form.Item label = 'Usuário' { ...formItemLayout } >
-									<Input 
-										value = { currentUser.username } 
-										disabled = { true } 
-									/>
-								</Form.Item>
-								
-								<Form.Item label = 'Email' { ...formItemLayout } >
-									<Input 
-										value = { currentUser.email } 
-										disabled = { true } 
-									/>
-								</Form.Item>
+							<div className = 'userContent'>
+								<h1 className = 'texth1'> Informações Cadastradas </h1>
+								<Form layout = 'vertical' className = 'formUser'>
+									<Form.Item 
+										label = 'Nome' 
+										{ ...formItemLayout }
+										className = 'formFields'	
+									>
+										<Input 
+											value = { currentUser.name } 
+											disabled = { true } 
+										/>
+									</Form.Item>
+									
+									<Form.Item 
+										label = 'Usuário' 
+										{ ...formItemLayout }
+										className = 'formFields'	
+									>
+										<Input 
+											value = { currentUser.username } 
+											disabled = { true } 
+										/>
+									</Form.Item>
+									
+									<Form.Item 
+										label = 'Email' 
+										{ ...formItemLayout } 
+										className = 'formFields'	
+									>
+										<Input 
+											value = { currentUser.email } 
+											disabled = { true } 
+										/>
+									</Form.Item>
 
-								<Form.Item label = 'Setor' { ...formItemLayout } >
-									<Input 
-										value = { currentUser.sector } 
-										disabled = { true } 
-									/>
-								</Form.Item>
-								
-								<Form.Item label = 'Ramal' { ...formItemLayout } >
-									<Input 
-										value = { currentUser.ramal } 
-										disabled = { true } />
-								</Form.Item>
+									<Form.Item 
+										label = 'Setor' 
+										{ ...formItemLayout }
+										className = 'formFields'	
+									>
+										<Input 
+											value = { currentUser.sector } 
+											disabled = { true } 
+										/>
+									</Form.Item>
+									
+									<Form.Item 
+										label = 'Ramal' 
+										{ ...formItemLayout }
+										className = 'formFields'	
+									>
+										<Input 
+											value = { currentUser.ramal } 
+											disabled = { true } />
+									</Form.Item>
 
-								{
-									currentUser.is_administrator === true ? (
-										<Form.Item label = 'Tipo de Usuário' 
-											{ ...formItemLayout } >
-											<Input 
-												value = 'Administrador' 
-												disabled = { true } />
-										</Form.Item>
-									) : null
-								}
+									{
+										currentUser.is_administrator === true ? (
+											<Form.Item 
+												label = 'Tipo de Usuário' 
+												{ ...formItemLayout }
+												className = 'formFields'	
+												>
+												<Input 
+													value = 'Administrador' 
+													disabled = { true } />
+											</Form.Item>
+										) : null
+									}
 
-								{
-									currentUser.is_participant === true ? (
-										<Form.Item label = 'Tipo de Usuário' 
-											{ ...formItemLayout } >
-											<Input 
-												value = 'Participante da Reunião'
-												disabled = { true } />
-										</Form.Item>
-									) : null	
-								}		
-							</Form>
+									{
+										currentUser.is_participant === true ? (
+											<Form.Item 
+												label = 'Tipo de Usuário' 
+												{ ...formItemLayout }
+												className = 'formFields'													
+											>
+												<Input 
+													value = 'Participante da Reunião'
+													disabled = { true } />
+											</Form.Item>
+										) : null	
+									}		
+								</Form>
+								.
+							</div>
 						</Hoc>
 					)
 				}
 				<Hoc>
 					{
 						sectors.length === 0 ? (
-							<Hoc> 
-								<h1> Você Não Possui Setor Cadastrado um Antes e Volte Aqui Depois </h1>
-								<div align = 'center'>
-									<Button 
-										type = 'primary'
-										style = {{
-											marginRight: '40px'
-										}} >
+							<Hoc>
+								<div align = 'center' className = 'userContent'>
+								<h1 
+									className = 'texth1'> 
+									Você Não Possui Setor Cadastrado um Antes e Volte Aqui Depois 
+								</h1>
+									<Button
+										type = 'ghost'
+										className = 'buttonSubmit' 
+									>
 										<Link to = { '/criar_setor/' } >
 										<Icon 
 											style = {{
@@ -226,7 +259,10 @@ class UserEdit extends Component {
 											Criar Setor
 										</Link>
 									</Button>
-									<Button type = 'primary' >
+									<Button 
+										type = 'ghost'
+										className = 'buttonCancel'
+									>
 										<Link to = { '/informacoes_usuario/' } >
 										<Icon 
 											style = {{

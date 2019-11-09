@@ -9,10 +9,8 @@
     border-radius: 20px;
 }
 
-.inputFormLogin {
-    position: absolute;
-    top: 100px;
-    margin-top: 140px;
+.inputFormLoginUser {
+    margin-top: 100px;
     left: 155px;
     right: 155px;
     width: 338px;
@@ -20,11 +18,19 @@
     border-radius: 20px;
 }
 
-.buttonSubmit {
-    position: absolute;
+.inputFormLoginPassword {
+    margin-top: 20px;
+    left: 155px;
+    right: 155px;
+    width: 338px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.buttonSubmitLogin {
     width: 194px;
     height: 32px;
-    top: 120px;
+    margin-top: 20px;
     left: 220px;
     font-family: Roboto;
     font-style: normal;
@@ -34,12 +40,15 @@
 
 .texth1 {
     text-align: center;
-    margin-bottom: 20px;
     font-size: 26px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.userDetail {
+.formUser {
+    margin-top: 20px;
+}
+
+.userContent {
     margin-top: 40px;
     margin-left: 200px;
     margin-right: 200px;
@@ -51,4 +60,46 @@
 .formFields {
     left: 50px;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.buttonSubmit {
+    margin-bottom: 25px;
+    margin-right: 20px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background:#4FA1C1;
+    border-radius: 10px;
+}
+
+.buttonCancel {
+    margin-bottom: 25px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: red;
+    border-radius: 10px;
+}
+
+.buttomEdit {
+    margin-bottom: 25px;
+    margin-right: 20px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: orange;
+    border-radius: 10px;
+}
+
+.buttonDelete {
+    margin-bottom: 25px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: red;
+    border-radius: 10px;
 }

@@ -81,9 +81,9 @@ class UserDetail extends Component {
 						<Skeleton active />
 					) : (
 						<Hoc>
-							<div className = 'userDetail'>
+							<div className = 'userContent'>
 								<h1 className = 'texth1'> Informações Cadastradas </h1>
-								<Form layout = 'vertical'>
+								<Form layout = 'vertical' className = 'formUser'>
 									<Form.Item 
 										label = 'Nome' 
 										{ ...formItemLayout }
@@ -165,12 +165,11 @@ class UserDetail extends Component {
 									
 									<Form.Item>
 										<div align = 'center'>
-											<Button 
-												type = 'primary' 
+											<Button
+												className = 'buttomEdit' 
+												type = 'ghost' 
 												htmlType = 'submit' 
-												style = {{ marginRight: '20px' }}
 											>
-
 												<Link to = { '/alterar_informacoes/' } >
 													<Icon 
 														type = 'edit' 
@@ -179,14 +178,16 @@ class UserDetail extends Component {
 												</Link>
 											</Button>
 											<Button 
+												className = 'buttonDelete'
 												onClick = { () => 
 														this.showDeleteConfirm(
 															token,
 															currentUser.name,
 															currentUser.userId)} 
-												type = 'danger' >
-													<Icon type = 'delete' />
-													Excluir Perfil 
+												type = 'ghost'
+											>
+												<Icon type = 'delete' />
+												Excluir Perfil 
 											</Button>
 										</div>
 									</Form.Item>

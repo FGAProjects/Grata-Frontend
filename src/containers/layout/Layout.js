@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import AutoComplete from './AutoComplete';
 import Navbar from '../navbar/Navbar';
 import './layout.css';
+import '../user/user.css';
+import '../navbar/navbar.css';
+import '../projects/project.css';
 
 const { Footer } = Layout;
 

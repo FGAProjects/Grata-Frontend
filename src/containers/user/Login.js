@@ -45,7 +45,7 @@ class Login extends React.Component {
                         <Content className = 'contentLogin'>
                             <Form onSubmit = { this.handleSubmit } className = 'login-form' >
 
-                                <Form.Item className = 'inputFormLogin'>
+                                <Form.Item className = 'inputFormLoginUser'>
                                     {
                                         getFieldDecorator('username', {
                                         rules: [{ 
@@ -68,7 +68,7 @@ class Login extends React.Component {
                                     )}
                                 </Form.Item>
 
-                                <Form.Item className = 'inputFormLogin'>
+                                <Form.Item className = 'inputFormLoginPassword'>
                                     {
                                         getFieldDecorator('password', {
                                         rules: [{ 
@@ -90,7 +90,10 @@ class Login extends React.Component {
                                     )}
                                 </Form.Item>
 
-                                <Button type = 'primary' htmlType = 'submit' className = 'buttonSubmit'>
+                                <Button 
+                                    type = 'primary' 
+                                    htmlType = 'submit' 
+                                    className = 'buttonSubmitLogin'>
                                     Login
                                 </Button>
                             </Form>
