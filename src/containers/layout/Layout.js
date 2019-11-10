@@ -49,10 +49,7 @@ class CustomLayout extends Component {
 const mapStateToProps = state => {
 
   	return {
-
-		userId: state.auth.userId,
-		token: state.auth.token,
-		is_administrator: state.auth.is_administrator
+		token: state.auth.token
 	};
 };
 

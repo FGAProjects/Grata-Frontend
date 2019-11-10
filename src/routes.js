@@ -46,14 +46,11 @@ const BaseRouter = () => (
         <Route exact path = '/editar_setor/:sector_id' component = { SectorEdit } />
         <Route exact path = '/lista_de_setores/' component = { SectorList } />
         <Route exact path = '/criar_regras/:meeting_id/' component = { RulesCreate } />
-        <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/' 
-                            component = { UserMeeting } />
+        <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/' component = { UserMeeting } />
         <Route exact path = '/visualizar_ata/:meeting_id/:project_id/:sector_id' 
                             component = { Record } />
-        <Route exact path = '/criar_questionario/:meeting_id/' 
-                            component = { QuizCreator } />
-        <Route exact path = '/responder_questionario/:meeting_id/' 
-                            component = { QuizCreator } />
+        <Route exact path = '/criar_questionario/:meeting_id/' component = { QuizCreator } />
+        <Route exact path = '/responder_questionario/:meeting_id/' component = { QuizCreator } />
     </Hoc>
 );
 

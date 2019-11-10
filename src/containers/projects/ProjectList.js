@@ -70,7 +70,7 @@ class ProjectsList extends Component {
                     this.props.loading ? (
                         <Skeleton active />
                     ) : (
-                            <div className = 'contentProject'>
+                            <div className = 'contentList'>
                                 <Table columns = {
                                 [{
                                     title: 'Título',

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class DropdownNav extends Component {
 
@@ -33,13 +35,16 @@ class DropdownNav extends Component {
 
 				<Dropdown overlay = { 
 					<Menu>
-						<Menu.Item key = '0' >
-							<Icon type = 'user-add' />
-								<Link to = '/adicionar_usuario/' >
-									Adicionar Usuário
-								</Link>
-						</Menu.Item>
-				
+						{
+							this.props.is_administrator === true ? (
+								<Menu.Item key = '0' >
+									<Icon type = 'user-add' />
+										<Link to = '/adicionar_usuario/' >
+											Adicionar Usuário
+										</Link>
+								</Menu.Item>
+							) : null
+						}
 						<Menu.Item key = '1' >
 							<Icon type = 'team' />
 								<Link to = '/lista_usuarios/' >
@@ -55,12 +60,16 @@ class DropdownNav extends Component {
 
 				<Dropdown overlay = { 
 					<Menu>
-						<Menu.Item key = '0' >
-							<Icon type = 'project' />
-								<Link to = { '/criar_setor/' } >
-									Adicionar Setor
-								</Link>
-						</Menu.Item>
+						{
+							this.props.is_administrator === true ? (
+								<Menu.Item key = '0' >
+									<Icon type = 'project' />
+										<Link to = { '/criar_setor/' } >
+											Adicionar Setor
+										</Link>
+								</Menu.Item>
+							) : null
+						}
 						<Menu.Item key = '1' >
 							<Icon type = 'ordered-list' />
 								<Link to= { '/lista_de_setores/' } >
@@ -77,12 +86,16 @@ class DropdownNav extends Component {
 
 				<Dropdown overlay = { 
 					<Menu>
-						<Menu.Item key = '0' >
-							<Icon type = 'project' />
-								<Link to = { '/criar_projeto/' } >
-									Adicionar Projeto
-								</Link>
-						</Menu.Item>
+						{
+							this.props.is_administrator === true ? (
+								<Menu.Item key = '0' >
+									<Icon type = 'project' />
+										<Link to = { '/criar_projeto/' } >
+											Adicionar Projeto
+										</Link>
+								</Menu.Item>
+							) : null
+						}
 						<Menu.Item key = '1' >
 							<Icon type = 'ordered-list' />
 								<Link to = { '/lista_de_projetos/' } >
@@ -106,4 +119,13 @@ class DropdownNav extends Component {
     }
 }
 
-export default DropdownNav;
+const mapStateToProps = state => {
+
+	return {
+
+		token: state.auth.token,
+	  	is_administrator: state.auth.is_administrator
+  	};
+};
+
+export default withRouter(connect(mapStateToProps)(DropdownNav));

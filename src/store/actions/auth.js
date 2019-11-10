@@ -14,6 +14,7 @@ export const authStart = () => {
 export const authSuccess = user => {
 	  
 	return {
+		
     	type: AUTH_SUCCESS,
     	user
   	};

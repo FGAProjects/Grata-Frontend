@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, Select, message } from 'antd';
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fail } from 'assert';
 
 import { authSignup } from '../../store/actions/auth';
@@ -10,8 +10,17 @@ const Option = Select.Option;
   
 class UserRegister extends Component {
 
+	constructor() {
+		
+		super();
+		this.state = {
+			formLayout: 'vertical',
+			confirmDirty: false
+		};
+	}
+
 	state = {
-		confirmDirty: false,
+		confirmDirty: false
 	};
 
 	handleSubmit = e => {
@@ -28,6 +37,7 @@ class UserRegister extends Component {
 				}
 			
 				const user = {
+
 					username: values.username,
 					name: values.name,
 					ramal: values.ramal,
@@ -38,8 +48,7 @@ class UserRegister extends Component {
 				}
 
 				if((this.props.onAuth(user)) !== fail) {
-					message.success('O Usuário ' + values.username + 
-									' Foi Cadastrado Com Sucesso!');
+					message.success('O Usuário ' + values.username + ' Foi Cadastrado Com Sucesso!');
 				} else {
 					message.error('Não Foi Possível Cadastrar o Usuário. ' + 
 								  'Entre em Contato Com o Desenvolvedor!');
@@ -81,209 +90,164 @@ class UserRegister extends Component {
 	render() {
 		
 		const { getFieldDecorator } = this.props.form;
+		const { formLayout } = this.state;
+		const formItemLayout = formLayout === 'vertical'? {
+            labelCol: { span: 4 },
+            wrapperCol: { span: 14 },
+		}
+		: null;
 
 		return (
-			<Form onSubmit = { this.handleSubmit } >
-				<Form.Item label = 'Nome Completo' >
-					{
-						getFieldDecorator('name', {
-							rules: [{ 
-								required: true, 
-								message: 'Por favor, Insira Seu Nome Completo!'
-							}],
-						})(
-							<Input
-								prefix = {
-									<Icon 
-										type = 'user' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' 
-										}} 
-									/>
-								}
-								placeholder = 'Nome Completo'
-							/>,
-						)
-					}
-				</Form.Item>
+			<div className = 'content'>
+				<h1 className = 'texth1'> Criar Novo Usuário </h1>
+				<Form onSubmit = { this.handleSubmit } >
+					<Form.Item label = 'Nome Completo' className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('name', {
+								rules: [{ 
+									required: true, 
+									message: 'Por favor, Insira Seu Nome Completo!'
+								}],
+							})(
+								<Input prefix = { <Icon type = 'user' className = 'icons'/> }
+									placeholder = 'Nome Completo'
+								/>
+							)
+						}
+					</Form.Item>
 
-				<Form.Item label = 'Usuário' >
-					{
-						getFieldDecorator('username', {
-							rules: [{ 
-								required: true, 
-								message: 'Por favor, Coloque Seu Usuário!',
-							},
-							{
-								max: 10,
-								message: 'O Usuário Pode Ter no Máximo 10 Caracteres!',
-							}],
-						})(
-							<Input
-								prefix = {
-									<Icon 
-										type = 'user' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' 
-										}} 
-									/>
-								}
-								placeholder = 'Usuário'
-							/>,
-						)
-					}
-				</Form.Item>
+					<Form.Item label = 'Usuário' className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('username', {
+								rules: [{ 
+									required: true, 
+									message: 'Por favor, Coloque Seu Usuário!',
+								},
+								{
+									max: 10,
+									message: 'O Usuário Pode Ter no Máximo 10 Caracteres!',
+								}],
+							})(
+								<Input prefix = { <Icon type = 'user' className = 'icons'/> }
+									placeholder = 'Usuário'
+								/>
+							)
+						}
+					</Form.Item>
 
-				<Form.Item label = 'E-mail' >
-					{
-						getFieldDecorator('email', {
+					<Form.Item label = 'E-mail' className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('email', {
+								rules: [
+								{
+									type: 'email',
+									message: 'Esse tipo de E-mail Não é Válido!',
+								},
+								{
+									required: true,
+									message: 'Por Favor, Coloque Seu E-mail!',
+								},
+								],
+							})(
+								<Input 
+									prefix = { <Icon type = 'mail' className = 'icons'/> }
+									placeholder = 'Email'
+								/>
+							)
+						}
+					</Form.Item>
+
+					<Form.Item label = 'Ramal' className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('ramal', {
+								rules: [{ 
+									required: true, 
+									message: 'Por favor, Coloque Seu Ramal!' 
+								}],
+							})(
+								<Input prefix = { <Icon type = 'phone' className = 'icons'/> }
+									type = 'number' placeholder = 'Ramal'
+								/>
+							)
+						}
+					</Form.Item>
+
+					<Form.Item label='Senha' hasFeedback className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('password1', {
+								rules: [
+								{
+									required: true,
+									message: 'Por favor, Insira Sua Senha!',
+								},
+								{
+									validator: this.validateToNextPassword,
+								},
+								],
+							})(
+								<Input prefix = { <Icon type = 'lock' className = 'icons'/> }
+									type = 'password' placeholder = 'Senha'
+								/>
+							)
+						}
+					</Form.Item>
+
+					<Form.Item label = 'Repita a Senha' hasFeedback 
+							   className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('password2', {
+								rules: [
+								{
+									required: true,
+									message: 'Por favor, Repita a Sua Senha!',
+								},
+								{
+									validator: this.compareToFirstPassword,
+								},
+								],
+							})(
+								<Input prefix = { <Icon type = 'lock' className = 'icons'/> }
+									type = 'password' placeholder = 'Repita sua senha' 
+									onBlur = { this.handleConfirmBlur } 
+								/>
+							)
+						}
+					</Form.Item>
+
+					<Form.Item label = 'Tipo de Usuário' hasFeedback 
+							   className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('userType', {
 							rules: [
-							{
-								type: 'email',
-								message: 'Esse tipo de E-mail Não é Válido!',
-							},
-							{
-								required: true,
-								message: 'Por Favor, Coloque Seu E-mail!',
-							},
-							],
-						})(
-							<Input 
-								prefix = {
-									<Icon 
-										type = 'mail' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' }} 
-									/>
+								{
+									required: true,
+									message: 'Por favor, Escolha o Tipo de Usuário!',
 								}
-								placeholder = 'Email'
-							/>
-						)
-					}
-				</Form.Item>
+								],
+							})(
+								<Select placeholder = 'Escolha o Tipo de Usuário' >
+									<Option value = 'administrator'> Administrador </Option>
+									<Option value = 'participant'> Participante da Reunião </Option>
+								</Select>  
+							)
+						}
+					</Form.Item>
 
-				<Form.Item label = 'Ramal' >
-					{
-						getFieldDecorator('ramal', {
-							rules: [{ 
-								required: true, 
-								message: 'Por favor, Coloque Seu Ramal!' 
-							}],
-						})(
-							<Input
-								prefix={
-									<Icon 
-										type = 'phone' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' 
-										}} 
-									/>
-								}
-								type = 'number'
-								placeholder = 'Ramal'
-							/>,
-						)
-					}
-				</Form.Item>
-
-				<Form.Item label='Senha' hasFeedback >
-					{
-						getFieldDecorator('password1', {
-							rules: [
-							{
-								required: true,
-								message: 'Por favor, Insira Sua Senha!',
-							},
-							{
-								validator: this.validateToNextPassword,
-							},
-							],
-						})(
-							<Input 
-								prefix={
-									<Icon 
-										type = 'lock' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' 
-										}} 
-									/>
-								}
-								type = 'password'
-								placeholder = 'Senha'
-							/>
-						)
-					}
-				</Form.Item>
-
-				<Form.Item label = 'Repita a Senha' hasFeedback >
-					{
-						getFieldDecorator('password2', {
-							rules: [
-							{
-								required: true,
-								message: 'Por favor, Repita a Sua Senha!',
-							},
-							{
-								validator: this.compareToFirstPassword,
-							},
-							],
-						})(
-							<Input 
-								prefix={
-									<Icon 
-										type = 'lock' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' 
-										}} 
-									/>
-								}
-								type = 'password'
-								placeholder = 'Repita sua senha' 
-								onBlur = { this.handleConfirmBlur } 
-							/>
-						)
-					}
-				</Form.Item>
-
-				<Form.Item label = 'Tipo de Usuário' hasFeedback >
-					{
-						getFieldDecorator('userType', {
-						rules: [
-							{
-								required: true,
-								message: 'Por favor, Escolha o Tipo de Usuário!',
-							}
-							],
-						})(
-							<Select placeholder = 'Escolha o Tipo de Usuário' >
-								<Option value = 'administrator'> Administrador </Option>
-								<Option value = 'participant'> Participante da Reunião </Option>
-							</Select>  
-						)
-					}
-				</Form.Item>
-
-				<Form.Item >
-					<Button 
-						type = 'primary' 
-						htmlType = 'submit' 
-						style = {{
-							marginRight: '10px'
-						}} 
-					>
-						Cadastrar
-					</Button>
-					Ou
-					<NavLink 
-						style = {{
-							marginRight: '10px'
-						}} 
-						to = '/login/'
-					> 
-						Entrar
-					</NavLink>
-				</Form.Item>
-			</Form>
+					<Form.Item>
+						<div align = 'center'>
+							<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+								Cadastrar
+							</Button>
+							<Button type = 'default' className = 'buttonCancel'>
+								<Link to = { '/lista_de_projetos/' }>
+								<Icon className = 'icons' type = 'stop'/>
+									Cancelar
+								</Link>
+							</Button>
+						</div>
+					</Form.Item>
+				</Form>
+			</div>
 		);
 	}
 }
