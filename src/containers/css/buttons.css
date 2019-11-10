@@ -19,6 +19,7 @@
 }
 
 .buttonEdit {
+    margin-top: 15px;
     margin-bottom: 25px;
     margin-right: 20px;
     font-family: Roboto;
@@ -48,6 +49,10 @@
     color: #FFFFFF;
     background:green;
     border-radius: 10px;
+}
+
+.buttonNew {
+    margin-top: 20px;
 }
 
 .buttonSubmitLogin {

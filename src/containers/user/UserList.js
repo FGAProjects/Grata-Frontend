@@ -62,6 +62,7 @@ class UserList extends Component {
             }
 
             dataSource.innerArray.push({
+
                 key: users[aux].id,
                 name: users[aux].name,
                 username: users[aux].username,
@@ -80,7 +81,8 @@ class UserList extends Component {
                     this.props.loading ? (
                         <Skeleton active />
                     ) : (
-                            <Table columns = {
+                            <div className = 'contentList'>
+                                <Table columns = {
                                 [{
                                     title: 'Nome',
                                     dataIndex: 'name',
@@ -143,11 +145,12 @@ class UserList extends Component {
                                         </span>
                                     ),
                                 },
-                            ]}
-                            dataSource = {
-								dataSource.innerArray
-							} 
-                        />
+                                ]}
+                                dataSource = {
+                                    dataSource.innerArray
+                                } 
+                            />
+                        </div>
                     )
                 }
             </Hoc>

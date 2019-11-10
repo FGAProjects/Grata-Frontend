@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Icon, Button, message, Select } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
+import { Link } from 'react-router-dom';
 
 import { createProject } from '../../store/actions/project';
 import { getSectors } from '../../store/actions/sector';
@@ -10,10 +11,15 @@ import { dynamicSort } from '../utils';
 const Option = Select.Option;
 
 class ProjectCreate extends Component {
-    
-    state = {
-		confirmDirty: false,
-	};
+
+	constructor() {
+		
+		super();
+		this.state = {
+			formLayout: 'vertical',
+			confirmDirty: false
+		};
+	}
 
 	componentDidMount() {
 		
@@ -40,7 +46,6 @@ class ProjectCreate extends Component {
 		
 				const sectors = this.props.sectors;
 				const token = this.props.token;
-				console.log(token)
 				let sector_id = '';
 
 				for(let aux = 0; aux < sectors.length; aux ++) {
@@ -70,7 +75,14 @@ class ProjectCreate extends Component {
 	};
 
 	render() {
+
 		const { getFieldDecorator } = this.props.form;
+		const { formLayout } = this.state;
+		const formItemLayout = formLayout === 'vertical'? {
+            labelCol: { span: 4 },
+            wrapperCol: { span: 14 },
+		}
+		: null;
 		const sectors = this.props.sectors;
 
 		let dataSource = {
@@ -80,7 +92,8 @@ class ProjectCreate extends Component {
         }
         
         for(let aux = 0; aux < sectors.length; aux ++) {
-            dataSource.innerArray.push(
+			
+			dataSource.innerArray.push(
                 {
                     key: sectors[aux].id,
                     initials: sectors[aux].initials,
@@ -92,91 +105,76 @@ class ProjectCreate extends Component {
 		dataSource.innerArray.sort(dynamicSort('initials'));
 
 		return (
-			<Form onSubmit = { this.handleSubmit } >
-				<Form.Item label = 'Título'>
-					{
-						getFieldDecorator('title', {
-							rules: [{ 
-								required: true, 
-								message: 'Por favor, Coloque o Título!' 
-							}],
-						})(
-							<Input
-								prefix = {
-									<Icon 
-										type = 'form' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' 
-										}} 
-									/>
-								}
-								placeholder = 'Usuário'
-							/>,
-						)
-					}
-				</Form.Item>
 
-				<Form.Item label='Setor' hasFeedback >
-					{
-						getFieldDecorator('sector', {
-						rules: [
-							{
-								required: true,
-								message: 'Por favor, Escolha o Setor do Usuário!',
-							}
-							],
-						})(
-							<Select placeholder = 'Escolha o Setor' >
-								{ dataSource.innerArray.map(sector => 
-									<Option 
-										key = { sector.key } 
-										value = { sector.initials }>
-										{ sector.name }
-									</Option>)
-								}
-							</Select>  
-						)
-					}
-				</Form.Item>
-
-				<Form.Item label = 'Status' >
-					{
-						getFieldDecorator('status', {
-							
-						})(
-							<Input 
-								prefix = {
-									<Icon 
-										type = 'mail' 
-										style = {{ 
-											color: 'rgba(0,0,0,.25)' }} 
-									/>
-								}
-								placeholder = 'Pendente'
-								disabled = { true }
-							/>
-						)
-					}
-				</Form.Item>
-
-				<div align = 'center' >
-					<Form.Item>
-						<Button 
-							type = 'primary' 
-							htmlType = 'submit' 
-							style = {{
-								marginRight: '10px'
-							}} >
-							<Icon 
-								style = {{
-									marginRight: '10px'
-								}}
-								type = 'save' />
-								Cadastrar Projeto
-						</Button>
+			<div className = 'content'>
+				<h1 className = 'texth1'> Criar Projeto </h1>
+				<Form onSubmit = { this.handleSubmit } >
+					<Form.Item label = 'Título'className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('title', {
+								rules: [{ 
+									required: true, 
+									message: 'Por favor, Coloque o Título!' 
+								}],
+							})(
+								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+									   placeholder = 'Usuário'
+								/>
+							)
+						}
 					</Form.Item>
-				</div>
-			</Form>
+
+					<Form.Item label ='Setor' hasFeedback className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('sector', {
+							rules: [
+								{
+									required: true,
+									message: 'Por favor, Escolha o Setor do Usuário!',
+								}
+								],
+							})(
+								<Select placeholder = 'Escolha o Setor' >
+									{ dataSource.innerArray.map(sector => 
+										<Option 
+											key = { sector.key } 
+											value = { sector.initials }>
+											{ sector.name }
+										</Option>)
+									}
+								</Select>  
+							)
+						}
+					</Form.Item>
+
+					<Form.Item label = 'Status' className = 'formFields' { ...formItemLayout }>
+						{
+							getFieldDecorator('status', {
+								
+							})(
+								<Input 
+									prefix = { <Icon type = 'mail' /> } placeholder = 'Pendente'
+									disabled = { true }
+								/>
+							)
+						}
+					</Form.Item>
+
+					<Form.Item>
+						<div align = 'center'>
+							<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+									Cadastrar Projeto
+							</Button>
+							<Button type = 'default' className = 'buttonCancel'>
+								<Link to = { '/lista_de_projetos/' }>
+								<Icon className = 'icons' type = 'stop'/>
+									Cancelar
+								</Link>
+							</Button>
+						</div>
+					</Form.Item>
+				</Form>
+			</div>
 		);
 	}
 }
@@ -186,15 +184,16 @@ const ProjectCreateForm = Form.create()(ProjectCreate);
 const mapStateToProps = (state) => {
 
 	return {
-		loading: state.project.loading,
-		error: state.project.error,
+
 		token: state.auth.token,
 		sectors: state.sector.sectors
 	}
 }
 
 const mapDispatchToProps = dispatch => {
+	
 	return {
+
 		createProject: (token, project) => dispatch(createProject(token, project)),
 		getSectors: token => dispatch(getSectors(token))
 	}

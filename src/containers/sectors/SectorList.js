@@ -80,10 +80,9 @@ class SectorList extends Component {
                                         render: (record) => (
                                         <span>
                                             <Button 
-                                                type = 'ghost'
+                                                type = 'ghost' 
                                                 className = 'buttonEdit' 
                                                 htmlType = 'submit' 
-                                                style = {{ marginTop: '15px' }}
                                             >
                                                 <Link to = { `/editar_setor/${ record.key }` } >
                                                     <Icon type = 'edit' className = 'icons'/>

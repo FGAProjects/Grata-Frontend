@@ -54,6 +54,7 @@ class ProjectsList extends Component {
             }
             
             dataSource.innerArray.push({
+                
                 key: projects[aux].id,
                 title: projects[aux].title,
                 sector: projects[aux].sector,
@@ -122,12 +123,10 @@ class ProjectsList extends Component {
                                     render: (record) => (
                                       <span>
                                         <Button 
-                                            type = 'primary' 
+                                            type = 'ghost' 
                                             htmlType = 'submit' 
-                                            style = {{ 
-                                                marginRight: '20px' 
-                                            }}
-                                    >
+                                            className = 'buttonEdit'
+                                        >
                                             <Link to = { `/editar_projeto/${ record.key }/${ sector_id }`} >
                                                 <Icon 
                                                     type = 'edit' 

@@ -14,8 +14,7 @@ class UserRegister extends Component {
 		
 		super();
 		this.state = {
-			formLayout: 'vertical',
-			confirmDirty: false
+			formLayout: 'vertical'
 		};
 	}
 
@@ -98,6 +97,7 @@ class UserRegister extends Component {
 		: null;
 
 		return (
+
 			<div className = 'content'>
 				<h1 className = 'texth1'> Criar Novo Usuário </h1>
 				<Form onSubmit = { this.handleSubmit } >
@@ -236,7 +236,7 @@ class UserRegister extends Component {
 					<Form.Item>
 						<div align = 'center'>
 							<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
-								Cadastrar
+								Cadastrar Usuário
 							</Button>
 							<Button type = 'default' className = 'buttonCancel'>
 								<Link to = { '/lista_de_projetos/' }>
