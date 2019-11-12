@@ -90,7 +90,7 @@ class MeetingList extends Component {
 										dataIndex: 'title',
 										key: 'title',
 										render: (text, record) => (
-											<Link to = {`/detalhes_reuniao/${ record.key }/`}>
+											<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }`}>
 												<List.Item>
 													<b> { text } </b>
 												</List.Item>
@@ -154,7 +154,7 @@ class MeetingList extends Component {
 								]}
 								dataSource = {
 									dataSource.innerArray
-								} />
+								}/>
 							</div>
 						</Hoc>
 					)

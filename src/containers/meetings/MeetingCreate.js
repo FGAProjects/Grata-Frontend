@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { createMeeting } from '../../store/actions/meeting';
 import { getProject } from '../../store/actions/project';
+import { getSectors } from '../../store/actions/sector';
 
 const { RangePicker } = DatePicker;
 
@@ -16,6 +17,7 @@ class MeetingCreate extends Component {
 		if (this.props.token !== undefined && this.props.token !== null) {
 		
 			this.props.getProject(this.props.token, this.props.match.params.project_id);
+			this.props.getSectors(this.props.token);
 			this.forceUpdate();
 		}
 	}
@@ -27,6 +29,7 @@ class MeetingCreate extends Component {
 			if (newProps.token !== undefined && newProps.token !== null) {
 		
 				this.props.getProject(newProps.token, newProps.match.params.project_id);
+				this.props.getSectors(newProps.token);
 				this.forceUpdate();
 			}
 		}
@@ -38,11 +41,22 @@ class MeetingCreate extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 
+				const { currentProject } = this.props;
+				const sectors = this.props.sectors;
 				const user = JSON.parse(localStorage.getItem('user'));
 				const userId = user.userId;
 				const token = this.props.token;
 				const project_id = this.props.match.params.project_id;
-                const date_value = values['range-picker'];
+				const date_value = values['range-picker'];
+				
+				let sector_id = '';
+
+				for(let aux = 0; aux < sectors.length; aux ++) {
+		
+					if(sectors[aux].name === currentProject.sector) {
+						sector_id = sectors[aux].id;
+					} 
+				}
 
 				const meeting = {
 					
@@ -54,6 +68,7 @@ class MeetingCreate extends Component {
 					initial_hour: values['time-picker-initial'].format('HH:mm:ss'),
 					final_hour: values['time-picker-final'].format('HH:mm:ss'),
 					project: project_id,
+					sector: sector_id,
 					meeting_leader: userId,
 					topics: [
 
@@ -109,8 +124,9 @@ class MeetingCreate extends Component {
 		return (
 			
 			<div className = 'content'>
-				<Form { ...formItemLayout } onSubmit = { this.handleSubmit } >
-					<Form.Item label = 'Título' hasFeedback>
+				<h1 className = 'texth1'> Criação de Reunião </h1>
+				<Form onSubmit = { this.handleSubmit }>
+					<Form.Item label = 'Título' hasFeedback { ...formItemLayout }>
 						{
 							getFieldDecorator('title', {
 								rules: [{ 
@@ -121,22 +137,14 @@ class MeetingCreate extends Component {
 									message: 'O Título Pode Ter no Máximo 30 Caracteres!',
 								}],
 							})(
-								<Input
-									prefix = {
-										<Icon 
-											type = 'form' 
-											style = {{ 
-												color: 'rgba(0,0,0,.25)' 
-											}} 
-										/>
-									}
+								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
 									placeholder = 'Ex: O Título Dessa Reunião é ...'
-								/>,
+								/>
 							)
 						}
 					</Form.Item>
 
-					<Form.Item label = 'Assunto' hasFeedback >
+					<Form.Item label = 'Assunto' hasFeedback { ...formItemLayout }>
 						{
 							getFieldDecorator('subject_matter', {
 								rules: [{ 
@@ -147,45 +155,29 @@ class MeetingCreate extends Component {
 									message: 'O Título Pode Ter no Máximo 40 Caracteres!',
 								}],
 							})(
-								<Input
-									prefix = {
-										<Icon 
-											type = 'form' 
-											style = {{ 
-												color: 'rgba(0,0,0,.25)' 
-											}} 
-										/>
-									}
+								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
 									placeholder = 'Ex: O Assunto Dessa Reunião é ...'
-								/>,
+								/>
 							)
 						}
 					</Form.Item>
 
-					<Form.Item label = 'Status' >
+					<Form.Item label = 'Status' { ...formItemLayout }>
 						{
 							getFieldDecorator('status', {
 								rules: [{ 
 									required: false 
 								}],
 							})(
-								<Input
-									prefix = {
-										<Icon 
-											type = 'form' 
-											style = {{ 
-												color: 'rgba(0,0,0,.25)' 
-											}} 
-										/>
-									}
+								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
 									placeholder = 'Pendente'
 									disabled = { true }
-								/>,
+								/>
 							)
 						}
 					</Form.Item>
 
-					<Form.Item label = 'Local' hasFeedback >
+					<Form.Item label = 'Local' hasFeedback { ...formItemLayout }>
 						{
 							getFieldDecorator('local', {
 							rules: [
@@ -194,15 +186,7 @@ class MeetingCreate extends Component {
 								}
 								],
 							})(							
-								<Input
-									prefix = {
-										<Icon 
-											type = 'form' 
-											style = {{ 
-												color: 'rgba(0,0,0,.25)' 
-											}} 
-										/>
-									}
+								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
 									placeholder = { currentProject.sector }
 									disabled = { true }
 								/>
@@ -210,7 +194,7 @@ class MeetingCreate extends Component {
 						}
 					</Form.Item>
 
-					<Form.Item label = 'Data Inicio - Data Fim' hasFeedback >
+					<Form.Item label = 'Data Inicio - Data Fim' hasFeedback { ...formItemLayout }>
 						{
 							getFieldDecorator('range-picker', {
 								rules: [
@@ -225,7 +209,7 @@ class MeetingCreate extends Component {
 						}
 					</Form.Item>
 
-					<Form.Item label = 'Hora de Inicio' >
+					<Form.Item label = 'Hora de Inicio' { ...formItemLayout }>
 						{
 							getFieldDecorator('time-picker-initial', {
 								rules: [
@@ -240,7 +224,7 @@ class MeetingCreate extends Component {
 						}
 					</Form.Item>
 
-					<Form.Item label = 'Hora de Encerramento' hasFeedback >
+					<Form.Item label = 'Hora de Encerramento' hasFeedback { ...formItemLayout }>
 						{
 							getFieldDecorator('time-picker-final', {
 								rules: [
@@ -255,37 +239,20 @@ class MeetingCreate extends Component {
 						}
 					</Form.Item>
 
-					<div align = 'center' >
-						<Form.Item>
-							<Button 
-								type = 'primary' 
-								htmlType = 'submit' 
-								style = {{
-									marginRight: '10px'
-								}} >
-								<Icon 
-									style = {{
-										marginRight: '10px'
-									}}
-									type = 'save' />
+					<Form.Item>
+						<div align = 'center'>
+							<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+								<Icon className = 'icons' type = 'save'/>
 									Cadastrar Reunião
 							</Button>
-							<Button type = 'primary' 
-								style = {{
-									marginLeft: '50px'								
-								}}
-								>
+							<Button type = 'ghost' className = 'buttonCancel'>
 								<Link to = { `/lista_de_reunioes/${ currentProject.id }` } >
-									<Icon 
-										style = {{
-										marginRight: '10px'
-										}}
-										type = 'stop' />
+									<Icon className = 'icons' type = 'stop' />
 										Cancelar
 								</Link>
 							</Button>
-						</Form.Item>
-					</div>
+						</div>
+					</Form.Item>
 				</Form>
 			</div>
 		);
@@ -301,7 +268,8 @@ const mapStateToProps = (state) => {
 		loading: state.meeting.loading,
 		error: state.meeting.error,
 		token: state.auth.token,
-		currentProject: state.project.currentProject
+		currentProject: state.project.currentProject,
+		sectors: state.sector.sectors
 	}
 }
 
@@ -310,7 +278,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 	
 		createMeeting: (token, meeting) => dispatch(createMeeting(token, meeting)),
-		getProject: (token, project_id) => dispatch(getProject(token, project_id))
+		getProject: (token, project_id) => dispatch(getProject(token, project_id)),
+		getSectors: token => dispatch(getSectors(token))
 	}
 }
 

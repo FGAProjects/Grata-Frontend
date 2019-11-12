@@ -236,7 +236,8 @@ class UserRegister extends Component {
 					<Form.Item>
 						<div align = 'center'>
 							<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
-								Cadastrar Usuário
+								<Icon className = 'icons' type = 'save'/>
+									Cadastrar Usuário
 							</Button>
 							<Button type = 'default' className = 'buttonCancel'>
 								<Link to = { '/lista_de_projetos/' }>

@@ -20,6 +20,10 @@ class UserEdit extends Component {
 			formLayout: 'vertical',
 		};
 	}
+
+	state = {
+		confirmDirty: false,
+	};
 	
 	componentDidMount() {
 		
@@ -54,7 +58,6 @@ class UserEdit extends Component {
 				const userGetItem = JSON.parse(localStorage.getItem('user'));
 				const token = userGetItem.token;
 				const sectors = this.props.sectors;
-				let is_administrator = false;
 				let sector_id = 0;
 
 				if(values.sector === undefined) {
@@ -73,17 +76,12 @@ class UserEdit extends Component {
 						} 
 					}
 	
-					if(values.userType === 'administrator') {
-						is_administrator = true;
-					}
-
 					const user = {
 						userId: currentUser.id,
 						email: currentUser.email,
 						username: currentUser.username,
 						ramal: values.ramal,
 						name: values.name,
-						is_administrator: is_administrator,
 						sector: sector_id
 					};
 
@@ -327,63 +325,6 @@ class UserEdit extends Component {
 												)
 											}
 										</Form.Item>
-
-										{
-											currentUser.is_administrator === true ? (
-												<Form.Item 
-													label = 'Tipo de Usuário' 
-													hasFeedback
-													{ ...formItemLayout }
-													className = 'formFields'
-												>
-													{
-														getFieldDecorator('userType', {
-														rules: [
-															{
-																required: true,
-																message: 'Por favor,' + 
-																'Escolha o Tipo de Usuário!',
-															}
-															],
-														})(
-															<Select 
-																placeholder = 'Escolha o tipo de usuário'>
-																<Option 
-																	value = 'administrator' > 
-																		Administrador
-																</Option>
-																<Option 
-																	value = 'participant' > 
-																		Participante da Reunião
-																</Option>
-															</Select>  
-														)
-													}
-												</Form.Item>
-											) : (
-												<Form.Item 
-													label = 'Tipo de Usuário' 
-													hasFeedback
-													{ ...formItemLayout }
-													className = 'formFields'	
-												>
-													{
-														getFieldDecorator('userType', {
-														rules: [
-															{
-																required: false
-															}
-															],
-														})(
-															<Input prefix = { <Icon type = 'form' /> }
-																placeholder = 'Participante da Reunião'
-																disabled = { true }
-															/> 
-														)
-													}
-												</Form.Item>
-											)
-										}
 
 										<Form.Item>
 											<div align = 'center'>

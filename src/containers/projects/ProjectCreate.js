@@ -108,8 +108,8 @@ class ProjectCreate extends Component {
 
 			<div className = 'content'>
 				<h1 className = 'texth1'> Criar Projeto </h1>
-				<Form onSubmit = { this.handleSubmit } { ...formItemLayout }>
-					<Form.Item label = 'Título'className = 'formFields' >
+				<Form onSubmit = { this.handleSubmit }>
+					<Form.Item label = 'Título'className = 'formFields' { ...formItemLayout }>
 						{
 							getFieldDecorator('title', {
 								rules: [{ 
@@ -124,7 +124,7 @@ class ProjectCreate extends Component {
 						}
 					</Form.Item>
 
-					<Form.Item label ='Setor' hasFeedback className = 'formFields'>
+					<Form.Item label ='Setor' hasFeedback className = 'formFields' { ...formItemLayout }>
 						{
 							getFieldDecorator('sector', {
 							rules: [
@@ -147,7 +147,7 @@ class ProjectCreate extends Component {
 						}
 					</Form.Item>
 
-					<Form.Item label = 'Status' className = 'formFields'>
+					<Form.Item label = 'Status' className = 'formFields' { ...formItemLayout }>
 						{
 							getFieldDecorator('status', {
 								
@@ -163,6 +163,7 @@ class ProjectCreate extends Component {
 					<Form.Item>
 						<div align = 'center'>
 							<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+								<Icon className = 'icons' type = 'save'/>
 									Cadastrar Projeto
 							</Button>
 							<Button type = 'default' className = 'buttonCancel'>
