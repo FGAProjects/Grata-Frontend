@@ -27,7 +27,7 @@ class ProjectEdit extends Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
         
         if (newProps.token !== this.props.token) {
         
@@ -47,14 +47,12 @@ class ProjectEdit extends Component {
             if (!err) {
                 
                 const { currentProject } = this.props;
-                const sector_id = this.props.match.params.sector_id;
 				const token = this.props.token;
 				
 				const project = {
                     projectId: currentProject.id,
 					title: values.title,
-					status: currentProject.status,
-					sector: sector_id
+					status: currentProject.status
                 };
                 
 				if((this.props.updateProject(token, project)) !== fail) {
@@ -117,149 +115,124 @@ class ProjectEdit extends Component {
                         <Skeleton active />
                     ) : (
                         <Hoc>
-                            <h1> Informações Cadastradas </h1>
-                            <Form layout = 'vertical' >
-                                <Form.Item label = 'Nome' { ...formItemLayout } >
-                                    <Input 
-                                        value = { currentProject.title } 
-                                        disabled = { true } 
-                                    />
-                                </Form.Item>
-                            </Form>
-                            <Form layout = 'vertical' >
-                                <Form.Item label = 'Status' { ...formItemLayout } >
-                                    <Input 
-                                        value = { currentProject.status } 
-                                        disabled = { true } 
-                                    />
-                                </Form.Item>
-                            </Form>
-                            <Form layout = 'vertical' >
-                                <Form.Item label = 'Setor' { ...formItemLayout } >
-                                    <Input 
-                                        value = { currentProject.sector } 
-                                        disabled = { true } 
-                                    />
-                                </Form.Item>
-                            </Form>
+                            <div className = 'content'>
+                                <h1 className = 'texth1'> Informações Cadastradas </h1>
+                                <Form layout = 'vertical' >
+                                    <Form.Item 
+                                        label = 'Nome' 
+                                        { ...formItemLayout }
+                                        className = 'formFields'
+                                    >
+                                        <Input 
+                                            value = { currentProject.title } 
+                                            disabled = { true } 
+                                        />
+                                    </Form.Item>
+                                </Form>
+                                <Form layout = 'vertical' >
+                                    <Form.Item 
+                                        label = 'Status' 
+                                        { ...formItemLayout }
+                                        className = 'formFields'
+                                    >
+                                        <Input 
+                                            value = { currentProject.status } 
+                                            disabled = { true } 
+                                        />
+                                    </Form.Item>
+                                </Form>
+                                <Form layout = 'vertical' >
+                                    <Form.Item 
+                                        label = 'Setor' 
+                                        { ...formItemLayout }
+                                        className = 'formFields'
+                                    >
+                                        <Input 
+                                            value = { currentProject.sector } 
+                                            disabled = { true } 
+                                        />
+                                    </Form.Item>
+                                </Form>
+                            </div>
                         </Hoc>
                     )
                 }
                 <Hoc>
-                    <h1> Informações A Serem Alteradas </h1>
-                    <Form onSubmit = { this.handleSubmit } >
-                        <Form.Item label = 'Título'>
-                            {
-                                getFieldDecorator('title', {
-                                    rules: [{ 
-                                        required: true, 
-                                        message: 'Por favor, Coloque o Título!' 
-                                    }],
-                                })(
-                                    <Input
-                                        prefix = {
-                                            <Icon 
-                                                type = 'form' 
-                                                style = {{ 
-                                                    color: 'rgba(0,0,0,.25)' 
-                                                }} 
-                                            />
-                                        }
-                                        placeholder = 'Usuário'
-                                    />,
-                                )
-                            }
-                        </Form.Item>
+                    <div className = 'content'>
+                        <h1 className = 'texth1'> Informações A Serem Alteradas </h1>
+                        <Form onSubmit = { this.handleSubmit } >
+                            <Form.Item label = 'Título' { ...formItemLayout } className = 'formFields'>
+                                {
+                                    getFieldDecorator('title', {
+                                        rules: [{ 
+                                            required: true, 
+                                            message: 'Por favor, Coloque o Título!' 
+                                        }],
+                                    })(
+                                        <Input prefix = { <Icon type = 'form' className = 'icons'/> }
+                                            placeholder = 'Usuário'
+                                        />
+                                    )
+                                }
+                            </Form.Item>
 
-                        <Form.Item label = 'Setor' >
-                            {
-                                getFieldDecorator('sector', {
-                                rules: [
-                                    {
-                                        required: false,
-                                    }
-                                    ],
-                                })(
-                                    <Input
-                                        prefix = {
-                                            <Icon 
-                                                type = 'form' 
-                                                style = {{ 
-                                                    color: 'rgba(0,0,0,.25)' 
-                                                }} 
-                                            />
+                            <Form.Item label = 'Setor' { ...formItemLayout } className = 'formFields'>
+                                {
+                                    getFieldDecorator('sector', {
+                                    rules: [
+                                        {
+                                            required: false,
                                         }
-                                        placeholder = { currentProject.sector }
-                                        disabled = { true }
-                                    />  
-                                )
-                            }
-                        </Form.Item>
+                                        ],
+                                    })(
+                                        <Input prefix = { <Icon type = 'form' className = 'icons'/> }
+                                            placeholder = { currentProject.sector }
+                                            disabled = { true }
+                                        />  
+                                    )
+                                }
+                            </Form.Item>
 
-                        <Form.Item label = 'Status' >
-                            {
-                                getFieldDecorator('status', {
-                                
-                                })(
-                                    <Input 
-                                        prefix = {
-                                            <Icon 
-                                                type = 'mail' 
-                                                style = {{ 
-                                                    color: 'rgba(0,0,0,.25)' }} 
-                                            />
-                                        }
-                                        placeholder = 'Pendente'
-                                        disabled = { true }
-                                    />
-                                )
-                            }
-                        </Form.Item>
+                            <Form.Item label = 'Status' { ...formItemLayout } className = 'formFields'>
+                                {
+                                    getFieldDecorator('status', {
+                                    
+                                    })(
+                                        <Input prefix = { <Icon type = 'mail' className = 'icons'/> }
+                                            placeholder = 'Pendente'
+                                            disabled = { true }
+                                        />
+                                    )
+                                }
+                            </Form.Item>
 
-                        <Form.Item>
-							<div align = 'center'>
-								<Button 
-                                    type = 'primary' 
-                                    htmlType = 'submit' 
-								>
-                                    <Icon style = {{
-                                            marginRight: '10px'
-                                        }}
-                                        type = 'edit' />
-									Alterar Informações	
-								</Button>
-                                <Button 
-                                    type = 'primary'
-                                    style = {{
-                                        marginLeft: '20px'
-                                    }} 
-                                >
-									<Link to = { '/' }>
-                                    <Icon 
-                                        style = {{
-                                            marginRight: '10px'
-                                        }}
-                                        type = 'stop' />
-										Cancelar
-									</Link>
-								</Button>
-                                <Button 
-                                    style = {{
-                                        marginLeft: '20px'
-                                    }}
-                                    onClick = { () => 
-                                        this.showDeleteConfirm(
-                                            this.props.token,
-                                            currentProject.id
-                                        )
-                                    } 
-                                    type = 'danger' >
+                            <Form.Item>
+                                <div align = 'center'>
+                                    <Button className = 'buttonEdit' type = 'ghost' htmlType = 'submit'>
+                                        <Icon className = 'icons' type = 'edit'/>
+                                        Alterar Informações	
+                                    </Button>
+                                    <Button type = 'ghost' className = 'buttonCancel'>
+                                        <Link to = { '/lista_de_projetos/' }>
+                                            <Icon type = 'stop' className = 'icons'/>
+                                            Cancelar
+                                        </Link>
+                                    </Button>
+                                    <Button className = 'buttonDelete' type = 'ghost' 
+                                        onClick = { () => 
+                                            this.showDeleteConfirm(
+                                                this.props.token,
+                                                currentProject.id
+                                            )
+                                        } 
+                                    >
                                         <Icon type = 'delete' />
                                         Excluir Projeto 
-                                </Button>
-							</div>
-						</Form.Item>
-                    </Form>
+                                    </Button>
+                                </div>
+                            </Form.Item>
+                        </Form>
+                    </div>
                 </Hoc>
             </Hoc>
         );

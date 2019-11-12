@@ -20,10 +20,6 @@ class UserEdit extends Component {
 			formLayout: 'vertical',
 		};
 	}
-
-	state = {
-		confirmDirty: false,
-	};
 	
 	componentDidMount() {
 		

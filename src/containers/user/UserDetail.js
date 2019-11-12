@@ -84,71 +84,34 @@ class UserDetail extends Component {
 						<Hoc>
 							<div className = 'content'>
 								<h1 className = 'texth1'> Informações Cadastradas </h1>
-								<Form layout = 'vertical' className = 'formUser'>
-									<Form.Item 
-										label = 'Nome' 
-										{ ...formItemLayout }
-										className = 'formFields'	
-									>
-										<Input 
-											value = { currentUser.name } 
-											disabled = { true } 
-										/>
+								<Form layout = 'vertical' className = 'formUser' { ...formItemLayout }>
+									<Form.Item label = 'Nome' className = 'formFields'>
+										<Input value = { currentUser.name } disabled = { true }/>
 									</Form.Item>
 									
-									<Form.Item 
-										label = 'Usuário' 
-										{ ...formItemLayout }
-										className = 'formFields'	
-									>
-										<Input 
-											value = { currentUser.username } 
-											disabled = { true } 
-										/>
+									<Form.Item label = 'Usuário' className = 'formFields'>
+										<Input value = { currentUser.username } disabled = { true }/>
 									</Form.Item>
 									
-									<Form.Item 
-										label = 'Email' 
-										{ ...formItemLayout }
-										className = 'formFields'	
-									>
-										<Input 
-											value = { currentUser.email } 
-											disabled = { true } 
-										/>
+									<Form.Item label = 'Email' className = 'formFields'>
+										<Input value = { currentUser.email } disabled = { true }/>
 									</Form.Item>
 
-									<Form.Item 
-										label = 'Setor' 
-										{ ...formItemLayout }
-										className = 'formFields'											
-									>
-										<Input 
-											value = { currentUser.sector } 
-											disabled = { true } 
-										/>
+									<Form.Item label = 'Setor' className = 'formFields'>
+										<Input value = { currentUser.sector } disabled = { true }/>
 									</Form.Item>
 									
-									<Form.Item 
-										label = 'Ramal' 
-										{ ...formItemLayout }
-										className = 'formFields'
-									>
-										<Input 
-											value = { currentUser.ramal } 
-											disabled = { true } />
+									<Form.Item label = 'Ramal' className = 'formFields'>
+										<Input value = { currentUser.ramal } disabled = { true }/>
 									</Form.Item>
 
 									{
 										currentUser.is_administrator === true ? (
 											<Form.Item 
 												label = 'Tipo de Usuário' 
-												{ ...formItemLayout }
 												className = 'formFields'	
 											>
-												<Input 
-													value = 'Administrador' 
-													disabled = { true } />
+												<Input value = 'Administrador' disabled = { true }/>
 											</Form.Item>
 										) : null
 									}
@@ -168,32 +131,31 @@ class UserDetail extends Component {
 									}
 									
 									<Form.Item>
-										<div align = 'center'>
-											<Button
-												className = 'buttonEdit' 
-												type = 'ghost' 
-												htmlType = 'submit' 
-											>
-												<Link to = { '/alterar_informacoes/' } >
-													<Icon 
-														type = 'edit' 
-														style = {{ marginRight: '10px' }} />
-														Editar Perfil
-												</Link>
-											</Button>
-											<Button 
-												className = 'buttonDelete'
-												onClick = { () => 
-														this.showDeleteConfirm(
-															token,
-															currentUser.name,
-															currentUser.userId)} 
-												type = 'ghost'
-											>
-												<Icon type = 'delete' />
-												Excluir Perfil 
-											</Button>
-										</div>
+										<Button
+											className = 'buttonEdit' 
+											type = 'ghost' 
+											htmlType = 'submit'
+											style = {{ marginLeft: '270px'}} 
+										>
+											<Link to = { '/alterar_informacoes/' } >
+												<Icon 
+													type = 'edit' 
+													style = {{ marginRight: '10px' }} />
+													Editar Perfil
+											</Link>
+										</Button>
+										<Button 
+											className = 'buttonDelete'
+											onClick = { () => 
+													this.showDeleteConfirm(
+														token,
+														currentUser.name,
+														currentUser.userId)} 
+											type = 'ghost'
+										>
+											<Icon type = 'delete' />
+											Excluir Perfil 
+										</Button>
 									</Form.Item>
 								</Form>
 							</div>

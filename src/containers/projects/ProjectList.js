@@ -36,8 +36,6 @@ class ProjectsList extends Component {
     render() {
         
         const projects = this.props.projects;
-        const sectors = this.props.sectors;
-        let sector_id = 0;
         let dataSource = {
             innerArray: [
                 
@@ -46,13 +44,6 @@ class ProjectsList extends Component {
         
         for(let aux = 0; aux < projects.length; aux ++) {
 
-            for(let auxSectors = 0; auxSectors < sectors.length; auxSectors ++) {
-                
-                if(sectors[auxSectors].name === projects[aux].sector) {
-                    sector_id = sectors[auxSectors].id;
-                }
-            }
-            
             dataSource.innerArray.push({
                 
                 key: projects[aux].id,
@@ -127,10 +118,8 @@ class ProjectsList extends Component {
                                             htmlType = 'submit' 
                                             className = 'buttonEdit'
                                         >
-                                            <Link to = { `/editar_projeto/${ record.key }/${ sector_id }`} >
-                                                <Icon 
-                                                    type = 'edit' 
-                                                    style = {{ marginRight: '10px' }} />
+                                            <Link to = { `/editar_projeto/${ record.key }/`} >
+                                                <Icon type = 'edit' className = 'icons'/>
                                                     <b> Editar Projeto </b>
                                             </Link>
                                         </Button>

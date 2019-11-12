@@ -108,8 +108,8 @@ class ProjectCreate extends Component {
 
 			<div className = 'content'>
 				<h1 className = 'texth1'> Criar Projeto </h1>
-				<Form onSubmit = { this.handleSubmit } >
-					<Form.Item label = 'Título'className = 'formFields' { ...formItemLayout }>
+				<Form onSubmit = { this.handleSubmit } { ...formItemLayout }>
+					<Form.Item label = 'Título'className = 'formFields' >
 						{
 							getFieldDecorator('title', {
 								rules: [{ 
@@ -124,7 +124,7 @@ class ProjectCreate extends Component {
 						}
 					</Form.Item>
 
-					<Form.Item label ='Setor' hasFeedback className = 'formFields' { ...formItemLayout }>
+					<Form.Item label ='Setor' hasFeedback className = 'formFields'>
 						{
 							getFieldDecorator('sector', {
 							rules: [
@@ -147,7 +147,7 @@ class ProjectCreate extends Component {
 						}
 					</Form.Item>
 
-					<Form.Item label = 'Status' className = 'formFields' { ...formItemLayout }>
+					<Form.Item label = 'Status' className = 'formFields'>
 						{
 							getFieldDecorator('status', {
 								
