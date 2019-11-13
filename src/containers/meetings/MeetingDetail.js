@@ -137,7 +137,7 @@ class MeetingDetail extends Component {
         
         const formItemLayoutMinimum = formLayout === 'vertical'? {
             labelCol: { span: 4 },
-            wrapperCol: { span: 2 },
+            wrapperCol: { span: 3 },
 		}
 		: null;
 
@@ -246,6 +246,17 @@ class MeetingDetail extends Component {
                                                 />
                                             </Form.Item>
 
+                                            <Form.Item
+                                                label = 'Status'
+                                                { ...formItemLayoutMinimum }
+                                                className = 'formFields'    
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.status } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
+
                                             <Form.Item 
                                                 label = 'Líder da Reunião' 
                                                 { ...formItemLayout }
@@ -307,7 +318,7 @@ class MeetingDetail extends Component {
                                                         className = 'buttonEdit' 
                                                         style = {{ marginBottom: '40px' }}
                                                     >
-                                                        <Link to = { `/editar_reuniao/${ currentMeeting.id }/${ project_id }/ }` } >
+                                                        <Link to = { `/editar_reuniao/${ currentMeeting.id }/${ project_id }` } >
                                                             <Icon type = 'edit' className = 'icons'/>
                                                             Editar Reunião
                                                         </Link>

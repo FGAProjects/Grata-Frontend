@@ -40,7 +40,7 @@ const BaseRouter = () => (
         <Route exact path = '/lista_de_reunioes/:project_id/' component = { MeetingList } />
         <Route exact path = '/detalhes_reuniao/:meeting_id/:project_id/' 
                             component = { MeetingDetail } />
-        <Route exact path = '/editar_reuniao/:meeting_id/' component = { MeetingEdit } />
+        <Route exact path = '/editar_reuniao/:meeting_id/:project_id' component = { MeetingEdit } />
         <Route exact path = '/criar_topicos/:meeting_id/' component = { TopicsCreate } />
         <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
         <Route exact path = '/editar_setor/:sector_id' component = { SectorEdit } />

@@ -64,11 +64,10 @@ class MeetingEdit extends Component {
 			if (!err) {
 
 				const { currentMeeting } = this.props;
+				const project_id = this.props.match.params.project_id;
 				const token = this.props.token;
-                const date_value = values['range-picker'];
-				const sector_id = parseInt(this.props.match.params.sector_id);
-				const project_id = parseInt(this.props.match.params.project_id);
-
+				const date_value = values['range-picker'];
+				
 				const meeting = {
 
 					meeting: currentMeeting.id,
@@ -79,13 +78,11 @@ class MeetingEdit extends Component {
 					final_date: date_value[1].format('DD/MM/YYYY'),
 					initial_hour: values['time-picker-initial'].format('HH:mm:ss'),
 					final_hour: values['time-picker-final'].format('HH:mm:ss'),
-					sector: sector_id,
-					project: project_id,
 				};
 
 				if((this.props.updateMeeting(token, meeting)) !== fail) {
 					message.success('As Informações da Reunião Foram Alteradas Com Sucesso!');
-					this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }`);
+					this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }`);
 
 				} else {
 					message.error('Não Foi Possível Alterar as Informações da Reunião. ' + 
@@ -99,8 +96,7 @@ class MeetingEdit extends Component {
 
     render() {
 		
-		const project_id = this.props.match.params.project_id;
-		const sector_id = this.props.match.params.sector_id;
+        const project_id = this.props.match.params.project_id;
         const { currentMeeting } = this.props;
 		const { formLayout } = this.state;
 		const { getFieldDecorator } = this.props.form;
@@ -118,294 +114,311 @@ class MeetingEdit extends Component {
 		};        
         const formItemLayoutMinimum = formLayout === 'vertical'? {
             labelCol: { span: 4 },
-            wrapperCol: { span: 2 },
+            wrapperCol: { span: 3 },
 		}
 		: null;
 
         return (
             <Hoc>
-                <div>
-                    <Hoc>
-                        {
-                            this.props.loading ? (
-                                <Skeleton active />
-                            ) : (
-                                <Hoc>
-                                    <h1> Informações Cadastradas da Reunião </h1>
-                                    <Form layout = 'vertical' >
-                                        <Form.Item label = 'Título' { ...formItemLayout } >
-                                            <Input 
-                                                value = { currentMeeting.title } 
-                                                disabled = { true } 
-                                            />
-                                        </Form.Item>
-                                    </Form>
+				{
+					this.props.loading ? (
+						<Skeleton active/>
+					) : (
+						<div className = 'content'>
+							<h1 className = 'texth1'> Informações Cadastradas da Reunião </h1>
+							<Form.Item 
+								label = 'Título' 
+								{ ...formItemLayout }
+								className = 'formFields'
+							>
+								<Input 
+									value = { currentMeeting.title } 
+									disabled = { true } 
+								/>
+							</Form.Item>
 
-                                    <Form layout = 'vertical'>
-                                        <Form.Item label = 'Assunto' { ...formItemLayout } >
-                                            <Input 
-                                                value = { currentMeeting.subject_matter } 
-                                                disabled = { true } 
-                                            />
-                                        </Form.Item>
-                                    </Form>
+							<Form.Item 
+								label = 'Assunto' 
+								{ ...formItemLayout }
+								className = 'formFields'	
+							>
+								<Input 
+									value = { currentMeeting.subject_matter } 
+									disabled = { true } 
+								/>
+							</Form.Item>
 
-                                    <Form layout = 'vertical'>
-                                        <Form.Item label = 'Local' { ...formItemLayout } >
-                                            <Input 
-                                                value = { currentMeeting.sector } 
-                                                disabled = { true } 
-                                            />
-                                        </Form.Item>
-                                    </Form>
+							<Form.Item 
+								label = 'Líder da Reunião' 
+								{ ...formItemLayout }
+								className = 'formFields'
+							>
+								<Input 
+									value = { currentMeeting.meeting_leader } 
+									disabled = { true } 
+								/>
+							</Form.Item>
 
-                                    <Form layout = 'vertical'>
-                                        <Form.Item label = 'Status' { ...formItemLayoutMinimum } >
-                                            <Input 
-                                                value = { currentMeeting.status } 
-                                                disabled = { true } 
-                                            />
-                                        </Form.Item>
-                                    </Form>
+							<Form.Item 
+								label = 'Local' 
+								{ ...formItemLayout }
+								className = 'formFields'	
+							>
+								<Input 
+									value = { currentMeeting.sector } 
+									disabled = { true } 
+								/>
+							</Form.Item>
 
-                                    <Form layout = 'vertical' >
-                                        <Form.Item label = 'Data de Inicio' 
-                                        { ...formItemLayoutMinimum } >
-                                            <Input 
-                                                value = { currentMeeting.initial_date } 
-                                                disabled = { true } 
-                                            />
-                                        </Form.Item>
+							<Form.Item 
+								label = 'Status' 
+								{ ...formItemLayoutMinimum }
+								className = 'formFields'	
+							>
+								<Input 
+									value = { currentMeeting.status } 
+									disabled = { true } 
+								/>
+							</Form.Item>
 
-                                        <Form.Item label = 'Data de Inicio' 
-                                        { ...formItemLayoutMinimum } >
-                                            <Input 
-                                                value = { currentMeeting.final_date } 
-                                                disabled = { true } 
-                                            />
-                                        </Form.Item>
+							<Form.Item 
+								label = 'Data de Inicio' 
+								{ ...formItemLayoutMinimum }
+								className = 'formFields'	
+							>
+								<Input 
+									value = { currentMeeting.initial_date } 
+									disabled = { true } 
+								/>
+							</Form.Item>
 
-                                        <Form.Item label = 'Hora de Inicio' { ...formItemLayoutMinimum } >
-                                            <Input 
-                                                value = { currentMeeting.initial_hour } 
-                                                disabled = { true } 
-                                            />
-                                        </Form.Item>
+							<Form.Item 
+								label = 'Data de Inicio' 
+								{ ...formItemLayoutMinimum }
+								className = 'formFields'
+							>
+								<Input 
+									value = { currentMeeting.final_date } 
+									disabled = { true } 
+								/>
+							</Form.Item>
 
-                                        <Form.Item label = 'Hora de Encerramento' { ...formItemLayoutMinimum } >
-                                            <Input 
-                                                value = { currentMeeting.final_hour } 
-                                                disabled = { true } 
-                                            />
-                                        </Form.Item>
-									</Form>
+							<Form.Item 
+								label = 'Hora de Inicio' 
+								{ ...formItemLayoutMinimum }
+								className = 'formFields'	
+							>
+								<Input 
+									value = { currentMeeting.initial_hour } 
+									disabled = { true } 
+								/>
+							</Form.Item>
 
-									<h1> Informações a Serem Alteradas </h1>
-									<Form layout = 'vertical' { ...formItemLayout } onSubmit = { this.handleSubmit } >
-										<Form.Item label = 'Título' hasFeedback >
+							<Form.Item 
+								label = 'Hora de Encerramento' 
+								{ ...formItemLayoutMinimum }
+								className = 'formFields'	
+							>
+								<Input 
+									value = { currentMeeting.final_hour } 
+									disabled = { true } 
+								/>
+							</Form.Item>
+						</div>
+					)
+				}
+				<Hoc>
+					<div className = 'content'>
+						<h1 className = 'texth1'> Informações a Serem Alteradas </h1>
+						<Form layout = 'vertical' onSubmit = { this.handleSubmit } >
+							<Form.Item 
+								label = 'Título' 
+								hasFeedback 
+								{ ...formItemLayout } 
+								className = 'formFields'
+							>
+								{
+									getFieldDecorator('title', {
+										rules: [{ 
+											required: true, 
+											message: 'Por favor, Insira o Título da Reunião!'
+										},{
+											max: 30,
+											message: 'O Título Pode Ter no Máximo 30 Caracteres!',
+										}],
+									})(
+										<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+											placeholder = 'Ex: O Título Dessa Reunião é ...'
+										/>
+									)
+								}
+							</Form.Item>
+
+							<Form.Item 
+								label = 'Assunto' 
+								hasFeedback
+								{ ...formItemLayout } 
+								className = 'formFields' 
+							>
+								{
+									getFieldDecorator('subject_matter', {
+										rules: [{ 
+											required: true, 
+											message: 'Por favor, Insira o Assunto da Reunião!'
+										},{
+											max: 40,
+											message: 'O Título Pode Ter no Máximo 40 Caracteres!'
+										}],
+									})(
+										<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+											placeholder = 'Ex: O Assunto Dessa Reunião é ...'
+										/>
+									)
+								}
+							</Form.Item>
+
+							<Form.Item 
+								label = 'Status'
+								{ ...formItemLayout } 
+								className = 'formFields'	
+							>
+								{
+									getFieldDecorator('status', {
+										rules: [{ 
+											required: false 
+										}],
+									})(
+										<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+											placeholder = 'Pendente'
+											disabled = { true }
+										/>
+									)
+								}
+							</Form.Item>
+
+							<Form.Item 
+								label = 'Local' 
+								hasFeedback
+								{ ...formItemLayout } 
+								className = 'formFields' 
+							>
+								{
+									getFieldDecorator('local', {
+									rules: [
+										{
+											required: false,
+										}
+										],
+									})(							
+										<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+											placeholder = { currentMeeting.sector }
+											disabled = { true }
+										/>
+									)
+								}
+							</Form.Item>
+
+							<Form.Item 
+								label = 'Data Inicio - Data Fim' 
+								hasFeedback
+								{ ...formItemLayout } 
+								className = 'formFields'	
+							>
+								{
+									getFieldDecorator('range-picker', {
+										rules: [
 											{
-												getFieldDecorator('title', {
-													rules: [{ 
-														required: true, 
-														message: 'Por favor, Insira o Título da Reunião!'
-													},{
-														max: 30,
-														message: 'O Título Pode Ter no Máximo 30 Caracteres!',
-													}],
-												})(
-													<Input
-														prefix = {
-															<Icon 
-																type = 'form' 
-																style = {{ 
-																	color: 'rgba(0,0,0,.25)' 
-																}} 
-															/>
-														}
-														placeholder = 'Ex: O Título Dessa Reunião é ...'
-													/>,
-												)
+												required: true,
+												message: 'Por Favor, Selecione as Datas de Inicio e Fim!'
 											}
-										</Form.Item>
+										],	
+									}, rangeConfig) (
+										<RangePicker showTime format = 'DD/MM/YYYY' />
+									)
+								}
+							</Form.Item>
 
-										<Form.Item label = 'Assunto' hasFeedback >
+							<Form.Item 
+								label = 'Hora de Inicio'
+								{ ...formItemLayout } 
+								className = 'formFields'
+							>
+								{
+									getFieldDecorator('time-picker-initial', {
+										rules: [
 											{
-												getFieldDecorator('subject_matter', {
-													rules: [{ 
-														required: true, 
-														message: 'Por favor, Insira o Assunto da Reunião!'
-													},{
-														max: 40,
-														message: 'O Título Pode Ter no Máximo 40 Caracteres!'
-													}],
-												})(
-													<Input
-														prefix = {
-															<Icon 
-																type = 'form' 
-																style = {{ 
-																	color: 'rgba(0,0,0,.25)' 
-																}} 
-															/>
-														}
-														placeholder = 'Ex: O Assunto Dessa Reunião é ...'
-													/>,
-												)
+												required: true,
+												message: 'Por Favor, Selecione a Hora de Inicio!'
 											}
-										</Form.Item>
+										],
+									}) (
+										<TimePicker />
+									)
+								}
+							</Form.Item>
 
-										<Form.Item label = 'Status' >
+							<Form.Item 
+								label = 'Hora de Encerramento' 
+								hasFeedback
+								{ ...formItemLayout } 
+								className = 'formFields'	
+							>
+								{
+									getFieldDecorator('time-picker-final', {
+										rules: [
 											{
-												getFieldDecorator('status', {
-													rules: [{ 
-														required: false 
-													}],
-												})(
-													<Input
-														prefix = {
-															<Icon 
-																type = 'form' 
-																style = {{ 
-																	color: 'rgba(0,0,0,.25)' 
-																}} 
-															/>
-														}
-														placeholder = 'Pendente'
-														disabled = { true }
-													/>,
-												)
+												required: true,
+												message: 'Por Favor, Selecione a Hora de Encerramento!'
 											}
-										</Form.Item>
+										],
+									}) (
+										<TimePicker />
+									)
+								}
+							</Form.Item>
 
-										<Form.Item label = 'Local' hasFeedback >
-											{
-												getFieldDecorator('local', {
-												rules: [
-													{
-														required: false,
-													}
-													],
-												})(							
-													<Input
-														prefix = {
-															<Icon 
-																type = 'form' 
-																style = {{ 
-																	color: 'rgba(0,0,0,.25)' 
-																}} 
-															/>
-														}
-														placeholder = { currentMeeting.sector }
-														disabled = { true }
-													/>
-												)
-											}
-										</Form.Item>
+							<Form.Item>
+								<div align = 'center'>
+									<Button 
+										type = 'ghost' 
+										htmlType = 'submit' 
+										className = 'buttonEdit' 
+										style = {{ marginBottom: '40px' }}
+									>
+										<Icon type = 'edit' className ='icons'/>
+											Alterar Informações
+									</Button>
 
-										<Form.Item label = 'Data Inicio - Data Fim' hasFeedback >
-											{
-												getFieldDecorator('range-picker', {
-													rules: [
-														{
-															required: true,
-															message: 'Por Favor, Selecione as Datas de Inicio e Fim!'
-														}
-													],	
-												}, rangeConfig) (
-													<RangePicker showTime format = 'DD/MM/YYYY' />
-												)
-											}
-										</Form.Item>
+									<Button 
+										onClick = { () => this.showDeleteConfirm(
+											this.props.token, 
+											currentMeeting.id, 
+											project_id
+										)}
+										type = 'ghost' 
+										className = 'buttonDelete'
+									>
+										<Icon type = 'delete' className = 'icons'/>
+											Excluir Reunião
+									</Button>
 
-										<Form.Item label = 'Hora de Inicio' >
-											{
-												getFieldDecorator('time-picker-initial', {
-													rules: [
-														{
-															required: true,
-															message: 'Por Favor, Selecione a Hora de Inicio!'
-														}
-													],
-												}) (
-													<TimePicker />
-												)
-											}
-										</Form.Item>
-
-										<Form.Item label = 'Hora de Encerramento' hasFeedback >
-											{
-												getFieldDecorator('time-picker-final', {
-													rules: [
-														{
-															required: true,
-															message: 'Por Favor, Selecione a Hora de Encerramento!'
-														}
-													],
-												}) (
-													<TimePicker />
-												)
-											}
-										</Form.Item>
-
-										<Form.Item>
-											<div align = 'right' >
-												<Button 
-														type = 'primary' 
-														htmlType = 'submit' 
-														style = {{ 
-															marginRight: '20px' 
-														}}
-												>
-													<Link to = { `/detalhes_reuniao/${ currentMeeting.id }/
-																					${ project_id }/
-																					${ sector_id }` } >
-														<Icon 
-															type = 'arrow-left' 
-															style = {{ marginRight: '10px' }} />
-															Voltar
-													</Link>
-												</Button>
-												<Button 
-													type = 'primary' 
-													htmlType = 'submit' 
-													style = {{ 
-														marginRight: '20px' 
-													}}
-												>
-													<Icon 
-														type = 'edit' 
-														style = {{ marginRight: '10px' }} />
-														Alterar Informações
-												</Button>
-												<Button 
-													onClick = { () => this.showDeleteConfirm(
-														this.props.token, 
-														currentMeeting.id, 
-														project_id,
-														sector_id
-													)}
-
-													type = 'danger' 
-													htmlType = 'submit' 
-													style = {{ 
-														marginRight: '20px' 
-													}}
-												>
-													<Icon 
-														type = 'delete' 
-														style = {{ marginRight: '10px' }} />
-														Excluir Reunião
-												</Button>
-											</div>
-										</Form.Item>
-									</Form>	
-                                </Hoc>
-                            )
-                        }
-                    </Hoc>
-                </div>
+									<Button 
+										type = 'ghost' 
+										htmlType = 'submit' 
+										className = 'buttonBack'
+									>
+										<Link to = { `/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/` } >
+											<Icon type = 'arrow-left' className = 'icons'/>
+												Voltar
+										</Link>
+									</Button>
+								</div>
+							</Form.Item>
+						</Form>
+					</div>
+				</Hoc>
             </Hoc>
-        )
+        );
     }
 }
 
