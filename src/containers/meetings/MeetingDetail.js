@@ -3,8 +3,10 @@ import { Form, Input, Button, Modal, Icon, message } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
+import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 
 const { confirm } = Modal;
 
@@ -152,237 +154,246 @@ class MeetingDetail extends Component {
 		: null;
 
         return (
-            <div align = 'right'>
+
+            <Hoc>
                 {
-                    currentMeeting.status === 'Cancelada' ? (
-                        <p></p>
+                    this.props.token === null ? (
+                        <Homepage/>
                     ) : (
-                        <Hoc>
+                        <div align = 'right'>
                             {
-                                currentMeeting.status === 'Agendada' ? (
-                                    <div>
-                                        <Button 
-                                            type = 'ghost'
-                                            className = 'buttonEdit' 
-                                            htmlType = 'submit' 
-                                            onClick = { () => this.confirmMeeting(
-                                                token, 
-                                                currentMeeting,
-                                                project_id
-                                            )}
-                                        >
-                                            Confirmar Reunião
-                                        </Button>
-
-                                        <Button type = 'ghost' 
-                                            htmlType = 'submit' 
-                                            className = 'buttonNew' 
-                                        >
-                                            <Link to = { `/criar_questionario/${ currentMeeting.id }/`}>
-                                                Criar Questionário
-                                            </Link>
-                                        </Button>
-                                        
-                                        <Button 
-                                            type = 'ghost' 
-                                            className = 'buttonSave' 
-                                            style = {{ 
-                                                marginLeft: '-10px',
-                                                marginRight: '30px',
-                                                marginBottom: '-20px'
-                                            }}
-                                        >
-                                            <Link to = { `/visualizar_ata/${ currentMeeting.id }/${ project_id }/ `} >
-                                                Visualizar Ata
-                                            </Link>
-                                        </Button>
-                                    </div>
-                                    
-                                ) : null
-                            }
-                            {
-                                currentMeeting.status === 'Pendente' ? (
-                                    <div align = 'right'>
-                                        <Button 
-                                            type = 'ghost' 
-                                            className = 'buttonAtaIncomplete'          
-                                            onClick = { this.info }
-                                        >
-                                            Visualizar Ata
-                                        </Button>
-                                        <Button type = 'ghost' className = 'buttonNew'>
-                                            <Link to = { `/criar_topicos/${ currentMeeting.id }/`} >
-                                                Marcar Reunião
-                                            </Link>
-                                        </Button>
-                                    </div>
-                                ) : null
-                            }
-                        </Hoc>
-                    )
-                }
-				
-				<div align = 'center'>
-					<Hoc> 
-                        {
-                            currentMeeting.status === 'Cancelada' ? (
-                                <h1 className = 'texth1'> Esta Reunião Foi Cancelada </h1>
-                            ) : (
-                                <Hoc>
-                                    <div className = 'content'>
-								        <h1 className = 'texth1'> Informações Cadastradas </h1>
-                                        <Form layout = 'vertical' className = 'formUser'>
-                                            <Form.Item 
-                                                label = 'Nome' 
-                                                { ...formItemLayout }
-                                                className = 'formFields'	
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.title } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Assunto' 
-                                                { ...formItemLayout } 
-                                                className = 'formFields'
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.subject_matter } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item
-                                                label = 'Status'
-                                                { ...formItemLayoutMinimum }
-                                                className = 'formFields'    
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.status } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Líder da Reunião' 
-                                                { ...formItemLayout }
-                                                className = 'formFields'
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.meeting_leader } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Local' 
-                                                { ...formItemLayout }
-                                                className = 'formFields'
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.sector } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-                                            <Form.Item 
-                                                label = 'Data de Inicio' 
-                                                { ...formItemLayoutMinimum }
-                                                className = 'formFields'    
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.initial_date } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-                                            <Form.Item 
-                                                label = 'Hora de Inicio' 
-                                                { ...formItemLayoutMinimum }
-                                                className = 'formFields' 
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.initial_hour } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Hora de Encerramento' 
-                                                { ...formItemLayoutMinimum }
-                                                className = 'formFields'
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.final_hour } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-                                        </Form>
+                                currentMeeting.status === 'Cancelada' ? (
+                                    <p></p>
+                                ) : (
+                                    <Hoc>
                                         {
-                                            currentMeeting.status === 'Pendente' ? (
-                                                <div align = 'center'>
+                                            currentMeeting.status === 'Agendada' ? (
+                                                <div>
                                                     <Button 
-                                                        type = 'ghost' 
+                                                        type = 'ghost'
                                                         className = 'buttonEdit' 
-                                                        style = {{ marginBottom: '40px' }}
+                                                        htmlType = 'submit' 
+                                                        onClick = { () => this.confirmMeeting(
+                                                            token, 
+                                                            currentMeeting,
+                                                            project_id
+                                                        )}
                                                     >
-                                                        <Link to = { `/editar_reuniao/${ currentMeeting.id }/${ project_id }` } >
-                                                            <Icon type = 'edit' className = 'icons'/>
-                                                            Editar Reunião
+                                                        Confirmar Reunião
+                                                    </Button>
+
+                                                    <Button type = 'ghost' 
+                                                        htmlType = 'submit' 
+                                                        className = 'buttonNew' 
+                                                    >
+                                                        <Link to = { `/criar_questionario/${ currentMeeting.id }/`}>
+                                                            Criar Questionário
                                                         </Link>
                                                     </Button>
-                                                    <Button className = 'buttonBack'>
-                                                        <Link to = { `/lista_de_reunioes/${ project_id }/` } >
-                                                            <Icon type = 'arrow-left' className = 'icons'/>
-                                                                Voltar
+                                                    
+                                                    <Button 
+                                                        type = 'ghost' 
+                                                        className = 'buttonSave' 
+                                                        style = {{ 
+                                                            marginLeft: '-10px',
+                                                            marginRight: '30px',
+                                                            marginBottom: '-20px'
+                                                        }}
+                                                    >
+                                                        <Link to = { `/visualizar_ata/${ currentMeeting.id }/${ project_id }/ `} >
+                                                            Visualizar Ata
                                                         </Link>
                                                     </Button>
                                                 </div>
-                                            ) : (
-                                                    <div align = 'center' >
-                                                        <Button className = 'buttonBack'>
-                                                            <Link to = { `/lista_de_reunioes/${ project_id }/` } >
-                                                                <Icon type = 'arrow-left' className = 'icons'/>
-                                                                    Visualizar Projetos
-                                                            </Link>
-                                                        </Button>
-
-                                                        <Button 
-                                                            className = 'buttonSave' 
-                                                            style = {{ 
-                                                                marginBottom: '30px',
-                                                                marginLeft: '20px'
-                                                            }}>
-                                                            <Link to = { `/adicionar_usuarios_a_reuniao/${ currentMeeting.id }/` } >
-                                                                <Icon type = 'save' className = 'icons'/>
-                                                                    Adicionar Mais Usuários
-                                                            </Link>
-                                                        </Button>
-                                                        
-                                                        <Button 
-                                                            onClick = { () => this.cancelMeeting(
-                                                                this.props.token, 
-                                                                project_id
-                                                            )}
-                                                            type = 'ghost' 
-                                                            htmlType = 'submit'
-                                                            className = 'buttonDelete' 
+                                                
+                                            ) : null
+                                        }
+                                        {
+                                            currentMeeting.status === 'Pendente' ? (
+                                                <div align = 'right'>
+                                                    <Button 
+                                                        type = 'ghost' 
+                                                        className = 'buttonAtaIncomplete'          
+                                                        onClick = { this.info }
+                                                    >
+                                                        Visualizar Ata
+                                                    </Button>
+                                                    <Button type = 'ghost' className = 'buttonNew'>
+                                                        <Link to = { `/criar_topicos/${ currentMeeting.id }/`} >
+                                                            Marcar Reunião
+                                                        </Link>
+                                                    </Button>
+                                                </div>
+                                            ) : null
+                                        }
+                                    </Hoc>
+                                )
+                            }
+                            
+                            <div align = 'center'>
+                                <Hoc> 
+                                    {
+                                        currentMeeting.status === 'Cancelada' ? (
+                                            <h1 className = 'texth1'> Esta Reunião Foi Cancelada </h1>
+                                        ) : (
+                                            <Hoc>
+                                                <div className = 'content'>
+                                                    <h1 className = 'texth1'> Informações Cadastradas </h1>
+                                                    <Form layout = 'vertical' className = 'formUser'>
+                                                        <Form.Item 
+                                                            label = 'Nome' 
+                                                            { ...formItemLayout }
+                                                            className = 'formFields'	
                                                         >
-                                                            <Icon 
-                                                                type = 'delete' 
-                                                                style = {{ marginRight: '10px' }} />
-                                                                Cancelar Reunião
-                                                        </Button>
-                                                    </div>
-                                                )
-                                            }
-                                    </div>
+                                                            <Input 
+                                                                value = { currentMeeting.title } 
+                                                                disabled = { true } 
+                                                            />
+                                                        </Form.Item>
+
+                                                        <Form.Item 
+                                                            label = 'Assunto' 
+                                                            { ...formItemLayout } 
+                                                            className = 'formFields'
+                                                        >
+                                                            <Input 
+                                                                value = { currentMeeting.subject_matter } 
+                                                                disabled = { true } 
+                                                            />
+                                                        </Form.Item>
+
+                                                        <Form.Item
+                                                            label = 'Status'
+                                                            { ...formItemLayoutMinimum }
+                                                            className = 'formFields'    
+                                                        >
+                                                            <Input 
+                                                                value = { currentMeeting.status } 
+                                                                disabled = { true } 
+                                                            />
+                                                        </Form.Item>
+
+                                                        <Form.Item 
+                                                            label = 'Líder da Reunião' 
+                                                            { ...formItemLayout }
+                                                            className = 'formFields'
+                                                        >
+                                                            <Input 
+                                                                value = { currentMeeting.meeting_leader } 
+                                                                disabled = { true } 
+                                                            />
+                                                        </Form.Item>
+
+                                                        <Form.Item 
+                                                            label = 'Local' 
+                                                            { ...formItemLayout }
+                                                            className = 'formFields'
+                                                        >
+                                                            <Input 
+                                                                value = { currentMeeting.sector } 
+                                                                disabled = { true } 
+                                                            />
+                                                        </Form.Item>
+                                                        <Form.Item 
+                                                            label = 'Data de Inicio' 
+                                                            { ...formItemLayoutMinimum }
+                                                            className = 'formFields'    
+                                                        >
+                                                            <Input 
+                                                                value = { currentMeeting.initial_date } 
+                                                                disabled = { true } 
+                                                            />
+                                                        </Form.Item>
+                                                        <Form.Item 
+                                                            label = 'Hora de Inicio' 
+                                                            { ...formItemLayoutMinimum }
+                                                            className = 'formFields' 
+                                                        >
+                                                            <Input 
+                                                                value = { currentMeeting.initial_hour } 
+                                                                disabled = { true } 
+                                                            />
+                                                        </Form.Item>
+
+                                                        <Form.Item 
+                                                            label = 'Hora de Encerramento' 
+                                                            { ...formItemLayoutMinimum }
+                                                            className = 'formFields'
+                                                        >
+                                                            <Input 
+                                                                value = { currentMeeting.final_hour } 
+                                                                disabled = { true } 
+                                                            />
+                                                        </Form.Item>
+                                                    </Form>
+                                                    {
+                                                        currentMeeting.status === 'Pendente' ? (
+                                                            <div align = 'center'>
+                                                                <Button 
+                                                                    type = 'ghost' 
+                                                                    className = 'buttonEdit' 
+                                                                    style = {{ marginBottom: '40px' }}
+                                                                >
+                                                                    <Link to = { `/editar_reuniao/${ currentMeeting.id }/${ project_id }` } >
+                                                                        <Icon type = 'edit' className = 'icons'/>
+                                                                        Editar Reunião
+                                                                    </Link>
+                                                                </Button>
+                                                                <Button className = 'buttonBack'>
+                                                                    <Link to = { `/lista_de_reunioes/${ project_id }/` } >
+                                                                        <Icon type = 'arrow-left' className = 'icons'/>
+                                                                            Voltar
+                                                                    </Link>
+                                                                </Button>
+                                                            </div>
+                                                        ) : (
+                                                                <div align = 'center' >
+                                                                    <Button className = 'buttonBack'>
+                                                                        <Link to = { `/lista_de_reunioes/${ project_id }/` } >
+                                                                            <Icon type = 'arrow-left' className = 'icons'/>
+                                                                                Visualizar Projetos
+                                                                        </Link>
+                                                                    </Button>
+
+                                                                    <Button 
+                                                                        className = 'buttonSave' 
+                                                                        style = {{ 
+                                                                            marginBottom: '30px',
+                                                                            marginLeft: '20px'
+                                                                        }}>
+                                                                        <Link to = { `/adicionar_usuarios_a_reuniao/${ currentMeeting.id }/` } >
+                                                                            <Icon type = 'save' className = 'icons'/>
+                                                                                Adicionar Mais Usuários
+                                                                        </Link>
+                                                                    </Button>
+                                                                    
+                                                                    <Button 
+                                                                        onClick = { () => this.cancelMeeting(
+                                                                            this.props.token, 
+                                                                            project_id
+                                                                        )}
+                                                                        type = 'ghost' 
+                                                                        htmlType = 'submit'
+                                                                        className = 'buttonDelete' 
+                                                                    >
+                                                                        <Icon 
+                                                                            type = 'delete' 
+                                                                            style = {{ marginRight: '10px' }} />
+                                                                            Cancelar Reunião
+                                                                    </Button>
+                                                                </div>
+                                                            )
+                                                        }
+                                                </div>
+                                            </Hoc>
+                                        )
+                                    }
                                 </Hoc>
-                            )
-                        }
-                    </Hoc>
-                </div>
-            </div>
+                            </div>
+                        </div>
+                    )
+                }
+            </Hoc>
         );
     }
 }

@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Skeleton, Table, Tag } from 'antd';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
 import { getUsers } from '../../store/actions/auth';
 import { dynamicSort } from '../utils';
-import Hoc from '../../hoc/hoc';
 
 class UserList extends Component {
 
@@ -76,81 +78,86 @@ class UserList extends Component {
 		dataSource.innerArray.sort(dynamicSort('name'));
 
         return (
+
             <Hoc>
                 {
-                    this.props.loading ? (
-                        <Skeleton active />
+                    this.props.token === null ? (
+                        <Homepage/>
                     ) : (
-                            <div className = 'contentList'>
-                                <Table columns = {
-                                [{
-                                    title: 'Nome',
-                                    dataIndex: 'name',
-                                    key: 'name',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-								},
-                                {
-                                    title: 'Usuário',
-                                    dataIndex: 'username',
-                                    key: 'username',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
-                                    title: 'Ramal',
-                                    dataIndex: 'ramal',
-                                    key: 'ramal',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
-                                    title: 'Setor',
-                                    dataIndex: 'setor',
-                                    key: 'setor',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
-                                    title: 'Email',
-                                    dataIndex: 'email',
-                                    key: 'email',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
-                                    title: 'Tipo de Permissão',
-                                    key: 'tags',
-                                    dataIndex: 'tags',
-                                    render: tags => (
-                                        <span>
-                                        {
-                                            tags.map(tag => {
-                                                let color = tag.length > 5 ? 'geekblue' : 'green';
-                                                if (tag === 'Participante da Reunião') {
-                                                	color = 'volcano';
-                                                }
-                                                return (
-                                                <Tag color = { color } key = { tag }>
-                                                    <b> { tag.toUpperCase() } </b>
-                                                </Tag>
-                                                );
-                                            })
-                                        }
-                                        </span>
-                                    ),
-                                },
-                                ]}
-                                dataSource = {
-                                    dataSource.innerArray
-                                } 
-                            />
-                        </div>
+                        this.props.loading ? (
+                            <Skeleton active />
+                        ) : (
+                                <div className = 'contentList'>
+                                    <Table columns = {
+                                    [{
+                                        title: 'Nome',
+                                        dataIndex: 'name',
+                                        key: 'name',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Usuário',
+                                        dataIndex: 'username',
+                                        key: 'username',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Ramal',
+                                        dataIndex: 'ramal',
+                                        key: 'ramal',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Setor',
+                                        dataIndex: 'setor',
+                                        key: 'setor',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Email',
+                                        dataIndex: 'email',
+                                        key: 'email',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Tipo de Permissão',
+                                        key: 'tags',
+                                        dataIndex: 'tags',
+                                        render: tags => (
+                                            <span>
+                                            {
+                                                tags.map(tag => {
+                                                    let color = tag.length > 5 ? 'geekblue' : 'green';
+                                                    if (tag === 'Participante da Reunião') {
+                                                        color = 'volcano';
+                                                    }
+                                                    return (
+                                                    <Tag color = { color } key = { tag }>
+                                                        <b> { tag.toUpperCase() } </b>
+                                                    </Tag>
+                                                    );
+                                                })
+                                            }
+                                            </span>
+                                        ),
+                                    },
+                                    ]}
+                                    dataSource = {
+                                        dataSource.innerArray
+                                    } 
+                                />
+                            </div>
+                        )
                     )
                 }
             </Hoc>
@@ -159,7 +166,9 @@ class UserList extends Component {
 }
 
 const mapStateToProps = state => {
+
     return {
+    
         token: state.auth.token,
         users: state.auth.users,
         loading: state.auth.loading
@@ -167,6 +176,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+    
     return {
         getUsers: token => dispatch(getUsers(token)),
     };

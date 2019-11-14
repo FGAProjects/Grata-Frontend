@@ -3,8 +3,10 @@ import { Skeleton, Form, Input, Button, Modal, message, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { getUser, deleteUser } from '../../store/actions/auth';
+import Homepage from '../homepage/Homepage';
 import Hoc from '../../hoc/hoc';
+
+import { getUser, deleteUser } from '../../store/actions/auth';
 
 const { confirm } = Modal;
 
@@ -76,129 +78,134 @@ class UserDetail extends Component {
 		}
 
 		return (
+
 			<Hoc>
 				{
-					this.props.loading ? (
-						<Skeleton active />
+					this.props.token === null ? (
+						<Homepage/>
 					) : (
-						<Hoc>
-							<div className = 'content'>
-								<h1 className = 'texth1'> Informações Cadastradas </h1>
-								<Form layout = 'vertical' className = 'formUser'>
-									<Form.Item 
-										label = 'Nome' 
-										{ ...formItemLayout }
-										className = 'formFields'	
-									>
-										<Input 
-											value = { currentUser.name } 
-											disabled = { true } 
-										/>
-									</Form.Item>
-									
-									<Form.Item 
-										label = 'Usuário' 
-										{ ...formItemLayout }
-										className = 'formFields'	
-									>
-										<Input 
-											value = { currentUser.username } 
-											disabled = { true } 
-										/>
-									</Form.Item>
-									
-									<Form.Item 
-										label = 'Email' 
-										{ ...formItemLayout }
-										className = 'formFields'	
-									>
-										<Input 
-											value = { currentUser.email } 
-											disabled = { true } 
-										/>
-									</Form.Item>
-
-									<Form.Item 
-										label = 'Setor' 
-										{ ...formItemLayout }
-										className = 'formFields'											
-									>
-										<Input 
-											value = { currentUser.sector } 
-											disabled = { true } 
-										/>
-									</Form.Item>
-									
-									<Form.Item 
-										label = 'Ramal' 
-										{ ...formItemLayout }
-										className = 'formFields'
-									>
-										<Input 
-											value = { currentUser.ramal } 
-											disabled = { true } />
-									</Form.Item>
-
-									{
-										currentUser.is_administrator === true ? (
-											<Form.Item 
-												label = 'Tipo de Usuário' 
-												{ ...formItemLayout }
-												className = 'formFields'	
-											>
-												<Input 
-													value = 'Administrador' 
-													disabled = { true } />
-											</Form.Item>
-										) : null
-									}
-
-									{
-										currentUser.is_participant === true ? (
-											<Form.Item 
-												label = 'Tipo de Usuário' 
-												{ ...formItemLayout }
-												className = 'formFields'	
-											>
-												<Input 
-													value = 'Participante da Reunião'
-													disabled = { true } />
-											</Form.Item>
-										) : null	
-									}
-									
-									<Form.Item>
-										<div align = 'center'>
-											<Button
-												className = 'buttonEdit' 
-												type = 'ghost' 
-												htmlType = 'submit' 
-											>
-												<Link to = { '/alterar_informacoes/' } >
-													<Icon 
-														className = 'icons'
-														type = 'edit' 
-														/>
-														Editar Perfil
-												</Link>
-											</Button>
-											<Button 
-												className = 'buttonDelete'
-												onClick = { () => 
-														this.showDeleteConfirm(
-															token,
-															currentUser.name,
-															currentUser.userId)} 
-												type = 'ghost'
-											>
-												<Icon type = 'delete' />
-												Excluir Perfil 
-											</Button>
-										</div>
-									</Form.Item>
-								</Form>
-							</div>
-						</Hoc>
+						this.props.loading ? (
+							<Skeleton active />
+						) : (
+							<Hoc>
+								<div className = 'content'>
+									<h1 className = 'texth1'> Informações Cadastradas </h1>
+									<Form layout = 'vertical' className = 'formUser'>
+										<Form.Item 
+											label = 'Nome' 
+											{ ...formItemLayout }
+											className = 'formFields'	
+										>
+											<Input 
+												value = { currentUser.name } 
+												disabled = { true } 
+											/>
+										</Form.Item>
+										
+										<Form.Item 
+											label = 'Usuário' 
+											{ ...formItemLayout }
+											className = 'formFields'	
+										>
+											<Input 
+												value = { currentUser.username } 
+												disabled = { true } 
+											/>
+										</Form.Item>
+										
+										<Form.Item 
+											label = 'Email' 
+											{ ...formItemLayout }
+											className = 'formFields'	
+										>
+											<Input 
+												value = { currentUser.email } 
+												disabled = { true } 
+											/>
+										</Form.Item>
+	
+										<Form.Item 
+											label = 'Setor' 
+											{ ...formItemLayout }
+											className = 'formFields'											
+										>
+											<Input 
+												value = { currentUser.sector } 
+												disabled = { true } 
+											/>
+										</Form.Item>
+										
+										<Form.Item 
+											label = 'Ramal' 
+											{ ...formItemLayout }
+											className = 'formFields'
+										>
+											<Input 
+												value = { currentUser.ramal } 
+												disabled = { true } />
+										</Form.Item>
+	
+										{
+											currentUser.is_administrator === true ? (
+												<Form.Item 
+													label = 'Tipo de Usuário' 
+													{ ...formItemLayout }
+													className = 'formFields'	
+												>
+													<Input 
+														value = 'Administrador' 
+														disabled = { true } />
+												</Form.Item>
+											) : null
+										}
+	
+										{
+											currentUser.is_participant === true ? (
+												<Form.Item 
+													label = 'Tipo de Usuário' 
+													{ ...formItemLayout }
+													className = 'formFields'	
+												>
+													<Input 
+														value = 'Participante da Reunião'
+														disabled = { true } />
+												</Form.Item>
+											) : null	
+										}
+										
+										<Form.Item>
+											<div align = 'center'>
+												<Button
+													className = 'buttonEdit' 
+													type = 'ghost' 
+													htmlType = 'submit' 
+												>
+													<Link to = { '/alterar_informacoes/' } >
+														<Icon 
+															className = 'icons'
+															type = 'edit' 
+															/>
+															Editar Perfil
+													</Link>
+												</Button>
+												<Button 
+													className = 'buttonDelete'
+													onClick = { () => 
+															this.showDeleteConfirm(
+																token,
+																currentUser.name,
+																currentUser.userId)} 
+													type = 'ghost'
+												>
+													<Icon type = 'delete' />
+													Excluir Perfil 
+												</Button>
+											</div>
+										</Form.Item>
+									</Form>
+								</div>
+							</Hoc>
+						)
 					)
 				}
 			</Hoc>
@@ -209,6 +216,7 @@ class UserDetail extends Component {
 const UserDetailForm = Form.create()(UserDetail);
 
 const mapStateToProps = state => {
+
 	return {
 
 		token: state.auth.token,
@@ -217,6 +225,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+
 	return {
 
 		getUser: (token, userId) => dispatch(getUser(token, userId)),

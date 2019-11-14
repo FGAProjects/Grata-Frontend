@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { Skeleton, Transfer, Switch, Table, Tag, Button, Icon, message } from 'antd';
 import difference from 'lodash/difference';
 
+import Hoc from '../../hoc/hoc';
+import Homapage from '../homepage/Homepage';
+
 import { getUsers } from '../../store/actions/auth';
 import { getProjects } from '../../store/actions/project';
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 import { dynamicSort } from '../utils';
-import Hoc from '../../hoc/hoc';
 
 class UserListMeeting extends Component {
 
@@ -145,11 +147,15 @@ class UserListMeeting extends Component {
 		dataSource.innerArray.sort(dynamicSort('title'));
 		
         return (
+
 			<Hoc>
 				{
-					this.props.loading ? (
-                        <Skeleton active />
-                    ) : (
+					this.props.token === null ? (
+						<Homapage/>
+					) : (
+						this.props.loading ? (
+							<Skeleton active />
+						) : (
 							<Hoc>
 								<div className = 'contentSearch'>
 									<Switch
@@ -221,7 +227,8 @@ class UserListMeeting extends Component {
 								</div>
 							</Hoc>
 						)
-					}
+					)
+				}
 			</Hoc>
         );
     }

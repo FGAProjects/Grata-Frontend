@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { Skeleton, Table, Icon, Button } from 'antd';
 import { Link } from 'react-router-dom';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
 import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
-import Hoc from '../../hoc/hoc';
 
 class SectorList extends Component {
 
@@ -51,55 +53,59 @@ class SectorList extends Component {
 		dataSource.innerArray.sort(dynamicSort('initials'));
 
         return (
+
             <Hoc>
                 {
-                    this.props.loading ? (
-                        <Skeleton active />
+                    this.props.token === null ? (
+                        <Homepage/>
                     ) : (
-                            <div className = 'contentList'>
-                                <Table columns = {[
-                                    {
-                                        title: 'Sigla',
-                                        dataIndex: 'initials',
-                                        key: 'initials',
-                                        render: (text) => (
-                                            <b> { text } </b>
-                                        )
-                                    },
-                                    {
-                                        title: 'Nome',
-                                        dataIndex: 'name',
-                                        key: 'name',
-                                        render: (text) => (
-                                            <b> { text } </b>
-                                        )
-                                    },
-                                    {
-                                        title: 'Ação',
-                                        key: 'action',
-                                        render: (record) => (
-                                        <span>
-                                            <Button 
-                                                type = 'ghost' 
-                                                className = 'buttonEdit' 
-                                                htmlType = 'submit' 
-                                            >
-                                                <Link to = { `/editar_setor/${ record.key }` } >
-                                                    <Icon type = 'edit' className = 'icons'/>
-                                                        Editar Setor
-                                                </Link>
-                                            </Button>
-                                        </span>
-                                        ),
-                                    },
-                                ]
-                                }
-                                dataSource = {
-                                    dataSource.innerArray
-                                } 
-                            />
-                        </div>
-                            
+                        this.props.loading ? (
+                            <Skeleton active />
+                        ) : (
+                                <div className = 'contentList'>
+                                    <Table columns = {[
+                                        {
+                                            title: 'Sigla',
+                                            dataIndex: 'initials',
+                                            key: 'initials',
+                                            render: (text) => (
+                                                <b> { text } </b>
+                                            )
+                                        },
+                                        {
+                                            title: 'Nome',
+                                            dataIndex: 'name',
+                                            key: 'name',
+                                            render: (text) => (
+                                                <b> { text } </b>
+                                            )
+                                        },
+                                        {
+                                            title: 'Ação',
+                                            key: 'action',
+                                            render: (record) => (
+                                            <span>
+                                                <Button 
+                                                    type = 'ghost' 
+                                                    className = 'buttonEdit' 
+                                                    htmlType = 'submit' 
+                                                >
+                                                    <Link to = { `/editar_setor/${ record.key }` } >
+                                                        <Icon type = 'edit' className = 'icons'/>
+                                                            Editar Setor
+                                                    </Link>
+                                                </Button>
+                                            </span>
+                                            ),
+                                        },
+                                    ]
+                                    }
+                                    dataSource = {
+                                        dataSource.innerArray
+                                    } 
+                                />
+                            </div>
+                        )
                     )
                 }
             </Hoc>

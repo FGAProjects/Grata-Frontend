@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Form, Input, Icon, Button, message } from 'antd';
 import { connect } from 'react-redux';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 
 let id = 0;
@@ -161,27 +164,37 @@ class Rules extends Component {
 
         return(
 
-            <div className = 'content' >
-                <h1 className = 'texth1'> Regras de Conduta </h1>
-                <Form onSubmit = { this.handleSubmit }>
-                    { formItems }
-                    <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
-                        <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
-                            <Icon type = 'plus' className = 'icons'/> Adicionar Regra
-                        </Button>
-                    </Form.Item>
+            <Hoc>
+                {
+                    this.props.token === null ? (
+                        <Homepage/>
+                    ) : (
+                        <Hoc>
+                            <div className = 'content' >
+                                <h1 className = 'texth1'> Regras de Conduta </h1>
+                                <Form onSubmit = { this.handleSubmit }>
+                                    { formItems }
+                                    <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
+                                        <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
+                                            <Icon type = 'plus' className = 'icons'/> Adicionar Regra
+                                        </Button>
+                                    </Form.Item>
 
-                    <Form.Item { ...formItemLayoutWithOutLabel }>
-                        <div align = 'center'>
-                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
-                                Cadastrar e Próximo
-                                <Icon type = 'right' className = 'icons'/>
-                            </Button>
-                        </div>
-                    </Form.Item>
-                </Form>
-            </div>
-        )
+                                    <Form.Item { ...formItemLayoutWithOutLabel }>
+                                        <div align = 'center'>
+                                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+                                                Cadastrar e Próximo
+                                                <Icon type = 'right' className = 'icons'/>
+                                            </Button>
+                                        </div>
+                                    </Form.Item>
+                                </Form>
+                            </div>
+                        </Hoc>
+                    )
+                }
+            </Hoc>
+        );
     }
 }
 

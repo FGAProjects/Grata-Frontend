@@ -7,6 +7,7 @@ import { getProjects } from '../../store/actions/project';
 import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
 
 class ProjectsList extends Component {
 
@@ -59,81 +60,88 @@ class ProjectsList extends Component {
             
             <Hoc>
                 {
-                    this.props.loading ? (
-                        <Skeleton active />
+                    this.props.token === null ? (
+                        <Homepage />
                     ) : (
-                            <div className = 'contentList'>
-                                <Table columns = {
-                                [{
-                                    title: 'Título',
-                                    dataIndex: 'title',
-                                    key: 'title',
-                                    render: (text, record) => (
-                                        <Link to = { `/lista_de_reunioes/${ record.key }/`} >
-                                            <List.Item>
-                                                <b>{ text }</b>
-                                            </List.Item>
-                                        </Link>
-                                    )   
-                                },
-                                {
-                                    title: 'Setor Responsável',
-                                    dataIndex: 'sector',
-                                    key: 'sector',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
-                                    title: 'Status',
-                                    key: 'tags',
-                                    dataIndex: 'tags',
-                                    render: tags => (
-                                        <span>
+                        
+                            this.props.loading ? (
+                                <Skeleton active />
+                            ) : (
+                                    <div className = 'contentList'>
+                                        <Table columns = {
+                                        [{
+                                            title: 'Título',
+                                            dataIndex: 'title',
+                                            key: 'title',
+                                            render: (text, record) => (
+                                                <Link to = { `/lista_de_reunioes/${ record.key }/`} >
+                                                    <List.Item>
+                                                        <b>{ text }</b>
+                                                    </List.Item>
+                                                </Link>
+                                            )   
+                                        },
                                         {
-                                            tags.map(tag => {
-                                                let color = tag.length > 5 ? 'geekblue' : 'green';
-                                                if (tag === 'Pendente') {
-                                                	color = 'orange';
-                                                } else {
-                                                    color = 'green';
+                                            title: 'Setor Responsável',
+                                            dataIndex: 'sector',
+                                            key: 'sector',
+                                            render: (text) => (
+                                                <b>{text}</b>
+                                            )
+                                        },
+                                        {
+                                            title: 'Status',
+                                            key: 'tags',
+                                            dataIndex: 'tags',
+                                            render: tags => (
+                                                <span>
+                                                {
+                                                    tags.map(tag => {
+                                                        let color = tag.length > 5 ? 'geekblue' : 'green';
+                                                        if (tag === 'Pendente') {
+                                                            color = 'orange';
+                                                        } else {
+                                                            color = 'green';
+                                                        }
+                                                        return (
+                                                        <Tag color = { color } key = { tag }>
+                                                            <b> { tag.toUpperCase() } </b> 
+                                                        </Tag>
+                                                        );
+                                                    })
                                                 }
-                                                return (
-                                                <Tag color = { color } key = { tag }>
-                                                    <b> { tag.toUpperCase() } </b> 
-                                                </Tag>
-                                                );
-                                            })
-                                        }
-                                        </span>
-                                    ),
-                                },
-                                {
-                                    title: 'Ação',
-                                    key: 'action',
-                                    render: (record) => (
-                                      <span>
-                                        <Button 
-                                            type = 'ghost' 
-                                            htmlType = 'submit' 
-                                            className = 'buttonEdit'
-                                        >
-                                            <Link to = { `/editar_projeto/${ record.key }/`} >
-                                                <Icon type = 'edit' className = 'icons'/>
-                                                    <b> Editar Projeto </b>
-                                            </Link>
-                                        </Button>
-                                      </span>
-                                    ),
-                                },
-                                ]}
-                                dataSource = {
-                                    dataSource.innerArray
-                                } 
-                            />
-                        </div>
+                                                </span>
+                                            ),
+                                        },
+                                        {
+                                            title: 'Ação',
+                                            key: 'action',
+                                            render: (record) => (
+                                              <span>
+                                                <Button 
+                                                    type = 'ghost' 
+                                                    htmlType = 'submit' 
+                                                    className = 'buttonEdit'
+                                                >
+                                                    <Link to = { `/editar_projeto/${ record.key }/`} >
+                                                        <Icon type = 'edit' className = 'icons'/>
+                                                            <b> Editar Projeto </b>
+                                                    </Link>
+                                                </Button>
+                                              </span>
+                                            ),
+                                        },
+                                        ]}
+                                        dataSource = {
+                                            dataSource.innerArray
+                                        } 
+                                    />
+                                </div>
+                            )
+                        
                     )
                 }
+                
             </Hoc>
         );
     }

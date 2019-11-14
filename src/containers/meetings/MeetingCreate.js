@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import { fail } from 'assert';
 import { Link } from 'react-router-dom';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
 import { createMeeting } from '../../store/actions/meeting';
 import { getProject } from '../../store/actions/project';
 import { getSectors } from '../../store/actions/sector';
@@ -122,139 +125,147 @@ class MeetingCreate extends Component {
 		};
 
 		return (
-			
-			<div className = 'content'>
-				<h1 className = 'texth1'> Criação de Reunião </h1>
-				<Form onSubmit = { this.handleSubmit }>
-					<Form.Item label = 'Título' hasFeedback { ...formItemLayout }>
-						{
-							getFieldDecorator('title', {
-								rules: [{ 
-									required: true, 
-									message: 'Por favor, Insira o Título da Reunião!'
-								},{
-									max: 30,
-									message: 'O Título Pode Ter no Máximo 30 Caracteres!',
-								}],
-							})(
-								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
-									placeholder = 'Ex: O Título Dessa Reunião é ...'
-								/>
-							)
-						}
-					</Form.Item>
 
-					<Form.Item label = 'Assunto' hasFeedback { ...formItemLayout }>
-						{
-							getFieldDecorator('subject_matter', {
-								rules: [{ 
-									required: true, 
-									message: 'Por favor, Insira o Assunto da Reunião!'
-								},{
-									max: 40,
-									message: 'O Título Pode Ter no Máximo 40 Caracteres!',
-								}],
-							})(
-								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
-									placeholder = 'Ex: O Assunto Dessa Reunião é ...'
-								/>
-							)
-						}
-					</Form.Item>
-
-					<Form.Item label = 'Status' { ...formItemLayout }>
-						{
-							getFieldDecorator('status', {
-								rules: [{ 
-									required: false 
-								}],
-							})(
-								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
-									placeholder = 'Pendente'
-									disabled = { true }
-								/>
-							)
-						}
-					</Form.Item>
-
-					<Form.Item label = 'Local' hasFeedback { ...formItemLayout }>
-						{
-							getFieldDecorator('local', {
-							rules: [
-								{
-									required: false,
-								}
-								],
-							})(							
-								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
-									placeholder = { currentProject.sector }
-									disabled = { true }
-								/>
-							)
-						}
-					</Form.Item>
-
-					<Form.Item label = 'Data Inicio - Data Fim' hasFeedback { ...formItemLayout }>
-						{
-							getFieldDecorator('range-picker', {
-								rules: [
+			<Hoc>
+				{
+					this.props.token === null ? (
+						<Homepage/>
+					) : (
+						<div className = 'content'>
+							<h1 className = 'texth1'> Criação de Reunião </h1>
+							<Form onSubmit = { this.handleSubmit }>
+								<Form.Item label = 'Título' hasFeedback { ...formItemLayout }>
 									{
-										required: true,
-										message: 'Por Favor, Selecione as Datas de Inicio e Fim!'
+										getFieldDecorator('title', {
+											rules: [{ 
+												required: true, 
+												message: 'Por favor, Insira o Título da Reunião!'
+											},{
+												max: 30,
+												message: 'O Título Pode Ter no Máximo 30 Caracteres!',
+											}],
+										})(
+											<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+												placeholder = 'Ex: O Título Dessa Reunião é ...'
+											/>
+										)
 									}
-								],	
-							}, rangeConfig) (
-								<RangePicker showTime format = 'DD/MM/YYYY' />
-							)
-						}
-					</Form.Item>
+								</Form.Item>
 
-					<Form.Item label = 'Hora de Inicio' { ...formItemLayout }>
-						{
-							getFieldDecorator('time-picker-initial', {
-								rules: [
+								<Form.Item label = 'Assunto' hasFeedback { ...formItemLayout }>
 									{
-										required: true,
-										message: 'Por Favor, Selecione a Hora de Inicio!'
+										getFieldDecorator('subject_matter', {
+											rules: [{ 
+												required: true, 
+												message: 'Por favor, Insira o Assunto da Reunião!'
+											},{
+												max: 40,
+												message: 'O Título Pode Ter no Máximo 40 Caracteres!',
+											}],
+										})(
+											<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+												placeholder = 'Ex: O Assunto Dessa Reunião é ...'
+											/>
+										)
 									}
-								],
-							}) (
-								<TimePicker />
-							)
-						}
-					</Form.Item>
+								</Form.Item>
 
-					<Form.Item label = 'Hora de Encerramento' hasFeedback { ...formItemLayout }>
-						{
-							getFieldDecorator('time-picker-final', {
-								rules: [
+								<Form.Item label = 'Status' { ...formItemLayout }>
 									{
-										required: true,
-										message: 'Por Favor, Selecione a Hora de Encerramento!'
+										getFieldDecorator('status', {
+											rules: [{ 
+												required: false 
+											}],
+										})(
+											<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+												placeholder = 'Pendente'
+												disabled = { true }
+											/>
+										)
 									}
-								],
-							}) (
-								<TimePicker />
-							)
-						}
-					</Form.Item>
+								</Form.Item>
 
-					<Form.Item>
-						<div align = 'center'>
-							<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
-								<Icon className = 'icons' type = 'save'/>
-									Cadastrar Reunião
-							</Button>
-							<Button type = 'ghost' className = 'buttonCancel'>
-								<Link to = { `/lista_de_reunioes/${ currentProject.id }` } >
-									<Icon className = 'icons' type = 'stop' />
-										Cancelar
-								</Link>
-							</Button>
+								<Form.Item label = 'Local' hasFeedback { ...formItemLayout }>
+									{
+										getFieldDecorator('local', {
+										rules: [
+											{
+												required: false,
+											}
+											],
+										})(							
+											<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+												placeholder = { currentProject.sector }
+												disabled = { true }
+											/>
+										)
+									}
+								</Form.Item>
+
+								<Form.Item label = 'Data Inicio - Data Fim' hasFeedback { ...formItemLayout }>
+									{
+										getFieldDecorator('range-picker', {
+											rules: [
+												{
+													required: true,
+													message: 'Por Favor, Selecione as Datas de Inicio e Fim!'
+												}
+											],	
+										}, rangeConfig) (
+											<RangePicker showTime format = 'DD/MM/YYYY' />
+										)
+									}
+								</Form.Item>
+
+								<Form.Item label = 'Hora de Inicio' { ...formItemLayout }>
+									{
+										getFieldDecorator('time-picker-initial', {
+											rules: [
+												{
+													required: true,
+													message: 'Por Favor, Selecione a Hora de Inicio!'
+												}
+											],
+										}) (
+											<TimePicker />
+										)
+									}
+								</Form.Item>
+
+								<Form.Item label = 'Hora de Encerramento' hasFeedback { ...formItemLayout }>
+									{
+										getFieldDecorator('time-picker-final', {
+											rules: [
+												{
+													required: true,
+													message: 'Por Favor, Selecione a Hora de Encerramento!'
+												}
+											],
+										}) (
+											<TimePicker />
+										)
+									}
+								</Form.Item>
+
+								<Form.Item>
+									<div align = 'center'>
+										<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+											<Icon className = 'icons' type = 'save'/>
+												Cadastrar Reunião
+										</Button>
+										<Button type = 'ghost' className = 'buttonCancel'>
+											<Link to = { `/lista_de_reunioes/${ currentProject.id }` } >
+												<Icon className = 'icons' type = 'stop' />
+													Cancelar
+											</Link>
+										</Button>
+									</div>
+								</Form.Item>
+							</Form>
 						</div>
-					</Form.Item>
-				</Form>
-			</div>
+					)
+				}
+			</Hoc>
 		);
 	}
 }

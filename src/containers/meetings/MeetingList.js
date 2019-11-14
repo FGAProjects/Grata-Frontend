@@ -3,10 +3,12 @@ import { List, Skeleton, Table, Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
 import { getProject } from '../../store/actions/project';
 import { getMeetings } from '../../store/actions/meeting';
 import { dynamicSort } from '../utils';
-import Hoc from '../../hoc/hoc';
 
 class MeetingList extends Component {
 
@@ -66,97 +68,107 @@ class MeetingList extends Component {
 		return (
 
 			<Hoc>
-				<div align = 'right'>
-					<Button 
-						type = 'ghost' 
-						htmlType = 'submit' 
-						className = 'buttonNew'
-						size = 'large'
-					>
-						<Link to = { `/criar_reuniao/projeto/${ project_id }/`} >
-							Nova Reunião
-						</Link>
-					</Button>
-				</div>
 				{
-                    this.props.loading ? (
-						<Skeleton active />
+					this.props.token === null ? (
+						<Homepage/>
 					) : (
-						<Hoc>
-							<div className = 'contentList'>
-								<Table columns = {
-									[{
-										title: 'Título',
-										dataIndex: 'title',
-										key: 'title',
-										render: (text, record) => (
-											<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }`}>
-												<List.Item>
-													<b> { text } </b>
-												</List.Item>
-											</Link>
-										)   
-									},
-									{
-										title: 'Setor Responsável',
-										dataIndex: 'sector',
-										key: 'sector',
-									},
-									{
-										title: 'Data de Inicio',
-										dataIndex: 'initial_date',
-										key: 'initial_date',
-									},
-									{
-										title: 'Data de Encerramento',
-										dataIndex: 'final_date',
-										key: 'final_date',
-									},
-									{
-										title: 'Hora de Inicio',
-										dataIndex: 'initial_hour',
-										key: 'initial_hour',
-									},
-									{
-										title: 'Hora de Encerramento',
-										dataIndex: 'final_hour',
-										key: 'final_hour',
-									},
-									{
-										title: 'Status',
-										key: 'tags',
-										dataIndex: 'tags',
-										render: tags => (
-											<span>
-											{
-												tags.map(tag => {
-													let color = '';
-													if (tag === 'Pendente') {
-														color = 'orange';
-													} else if(tag === 'Agendada') {
-														color = 'geekblue';
-													} else if(tag === 'Cancelada') {
-														color = 'red';
-													}														
-													else {
-														color = 'green';
-													}
-													return (
-													<Tag color = { color } key = { tag }>
-														<b> { tag.toUpperCase() } </b> 
-													</Tag>
-													);
-												})
-											}
-											</span>
-										),
-									},
-								]}
-								dataSource = {
-									dataSource.innerArray
-								}/>
-							</div>
-						</Hoc>
+						<div align = 'right'>
+							<Button 
+								type = 'ghost' 
+								htmlType = 'submit' 
+								className = 'buttonNew'
+								size = 'large'
+							>
+								<Link to = { `/criar_reuniao/projeto/${ project_id }/`} >
+									Nova Reunião
+								</Link>
+							</Button>
+						</div>
+					)
+				}
+				{
+					this.props.token === null ? (
+						<Homepage/>
+					) : (
+						this.props.loading ? (
+							<Skeleton active />
+						) : (
+							<Hoc>
+								<div className = 'contentList'>
+									<Table columns = {
+										[{
+											title: 'Título',
+											dataIndex: 'title',
+											key: 'title',
+											render: (text, record) => (
+												<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }`}>
+													<List.Item>
+														<b> { text } </b>
+													</List.Item>
+												</Link>
+											)   
+										},
+										{
+											title: 'Setor Responsável',
+											dataIndex: 'sector',
+											key: 'sector',
+										},
+										{
+											title: 'Data de Inicio',
+											dataIndex: 'initial_date',
+											key: 'initial_date',
+										},
+										{
+											title: 'Data de Encerramento',
+											dataIndex: 'final_date',
+											key: 'final_date',
+										},
+										{
+											title: 'Hora de Inicio',
+											dataIndex: 'initial_hour',
+											key: 'initial_hour',
+										},
+										{
+											title: 'Hora de Encerramento',
+											dataIndex: 'final_hour',
+											key: 'final_hour',
+										},
+										{
+											title: 'Status',
+											key: 'tags',
+											dataIndex: 'tags',
+											render: tags => (
+												<span>
+												{
+													tags.map(tag => {
+														let color = '';
+														if (tag === 'Pendente') {
+															color = 'orange';
+														} else if(tag === 'Agendada') {
+															color = 'geekblue';
+														} else if(tag === 'Cancelada') {
+															color = 'red';
+														}														
+														else {
+															color = 'green';
+														}
+														return (
+														<Tag color = { color } key = { tag }>
+															<b> { tag.toUpperCase() } </b> 
+														</Tag>
+														);
+													})
+												}
+												</span>
+											),
+										},
+									]}
+									dataSource = {
+										dataSource.innerArray
+									}/>
+								</div>
+							</Hoc>
+						)
 					)
 				}
 			</Hoc>

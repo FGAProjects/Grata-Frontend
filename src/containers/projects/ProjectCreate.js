@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import { fail } from 'assert';
 import { Link } from 'react-router-dom';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
 import { createProject } from '../../store/actions/project';
 import { getSectors } from '../../store/actions/sector';
 import { dynamicSort } from '../utils';
@@ -106,76 +109,84 @@ class ProjectCreate extends Component {
 
 		return (
 
-			<div className = 'content'>
-				<h1 className = 'texth1'> Criar Projeto </h1>
-				<Form onSubmit = { this.handleSubmit }>
-					<Form.Item label = 'Título'className = 'formFields' { ...formItemLayout }>
-						{
-							getFieldDecorator('title', {
-								rules: [{ 
-									required: true, 
-									message: 'Por favor, Coloque o Título!' 
-								}],
-							})(
-								<Input prefix = { <Icon type = 'form' className = 'icons'/> }
-									   placeholder = 'Usuário'
-								/>
-							)
-						}
-					</Form.Item>
-
-					<Form.Item label ='Setor' hasFeedback className = 'formFields' { ...formItemLayout }>
-						{
-							getFieldDecorator('sector', {
-							rules: [
-								{
-									required: true,
-									message: 'Por favor, Escolha o Setor do Usuário!',
-								}
-								],
-							})(
-								<Select placeholder = 'Escolha o Setor' >
-									{ dataSource.innerArray.map(sector => 
-										<Option 
-											key = { sector.key } 
-											value = { sector.initials }>
-											{ sector.name }
-										</Option>)
+			<Hoc>
+				{
+					this.props.token === null ? (
+						<Homepage/>
+					) : (
+						<div className = 'content'>
+							<h1 className = 'texth1'> Criar Projeto </h1>
+							<Form onSubmit = { this.handleSubmit }>
+								<Form.Item label = 'Título'className = 'formFields' { ...formItemLayout }>
+									{
+										getFieldDecorator('title', {
+											rules: [{ 
+												required: true, 
+												message: 'Por favor, Coloque o Título!' 
+											}],
+										})(
+											<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+												placeholder = 'Usuário'
+											/>
+										)
 									}
-								</Select>  
-							)
-						}
-					</Form.Item>
+								</Form.Item>
 
-					<Form.Item label = 'Status' className = 'formFields' { ...formItemLayout }>
-						{
-							getFieldDecorator('status', {
-								
-							})(
-								<Input 
-									prefix = { <Icon type = 'mail' /> } placeholder = 'Pendente'
-									disabled = { true }
-								/>
-							)
-						}
-					</Form.Item>
+								<Form.Item label ='Setor' hasFeedback className = 'formFields' { ...formItemLayout }>
+									{
+										getFieldDecorator('sector', {
+										rules: [
+											{
+												required: true,
+												message: 'Por favor, Escolha o Setor do Usuário!',
+											}
+											],
+										})(
+											<Select placeholder = 'Escolha o Setor' >
+												{ dataSource.innerArray.map(sector => 
+													<Option 
+														key = { sector.key } 
+														value = { sector.initials }>
+														{ sector.name }
+													</Option>)
+												}
+											</Select>  
+										)
+									}
+								</Form.Item>
 
-					<Form.Item>
-						<div align = 'center'>
-							<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
-								<Icon className = 'icons' type = 'save'/>
-									Cadastrar Projeto
-							</Button>
-							<Button type = 'default' className = 'buttonCancel'>
-								<Link to = { '/lista_de_projetos/' }>
-								<Icon className = 'icons' type = 'stop'/>
-									Cancelar
-								</Link>
-							</Button>
+								<Form.Item label = 'Status' className = 'formFields' { ...formItemLayout }>
+									{
+										getFieldDecorator('status', {
+											
+										})(
+											<Input 
+												prefix = { <Icon type = 'mail' /> } placeholder = 'Pendente'
+												disabled = { true }
+											/>
+										)
+									}
+								</Form.Item>
+
+								<Form.Item>
+									<div align = 'center'>
+										<Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+											<Icon className = 'icons' type = 'save'/>
+												Cadastrar Projeto
+										</Button>
+										<Button type = 'default' className = 'buttonCancel'>
+											<Link to = { '/lista_de_projetos/' }>
+											<Icon className = 'icons' type = 'stop'/>
+												Cancelar
+											</Link>
+										</Button>
+									</div>
+								</Form.Item>
+							</Form>
 						</div>
-					</Form.Item>
-				</Form>
-			</div>
+					)
+				}
+			</Hoc>
 		);
 	}
 }

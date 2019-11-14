@@ -3,6 +3,9 @@ import { Descriptions, Badge, Button, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
 import { getMeeting } from '../../store/actions/meeting';
 
 class Record extends Component {
@@ -82,7 +85,8 @@ class Record extends Component {
 		};
 
 		for(let aux = 0; aux < users; aux ++) {
-            usersMeeting.innerArray.push(
+			
+			usersMeeting.innerArray.push(
                 {
 					key: aux,
                     users: currentMeeting.users[aux]
@@ -91,6 +95,7 @@ class Record extends Component {
 		}
 
 		for(let aux = 0; aux < topics; aux ++) {
+			
 			topicsMeeting.innerArray.push(
 				{
 					key: aux,
@@ -100,6 +105,7 @@ class Record extends Component {
 		}
 
 		for(let aux = 0; aux < rules; aux ++) {
+			
 			rulesMeeting.innerArray.push(
 				{
 					key: aux,
@@ -110,80 +116,90 @@ class Record extends Component {
 
 		return (
 
-			<div align = 'right'>
-				<Button type = 'ghost' 
-					htmlType = 'submit' 
-					className = 'buttonBack'
-					style = {{
-						marginTop: '30px',
-						marginRight: '30px'
-					}} 
-				>
-					<Link to = { `/detalhes_reuniao/${ currentMeeting.id }/${ project_id }`}>
-						<Icon type = 'arrow-left' className = 'icons'/>
-						Voltar
-					</Link>
-				</Button>
+			<Hoc>
+				{
+					this.props.token === null ? (
+						<Homepage/>
+					) : (
+						<Hoc>
+							<div align = 'right'>
+								<Button type = 'ghost' 
+									htmlType = 'submit' 
+									className = 'buttonBack'
+									style = {{
+										marginTop: '30px',
+										marginRight: '30px'
+									}} 
+								>
+									<Link to = { `/detalhes_reuniao/${ currentMeeting.id }/${ project_id }`}>
+										<Icon type = 'arrow-left' className = 'icons'/>
+										Voltar
+									</Link>
+								</Button>
 
-				<div className = 'content'>
-					<Descriptions 
-						title = {` ${currentMeeting.title} `} 
-						layout = 'vertical' 
-						bordered
-						className = 'texth1'	
-					>
-						<Descriptions.Item label = 'Título da Reunião'> 
-							{ currentMeeting.title } 
-						</Descriptions.Item>
-						
-						<Descriptions.Item label = 'Assunto da Reunião'>
-							{ currentMeeting.subject_matter }
-						</Descriptions.Item>
-						
-						<Descriptions.Item label = 'Setor Responsável'>
-							{ currentMeeting.sector }
-						</Descriptions.Item>
-						
-						<Descriptions.Item label = 'Data de Abertura'>
-							{ currentMeeting.initial_date }
-						</Descriptions.Item>
-						
-						<Descriptions.Item label = 'Data de Encerramento'>
-							{ currentMeeting.final_date }
-						</Descriptions.Item>
-						
-						<Descriptions.Item label = 'Hora de Inicio'>
-							{ currentMeeting.initial_hour }
-						</Descriptions.Item>
-						
-						<Descriptions.Item label = 'Hora de Encerramento'>
-							{ currentMeeting.final_hour }
-						</Descriptions.Item>
-						
-						<Descriptions.Item label = 'Status da Reunião' span = { 3 }>
-							<Badge status = 'processing' text = { `${ currentMeeting.status }` } />
-						</Descriptions.Item>
-						
-						<Descriptions.Item label = 'Usuários Confirmados na Reunião'> 
-							{ usersMeeting.innerArray.map(user =>
-								<li key = { user.key }> { user.users } </li>	
-							)}
-						</Descriptions.Item>
-													
-						<Descriptions.Item label = 'Tópicos'> 
-							{ topicsMeeting.innerArray.map(topic =>
-								<li key = { topic.key }> { topic.topics } </li>	
-							)}
-						</Descriptions.Item>
+								<div className = 'content'>
+									<Descriptions 
+										title = {` ${currentMeeting.title} `} 
+										layout = 'vertical' 
+										bordered
+										className = 'texth1'	
+									>
+										<Descriptions.Item label = 'Título da Reunião'> 
+											{ currentMeeting.title } 
+										</Descriptions.Item>
+										
+										<Descriptions.Item label = 'Assunto da Reunião'>
+											{ currentMeeting.subject_matter }
+										</Descriptions.Item>
+										
+										<Descriptions.Item label = 'Setor Responsável'>
+											{ currentMeeting.sector }
+										</Descriptions.Item>
+										
+										<Descriptions.Item label = 'Data de Abertura'>
+											{ currentMeeting.initial_date }
+										</Descriptions.Item>
+										
+										<Descriptions.Item label = 'Data de Encerramento'>
+											{ currentMeeting.final_date }
+										</Descriptions.Item>
+										
+										<Descriptions.Item label = 'Hora de Inicio'>
+											{ currentMeeting.initial_hour }
+										</Descriptions.Item>
+										
+										<Descriptions.Item label = 'Hora de Encerramento'>
+											{ currentMeeting.final_hour }
+										</Descriptions.Item>
+										
+										<Descriptions.Item label = 'Status da Reunião' span = { 3 }>
+											<Badge status = 'processing' text = { `${ currentMeeting.status }` } />
+										</Descriptions.Item>
+										
+										<Descriptions.Item label = 'Usuários Confirmados na Reunião'> 
+											{ usersMeeting.innerArray.map(user =>
+												<li key = { user.key }> { user.users } </li>	
+											)}
+										</Descriptions.Item>
+																	
+										<Descriptions.Item label = 'Tópicos'> 
+											{ topicsMeeting.innerArray.map(topic =>
+												<li key = { topic.key }> { topic.topics } </li>	
+											)}
+										</Descriptions.Item>
 
-						<Descriptions.Item label = 'Regras da Reunião' span={3}>
-							{ rulesMeeting.innerArray.map(rule =>
-								<li key = { rule.key }> { rule.rules } </li>	
-							)}
-						</Descriptions.Item>
-					</Descriptions>
-				</div>
-			</div>
+										<Descriptions.Item label = 'Regras da Reunião' span={3}>
+											{ rulesMeeting.innerArray.map(rule =>
+												<li key = { rule.key }> { rule.rules } </li>	
+											)}
+										</Descriptions.Item>
+									</Descriptions>
+								</div>
+							</div>
+						</Hoc>
+					)
+				}
+			</Hoc>
 		);
 	}
 }

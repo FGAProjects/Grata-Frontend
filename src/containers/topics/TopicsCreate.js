@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Form, Input, Icon, Button, message } from 'antd';
 import { connect } from 'react-redux';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 
 let id = 0;
@@ -159,26 +162,36 @@ class Topics extends Component {
 
         return(
 
-            <div className = 'content' >
-                <h1 className = 'texth1'> Tópicos da Reunião </h1>
-                <Form onSubmit = { this.handleSubmit }>
-                    { formItems }
-                    <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
-                        <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
-                            <Icon type="plus" /> Adicionar Tópico
-                        </Button>
-                    </Form.Item>
+            <Hoc>
+                {
+                    this.props.token === null ? (
+                        <Homepage/>
+                    ) : (
+                        <Hoc>
+                            <div className = 'content' >
+                                <h1 className = 'texth1'> Tópicos da Reunião </h1>
+                                <Form onSubmit = { this.handleSubmit }>
+                                    { formItems }
+                                    <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
+                                        <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
+                                            <Icon type="plus" /> Adicionar Tópico
+                                        </Button>
+                                    </Form.Item>
 
-                    <div align = 'center'>
-                        <Form.Item { ...formItemLayoutWithOutLabel }>
-                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
-                                Cadastrar e Próximo
-                                <Icon type = 'right' className = 'icons'/>
-                            </Button>
-                        </Form.Item>
-                    </div>
-                </Form>
-            </div>
+                                    <div align = 'center'>
+                                        <Form.Item { ...formItemLayoutWithOutLabel }>
+                                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+                                                Cadastrar e Próximo
+                                                <Icon type = 'right' className = 'icons'/>
+                                            </Button>
+                                        </Form.Item>
+                                    </div>
+                                </Form>
+                            </div>
+                        </Hoc>
+                    )
+                }
+            </Hoc>
         );
     }
 }
