@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Descriptions, Badge } from 'antd';
+import { Descriptions, Badge, Button, Icon } from 'antd';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { getMeeting } from '../../store/actions/meeting';
 
@@ -57,6 +58,7 @@ class Record extends Component {
 	render() {
 
 		const { currentMeeting } = this.props;
+		const project_id = this.props.match.params.project_id;
 		const users = this.size(currentMeeting.users);
 		const topics = this.size(currentMeeting.topics);
 		const rules = this.size(currentMeeting.rules);
@@ -107,12 +109,29 @@ class Record extends Component {
 		}
 
 		return (
+
 			<div align = 'right'>
-				LINK PDF
-				
-				<div align = 'left'>
-					<Descriptions title = {` ${currentMeeting.title} `} layout = 'vertical' bordered>
-						
+				<Button type = 'ghost' 
+					htmlType = 'submit' 
+					className = 'buttonBack'
+					style = {{
+						marginTop: '30px',
+						marginRight: '30px'
+					}} 
+				>
+					<Link to = { `/detalhes_reuniao/${ currentMeeting.id }/${ project_id }`}>
+						<Icon type = 'arrow-left' className = 'icons'/>
+						Voltar
+					</Link>
+				</Button>
+
+				<div className = 'content'>
+					<Descriptions 
+						title = {` ${currentMeeting.title} `} 
+						layout = 'vertical' 
+						bordered
+						className = 'texth1'	
+					>
 						<Descriptions.Item label = 'Título da Reunião'> 
 							{ currentMeeting.title } 
 						</Descriptions.Item>
@@ -141,7 +160,7 @@ class Record extends Component {
 							{ currentMeeting.final_hour }
 						</Descriptions.Item>
 						
-						<Descriptions.Item label = 'Status da Reunião' span={3}>
+						<Descriptions.Item label = 'Status da Reunião' span = { 3 }>
 							<Badge status = 'processing' text = { `${ currentMeeting.status }` } />
 						</Descriptions.Item>
 						

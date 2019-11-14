@@ -93,3 +93,22 @@
     border-radius: 10px;
     background: deepskyblue;
 }
+
+.buttonAdd {
+    width: 60%;
+}
+
+.buttonSwitch {
+    margin-left: 30px;
+}
+
+.buttonSearch {
+    margin-bottom: 10px;
+    margin-left: 935px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    background:green;
+    border-radius: 10px;
+}

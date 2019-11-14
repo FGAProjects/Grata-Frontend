@@ -431,7 +431,6 @@ const mapStateToProps = state => {
 		token: state.auth.token,
         loading: state.meeting.loading,
 		currentMeeting: state.meeting.currentMeeting,
-		projects: state.project.projects
     };
 };
 

@@ -101,29 +101,27 @@ class Rules extends Component {
 
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
-            
             labelCol: {
                 xs: { span: 24 },
                 sm: { span: 4 },
             },
             wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 20 },
+                xs: { span: 24, offset: 0 },
+                sm: { span: 20, offset: 0 },
             }
         };
         const formItemLayoutWithOutLabel = {
-            
             wrapperCol: {
                 xs: { span: 24, offset: 0 },
                 sm: { span: 20, offset: 4 },
-            }
+            },
         };
         getFieldDecorator('keys', { 
             initialValue: [] 
         });
         const keys = getFieldValue('keys');
         const formItems = keys.map((k, index) => (
-            <Form.Item
+            <Form.Item className = 'formFields'
                 { ...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel) }
                 label = { index === 0 ? 'Regras de Conduta' : '' }
                 required = { false }
@@ -163,30 +161,23 @@ class Rules extends Component {
 
         return(
 
-            <div align = 'center' >
-                <h1> Regras de Conduta </h1>
+            <div className = 'content' >
+                <h1 className = 'texth1'> Regras de Conduta </h1>
                 <Form onSubmit = { this.handleSubmit }>
                     { formItems }
-                    <Form.Item {...formItemLayoutWithOutLabel }>
-                        <Button 
-                            type = 'dashed' 
-                            onClick = { this.add } 
-                            style = {{ 
-                                width: '60%' 
-                            }}
-                        >
-                            <Icon type="plus" /> Adicionar Regra
+                    <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
+                        <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
+                            <Icon type = 'plus' className = 'icons'/> Adicionar Regra
                         </Button>
                     </Form.Item>
 
                     <Form.Item { ...formItemLayoutWithOutLabel }>
-                        <Button 
-                            type = 'primary' 
-                            htmlType = 'submit'
-                        >
-                            Cadastrar e Próximo
-                            <Icon type="right" />
-                        </Button>
+                        <div align = 'center'>
+                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+                                Cadastrar e Próximo
+                                <Icon type = 'right' className = 'icons'/>
+                            </Button>
+                        </div>
                     </Form.Item>
                 </Form>
             </div>

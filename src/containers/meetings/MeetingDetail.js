@@ -101,7 +101,7 @@ class MeetingDetail extends Component {
         });
     }
 
-    confirmMeeting(token, currentMeeting, project_id, sector_id) {
+    confirmMeeting(token, currentMeeting, project_id) {
 
         const propsForms = this.props;
 
@@ -109,13 +109,23 @@ class MeetingDetail extends Component {
             title: ' Confirmação de Reunião',
             content: 'Ao Confirmar a Reunião, Não Será Possível Editar Mais a Reunião',
             onOk() {
-                currentMeeting.status = 'Confirmada';
-                propsForms.updateMeeting(token, currentMeeting);
+                const meeting = {
+
+					meeting: currentMeeting.id,
+					title: currentMeeting.title,
+					subject_matter: currentMeeting.subject_matter,
+					status: 'Confirmada',
+					initial_date: currentMeeting.initial_date,
+					final_date: currentMeeting.final_date,
+					initial_hour: currentMeeting.initial_hour,
+					final_hour: currentMeeting.final_hour,
+				};
+                propsForms.updateMeeting(token, meeting);
                 Modal.success({
 					title: 'Ação Concluída!',
 					content: 'Reunião Confirmada Com Sucesso!',
                 });
-                propsForms.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/${ sector_id }`)
+                propsForms.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/`)
             },
             onCancel() {
                 message.success('Ação Cancelada Com Sucesso!');
@@ -150,35 +160,44 @@ class MeetingDetail extends Component {
                         <Hoc>
                             {
                                 currentMeeting.status === 'Agendada' ? (
-                                    <Button 
-                                        type = 'primary' 
-                                        htmlType = 'submit' 
-                                        style = {{
-                                            marginRight: '10px'
-                                        }}
-                                        onClick = { () => this.confirmMeeting(
-                                            token, 
-                                            currentMeeting,
-                                            project_id,
-                                        )}
-                                    >
-                                        Confirmar Reunião
-                                    </Button>
-                                ) : null
-                            }
-                            {
-                                currentMeeting.status === 'Agendada' ? (
-                                    <Button
-                                        type = 'primary' 
-                                        htmlType = 'submit' 
-                                        style = {{
-                                            marginRight: '10px'
-                                        }}
-                                    >
-                                        <Link to = { `/criar_questionario/${ currentMeeting.id }/`} >
-                                            Adicionar Questionário
-                                        </Link>
-                                    </Button>
+                                    <div>
+                                        <Button 
+                                            type = 'ghost'
+                                            className = 'buttonEdit' 
+                                            htmlType = 'submit' 
+                                            onClick = { () => this.confirmMeeting(
+                                                token, 
+                                                currentMeeting,
+                                                project_id
+                                            )}
+                                        >
+                                            Confirmar Reunião
+                                        </Button>
+
+                                        <Button type = 'ghost' 
+                                            htmlType = 'submit' 
+                                            className = 'buttonNew' 
+                                        >
+                                            <Link to = { `/criar_questionario/${ currentMeeting.id }/`}>
+                                                Criar Questionário
+                                            </Link>
+                                        </Button>
+                                        
+                                        <Button 
+                                            type = 'ghost' 
+                                            className = 'buttonSave' 
+                                            style = {{ 
+                                                marginLeft: '-10px',
+                                                marginRight: '30px',
+                                                marginBottom: '-20px'
+                                            }}
+                                        >
+                                            <Link to = { `/visualizar_ata/${ currentMeeting.id }/${ project_id }/ `} >
+                                                Visualizar Ata
+                                            </Link>
+                                        </Button>
+                                    </div>
+                                    
                                 ) : null
                             }
                             {
@@ -192,23 +211,12 @@ class MeetingDetail extends Component {
                                             Visualizar Ata
                                         </Button>
                                         <Button type = 'ghost' className = 'buttonNew'>
-                                            <Link to = { `/criar_topicos/${ currentMeeting.id }/${ project_id }/`} >
+                                            <Link to = { `/criar_topicos/${ currentMeeting.id }/`} >
                                                 Marcar Reunião
                                             </Link>
                                         </Button>
                                     </div>
-                                ) : (
-                                    <Button 
-                                        type = 'primary' 
-                                        style = {{
-                                            marginRight: '10px'
-                                        }}
-                                    >
-                                        <Link to = { `/visualizar_ata/${ currentMeeting.id }/${ project_id }/ `} >
-                                            Visualizar Ata
-                                        </Link>
-                                    </Button>
-                                )
+                                ) : null
                             }
                         </Hoc>
                     )
@@ -332,17 +340,33 @@ class MeetingDetail extends Component {
                                                 </div>
                                             ) : (
                                                     <div align = 'center' >
+                                                        <Button className = 'buttonBack'>
+                                                            <Link to = { `/lista_de_reunioes/${ project_id }/` } >
+                                                                <Icon type = 'arrow-left' className = 'icons'/>
+                                                                    Visualizar Projetos
+                                                            </Link>
+                                                        </Button>
+
+                                                        <Button 
+                                                            className = 'buttonSave' 
+                                                            style = {{ 
+                                                                marginBottom: '30px',
+                                                                marginLeft: '20px'
+                                                            }}>
+                                                            <Link to = { `/adicionar_usuarios_a_reuniao/${ currentMeeting.id }/` } >
+                                                                <Icon type = 'save' className = 'icons'/>
+                                                                    Adicionar Mais Usuários
+                                                            </Link>
+                                                        </Button>
+                                                        
                                                         <Button 
                                                             onClick = { () => this.cancelMeeting(
                                                                 this.props.token, 
-                                                                project_id,
+                                                                project_id
                                                             )}
-
-                                                            type = 'danger' 
-                                                            htmlType = 'submit' 
-                                                            style = {{ 
-                                                                marginRight: '20px' 
-                                                            }}
+                                                            type = 'ghost' 
+                                                            htmlType = 'submit'
+                                                            className = 'buttonDelete' 
                                                         >
                                                             <Icon 
                                                                 type = 'delete' 

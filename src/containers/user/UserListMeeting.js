@@ -4,6 +4,7 @@ import { Skeleton, Transfer, Switch, Table, Tag, Button, Icon, message } from 'a
 import difference from 'lodash/difference';
 
 import { getUsers } from '../../store/actions/auth';
+import { getProjects } from '../../store/actions/project';
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
@@ -25,6 +26,7 @@ class UserListMeeting extends Component {
 				const meeting_id = this.props.match.params.meeting_id;
 				this.props.getMeeting(this.props.token, meeting_id);
 				this.props.getUsers(this.props.token);
+				this.props.getProjects(this.props.token);
 			}
 		} catch(error) {
 			console.log(error)
@@ -41,7 +43,8 @@ class UserListMeeting extends Component {
             
                     const meeting_id = newProps.match.params.meeting_id;
                     this.props.getMeeting(newProps.token, meeting_id);
-                    this.props.getUsers(newProps.token);
+					this.props.getUsers(newProps.token);
+					this.props.getProjects(newProps.token);
                     this.forceUpdate();
                 }
             }
@@ -57,11 +60,20 @@ class UserListMeeting extends Component {
 		} else {
 
 			const { currentMeeting } = this.props;
+			const projects = this.props.projects;
 			const token = this.props.token;
 			const users = [
 
 			];
 			const targetKeys = this.state.targetKeys;
+			let project_id = 0;
+		
+			for(let aux = 0; aux < projects.length; aux ++) {
+
+				if(projects[aux].title === currentMeeting.project) {
+					project_id = projects[aux].id;
+				}
+			}
 
 			for(let aux = 0; aux < targetKeys.length; aux ++) {
 				
@@ -87,7 +99,7 @@ class UserListMeeting extends Component {
 
 			this.props.updateMeeting(token, meeting);
 			message.success('Usuários Foram Adicionados a Reunião Com Sucesso');
-			this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/`);
+			this.props.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }`);
 		}
 	}
 
@@ -106,14 +118,14 @@ class UserListMeeting extends Component {
     };
     
     render() {
-
+		
         const { targetKeys, showSearch } = this.state;
         const users = this.props.users;
         let dataSource = {
             innerArray: [
                 
             ]
-        };
+		};
 
         for(let aux = 0; aux < users.length; aux ++) {
 
@@ -139,76 +151,74 @@ class UserListMeeting extends Component {
                         <Skeleton active />
                     ) : (
 							<Hoc>
-								<div>
+								<div className = 'contentSearch'>
 									<Switch
 										unCheckedChildren = "Pesquisar Por Nome"
 										checkedChildren = "Esconder Pesquisa"
 										checked = { showSearch }
 										onChange = { this.triggerShowSearch }
+										className = 'buttonSwitch'
 									/>
 									<Button 
-										type = 'primary' 
+										type = 'ghost' 
 										htmlType = 'submit' 
-										style = {{
-											marginBottom: 20,
-											marginLeft: 870 
-										}}
+										className = 'buttonSearch'
 										onClick = { this.handleSubmit }
 									>
-										<Icon 
-											type = 'save' 
-										/>
+										<Icon type = 'save' className = 'icons'/>
 										Salvar e Agendar Reunião
 									</Button>
 								</div>
 
-								<TableTransfer
-									dataSource = { dataSource.innerArray } 
-									targetKeys = { targetKeys }
-									showSearch = { showSearch }
-									onChange = { this.onChange }
-									operations = {[
-										'Adicionar',
-										'Remover'
-									]}
-									filterOption = {(inputValue, item) =>
-										item.title.indexOf(inputValue) !== -1 || item.tag.indexOf(inputValue) !== -1
-									}
-									leftColumns = {[
-										{
-											dataIndex: 'title',
-											title: 'Nome',
-											render: title =><Tag color = 'blue'><b> { title } </b></Tag>
-										},
-										{
-											dataIndex: 'ramal',
-											title: 'Ramal',
-											render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
-										},
-										{
-											dataIndex: 'tag',
-											title: 'Setor',
-											render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+								<div className = 'contentTableUserSearch'>
+									<TableTransfer
+										dataSource = { dataSource.innerArray } 
+										targetKeys = { targetKeys }
+										showSearch = { showSearch }
+										onChange = { this.onChange }
+										operations = {[
+											'Adicionar',
+											'Remover'
+										]}
+										filterOption = {(inputValue, item) =>
+											item.title.indexOf(inputValue) !== -1 || item.tag.indexOf(inputValue) !== -1
 										}
-									]}
-									rightColumns = {[
-										{
-											dataIndex: 'title',
-											title: 'Nome',
-											render: title =><Tag color = 'blue'><b> { title } </b></Tag>
-										},
-										{
-											dataIndex: 'ramal',
-											title: 'Ramal',
-											render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
-										},
-										{
-											dataIndex: 'tag',
-											title: 'Setor',
-											render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
-										}
-									]}
-								/>
+										leftColumns = {[
+											{
+												dataIndex: 'title',
+												title: 'Nome',
+												render: title =><Tag color = 'blue'><b> { title } </b></Tag>
+											},
+											{
+												dataIndex: 'ramal',
+												title: 'Ramal',
+												render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
+											},
+											{
+												dataIndex: 'tag',
+												title: 'Setor',
+												render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+											}
+										]}
+										rightColumns = {[
+											{
+												dataIndex: 'title',
+												title: 'Nome',
+												render: title =><Tag color = 'blue'><b> { title } </b></Tag>
+											},
+											{
+												dataIndex: 'ramal',
+												title: 'Ramal',
+												render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
+											},
+											{
+												dataIndex: 'tag',
+												title: 'Setor',
+												render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+											}
+										]}
+									/>
+								</div>
 							</Hoc>
 						)
 					}
@@ -249,6 +259,7 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
         	};
   
         	return (
+				
 				<Table
 					rowSelection = { rowSelection }
 					columns = { columns }
@@ -277,7 +288,8 @@ const mapStateToProps = state => {
     
         token: state.auth.token,
         users: state.auth.users,
-        loading: state.auth.loading,
+		loading: state.auth.loading,
+		projects: state.project.projects,
         currentMeeting: state.meeting.currentMeeting
     };
 };
@@ -288,7 +300,8 @@ const mapDispatchToProps = dispatch => {
 
         getUsers: token => dispatch(getUsers(token)),
         getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
-        updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting))
+		updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting)),
+		getProjects: token => dispatch(getProjects(token))
     };
 };
 

@@ -106,9 +106,9 @@ class Topics extends Component {
                 sm: { span: 4 },
             },
             wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 20 },
-            },
+                xs: { span: 24, offset: 0 },
+                sm: { span: 20, offset: 0 },
+            }
         };
         const formItemLayoutWithOutLabel = {
             wrapperCol: {
@@ -119,7 +119,7 @@ class Topics extends Component {
         getFieldDecorator('keys', { initialValue: [] });
         const keys = getFieldValue('keys');
         const formItems = keys.map((k, index) => (
-            <Form.Item
+            <Form.Item className = 'formFields'
                 { ...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel) }
                 label = { index === 0 ? 'Tópicos' : '' }
                 required = { false }
@@ -159,34 +159,27 @@ class Topics extends Component {
 
         return(
 
-            <div align = 'center' >
-                <h1> Tópicos da Reunião </h1>
+            <div className = 'content' >
+                <h1 className = 'texth1'> Tópicos da Reunião </h1>
                 <Form onSubmit = { this.handleSubmit }>
                     { formItems }
-                    <Form.Item {...formItemLayoutWithOutLabel }>
-                        <Button 
-                            type = 'dashed' 
-                            onClick = { this.add } 
-                            style = {{ 
-                                width: '60%' 
-                            }}
-                        >
+                    <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
+                        <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
                             <Icon type="plus" /> Adicionar Tópico
                         </Button>
                     </Form.Item>
 
-                    <Form.Item { ...formItemLayoutWithOutLabel }>
-                        <Button 
-                            type = 'primary' 
-                            htmlType = 'submit'
-                        >
-                            Cadastrar e Próximo
-                            <Icon type="right" />
-                        </Button>
-                    </Form.Item>
+                    <div align = 'center'>
+                        <Form.Item { ...formItemLayoutWithOutLabel }>
+                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+                                Cadastrar e Próximo
+                                <Icon type = 'right' className = 'icons'/>
+                            </Button>
+                        </Form.Item>
+                    </div>
                 </Form>
             </div>
-        )
+        );
     }
 }
 

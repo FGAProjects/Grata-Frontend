@@ -86,3 +86,15 @@
     margin-bottom: 30px;   
     background: white; 
 }
+
+.contentSearch {
+    margin-top: 30px;
+}
+
+.contentTableUserSearch {
+    margin-top: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;   
+    background: white;
+}
