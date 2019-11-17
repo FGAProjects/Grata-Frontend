@@ -10,6 +10,7 @@ import '../css/buttons.css';
 import '../css/user.css';
 import '../css/navbar.css';
 import '../css/icon.css';
+import '../css/img.css';
 
 const { Footer } = Layout;
 

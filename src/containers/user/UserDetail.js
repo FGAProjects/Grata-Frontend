@@ -27,11 +27,12 @@ class UserDetail extends Component {
 		}
 	}
 
-	componentWillReceiveProps(newProps) {
+	UNSAFE_componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
+
 				this.props.getUser(newProps.token, newProps.currentUser.userId);
 			}
 		}
@@ -65,7 +66,7 @@ class UserDetail extends Component {
 	render() {
 
 		const { currentUser } = this.props;
-		const token = this.props.token;
+		let token = this.props.token;
 		const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
             labelCol: { span: 4 },
@@ -75,6 +76,11 @@ class UserDetail extends Component {
 
 		if(currentUser.sector === null) {
 			currentUser.sector = 'Não Possui Setor no Momento';
+		}
+
+		if(token === undefined) {
+			const user = JSON.parse(localStorage.getItem('user'));
+			token = user.token;
 		}
 
 		return (
@@ -194,7 +200,8 @@ class UserDetail extends Component {
 															this.showDeleteConfirm(
 																token,
 																currentUser.name,
-																currentUser.userId)} 
+																currentUser.id
+															)} 
 													type = 'ghost'
 												>
 													<Icon type = 'delete' />

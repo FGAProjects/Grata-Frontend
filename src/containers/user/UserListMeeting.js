@@ -4,7 +4,8 @@ import { Skeleton, Transfer, Switch, Table, Tag, Button, Icon, message } from 'a
 import difference from 'lodash/difference';
 
 import Hoc from '../../hoc/hoc';
-import Homapage from '../homepage/Homepage';
+import Homepage from '../homepage/Homepage';
+import NotPermission from '../notPermission/NotPermission';
 
 import { getUsers } from '../../store/actions/auth';
 import { getProjects } from '../../store/actions/project';
@@ -35,7 +36,7 @@ class UserListMeeting extends Component {
 		}
 	}
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
 
         try {
 
@@ -121,6 +122,7 @@ class UserListMeeting extends Component {
     
     render() {
 		
+		const user = JSON.parse(localStorage.getItem('user'));
         const { targetKeys, showSearch } = this.state;
         const users = this.props.users;
         let dataSource = {
@@ -151,81 +153,155 @@ class UserListMeeting extends Component {
 			<Hoc>
 				{
 					this.props.token === null ? (
-						<Homapage/>
+						<Homepage/>
 					) : (
 						this.props.loading ? (
 							<Skeleton active />
 						) : (
 							<Hoc>
-								<div className = 'contentSearch'>
-									<Switch
-										unCheckedChildren = "Pesquisar Por Nome"
-										checkedChildren = "Esconder Pesquisa"
-										checked = { showSearch }
-										onChange = { this.triggerShowSearch }
-										className = 'buttonSwitch'
-									/>
-									<Button 
-										type = 'ghost' 
-										htmlType = 'submit' 
-										className = 'buttonSearch'
-										onClick = { this.handleSubmit }
-									>
-										<Icon type = 'save' className = 'icons'/>
-										Salvar e Agendar Reunião
-									</Button>
-								</div>
-
-								<div className = 'contentTableUserSearch'>
-									<TableTransfer
-										dataSource = { dataSource.innerArray } 
-										targetKeys = { targetKeys }
-										showSearch = { showSearch }
-										onChange = { this.onChange }
-										operations = {[
-											'Adicionar',
-											'Remover'
-										]}
-										filterOption = {(inputValue, item) =>
-											item.title.indexOf(inputValue) !== -1 || item.tag.indexOf(inputValue) !== -1
-										}
-										leftColumns = {[
-											{
-												dataIndex: 'title',
-												title: 'Nome',
-												render: title =><Tag color = 'blue'><b> { title } </b></Tag>
-											},
-											{
-												dataIndex: 'ramal',
-												title: 'Ramal',
-												render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
-											},
-											{
-												dataIndex: 'tag',
-												title: 'Setor',
-												render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
-											}
-										]}
-										rightColumns = {[
-											{
-												dataIndex: 'title',
-												title: 'Nome',
-												render: title =><Tag color = 'blue'><b> { title } </b></Tag>
-											},
-											{
-												dataIndex: 'ramal',
-												title: 'Ramal',
-												render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
-											},
-											{
-												dataIndex: 'tag',
-												title: 'Setor',
-												render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
-											}
-										]}
-									/>
-								</div>
+								{
+									user.is_administrator === true ? (
+										<div className = 'contentSearch'>
+											<Switch
+												unCheckedChildren = "Pesquisar Por Nome"
+												checkedChildren = "Esconder Pesquisa"
+												checked = { showSearch }
+												onChange = { this.triggerShowSearch }
+												className = 'buttonSwitch'
+											/>
+											<Button 
+												type = 'ghost' 
+												htmlType = 'submit' 
+												className = 'buttonSearch'
+												onClick = { this.handleSubmit }
+											>
+												<Icon type = 'save' className = 'icons'/>
+												Salvar e Agendar Reunião
+											</Button>
+											<div className = 'contentTableUserSearch'>
+												<TableTransfer
+													dataSource = { dataSource.innerArray } 
+													targetKeys = { targetKeys }
+													showSearch = { showSearch }
+													onChange = { this.onChange }
+													operations = {[
+														'Adicionar',
+														'Remover'
+													]}
+													filterOption = {(inputValue, item) =>
+														item.title.indexOf(inputValue) !== -1 || item.tag.indexOf(inputValue) !== -1
+													}
+													leftColumns = {[
+														{
+															dataIndex: 'title',
+															title: 'Nome',
+															render: title =><Tag color = 'blue'><b> { title } </b></Tag>
+														},
+														{
+															dataIndex: 'ramal',
+															title: 'Ramal',
+															render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
+														},
+														{
+															dataIndex: 'tag',
+															title: 'Setor',
+															render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+														}
+													]}
+													rightColumns = {[
+														{
+															dataIndex: 'title',
+															title: 'Nome',
+															render: title =><Tag color = 'blue'><b> { title } </b></Tag>
+														},
+														{
+															dataIndex: 'ramal',
+															title: 'Ramal',
+															render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
+														},
+														{
+															dataIndex: 'tag',
+															title: 'Setor',
+															render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+														}
+													]}
+												/>
+											</div>
+										</div>
+									) : (
+										<NotPermission/>
+									)
+								}
 							</Hoc>
+								// <div className = 'contentSearch'>
+								// 	<Switch
+								// 		unCheckedChildren = "Pesquisar Por Nome"
+								// 		checkedChildren = "Esconder Pesquisa"
+								// 		checked = { showSearch }
+								// 		onChange = { this.triggerShowSearch }
+								// 		className = 'buttonSwitch'
+								// 	/>
+								// 	<Button 
+								// 		type = 'ghost' 
+								// 		htmlType = 'submit' 
+								// 		className = 'buttonSearch'
+								// 		onClick = { this.handleSubmit }
+								// 	>
+								// 		<Icon type = 'save' className = 'icons'/>
+								// 		Salvar e Agendar Reunião
+								// 	</Button>
+								// </div>
+
+								// <div className = 'contentTableUserSearch'>
+								// 	<TableTransfer
+								// 		dataSource = { dataSource.innerArray } 
+								// 		targetKeys = { targetKeys }
+								// 		showSearch = { showSearch }
+								// 		onChange = { this.onChange }
+								// 		operations = {[
+								// 			'Adicionar',
+								// 			'Remover'
+								// 		]}
+								// 		filterOption = {(inputValue, item) =>
+								// 			item.title.indexOf(inputValue) !== -1 || item.tag.indexOf(inputValue) !== -1
+								// 		}
+								// 		leftColumns = {[
+								// 			{
+								// 				dataIndex: 'title',
+								// 				title: 'Nome',
+								// 				render: title =><Tag color = 'blue'><b> { title } </b></Tag>
+								// 			},
+								// 			{
+								// 				dataIndex: 'ramal',
+								// 				title: 'Ramal',
+								// 				render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
+								// 			},
+								// 			{
+								// 				dataIndex: 'tag',
+								// 				title: 'Setor',
+								// 				render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+								// 			}
+								// 		]}
+								// 		rightColumns = {[
+								// 			{
+								// 				dataIndex: 'title',
+								// 				title: 'Nome',
+								// 				render: title =><Tag color = 'blue'><b> { title } </b></Tag>
+								// 			},
+								// 			{
+								// 				dataIndex: 'ramal',
+								// 				title: 'Ramal',
+								// 				render: ramal =><Tag color = 'red'><b> { ramal } </b></Tag>
+								// 			},
+								// 			{
+								// 				dataIndex: 'tag',
+								// 				title: 'Setor',
+								// 				render: tag =><Tag color = 'green'><b> { tag } </b></Tag>
+								// 			}
+								// 		]}
+								// 	/>
+								// </div>
+							// </Hoc>
 						)
 					)
 				}

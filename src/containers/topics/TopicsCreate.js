@@ -3,6 +3,7 @@ import { Form, Input, Icon, Button, message } from 'antd';
 import { connect } from 'react-redux';
 
 import Hoc from '../../hoc/hoc';
+import NotPermission from '../notPermission/NotPermission';
 import Homepage from '../homepage/Homepage';
 
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
@@ -21,7 +22,7 @@ class Topics extends Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
@@ -102,6 +103,7 @@ class Topics extends Component {
 
     render() {
 
+		const user = JSON.parse(localStorage.getItem('user'));
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
             labelCol: {
@@ -168,26 +170,33 @@ class Topics extends Component {
                         <Homepage/>
                     ) : (
                         <Hoc>
-                            <div className = 'content' >
-                                <h1 className = 'texth1'> Tópicos da Reunião </h1>
-                                <Form onSubmit = { this.handleSubmit }>
-                                    { formItems }
-                                    <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
-                                        <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
-                                            <Icon type="plus" /> Adicionar Tópico
-                                        </Button>
-                                    </Form.Item>
+                            {
+                                user.is_administrator === true ? (
+                                    <div className = 'content' >
+                                        <h1 className = 'texth1'> Tópicos da Reunião </h1>
+                                        <Form onSubmit = { this.handleSubmit }>
+                                            { formItems }
+                                            <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
+                                                <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
+                                                    <Icon type="plus" /> Adicionar Tópico
+                                                </Button>
+                                            </Form.Item>
 
-                                    <div align = 'center'>
-                                        <Form.Item { ...formItemLayoutWithOutLabel }>
-                                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
-                                                Cadastrar e Próximo
-                                                <Icon type = 'right' className = 'icons'/>
-                                            </Button>
-                                        </Form.Item>
+                                            <div align = 'center'>
+                                                <Form.Item { ...formItemLayoutWithOutLabel }>
+                                                    <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+                                                        Cadastrar e Próximo
+                                                        <Icon type = 'right' className = 'icons'/>
+                                                    </Button>
+                                                </Form.Item>
+                                            </div>
+                                        </Form>
                                     </div>
-                                </Form>
-                            </div>
+                                ) : (
+                                    <NotPermission/>
+                                )
+                            }
+                            
                         </Hoc>
                     )
                 }

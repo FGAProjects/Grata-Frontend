@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { fail } from 'assert';
 
 import Hoc from '../../hoc/hoc';
+import NotPermission from '../notPermission/NotPermission';
 import Homepage from '../homepage/Homepage';
 
 import { getSector, updateSector, deleteSector } from '../../store/actions/sector';
@@ -19,9 +20,18 @@ class SetorEdit extends Component {
 		this.state = {
 			formLayout: 'vertical',
 		};
+    }
+    
+    componentDidMount() {
+
+		if (this.props.token !== undefined && this.props.token !== null) {
+        
+            const sectorId = this.props.match.params.sector_id;
+			this.props.getSector(this.props.token, sectorId);
+		}
 	}
 
-	componentWillReceiveProps(newProps) {
+	UNSAFE_componentWillReceiveProps(newProps) {
         
         if (newProps.token !== this.props.token) {
         
@@ -41,9 +51,11 @@ class SetorEdit extends Component {
             if (!err) {
         
                 const token = this.props.token;
+                const { currentSector } = this.props;
+
                 const sector = {
 
-                    id: this.props.match.params.id,
+                    id: currentSector.id,
                     initials: values.initials,
                     name: values.name
                 };
@@ -88,6 +100,7 @@ class SetorEdit extends Component {
 
     render() {
         
+        const user = JSON.parse(localStorage.getItem('user'));
         const { currentSector } = this.props;
         const { getFieldDecorator } = this.props.form;
 		const { formLayout } = this.state;
@@ -98,16 +111,16 @@ class SetorEdit extends Component {
         : null;
         
         return (
-        
+
             <Hoc>
                 {
                     this.props.token === null ? (
                         <Homepage/>
                     ) : (
                         this.props.loading ? (
-                            <Skeleton active />
+                            <Skeleton active/>
                         ) : (
-                            <Hoc>
+                            user.is_administrator === true ? (
                                 <div className = 'content'>
                                     <h1 className = 'texth1'> Informações Cadastradas </h1>
                                     <Form layout = 'vertical' onSubmit = { this.handleSubmit }>
@@ -132,85 +145,78 @@ class SetorEdit extends Component {
                                             />
                                         </Form.Item>
                                     </Form>
-                                </div>
-                            </Hoc>
-                        )
-                    )
-                }
-                {
-                    this.props.token === null ? (
-                        <Homepage/>
-                    ) : (
-                        <Hoc>
-                            <div className = 'content'>
-                                <h1 className = 'texth1'> Informações A Serem Alteradas </h1>
-                                <Form layout = 'vertical' onSubmit = { this.handleSubmit }>
-                                    <Form.Item 
-                                            label = 'Sigla' 
+
+                                    <h1 className = 'texth1'> Informações A Serem Alteradas </h1>
+                                    <Form layout = 'vertical' onSubmit = { this.handleSubmit }>
+                                        <Form.Item 
+                                                label = 'Sigla' 
+                                                { ...formItemLayout } 
+                                                className = 'formFields'>
+                                            {
+                                                getFieldDecorator('initials', {
+                                                    rules: [{ 
+                                                        required: true, 
+                                                        message: 'Por favor, Coloque a Sigla!' 
+                                                    },
+                                                    {
+                                                        max: 6,
+                                                        message: 'O Usuário Pode Ter no Máximo 6 Caracteres!',
+                                                    }],
+                                                })(
+                                                    <Input prefix = { <Icon type = 'form'/> } placeholder = 'Sigla'/>
+                                                )
+                                            }
+                                        </Form.Item>
+
+                                        <Form.Item 
+                                            label = 'Nome do Setor' 
                                             { ...formItemLayout } 
-                                            className = 'formFields'>
-                                        {
-                                            getFieldDecorator('initials', {
-                                                rules: [{ 
-                                                    required: true, 
-                                                    message: 'Por favor, Coloque a Sigla!' 
-                                                },
-                                                {
-                                                    max: 6,
-                                                    message: 'O Usuário Pode Ter no Máximo 6 Caracteres!',
-                                                }],
-                                            })(
-                                                <Input prefix = { <Icon type = 'form'/> } placeholder = 'Sigla'/>
-                                            )
-                                        }
-                                    </Form.Item>
+                                                className = 'formFields'>
+                                            {
+                                                getFieldDecorator('name', {
+                                                    rules: [{ 
+                                                        required: true, 
+                                                        message: 'Por favor, Coloque o Nome do Setor!' 
+                                                    }],
+                                                })(
+                                                    <Input prefix = { <Icon type = 'form'/> } 
+                                                    placeholder = 'Nome do Setor'/>
+                                                )
+                                            }
+                                        </Form.Item>
 
-                                    <Form.Item 
-                                        label = 'Nome do Setor' 
-                                        { ...formItemLayout } 
-                                            className = 'formFields'>
-                                        {
-                                            getFieldDecorator('name', {
-                                                rules: [{ 
-                                                    required: true, 
-                                                    message: 'Por favor, Coloque o Nome do Setor!' 
-                                                }],
-                                            })(
-                                                <Input prefix = { <Icon type = 'form'/> } 
-                                                placeholder = 'Nome do Setor'/>
-                                            )
-                                        }
-                                    </Form.Item>
-
-                                    <Form.Item>
-                                        <div align = 'center'>
-                                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonEdit'>
-                                                <Icon type = 'edit'/>
-                                                Alterar Informações	
-                                            </Button>
-                                            <Button type = 'ghost' className = 'buttonCancel'>
-                                                <Link to = { '/lista_de_setores/' }>
-                                                <Icon className = 'icons' type = 'stop'/>
-                                                    Cancelar
-                                                </Link>
-                                            </Button>
-                                            <Button
-                                                className = 'buttonDelete'
-                                                onClick = { () => 
-                                                    this.showDeleteConfirm(
-                                                        this.props.token,
-                                                        currentSector.id
-                                                    )
-                                                } 
-                                                type = 'danger' >
-                                                    <Icon type = 'delete' />
-                                                    Excluir Setor
-                                            </Button>
-                                        </div>
-                                    </Form.Item>
-                                </Form>
-                            </div>
-                        </Hoc>
+                                        <Form.Item>
+                                            <div align = 'center'>
+                                                <Button type = 'ghost' htmlType = 'submit' className = 'buttonEdit'>
+                                                    <Icon type = 'edit'/>
+                                                    Alterar Informações	
+                                                </Button>
+                                                <Button type = 'ghost' className = 'buttonCancel'>
+                                                    <Link to = { '/lista_de_setores/' }>
+                                                    <Icon className = 'icons' type = 'stop'/>
+                                                        Cancelar
+                                                    </Link>
+                                                </Button>
+                                                <Button
+                                                    className = 'buttonDelete'
+                                                    onClick = { () => 
+                                                        this.showDeleteConfirm(
+                                                            this.props.token,
+                                                            currentSector.id
+                                                        )
+                                                    } 
+                                                    type = 'danger' >
+                                                        <Icon type = 'delete' />
+                                                        Excluir Setor
+                                                </Button>
+                                            </div>
+                                        </Form.Item>
+                                    </Form>
+                                </div>
+                            ) : (
+                                <NotPermission/>
+                            )
+                        )
                     )
                 }
             </Hoc>

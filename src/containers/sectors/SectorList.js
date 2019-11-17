@@ -20,7 +20,7 @@ class SectorList extends Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
         
         if (newProps.token !== this.props.token) {
          

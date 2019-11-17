@@ -23,10 +23,6 @@ class UserEdit extends Component {
 		};
 	}
 
-	state = {
-		confirmDirty: false,
-	};
-	
 	componentDidMount() {
 		
 		if (this.props.token !== undefined && this.props.token !== null) {
@@ -36,7 +32,7 @@ class UserEdit extends Component {
 		}
 	}
 
-	componentWillReceiveProps(newProps) {
+	UNSAFE_componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
@@ -85,6 +81,8 @@ class UserEdit extends Component {
 						username: currentUser.username,
 						ramal: values.ramal,
 						name: values.name,
+						is_administrator: currentUser.is_administrator,
+						is_participant: !currentUser.is_administrator,
 						sector: sector_id
 					};
 

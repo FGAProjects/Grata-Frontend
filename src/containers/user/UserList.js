@@ -24,7 +24,7 @@ class UserList extends Component {
         }    
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
 
         try {
 

@@ -31,7 +31,8 @@ class QuestionForm extends React.Component {
 		});
   	};
 
-  render() {
+  	render() {
+		  
 		const { getFieldDecorator, getFieldValue } = this.props.form;
 		getFieldDecorator("keys", { initialValue: [] });
 		const keys = getFieldValue("keys");
