@@ -36,19 +36,9 @@ class QuestionForm extends React.Component {
 		const { getFieldDecorator, getFieldValue } = this.props.form;
 		getFieldDecorator('keys', { initialValue: [] });
 		const keys = getFieldValue('keys');
-		const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 6 },
-            },
-            wrapperCol: {
-                xs: { span: 24, offset: 0 },
-                sm: { span: 15, offset: 1 },
-            }
-        };
 		const formItems = keys.map((k, index) => (
 
-			<FormItem label = { index === 0 ? 'Escolhas' : ''} key = { k } {...formItemLayout }>
+			<FormItem label = { index === 0 ? 'Escolhas' : ''} key = { k }>
 				{
 					getFieldDecorator(`questions[${ this.props.id }]choices[${k}]`, {
 						validateTrigger: ['onChange', 'onBlur'],
@@ -76,7 +66,7 @@ class QuestionForm extends React.Component {
     	return (
       
 			<Hoc>
-				<FormItem label = 'Pergunta: ' {...formItemLayout }>
+				<FormItem label = 'Pergunta: '>
 				{
 					getFieldDecorator(`question[${ this.props.id }]`, {
 						validateTrigger: ['onChange', 'onBlur'],
@@ -92,11 +82,10 @@ class QuestionForm extends React.Component {
 				
 				{ formItems }
 
-
 				<FormItem>
 					<div align = 'center'>
 						<Button type = 'dashed' onClick = { this.add } style = {{ width: "60%" }}>
-							<Icon type = 'plus'/> Adicione Uma Opção de Respota
+							<Icon type = 'plus'/> Adicione Uma Opção de Resposta
 						</Button>
 					</div>
 				</FormItem>

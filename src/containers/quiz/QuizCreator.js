@@ -101,16 +101,6 @@ class QuizCreator extends Component {
     render() {
     
         const { getFieldDecorator } = this.props.form;
-		const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 6 },
-            },
-            wrapperCol: {
-                xs: { span: 24, offset: 0 },
-                sm: { span: 15, offset: 1 },
-            }
-        };
         const questions = [];
 
         for (let aux = 0; aux < this.state.formCount; aux ++) {
@@ -124,7 +114,7 @@ class QuizCreator extends Component {
                             onClick={() => this.remove()}
                         />
                     ) : null}
-                    <QuestionForm id = { aux } { ...this.props }/>
+                    <QuestionForm id = { aux } { ...this.props } />
                     <Divider />
                 </Hoc>
             );
@@ -134,7 +124,7 @@ class QuizCreator extends Component {
             <div className = 'content'>
                 <Form onSubmit = { this.handleSubmit }>
                     <h1 className = 'texth1'> Crie um Questionário </h1>
-                    <FormItem label = { 'Título do Questionário: '} {...formItemLayout }>
+                    <FormItem label = { 'Título do Questionário: '}>
                         {
                             getFieldDecorator(`title`, {
                                 validateTrigger: ['onChange', 'onBlur'],
