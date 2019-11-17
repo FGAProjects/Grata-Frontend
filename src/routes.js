@@ -16,6 +16,7 @@ import MeetingCreate from './containers/meetings/MeetingCreate';
 import MeetingList from './containers/meetings/MeetingList';
 import MeetingDetail from './containers/meetings/MeetingDetail';
 import MeetingEdit from './containers/meetings/MeetingEdit';
+import MeetingConfirm from './containers/meetings/MeetingConfirm';
 import TopicsCreate from './containers/topics/TopicsCreate';
 import SectorCreate from './containers/sectors/SectorCreate';
 import SectorEdit from './containers/sectors/SectorEdit';
@@ -40,6 +41,8 @@ const BaseRouter = () => (
         <Route exact path = '/lista_de_reunioes/:project_id/' component = { MeetingList } />
         <Route exact path = '/detalhes_reuniao/:meeting_id/:project_id/' 
                             component = { MeetingDetail } />
+        <Route exact path = '/reuniao_confirmada/:meeting_id/:project_id/' 
+                            component = { MeetingConfirm } />
         <Route exact path = '/editar_reuniao/:meeting_id/:project_id' component = { MeetingEdit } />
         <Route exact path = '/criar_topicos/:meeting_id/' component = { TopicsCreate } />
         <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
@@ -48,7 +51,7 @@ const BaseRouter = () => (
         <Route exact path = '/criar_regras/:meeting_id/' component = { RulesCreate } />
         <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/' component = { UserMeeting } />
         <Route exact path = '/visualizar_ata/:meeting_id/:project_id/' component = { Record } />
-        <Route exact path = '/criar_questionario/:meeting_id/' component = { QuizCreator } />
+        <Route exact path = '/criar_questionario/:meeting_id/:project_id/' component = { QuizCreator } />
         <Route exact path = '/responder_questionario/:meeting_id/' component = { QuizCreator } />
     </Hoc>
 );

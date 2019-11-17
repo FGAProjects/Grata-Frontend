@@ -32,7 +32,6 @@ class UserDetail extends Component {
 		if (newProps.token !== this.props.token) {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
-
 				this.props.getUser(newProps.token, newProps.currentUser.userId);
 			}
 		}

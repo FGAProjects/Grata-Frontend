@@ -137,7 +137,7 @@ class Record extends Component {
 									</Link>
 								</Button>
 
-								<div className = 'content'>
+								<div className = 'contentRecord'>
 									<Descriptions 
 										title = {` ${currentMeeting.title} `} 
 										layout = 'vertical' 

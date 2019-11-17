@@ -108,3 +108,22 @@
     border-radius: 20px;
     background: white;
 }
+
+.contentRecord {
+    margin-top: 20px;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    background: white;
+}
+
+.contentConfirmMeeting {
+    margin-top: 05px;
+    margin-left: 200px;
+    margin-right: 200px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    background: white;
+}

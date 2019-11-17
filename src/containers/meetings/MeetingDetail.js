@@ -16,7 +16,7 @@ class MeetingDetail extends Component {
 		
 		super();
 		this.state = {
-			formLayout: 'vertical',
+			formLayout: 'vertical'
 		};
 	}
 
@@ -78,7 +78,7 @@ class MeetingDetail extends Component {
 					title: 'Ação Concluída!',
 					content: 'Reunião Cancelada Com Sucesso!',
 				});
-                propsForms.history.push(`/lista_de_reunioes/${ project_id }/${ sector_id }`);
+                propsForms.history.push(`/lista_de_reunioes/${ project_id }/`);
 			},
 			onCancel() {
 				message.success('Exclusão de Reunião Cancelada Com Sucesso!');
@@ -127,7 +127,7 @@ class MeetingDetail extends Component {
 					title: 'Ação Concluída!',
 					content: 'Reunião Confirmada Com Sucesso!',
                 });
-                propsForms.history.push(`/detalhes_reuniao/${ currentMeeting.id }/${ project_id }/`)
+                propsForms.history.push(`/reuniao_confirmada/${ currentMeeting.id }/${ project_id }/`)
             },
             onCancel() {
                 message.success('Ação Cancelada Com Sucesso!');
@@ -180,15 +180,6 @@ class MeetingDetail extends Component {
                                                         )}
                                                     >
                                                         Confirmar Reunião
-                                                    </Button>
-
-                                                    <Button type = 'ghost' 
-                                                        htmlType = 'submit' 
-                                                        className = 'buttonNew' 
-                                                    >
-                                                        <Link to = { `/criar_questionario/${ currentMeeting.id }/`}>
-                                                            Criar Questionário
-                                                        </Link>
                                                     </Button>
                                                     
                                                     <Button 
@@ -351,7 +342,7 @@ class MeetingDetail extends Component {
                                                                     <Button className = 'buttonBack'>
                                                                         <Link to = { `/lista_de_reunioes/${ project_id }/` } >
                                                                             <Icon type = 'arrow-left' className = 'icons'/>
-                                                                                Visualizar Projetos
+                                                                                Visualizar Reuniões
                                                                         </Link>
                                                                     </Button>
 
@@ -398,7 +389,7 @@ class MeetingDetail extends Component {
     }
 }
 
-const MetailDetailForm = Form.create()(MeetingDetail);
+const MeetingDetailForm = Form.create()(MeetingDetail);
 
 const mapStateToProps = state => {
 	
@@ -419,4 +410,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MetailDetailForm);
+export default connect(mapStateToProps, mapDispatchToProps)(MeetingDetailForm);
