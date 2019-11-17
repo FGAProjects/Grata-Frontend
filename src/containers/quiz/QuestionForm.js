@@ -1,6 +1,6 @@
-import React from "react";
-import { Form, Input, Icon, Button } from "antd";
-import Hoc from "../../hoc/hoc";
+import React from 'react';
+import { Form, Input, Icon, Button } from 'antd';
+import Hoc from '../../hoc/hoc';
 
 const FormItem = Form.Item;
 
@@ -11,7 +11,7 @@ class QuestionForm extends React.Component {
 	remove = k => {
 
 		const { form } = this.props;
-		const keys = form.getFieldValue("keys");
+		const keys = form.getFieldValue('keys');
 		
 		if (keys.length === 1) return;
 		
@@ -23,7 +23,7 @@ class QuestionForm extends React.Component {
   	add = () => {
 		
 		const { form } = this.props;
-		const keys = form.getFieldValue("keys");
+		const keys = form.getFieldValue('keys');
 		const nextKeys = keys.concat(++id);
 		
 		form.setFieldsValue({
@@ -34,63 +34,75 @@ class QuestionForm extends React.Component {
   	render() {
 		  
 		const { getFieldDecorator, getFieldValue } = this.props.form;
-		getFieldDecorator("keys", { initialValue: [] });
-		const keys = getFieldValue("keys");
+		getFieldDecorator('keys', { initialValue: [] });
+		const keys = getFieldValue('keys');
+		const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 6 },
+            },
+            wrapperCol: {
+                xs: { span: 24, offset: 0 },
+                sm: { span: 15, offset: 1 },
+            }
+        };
 		const formItems = keys.map((k, index) => (
-		<FormItem label={index === 0 ? "Choices" : ""} key={k}>
-			{getFieldDecorator(`questions[${this.props.id}]choices[${k}]`, {
-			validateTrigger: ["onChange", "onBlur"],
-			rules: [
+
+			<FormItem label = { index === 0 ? 'Escolhas' : ''} key = { k } {...formItemLayout }>
 				{
-				required: true,
-				whitespace: true,
-				message: "Please input a choice to the question"
+					getFieldDecorator(`questions[${ this.props.id }]choices[${k}]`, {
+						validateTrigger: ['onChange', 'onBlur'],
+						rules: [{
+							required: true,
+							whitespace: true,
+							message: 'Por Favor, Adicione Uma Opção Para Resposta.'
+						}]
+					})(
+						<Input placeholder = 'Escolha a Resposta'/>
+					)
 				}
-			]
-			})(<Input placeholder="Answer choice" />)}
-			{keys.length > 1 ? (
-			<Icon
-				className="dynamic-delete-button"
-				type="minus-circle-o"
-				disabled={keys.length === 1}
-				onClick={() => this.remove(k)}
-			/>
-			) : null}
-		</FormItem>
+
+				{ keys.length > 1 ? (
+					<Icon
+						className = 'dynamic-delete-button'
+						type = 'minus-circle-o'
+						disabled = { keys.length === 1 }
+						onClick = {() => this.remove(k)}
+					/>
+				) : null }
+			</FormItem>
 		));
-    return (
-      <Hoc>
-        <FormItem label="Pergunta: ">
-          {getFieldDecorator(`question[${this.props.id}]`, {
-            validateTrigger: ["onChange", "onBlur"],
-            rules: [
-              {
-                required: true,
-                message: "Por Favor, Insira Uma Pergunta"
-              }
-            ]
-          })(<Input placeholder="Adicionar Uma Pergunta" />)}
-        </FormItem>
-        <FormItem label="Resposta: ">
-          {getFieldDecorator(`answers[${this.props.id}]`, {
-            validateTrigger: ["onChange", "onBlur"],
-            rules: [
-              {
-                required: true,
-                message: "Por Favor, Adicione Uma Resposta Para a Pergunta"
-              }
-            ]
-          })(<Input placeholder="Qual a Resposta?" />)}
-        </FormItem>
-        {formItems}
-        <FormItem>
-          <Button type="dashed" onClick={this.add} style={{ width: "60%" }}>
-            <Icon type="plus" /> Add an answer choice
-          </Button>
-        </FormItem>
-      </Hoc>
-    );
-  }
+
+    	return (
+      
+			<Hoc>
+				<FormItem label = 'Pergunta: ' {...formItemLayout }>
+				{
+					getFieldDecorator(`question[${ this.props.id }]`, {
+						validateTrigger: ['onChange', 'onBlur'],
+						rules: [{
+							required: true,
+							message: 'Por Favor, Insira Uma Pergunta'
+						}]
+					})(
+						<Input placeholder = 'Adicionar Uma Pergunta' />
+					)
+				}
+				</FormItem>
+				
+				{ formItems }
+
+
+				<FormItem>
+					<div align = 'center'>
+						<Button type = 'dashed' onClick = { this.add } style = {{ width: "60%" }}>
+							<Icon type = 'plus'/> Adicione Uma Opção de Respota
+						</Button>
+					</div>
+				</FormItem>
+			</Hoc>
+		);
+	}
 }
 
 export default QuestionForm;

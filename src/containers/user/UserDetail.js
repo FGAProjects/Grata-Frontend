@@ -16,7 +16,7 @@ class UserDetail extends Component {
 		
 		super();
 		this.state = {
-			formLayout: 'vertical',
+			formLayout: 'vertical'
 		};
 	}
 

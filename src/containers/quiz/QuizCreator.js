@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Form, Input, Button, Modal, Icon, message, Divider } from 'antd';
 import { Form, Input, Button, Icon, Divider } from 'antd';
 import { connect } from 'react-redux';
 
@@ -7,13 +6,13 @@ import QuestionForm from './QuestionForm';
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 import Hoc from '../../hoc/hoc';
 
-// let id = 0;
 const FormItem = Form.Item;
 
 class QuizCreator extends Component {
 
     state = {
-        formCount: 1
+        formCount: 1,
+        formLayout: 'vertical'
     };
 
     componentDidMount() {
@@ -27,7 +26,7 @@ class QuizCreator extends Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
@@ -64,7 +63,7 @@ class QuizCreator extends Component {
     
             if (!err) {
                 const { currentMeeting } = this.props;
-                const token = this.props.token;
+                // const token = this.props.token;
                 console.log("Received values of form: ", values);
                 const questions = [];
                 for (let aux = 0; aux < values.questions.length; aux ++) {
@@ -94,7 +93,7 @@ class QuizCreator extends Component {
                     questionário, caso não, ele vai poder responder
                 */
                 console.log(meeting.meeting)
-                this.props.updateMeeting(token, meeting);
+                // this.props.updateMeeting(token, meeting);
             }
         });
     };
@@ -102,49 +101,71 @@ class QuizCreator extends Component {
     render() {
     
         const { getFieldDecorator } = this.props.form;
+		const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 6 },
+            },
+            wrapperCol: {
+                xs: { span: 24, offset: 0 },
+                sm: { span: 15, offset: 1 },
+            }
+        };
         const questions = [];
-        for (let i = 0; i < this.state.formCount; i += 1) {
+
+        for (let aux = 0; aux < this.state.formCount; aux ++) {
             questions.push(
-            <Hoc key={i}>
-                {questions.length > 0 ? (
-                <Icon
-                    className="dynamic-delete-button"
-                    type="minus-circle-o"
-                    disabled={questions.length === 0}
-                    onClick={() => this.remove()}
-                />
-                ) : null}
-                <QuestionForm id={i} {...this.props} />
-                <Divider />
-            </Hoc>
+                <Hoc key = { aux }>
+                    { questions.length > 0 ? (
+                        <Icon
+                            className = 'dynamic-delete-button'
+                            type = 'minus-circle-o'
+                            disabled = { questions.length === 0 }
+                            onClick={() => this.remove()}
+                        />
+                    ) : null}
+                    <QuestionForm id = { aux } { ...this.props }/>
+                    <Divider />
+                </Hoc>
             );
         }
         return (
-            <Form onSubmit={this.handleSubmit}>
-            <h1>Create an assignment</h1>
-            <FormItem label={"Title: "}>
-                {getFieldDecorator(`title`, {
-                validateTrigger: ["onChange", "onBlur"],
-                rules: [
-                    {
-                    required: true,
-                    message: "Please input a title"
-                    }
-                ]
-                })(<Input placeholder="Add a title" />)}
-            </FormItem>
-            {questions}
-            <FormItem>
-                <Button type="secondary" onClick={this.add}>
-                <Icon type="plus" /> Add question
-                </Button>
-            </FormItem>
-            <FormItem>
-                <Button type="primary" htmlType="submit">
-                Submit
-                </Button>
-            </FormItem>
-            </Form>
+
+            <div className = 'content'>
+                <Form onSubmit = { this.handleSubmit }>
+                    <h1 className = 'texth1'> Crie um Questionário </h1>
+                    <FormItem label = { 'Título do Questionário: '} {...formItemLayout }>
+                        {
+                            getFieldDecorator(`title`, {
+                                validateTrigger: ['onChange', 'onBlur'],
+                                rules: [{
+                                    required: true,
+                                    message: 'Por Favor, Coloque o Título ao Questionário'
+                                }]
+                            })(
+                                <Input placeholder = 'Adicione um Títúlo ao Questionário'/>
+                            )
+                        }
+                    </FormItem>
+                    { questions }
+                    
+                    <FormItem>
+                        <div align = 'center'>
+                            <Button type = 'secondary' onClick = { this.add }>
+                                <Icon type = 'plus'/> Adicione Outra Questão
+                            </Button>
+                        </div>
+                    </FormItem>
+
+                    <FormItem>
+                        <div align = 'center'>
+                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+                                Salvar Questionário
+                            </Button>
+                        </div>
+                    </FormItem>
+                </Form>
+            </div>
         );
     }
 }

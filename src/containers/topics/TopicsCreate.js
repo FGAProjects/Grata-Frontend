@@ -178,7 +178,7 @@ class Topics extends Component {
                                             { formItems }
                                             <Form.Item {...formItemLayoutWithOutLabel } className = 'formFields'>
                                                 <Button type = 'dashed' onClick = { this.add } className = 'buttonAdd'>
-                                                    <Icon type="plus" /> Adicionar Tópico
+                                                    <Icon type = 'plus'/> Adicionar Tópico
                                                 </Button>
                                             </Form.Item>
 
