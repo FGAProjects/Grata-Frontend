@@ -5,6 +5,7 @@ import { List, Skeleton, Table, Tag, Button, Icon } from 'antd';
 
 import { getProjects } from '../../store/actions/project';
 import { getSectors } from '../../store/actions/sector';
+import { getUser } from '../../store/actions/auth';
 import { dynamicSort } from '../utils';
 import Hoc from '../../hoc/hoc';
 import Homepage from '../homepage/Homepage';
@@ -17,6 +18,7 @@ class ProjectsList extends Component {
         
             this.props.getProjects(this.props.token);
             this.props.getSectors(this.props.token);
+			this.props.getUser(this.props.token, this.props.currentUser.userId);
             this.forceUpdate();
         }
     }
@@ -29,6 +31,7 @@ class ProjectsList extends Component {
 
                 this.props.getSectors(newProps.token);
                 this.props.getProjects(newProps.token);
+				this.props.getUser(newProps.token, newProps.currentUser.userId);
                 this.forceUpdate();
             }
         }
@@ -36,6 +39,7 @@ class ProjectsList extends Component {
 
     render() {
         
+		const { currentUser } = this.props;
         const projects = this.props.projects;
         let dataSource = {
             innerArray: [
@@ -45,13 +49,16 @@ class ProjectsList extends Component {
         
         for(let aux = 0; aux < projects.length; aux ++) {
 
-            dataSource.innerArray.push({
+            if(currentUser.sector === projects[aux].sector) {
+
+                dataSource.innerArray.push({
                 
-                key: projects[aux].id,
-                title: projects[aux].title,
-                sector: projects[aux].sector,
-                tags: [ projects[aux].status ]
-            }); 
+                    key: projects[aux].id,
+                    title: projects[aux].title,
+                    sector: projects[aux].sector,
+                    tags: [ projects[aux].status ]
+                });
+            }
         }
         
         dataSource.innerArray.sort(dynamicSort('title'));
@@ -67,81 +74,79 @@ class ProjectsList extends Component {
                             this.props.loading ? (
                                 <Skeleton active />
                             ) : (
-                                    <div className = 'contentList'>
-                                        <Table columns = {
-                                        [{
-                                            title: 'Título',
-                                            dataIndex: 'title',
-                                            key: 'title',
-                                            render: (text, record) => (
-                                                <Link to = { `/lista_de_reunioes/${ record.key }/`} >
-                                                    <List.Item>
-                                                        <b>{ text }</b>
-                                                    </List.Item>
+                                <div className = 'contentList'>
+                                    <Table columns = {
+                                    [{
+                                        title: 'Título',
+                                        dataIndex: 'title',
+                                        key: 'title',
+                                        render: (text, record) => (
+                                            <Link to = { `/lista_de_reunioes/${ record.key }/`} >
+                                                <List.Item>
+                                                    <b>{ text }</b>
+                                                </List.Item>
+                                            </Link>
+                                        )   
+                                    },
+                                    {
+                                        title: 'Setor Responsável',
+                                        dataIndex: 'sector',
+                                        key: 'sector',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Status',
+                                        key: 'tags',
+                                        dataIndex: 'tags',
+                                        render: tags => (
+                                            <span>
+                                            {
+                                                tags.map(tag => {
+                                                    let color = tag.length > 5 ? 'geekblue' : 'green';
+                                                    if (tag === 'Pendente') {
+                                                        color = 'orange';
+                                                    } else {
+                                                        color = 'green';
+                                                    }
+                                                    return (
+                                                    <Tag color = { color } key = { tag }>
+                                                        <b> { tag.toUpperCase() } </b> 
+                                                    </Tag>
+                                                    );
+                                                })
+                                            }
+                                            </span>
+                                        ),
+                                    },
+                                    {
+                                        title: 'Ação',
+                                        key: 'action',
+                                        render: (record) => (
+                                            <span>
+                                            <Button 
+                                                type = 'ghost' 
+                                                htmlType = 'submit' 
+                                                className = 'buttonEdit'
+                                            >
+                                                <Link to = { `/editar_projeto/${ record.key }/`} >
+                                                    <Icon type = 'edit' className = 'icons'/>
+                                                        <b> Editar Projeto </b>
                                                 </Link>
-                                            )   
-                                        },
-                                        {
-                                            title: 'Setor Responsável',
-                                            dataIndex: 'sector',
-                                            key: 'sector',
-                                            render: (text) => (
-                                                <b>{text}</b>
-                                            )
-                                        },
-                                        {
-                                            title: 'Status',
-                                            key: 'tags',
-                                            dataIndex: 'tags',
-                                            render: tags => (
-                                                <span>
-                                                {
-                                                    tags.map(tag => {
-                                                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                                                        if (tag === 'Pendente') {
-                                                            color = 'orange';
-                                                        } else {
-                                                            color = 'green';
-                                                        }
-                                                        return (
-                                                        <Tag color = { color } key = { tag }>
-                                                            <b> { tag.toUpperCase() } </b> 
-                                                        </Tag>
-                                                        );
-                                                    })
-                                                }
-                                                </span>
-                                            ),
-                                        },
-                                        {
-                                            title: 'Ação',
-                                            key: 'action',
-                                            render: (record) => (
-                                              <span>
-                                                <Button 
-                                                    type = 'ghost' 
-                                                    htmlType = 'submit' 
-                                                    className = 'buttonEdit'
-                                                >
-                                                    <Link to = { `/editar_projeto/${ record.key }/`} >
-                                                        <Icon type = 'edit' className = 'icons'/>
-                                                            <b> Editar Projeto </b>
-                                                    </Link>
-                                                </Button>
-                                              </span>
-                                            ),
-                                        },
-                                        ]}
-                                        dataSource = {
-                                            dataSource.innerArray
-                                        } 
-                                    />
-                                </div>
-                            )
-                        
+                                            </Button>
+                                            </span>
+                                        ),
+                                    },
+                                    ]}
+                                    dataSource = {
+                                        dataSource.innerArray
+                                    } 
+                                />
+                            </div>
+                        )
                     )
                 }
-                
             </Hoc>
         );
     }
@@ -154,7 +159,8 @@ const mapStateToProps = state => {
         token: state.auth.token,
         projects: state.project.projects,
         loading: state.project.loading,
-        sectors: state.sector.sectors
+        sectors: state.sector.sectors,
+		currentUser: state.auth.currentUser
     };
 };
 
@@ -162,6 +168,7 @@ const mapDispatchToProps = dispatch => {
     
     return {
         
+		getUser: (token, userId) => dispatch(getUser(token, userId)),
         getProjects: token => dispatch(getProjects(token)),
         getSectors: token => dispatch(getSectors(token))
     };
