@@ -62,21 +62,25 @@ class QuizCreator extends Component {
         this.props.form.validateFields((err, values) => {
     
             if (!err) {
+
                 const { currentMeeting } = this.props;
-                // const token = this.props.token;
+                const token = this.props.token;
                 console.log("Received values of form: ", values);
-                const questions = [];
+                const questions = [
+
+                ];
+                
                 for (let aux = 0; aux < values.questions.length; aux ++) {
                     questions.push({
                         title: values.question[aux],
-                        choices: values.questions[aux].choices.filter(el => el !== null),
-                        answer: values.answers[aux]
+                        choices: values.questions[aux].choices.filter(el => el !== null)
                     });
                 }
                 const meeting = {
 
+                    id: currentMeeting.id,
                     meeting: currentMeeting.id,
-                    status: 'Agendada',
+                    status: currentMeeting.status,
                     title: currentMeeting.title,
                     subject_matter: currentMeeting.subject_matter,
                     initial_date: currentMeeting.initial_date,
@@ -87,13 +91,9 @@ class QuizCreator extends Component {
                     project: currentMeeting.project,
                     questions
                 };
-                /*
-                    Isso vai ficar pra depois, mas não se esquecer de quando for fazer no backend
-                    fazer a verificação se é o meeting_leader, se for, ele não poderá responder o 
-                    questionário, caso não, ele vai poder responder
-                */
+
                 console.log(meeting.meeting)
-                // this.props.updateMeeting(token, meeting);
+                this.props.updateMeeting(token, meeting);
             }
         });
     };

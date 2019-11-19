@@ -81,6 +81,7 @@ class Topics extends Component {
     
                 const meeting = {
 
+                    id: currentMeeting.id,
                     meeting: currentMeeting.id,
                     title: currentMeeting.title,
                     subject_matter: currentMeeting.subject_matter,
