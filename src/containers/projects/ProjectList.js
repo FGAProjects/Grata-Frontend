@@ -15,7 +15,7 @@ class ProjectsList extends Component {
     componentDidMount() {
         
         if (this.props.token !== undefined && this.props.token !== null) {
-        
+
             this.props.getProjects(this.props.token);
             this.props.getAllMeeting(this.props.token);
 			this.props.getUser(this.props.token, this.props.currentUser.userId);
@@ -31,7 +31,7 @@ class ProjectsList extends Component {
 
                 this.props.getProjects(newProps.token);
                 this.props.getAllMeeting(newProps.token);
-				this.props.getUser(newProps.token, newProps.currentUser.userId);
+                this.props.getUser(newProps.token, newProps.currentUser.userId);
                 this.forceUpdate();
             }
         }
@@ -57,19 +57,19 @@ class ProjectsList extends Component {
 
         for(let aux = 0; aux < allMeetings.length; aux ++) {
 
-            if(currentUser.name === allMeetings[aux].users[aux]) {
+            for(let usersMeeting = 0; usersMeeting < allMeetings[aux].users.length; usersMeeting ++) {
+                if(currentUser.name === allMeetings[aux].users[usersMeeting]) {
+                    dataSourceMeetings.innerArray.push({
+                        key: allMeetings[aux].id,
+                        title: allMeetings[aux].title,
+                        subject_matter: allMeetings[aux].subject_matter,
+                        sector: allMeetings[aux].sector
+                    });
+                } else {
 
-                dataSourceMeetings.innerArray.push({
-                    key: allMeetings[aux].id,
-                    title: allMeetings[aux].title,
-                    subject_matter: allMeetings[aux].subject_matter,
-                    sector: allMeetings[aux].sector
-                });
-            } else {
-
+                }
             }
         }
-        
 
         for(let aux = 0; aux < projects.length; aux ++) {
 
