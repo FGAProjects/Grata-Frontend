@@ -2,7 +2,8 @@ import axios from 'axios';
 import { 
     CREATE_MEETING_START, CREATE_MEETING_SUCCESS, CREATE_MEETING_FAIL,
     GET_MEETING_DETAIL_START, GET_MEETING_DETAIL_SUCCESS, GET_MEETING_DETAIL_FAIL,
-    MEETING_LIST_START, MEETING_LIST_SUCCESS, MEETING_LIST_FAIL
+    MEETING_LIST_START, MEETING_LIST_SUCCESS, MEETING_LIST_FAIL,
+    MEETING_ALL_LIST_START, MEETING_ALL_LIST_SUCCESS, MEETING_ALL_LIST_FAIL
 } from './actionsTypes';
 
 const getMeetingDetailStart = () => {
@@ -79,6 +80,51 @@ const getMeetingListFail = error => {
         error: error
     };
 }
+
+const getMeetingAllListStart = () => {
+    
+    return {
+        type: MEETING_ALL_LIST_START
+    };
+}
+
+const getMeetingAllListSuccess = allMeetings => {
+    
+    return {
+    
+        type: MEETING_ALL_LIST_SUCCESS,
+        allMeetings
+    };
+}
+
+const getMeetingAllListFail = error => {
+    
+    return {
+    
+        type: MEETING_ALL_LIST_FAIL,
+        error: error
+    };
+}
+
+export const getAllMeeting = (token) => {
+    
+    return dispatch => {
+    
+        dispatch(getMeetingAllListStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`
+        };
+        axios.get(`http://0.0.0.0:8000/meetings/`)
+        .then(res => {
+            const meeting = res.data;
+            dispatch(getMeetingAllListSuccess(meeting));
+        })
+        .catch(err => {
+            dispatch(getMeetingAllListFail(err));
+        });
+    };
+};
 
 export const getMeetings = (token, projectId) => {
     
