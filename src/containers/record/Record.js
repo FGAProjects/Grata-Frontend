@@ -131,7 +131,7 @@ class Record extends Component {
 										marginRight: '30px'
 									}} 
 								>
-									<Link to = { `/detalhes_reuniao/${ currentMeeting.id }/${ project_id }`}>
+									<Link to = { `/reuniao_confirmada/${ currentMeeting.id }/${ project_id }`}>
 										<Icon type = 'arrow-left' className = 'icons'/>
 										Voltar
 									</Link>

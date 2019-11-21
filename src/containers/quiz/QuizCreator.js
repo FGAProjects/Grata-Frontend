@@ -3,7 +3,8 @@ import { Form, Input, Button, Icon, Divider } from 'antd';
 import { connect } from 'react-redux';
 
 import QuestionForm from './QuestionForm';
-import { getMeeting, updateMeeting } from '../../store/actions/meeting';
+import { createQuiz } from '../../store/actions/quiz';
+import { getMeeting } from '../../store/actions/meeting';
 import Hoc from '../../hoc/hoc';
 
 const FormItem = Form.Item;
@@ -64,8 +65,8 @@ class QuizCreator extends Component {
             if (!err) {
 
                 const { currentMeeting } = this.props;
-                const token = this.props.token;
-                console.log("Received values of form: ", values);
+                const user = JSON.parse(localStorage.getItem('user'));
+                const token = user.token;
                 const questions = [
 
                 ];
@@ -76,24 +77,17 @@ class QuizCreator extends Component {
                         choices: values.questions[aux].choices.filter(el => el !== null)
                     });
                 }
-                const meeting = {
 
-                    id: currentMeeting.id,
+                const quiz = {
+                    
                     meeting: currentMeeting.id,
-                    status: currentMeeting.status,
-                    title: currentMeeting.title,
-                    subject_matter: currentMeeting.subject_matter,
-                    initial_date: currentMeeting.initial_date,
-                    final_date: currentMeeting.final_date,
-                    initial_hour: currentMeeting.initial_hour,
-                    final_hour: currentMeeting.final_hour,
-                    sector: currentMeeting.sector,
-                    project: currentMeeting.project,
-                    questions
-                };
+                    questions,
+                    choices: [
 
-                console.log(meeting.meeting)
-                this.props.updateMeeting(token, meeting);
+                    ]
+                }
+
+                this.props.createQuiz(token, quiz);
             }
         });
     };
@@ -119,6 +113,7 @@ class QuizCreator extends Component {
                 </Hoc>
             );
         }
+
         return (
 
             <div className = 'content'>
@@ -177,7 +172,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 	
         getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
-        updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting))
+        createQuiz: (token, quiz) => dispatch(createQuiz(token, quiz))
     };
 };
 

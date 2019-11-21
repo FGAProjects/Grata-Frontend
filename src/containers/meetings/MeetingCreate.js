@@ -43,6 +43,7 @@ class MeetingCreate extends Component {
 		
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
+
 			if (!err) {
 
 				const { currentProject } = this.props;
@@ -273,7 +274,6 @@ class MeetingCreate extends Component {
 								)
 							}
 						</Hoc>
-						
 					)
 				}
 			</Hoc>
