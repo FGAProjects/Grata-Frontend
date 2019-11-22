@@ -6,6 +6,7 @@ import {
 import { updateObject } from '../utility';
 
 const initialState = {
+
     projects: [],
     currentProject: {},
     sector: null,
@@ -14,7 +15,9 @@ const initialState = {
 };
 
 const getProjectListStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });

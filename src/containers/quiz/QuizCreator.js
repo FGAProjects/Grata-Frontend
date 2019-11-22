@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Icon, Divider } from 'antd';
 import { connect } from 'react-redux';
 
+import Hoc from '../../hoc/hoc';
 import QuestionForm from './QuestionForm';
+import HomePage from '../homepage/Homepage';
+import NotPermission from '../notPermission/NotPermission';
+
+import { getUser } from '../../store/actions/auth';
 import { createQuiz } from '../../store/actions/quiz';
 import { getMeeting } from '../../store/actions/meeting';
-import Hoc from '../../hoc/hoc';
 
 const FormItem = Form.Item;
 
@@ -23,6 +27,7 @@ class QuizCreator extends Component {
             this.forceUpdate();
             const meeting_id = this.props.match.params.meeting_id;
             this.props.getMeeting(this.props.token, meeting_id);
+			this.props.getUser(this.props.token, this.props.currentUser.userId);
             this.forceUpdate();
         }
     }
@@ -35,7 +40,8 @@ class QuizCreator extends Component {
                 
 				this.forceUpdate();
 				const meeting_id = newProps.match.params.meeting_id;
-				this.props.getMeeting(newProps.token, meeting_id);
+                this.props.getMeeting(newProps.token, meeting_id);
+                this.props.getUser(newProps.token, newProps.currentUser.userId);
 				this.forceUpdate();
             }
         }
@@ -65,6 +71,8 @@ class QuizCreator extends Component {
             if (!err) {
 
                 const { currentMeeting } = this.props;
+				const meeting_id = this.props.match.params.meeting_id;
+                const project_id = this.props.match.params.project_id;
                 const user = JSON.parse(localStorage.getItem('user'));
                 const token = user.token;
                 const questions = [
@@ -73,6 +81,7 @@ class QuizCreator extends Component {
                 
                 for (let aux = 0; aux < values.questions.length; aux ++) {
                     questions.push({
+
                         title: values.question[aux],
                         choices: values.questions[aux].choices.filter(el => el !== null)
                     });
@@ -88,14 +97,18 @@ class QuizCreator extends Component {
                 }
 
                 this.props.createQuiz(token, quiz);
+                this.props.history.push(`reuniao_confirmada/${ meeting_id }/${ project_id }`);
             }
         });
     };
     
     render() {
-    
+        
+        const { currentUser } = this.props;
+        const { currentMeeting } = this.props;
         const { getFieldDecorator } = this.props.form;
         const questions = [];
+        let permission = false;
 
         for (let aux = 0; aux < this.state.formCount; aux ++) {
             questions.push(
@@ -114,43 +127,65 @@ class QuizCreator extends Component {
             );
         }
 
+        if(currentUser.name === currentMeeting.meeting_leader) {
+            permission = true;
+        } else {
+            permission = false;
+        }
+
         return (
 
-            <div className = 'content'>
-                <Form onSubmit = { this.handleSubmit }>
-                    <h1 className = 'texth1'> Crie um Questionário </h1>
-                    <FormItem label = { 'Título do Questionário: '}>
-                        {
-                            getFieldDecorator(`title`, {
-                                validateTrigger: ['onChange', 'onBlur'],
-                                rules: [{
-                                    required: true,
-                                    message: 'Por Favor, Coloque o Título ao Questionário'
-                                }]
-                            })(
-                                <Input placeholder = 'Adicione um Títúlo ao Questionário'/>
-                            )
-                        }
-                    </FormItem>
-                    { questions }
-                    
-                    <FormItem>
-                        <div align = 'center'>
-                            <Button type = 'secondary' onClick = { this.add }>
-                                <Icon type = 'plus'/> Adicione Outra Questão
-                            </Button>
-                        </div>
-                    </FormItem>
+            <Hoc>
+                {
+                    this.props.token === null ? (
+                        <HomePage/>
+                    ) : (
+                        <Hoc>
+                            {
+                                permission === true ? (
+                                    <div className = 'content'>
+                                        <Form onSubmit = { this.handleSubmit }>
+                                            <h1 className = 'texth1'> Crie um Questionário </h1>
+                                            <FormItem label = { 'Título do Questionário: '}>
+                                                {
+                                                    getFieldDecorator(`title`, {
+                                                        validateTrigger: ['onChange', 'onBlur'],
+                                                        rules: [{
+                                                            required: true,
+                                                            message: 'Por Favor, Coloque o Título ao Questionário'
+                                                        }]
+                                                    })(
+                                                        <Input placeholder = 'Adicione um Títúlo ao Questionário'/>
+                                                    )
+                                                }
+                                            </FormItem>
+                                            { questions }
+                                            
+                                            <FormItem>
+                                                <div align = 'center'>
+                                                    <Button type = 'secondary' onClick = { this.add }>
+                                                        <Icon type = 'plus'/> Adicione Outra Questão
+                                                    </Button>
+                                                </div>
+                                            </FormItem>
 
-                    <FormItem>
-                        <div align = 'center'>
-                            <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
-                                Salvar Questionário
-                            </Button>
-                        </div>
-                    </FormItem>
-                </Form>
-            </div>
+                                            <FormItem>
+                                                <div align = 'center'>
+                                                    <Button type = 'ghost' htmlType = 'submit' className = 'buttonSave'>
+                                                        Salvar Questionário
+                                                    </Button>
+                                                </div>
+                                            </FormItem>
+                                        </Form>
+                                    </div>
+                                ) : (
+                                    <NotPermission/>
+                                )
+                            }
+                        </Hoc>
+                    )
+                }
+            </Hoc>
         );
     }
 }
@@ -163,7 +198,8 @@ const mapStateToProps = state => {
 	
 		token: state.auth.token,
         loading: state.meeting.loading,
-		currentMeeting: state.meeting.currentMeeting
+        currentMeeting: state.meeting.currentMeeting,
+        currentUser: state.auth.currentUser
     };
 };
 
@@ -172,7 +208,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 	
         getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
-        createQuiz: (token, quiz) => dispatch(createQuiz(token, quiz))
+        createQuiz: (token, quiz) => dispatch(createQuiz(token, quiz)),
+        getUser: (token, userId) => dispatch(getUser(token, userId))
     };
 };
 

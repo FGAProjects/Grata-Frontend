@@ -17,6 +17,7 @@ import quizReducer from './store/reducers/quiz';
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
+	
 	auth: authReducer,
 	project: projectReducer,
 	sector: sectorReducer,

@@ -24,6 +24,7 @@ import SectorList from './containers/sectors/SectorList';
 import RulesCreate from './containers/rules/RulesCreate';
 import Record from './containers/record/Record';
 import QuizCreator from './containers/quiz/QuizCreator';
+import ResultsQuiz from './containers/quiz/ResultsQuiz';
 
 const BaseRouter = () => (
     <Hoc>
@@ -53,6 +54,8 @@ const BaseRouter = () => (
         <Route exact path = '/visualizar_ata/:meeting_id/:project_id/' component = { Record } />
         <Route exact path = '/criar_questionario/:meeting_id/:project_id/' component = { QuizCreator } />
         <Route exact path = '/responder_questionario/:meeting_id/' component = { QuizCreator } />
+        <Route exact path = '/resultado_questionario/:meeting_id/:project_id/:quiz_id' 
+                            component = { ResultsQuiz } />
     </Hoc>
 );
 

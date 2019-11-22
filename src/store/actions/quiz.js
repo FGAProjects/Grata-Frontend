@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {
     CREATE_QUIZ_START, CREATE_QUIZ_SUCCESS, CREATE_QUIZ_FAIL,
-    GET_QUIZ_LIST_START, GET_QUIZ_LIST_SUCCESS, GET_QUIZ_LIST_FAIL
+    GET_QUIZ_LIST_START, GET_QUIZ_LIST_SUCCESS, GET_QUIZ_LIST_FAIL,
+    GET_QUIZ_DETAIL_START, GET_QUIZ_DETAIL_SUCCESS, GET_QUIZ_DETAIL_FAIL
 } from './actionsTypes';
 
 const createQuizStart = () => {
@@ -54,6 +55,31 @@ const getQuizListFail = error => {
     };
 }
 
+const getQuizDetailStart = () => {
+    
+    return {
+        type: GET_QUIZ_DETAIL_START
+    };
+};
+  
+const getQuizDetailSuccess = quiz => {
+    
+    return {
+    
+        type: GET_QUIZ_DETAIL_SUCCESS,
+        quiz
+    };
+};
+  
+const getQuizDetailFail = error => {
+    
+    return {
+    
+        type: GET_QUIZ_DETAIL_FAIL,
+        error: error
+    };
+};
+
 export const getQuesttionaire = (token, meetingId) => {
     
     return dispatch => {
@@ -63,7 +89,7 @@ export const getQuesttionaire = (token, meetingId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/meetings/meetings_project/${ meetingId }/`)
+        axios.get(`http://0.0.0.0:8000/questionnaires/questtionaire_meeting/${ meetingId }/`)
         .then(res => {
             const questtionaire = res.data;
             dispatch(getQuizListSuccess(questtionaire));
@@ -89,6 +115,26 @@ export const createQuiz = (token, quiz) => {
         })
         .catch(err => {
             dispatch(createQuizFail(err));
+        });
+    };
+};
+
+export const getQuiz = (token, quizId) => {
+    
+    return dispatch => {
+    
+        dispatch(getQuizDetailStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${ token }`
+        };
+        axios.get(`http://0.0.0.0:8000/questionnaires/detail/${ quizId }/`)
+        .then(res => {
+            const quiz = res.data;
+            dispatch(getQuizDetailSuccess(quiz));
+        })
+        .catch(err => {
+            dispatch(getQuizDetailFail(err));
         });
     };
 };
