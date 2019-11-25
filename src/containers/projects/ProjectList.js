@@ -48,6 +48,7 @@ class ProjectsList extends Component {
                 
             ]
         }
+        let confirm = false;
 
         let dataSourceMeetings = {
             innerArray: [
@@ -57,9 +58,16 @@ class ProjectsList extends Component {
 
         for(let aux = 0; aux < allMeetings.length; aux ++) {
 
+            if(currentUser.name === allMeetings[aux].meeting_leader) {
+                confirm = true;
+            }
+
             for(let usersMeeting = 0; usersMeeting < allMeetings[aux].users.length; usersMeeting ++) {
+                
                 if(currentUser.name === allMeetings[aux].users[usersMeeting]) {
+                
                     dataSourceMeetings.innerArray.push({
+                        
                         key: allMeetings[aux].id,
                         title: allMeetings[aux].title,
                         subject_matter: allMeetings[aux].subject_matter,
@@ -173,6 +181,7 @@ class ProjectsList extends Component {
                                     } 
                                 />
                                 <h1 className = 'texth1'> Reuniões Que Participo </h1>
+                                
                                 <Table columns = {
                                 [{
                                     title: 'Título',
@@ -203,16 +212,32 @@ class ProjectsList extends Component {
                                     key: 'action',
                                     render: (record) => (
                                         <span>
-                                        <Button 
-                                            type = 'ghost' 
-                                            htmlType = 'submit' 
-                                            className = 'buttonSave'
-                                        >
-                                            <Link to = { `/detalhes_reuniao/${ record.key }/${ project_id }`} >
-                                                <Icon type = 'eye' className = 'icons'/>
-                                                    <b> Ver Reunião </b>
-                                            </Link>
-                                        </Button>
+                                            {
+                                                confirm === true ? (
+                                                    <Button 
+                                                        type = 'ghost' 
+                                                        htmlType = 'submit' 
+                                                        className = 'buttonSave'
+                                                    >
+                                                        <Link to = { `/reuniao_confirmada/${ record.key }/${ project_id }`} >
+                                                            <Icon type = 'eye' className = 'icons'/>
+                                                                <b> Ver Reunião </b>
+                                                        </Link>
+                                                    </Button>
+                                                ) : (
+                                                    <Button 
+                                                        type = 'ghost' 
+                                                        htmlType = 'submit' 
+                                                        className = 'buttonSave'
+                                                    >
+                                                        <Link to = { `/detalhes_reuniao/${ record.key }/${ project_id }`} >
+                                                            <Icon type = 'eye' className = 'icons'/>
+                                                                <b> Ver Reunião </b>
+                                                        </Link>
+                                                    </Button>
+                                                )
+                                            }
+                                        
                                         </span>
                                     ),
                                 },

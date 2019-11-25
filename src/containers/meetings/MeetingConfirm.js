@@ -106,7 +106,6 @@ class MeetingConfirm extends Component {
 
                 key: questtionaire[aux].id,
                 title: questtionaire[aux].title,
-                users: questtionaire[aux].users[aux]
             }); 
         }
 
@@ -275,9 +274,9 @@ class MeetingConfirm extends Component {
                                                                     src = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'/>
                                                             }
                                                             title = { 
-                                                                <a href = 'https://ant.design/index-cn'> 
+                                                                <Link to = { `/detalhes_questionario/${ currentMeeting.id }/${ project_id }/${ quiz.key }`} >
                                                                     <b> { quiz.title } </b>
-                                                                </a>
+                                                                </Link>
                                                             }
                                                         />
                                                         </List.Item>

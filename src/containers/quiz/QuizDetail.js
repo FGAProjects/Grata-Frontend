@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 
 import { getQuiz } from '../../store/actions/quiz';
 
-class ResultsQuiz extends Component {
+class QuizDetail extends Component {
 
     componentDidMount() {
         
         if (this.props.token !== undefined && this.props.token !== null) {
-        
-            const meeting_id = this.props.match.params.meeting_id;
-            this.props.getQuiz(this.props.token, meeting_id);
+            
+            this.forceUpdate();
+            const quiz_id = this.props.match.params.quiz_id;
+            this.props.getQuiz(this.props.token, quiz_id);
             this.forceUpdate();
         }
     }
@@ -20,20 +21,21 @@ class ResultsQuiz extends Component {
 		if (newProps.token !== this.props.token) {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
-                
-				const meeting_id = newProps.match.params.meeting_id;
-                this.props.getQuiz(newProps.token, meeting_id);
+
+                this.forceUpdate();
+                const quiz_id = newProps.match.params.quiz_id;
+                this.props.getQuiz(newProps.token, quiz_id);
 				this.forceUpdate();
             }
         }
     }
 
     render() {
-        
+
         const { currentQuiz } = this.props;
-
+        console.log(currentQuiz)
         return (
-
+        
             <div className = 'content'>
                 title : {currentQuiz.title}
             </div>
@@ -59,4 +61,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResultsQuiz);
+export default connect(mapStateToProps, mapDispatchToProps)(QuizDetail);

@@ -89,7 +89,7 @@ export const getQuesttionaire = (token, meetingId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/questionnaires/questtionaire_meeting/${ meetingId }/`)
+        axios.get(`http://0.0.0.0:8000/questionnaires/questtionaires_meeting/${ meetingId }/`)
         .then(res => {
             const questtionaire = res.data;
             dispatch(getQuizListSuccess(questtionaire));

@@ -78,7 +78,7 @@ class QuizCreator extends Component {
                 const questions = [
 
                 ];
-                
+
                 for (let aux = 0; aux < values.questions.length; aux ++) {
                     questions.push({
 
@@ -90,6 +90,7 @@ class QuizCreator extends Component {
                 const quiz = {
                     
                     meeting: currentMeeting.id,
+                    title: values.title,
                     questions,
                     choices: [
 
@@ -97,7 +98,7 @@ class QuizCreator extends Component {
                 }
 
                 this.props.createQuiz(token, quiz);
-                this.props.history.push(`reuniao_confirmada/${ meeting_id }/${ project_id }`);
+                this.props.history.push(`/reuniao_confirmada/${ meeting_id }/${ project_id }`);
             }
         });
     };
