@@ -26,7 +26,9 @@ class SectorCreate extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 
-				const token = this.props.token;
+
+				const user = JSON.parse(localStorage.getItem('user'));
+				const token = user.token;
 				const sector = {
 
 					initials: values.initials,

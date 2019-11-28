@@ -113,7 +113,7 @@ export const getAllMeeting = (token) => {
         dispatch(getMeetingAllListStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
+            Authorization: `Token ${ token }`
         };
         axios.get(`http://0.0.0.0:8000/meetings/`)
         .then(res => {
@@ -133,7 +133,7 @@ export const getMeetings = (token, projectId) => {
         dispatch(getMeetingListStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
+            Authorization: `Token ${ token }`
         };
         axios.get(`http://0.0.0.0:8000/meetings/meetings_project/${ projectId }/`)
         .then(res => {
@@ -153,7 +153,7 @@ export const getMeeting = (token, meetingId) => {
         dispatch(getMeetingDetailStart());
         axios.defaults.headers = {
             'Content-Type': 'application/json',
-            Authorization: `Token ${token}`
+            Authorization: `Token ${ token }`
         };
         axios.get(`http://0.0.0.0:8000/meetings/detail/${ meetingId }/`)
         .then(res => {

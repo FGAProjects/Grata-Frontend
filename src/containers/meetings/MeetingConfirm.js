@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Icon, Drawer, List, Avatar } from 'antd';
+import { Form, Input, Button, Icon, List, Avatar } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Hoc from '../../hoc/hoc';
 import Homepage from '../homepage/Homepage';
-import NotPermission from '../notPermission/NotPermission';
 
 import { getQuesttionaire } from '../../store/actions/quiz';
 import { getMeeting } from '../../store/actions/meeting';
@@ -44,10 +43,12 @@ class MeetingConfirm extends Component {
         if (this.props.token !== undefined && this.props.token !== null) {
         
             this.forceUpdate();
+            const user = JSON.parse(localStorage.getItem('user'));
+            const token = user.token;
             const meeting_id = this.props.match.params.meeting_id;
-            this.props.getMeeting(this.props.token, meeting_id);
-            this.props.getUser(this.props.token, this.props.currentUser.userId);
-            this.props.getQuesttionaire(this.props.token, meeting_id);
+            this.props.getMeeting(token, meeting_id);
+            this.props.getUser(token, this.props.currentUser.userId);
+            this.props.getQuesttionaire(token, meeting_id);
             this.forceUpdate();
         }
     }
@@ -154,104 +155,106 @@ class MeetingConfirm extends Component {
                                         </Button>
                                     </div>
                                 ) : (
-                                    <NotPermission/>
+                                    <div>
+                                        <p className = 'spaceTop'>  </p>
+                                    </div>
                                 )
                             }
-                            {
-                                permission === true ? (
-                                    <div className = 'container'>
-                                        <div className = 'op1'>
-                                            <h1 className = 'texth1'> Informações Cadastradas </h1>
-                                                <Form layout = 'vertical' className = 'formUser'>
-                                                    <Form.Item 
-                                                        label = 'Nome' 
-                                                        { ...formItemLayout }
-                                                        className = 'formFields'	
-                                                    >
-                                                        <Input 
-                                                            value = { currentMeeting.title } 
-                                                            disabled = { true } 
-                                                        />
-                                                    </Form.Item>
+                            <div className = 'container'>
+                                <div className = 'op1'>
+                                    <h1 className = 'texth1'> Informações Cadastradas </h1>
+                                        <Form layout = 'vertical' className = 'formUser'>
+                                            <Form.Item 
+                                                label = 'Nome' 
+                                                { ...formItemLayout }
+                                                className = 'formFields'	
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.title } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
 
-                                                    <Form.Item 
-                                                        label = 'Assunto' 
-                                                        { ...formItemLayout } 
-                                                        className = 'formFields'
-                                                    >
-                                                        <Input 
-                                                            value = { currentMeeting.subject_matter } 
-                                                            disabled = { true } 
-                                                        />
-                                                    </Form.Item>
+                                            <Form.Item 
+                                                label = 'Assunto' 
+                                                { ...formItemLayout } 
+                                                className = 'formFields'
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.subject_matter } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
 
-                                                    <Form.Item
-                                                        label = 'Status'
-                                                        { ...formItemLayoutMinimum }
-                                                        className = 'formFields'    
-                                                    >
-                                                        <Input 
-                                                            value = { currentMeeting.status } 
-                                                            disabled = { true } 
-                                                        />
-                                                    </Form.Item>
+                                            <Form.Item
+                                                label = 'Status'
+                                                { ...formItemLayoutMinimum }
+                                                className = 'formFields'    
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.status } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
 
-                                                    <Form.Item 
-                                                        label = 'Líder da Reunião' 
-                                                        { ...formItemLayout }
-                                                        className = 'formFields'
-                                                    >
-                                                        <Input 
-                                                            value = { currentMeeting.meeting_leader } 
-                                                            disabled = { true } 
-                                                        />
-                                                    </Form.Item>
+                                            <Form.Item 
+                                                label = 'Líder da Reunião' 
+                                                { ...formItemLayout }
+                                                className = 'formFields'
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.meeting_leader } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
 
-                                                    <Form.Item 
-                                                        label = 'Local' 
-                                                        { ...formItemLayout }
-                                                        className = 'formFields'
-                                                    >
-                                                        <Input 
-                                                            value = { currentMeeting.sector } 
-                                                            disabled = { true } 
-                                                        />
-                                                    </Form.Item>
+                                            <Form.Item 
+                                                label = 'Local' 
+                                                { ...formItemLayout }
+                                                className = 'formFields'
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.sector } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
 
-                                                    <Form.Item 
-                                                        label = 'Data de Inicio' 
-                                                        { ...formItemLayoutMinimum }
-                                                        className = 'formFields'    
-                                                    >
-                                                        <Input 
-                                                            value = { currentMeeting.initial_date } 
-                                                            disabled = { true } 
-                                                        />
-                                                    </Form.Item>
+                                            <Form.Item 
+                                                label = 'Data de Inicio' 
+                                                { ...formItemLayoutMinimum }
+                                                className = 'formFields'    
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.initial_date } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
 
-                                                    <Form.Item 
-                                                        label = 'Hora de Inicio' 
-                                                        { ...formItemLayoutMinimum }
-                                                        className = 'formFields' 
-                                                    >
-                                                        <Input 
-                                                            value = { currentMeeting.initial_hour } 
-                                                            disabled = { true } 
-                                                        />
-                                                    </Form.Item>
+                                            <Form.Item 
+                                                label = 'Hora de Inicio' 
+                                                { ...formItemLayoutMinimum }
+                                                className = 'formFields' 
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.initial_hour } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
 
-                                                    <Form.Item 
-                                                        label = 'Hora de Encerramento' 
-                                                        { ...formItemLayoutMinimum }
-                                                        className = 'formFields'
-                                                    >
-                                                        <Input 
-                                                            value = { currentMeeting.final_hour } 
-                                                            disabled = { true } 
-                                                        />
-                                                    </Form.Item>
-                                                </Form>
-                                            </div>
+                                            <Form.Item 
+                                                label = 'Hora de Encerramento' 
+                                                { ...formItemLayoutMinimum }
+                                                className = 'formFields'
+                                            >
+                                                <Input 
+                                                    value = { currentMeeting.final_hour } 
+                                                    disabled = { true } 
+                                                />
+                                            </Form.Item>
+                                        </Form>
+                                    </div>
+                                    {
+                                        permission === true ? (
                                             <div className = 'op2'>
                                                 <h1 className = 'texth1'> Questionário(s) Cadastrado(s) </h1>
                                                 <List
@@ -274,32 +277,46 @@ class MeetingConfirm extends Component {
                                                                     src = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'/>
                                                             }
                                                             title = { 
-                                                                <Link to = { `/detalhes_questionario/${ currentMeeting.id }/${ project_id }/${ quiz.key }`} >
-                                                                    <b> { quiz.title } </b>
-                                                                </Link>
+                                                                <b> { quiz.title } </b>
                                                             }
                                                         />
                                                         </List.Item>
                                                     )}
                                                 />
-                                                <Drawer
-                                                    width = { 640 }
-                                                    placement = 'right'
-                                                    closable = { false }
-                                                    onClose = { this.onClose }
-                                                    visible = { this.state.visible }
+                                            </div>
+                                        ) : (
+                                            <div className = 'op2'>
+                                                <h1 className = 'texth1'> Questionário(s) Cadastrado(s) </h1>
+                                                <List
                                                     dataSource = {
                                                         dataSource.innerArray
                                                     }
                                                     bordered
-                                                >
-                                            </Drawer>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <NotPermission/>
-                                )
-                            }
+                                                    renderItem = { quiz => (
+                                                        <List.Item
+                                                            key = { quiz.key }
+                                                            actions = {[
+                                                                <Link to = { `/responder_questionario/${ currentMeeting.id }/${ project_id }/${ quiz.key }/`} >
+                                                                    Responder Questionário
+                                                                </Link>
+                                                            ]}
+                                                        >
+                                                        <List.Item.Meta
+                                                            avatar = {
+                                                                <Avatar 
+                                                                    src = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'/>
+                                                            }
+                                                            title = { 
+                                                                <b> { quiz.title } </b>
+                                                            }
+                                                        />
+                                                        </List.Item>
+                                                    )}
+                                                />
+                                            </div>
+                                        )
+                                    }
+                            </div>
                         </Hoc>
                     )
                 }

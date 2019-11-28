@@ -16,9 +16,11 @@ class ProjectsList extends Component {
         
         if (this.props.token !== undefined && this.props.token !== null) {
 
-            this.props.getProjects(this.props.token);
-            this.props.getAllMeeting(this.props.token);
-			this.props.getUser(this.props.token, this.props.currentUser.userId);
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            this.props.getProjects(user.token);
+            this.props.getAllMeeting(user.token);
+			this.props.getUser(user.token, this.props.currentUser.userId);
             this.forceUpdate();
         }
     }
@@ -39,7 +41,7 @@ class ProjectsList extends Component {
 
     render() {
         
-		const { currentUser } = this.props;
+        const { currentUser } = this.props;
         const projects = this.props.projects;
         const allMeetings = this.props.allMeetings;
         let project_id = 0;
@@ -59,23 +61,38 @@ class ProjectsList extends Component {
         for(let aux = 0; aux < allMeetings.length; aux ++) {
 
             if(currentUser.name === allMeetings[aux].meeting_leader) {
-                confirm = true;
-            }
 
-            for(let usersMeeting = 0; usersMeeting < allMeetings[aux].users.length; usersMeeting ++) {
-                
-                if(currentUser.name === allMeetings[aux].users[usersMeeting]) {
-                
-                    dataSourceMeetings.innerArray.push({
-                        
-                        key: allMeetings[aux].id,
-                        title: allMeetings[aux].title,
-                        subject_matter: allMeetings[aux].subject_matter,
-                        sector: allMeetings[aux].sector
-                    });
+                if(allMeetings[aux].status === 'Confirmada') {
+                    confirm = true;
                 } else {
-
+                    confirm = false;
                 }
+                
+                dataSourceMeetings.innerArray.push({
+                        
+                    key: allMeetings[aux].id,
+                    title: allMeetings[aux].title,
+                    subject_matter: allMeetings[aux].subject_matter,
+                    sector: allMeetings[aux].sector
+                });
+            } else {
+
+                for(let usersMeeting = 0; usersMeeting < allMeetings[aux].users.length; usersMeeting ++) {
+
+                    if(currentUser.name === allMeetings[aux].users[usersMeeting]) {
+                    
+                        dataSourceMeetings.innerArray.push({
+                            
+                            key: allMeetings[aux].id,
+                            title: allMeetings[aux].title,
+                            subject_matter: allMeetings[aux].subject_matter,
+                            sector: allMeetings[aux].sector
+                        });
+                    } else {
+    
+                    }
+                }
+                confirm = false;
             }
         }
 
@@ -162,16 +179,16 @@ class ProjectsList extends Component {
                                         key: 'action',
                                         render: (record) => (
                                             <span>
-                                            <Button 
-                                                type = 'ghost' 
-                                                htmlType = 'submit' 
-                                                className = 'buttonEdit'
-                                            >
-                                                <Link to = { `/editar_projeto/${ record.key }/`} >
-                                                    <Icon type = 'edit' className = 'icons'/>
-                                                        <b> Editar Projeto </b>
-                                                </Link>
-                                            </Button>
+                                                <Button 
+                                                    type = 'ghost' 
+                                                    htmlType = 'submit' 
+                                                    className = 'buttonEdit'
+                                                >
+                                                    <Link to = { `/editar_projeto/${ record.key }/`} >
+                                                        <Icon type = 'edit' className = 'icons'/>
+                                                            <b> Editar Projeto </b>
+                                                    </Link>
+                                                </Button>
                                             </span>
                                         ),
                                     },
@@ -183,69 +200,72 @@ class ProjectsList extends Component {
                                 <h1 className = 'texth1'> Reuniões Que Participo </h1>
                                 
                                 <Table columns = {
-                                [{
-                                    title: 'Título',
-                                    dataIndex: 'title',
-                                    key: 'title',
-                                    render: (text) => (
-                                        <b> { text } </b>
-                                    )
-                                },
-                                {
-                                    title: 'Assunto',
-                                    dataIndex: 'subject_matter',
-                                    key: 'subject_matter',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
-                                    title: 'Setor Responsável',
-                                    dataIndex: 'sector',
-                                    key: 'sector',
-                                    render: (text) => (
-                                        <b>{text}</b>
-                                    )
-                                },
-                                {
-                                    title: 'Ação',
-                                    key: 'action',
-                                    render: (record) => (
-                                        <span>
-                                            {
-                                                confirm === true ? (
-                                                    <Button 
-                                                        type = 'ghost' 
-                                                        htmlType = 'submit' 
-                                                        className = 'buttonSave'
-                                                    >
-                                                        <Link to = { `/reuniao_confirmada/${ record.key }/${ project_id }`} >
-                                                            <Icon type = 'eye' className = 'icons'/>
-                                                                <b> Ver Reunião </b>
-                                                        </Link>
-                                                    </Button>
-                                                ) : (
-                                                    <Button 
-                                                        type = 'ghost' 
-                                                        htmlType = 'submit' 
-                                                        className = 'buttonSave'
-                                                    >
-                                                        <Link to = { `/detalhes_reuniao/${ record.key }/${ project_id }`} >
-                                                            <Icon type = 'eye' className = 'icons'/>
-                                                                <b> Ver Reunião </b>
-                                                        </Link>
-                                                    </Button>
-                                                )
-                                            }
-                                        
-                                        </span>
-                                    ),
-                                },
-                                    ]}
-                                    dataSource = {
-                                        dataSourceMeetings.innerArray
-                                    } 
-                                />
+                                    [{
+                                        title: 'Título',
+                                        dataIndex: 'title',
+                                        key: 'title',
+                                        render: (text) => (
+                                            <b> { text } </b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Assunto',
+                                        dataIndex: 'subject_matter',
+                                        key: 'subject_matter',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Setor Responsável',
+                                        dataIndex: 'sector',
+                                        key: 'sector',
+                                        render: (text) => (
+                                            <b>{text}</b>
+                                        )
+                                    },
+                                    {
+                                        title: 'Ação',
+                                        key: 'action',
+                                        render: (record) => (
+                                            <span>
+                                                {
+
+                                                }
+                                                {
+                                                    confirm === true ? (
+                                                        <Button 
+                                                            type = 'ghost' 
+                                                            htmlType = 'submit' 
+                                                            className = 'buttonSave'
+                                                        >
+                                                            <Link to = { `/reuniao_confirmada/${ record.key }/${ project_id }`} >
+                                                                <Icon type = 'eye' className = 'icons'/>
+                                                                    <b> Ver Reunião </b>
+                                                            </Link>
+                                                        </Button>
+                                                    ) : (
+                                                        <Button 
+                                                            type = 'ghost' 
+                                                            htmlType = 'submit' 
+                                                            className = 'buttonSave'
+                                                        >
+                                                            <Link to = { `/detalhes_reuniao/${ record.key }/${ project_id }`} >
+                                                                <Icon type = 'eye' className = 'icons'/>
+                                                                    <b> Ver Reunião </b>
+                                                            </Link>
+                                                        </Button>
+                                                    )
+                                                }
+                                            
+                                            </span>
+                                        ),
+                                    },
+                                        ]}
+                                        dataSource = {
+                                            dataSourceMeetings.innerArray
+                                        } 
+                                    />
                             </div>
                         )
                     )

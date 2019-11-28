@@ -168,3 +168,7 @@ div.op2 {
     padding: 5vw 0vw 5vw 0vw;
     min-width:40vw;
 }
+
+.spaceTop {
+    margin-top: 40px;
+}

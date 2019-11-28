@@ -32,6 +32,16 @@ export function getSectorInProject(sectors, currentProject) {
     return sector_name;
 }
 
+export function size(obj) {
+		
+    var size = 0, key;
+    
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+}
+
 export function getUsersInSector(users, sectors, currentProject) {
 
     let dataSourceUsers = {
@@ -41,13 +51,17 @@ export function getUsersInSector(users, sectors, currentProject) {
     }
 
     for(let aux = 0; aux < users.length; aux ++) {
+        
         if(users[aux].is_administrator === true) {
+        
             for(let auxSector = 0; auxSector < sectors.length; auxSector ++) {
+        
                 if(users[aux].sector === sectors[auxSector].id 
                     && users[aux].sector !== null 
                     && users[aux].sector === currentProject.sector) {
-                    dataSourceUsers.innerArrayUsers.push(
-                        {
+        
+                        dataSourceUsers.innerArrayUsers.push({
+
                             key: users[aux].id,
                             name: users[aux].name,
                             username: users[aux].username

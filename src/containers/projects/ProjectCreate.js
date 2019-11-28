@@ -48,7 +48,8 @@ class ProjectCreate extends Component {
 			if (!err) {
 		
 				const sectors = this.props.sectors;
-				const token = this.props.token;
+				const user = JSON.parse(localStorage.getItem('user'));
+				const token = user.token;
 				let sector_id = '';
 
 				for(let aux = 0; aux < sectors.length; aux ++) {

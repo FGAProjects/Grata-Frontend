@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Hoc from '../../hoc/hoc';
+import { size } from '../utils';
 import Homepage from '../homepage/Homepage';
 
 import { getMeeting } from '../../store/actions/meeting';
@@ -34,7 +35,7 @@ class Record extends Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
 		
 		if (newProps.token !== this.props.token) {
 		
@@ -47,24 +48,14 @@ class Record extends Component {
             }
         }
 	}
-	
-	size(obj) {
-		
-		var size = 0, key;
-		
-		for (key in obj) {
-			if (obj.hasOwnProperty(key)) size++;
-		}
-		return size;
-	}
 
 	render() {
 
 		const { currentMeeting } = this.props;
 		const project_id = this.props.match.params.project_id;
-		const users = this.size(currentMeeting.users);
-		const topics = this.size(currentMeeting.topics);
-		const rules = this.size(currentMeeting.rules);
+		const users = size(currentMeeting.users);
+		const topics = size(currentMeeting.topics);
+		const rules = size(currentMeeting.rules);
 
 		let usersMeeting = {
             innerArray: [

@@ -50,7 +50,7 @@ class MeetingCreate extends Component {
 				const sectors = this.props.sectors;
 				const user = JSON.parse(localStorage.getItem('user'));
 				const userId = user.userId;
-				const token = this.props.token;
+				const token = user.token;
 				const project_id = this.props.match.params.project_id;
 				const date_value = values['range-picker'];
 				

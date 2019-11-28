@@ -51,8 +51,6 @@ class MeetingList extends Component {
             ]
 		}
 
-		let valid = false;
-
 		for (let aux = 0; aux < meetings.length; aux ++) {
 
 			if(currentUser.sector === meetings[aux].sector) {
@@ -69,9 +67,8 @@ class MeetingList extends Component {
 						tags: [meetings[aux].status]
 					}
 				);
-				valid = true;
 			} else {
-				valid = false;
+
 			}
 		}
 
@@ -107,83 +104,77 @@ class MeetingList extends Component {
 						) : (
 							<Hoc>
 								<div className = 'contentList'>
-									{
-										valid === true ? (
-											<Table columns = {
-												[{
-													title: 'Título',
-													dataIndex: 'title',
-													key: 'title',
-													render: (text, record) => (
-														<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }`}>
-															<List.Item>
-																<b> { text } </b>
-															</List.Item>
-														</Link>
-													)   
-												},
+									<Table columns = {
+										[{
+											title: 'Título',
+											dataIndex: 'title',
+											key: 'title',
+											render: (text, record) => (
+												<Link to = {`/detalhes_reuniao/${ record.key }/${ project_id }`}>
+													<List.Item>
+														<b> { text } </b>
+													</List.Item>
+												</Link>
+											)   
+										},
+										{
+											title: 'Setor Responsável',
+											dataIndex: 'sector',
+											key: 'sector',
+										},
+										{
+											title: 'Data de Inicio',
+											dataIndex: 'initial_date',
+											key: 'initial_date',
+										},
+										{
+											title: 'Data de Encerramento',
+											dataIndex: 'final_date',
+											key: 'final_date',
+										},
+										{
+											title: 'Hora de Inicio',
+											dataIndex: 'initial_hour',
+											key: 'initial_hour',
+										},
+										{
+											title: 'Hora de Encerramento',
+											dataIndex: 'final_hour',
+											key: 'final_hour',
+										},
+										{
+											title: 'Status',
+											key: 'tags',
+											dataIndex: 'tags',
+											render: tags => (
+												<span>
 												{
-													title: 'Setor Responsável',
-													dataIndex: 'sector',
-													key: 'sector',
-												},
-												{
-													title: 'Data de Inicio',
-													dataIndex: 'initial_date',
-													key: 'initial_date',
-												},
-												{
-													title: 'Data de Encerramento',
-													dataIndex: 'final_date',
-													key: 'final_date',
-												},
-												{
-													title: 'Hora de Inicio',
-													dataIndex: 'initial_hour',
-													key: 'initial_hour',
-												},
-												{
-													title: 'Hora de Encerramento',
-													dataIndex: 'final_hour',
-													key: 'final_hour',
-												},
-												{
-													title: 'Status',
-													key: 'tags',
-													dataIndex: 'tags',
-													render: tags => (
-														<span>
-														{
-															tags.map(tag => {
-																let color = '';
-																if (tag === 'Pendente') {
-																	color = 'orange';
-																} else if(tag === 'Agendada') {
-																	color = 'geekblue';
-																} else if(tag === 'Cancelada') {
-																	color = 'red';
-																}														
-																else {
-																	color = 'green';
-																}
-																return (
-																<Tag color = { color } key = { tag }>
-																	<b> { tag.toUpperCase() } </b> 
-																</Tag>
-																);
-															})
+													tags.map(tag => {
+														let color = '';
+														if (tag === 'Pendente') {
+															color = 'orange';
+														} else if(tag === 'Agendada') {
+															color = 'geekblue';
+														} else if(tag === 'Cancelada') {
+															color = 'red';
+														}														
+														else {
+															color = 'green';
 														}
-														</span>
-													),
-												},
-											]}
-											dataSource = {
-												dataSource.innerArray
-											}/>
-										) : (
-											<h1 className = 'texth1'> Você Não Está Atrelado a Reuniões Neste Setor </h1>
-										)
-									}
+														return (
+														<Tag color = { color } key = { tag }>
+															<b> { tag.toUpperCase() } </b> 
+														</Tag>
+														);
+													})
+												}
+												</span>
+											),
+										},
+									]}
+									dataSource = {
+										dataSource.innerArray
+									}/>
 								</div>
 							</Hoc>
 						)

@@ -66,8 +66,9 @@ class Rules extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 
-                const { currentMeeting } = this.props;                
-                const token = this.props.token;
+                const { currentMeeting } = this.props;
+                const user = JSON.parse(localStorage.getItem('user'));
+		        const token = user.token;                
                 const rules = [
 
                 ];

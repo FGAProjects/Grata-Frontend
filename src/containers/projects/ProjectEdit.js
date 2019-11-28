@@ -41,8 +41,9 @@ class ProjectEdit extends Component {
             if (!err) {
                 
                 const { currentProject } = this.props;
-				const token = this.props.token;
-				
+                const user = JSON.parse(localStorage.getItem('user'));
+                const token = user.token;
+
 				const project = {
                     projectId: currentProject.id,
 					title: values.title,
@@ -82,7 +83,7 @@ class ProjectEdit extends Component {
 					title: 'Ação Concluída!',
 					content: 'Projeto Excluído Com Sucesso!',
                 });
-                propsForms.history.push(`/lista_de_projetos/${ project_id }`);
+                propsForms.history.push('/lista_de_projetos/');
 			},
 			onCancel() {
                 message.success('Exclusão de Projeto Cancelada Com Sucesso!');
@@ -92,7 +93,8 @@ class ProjectEdit extends Component {
 
     render() {
         
-		const user = JSON.parse(localStorage.getItem('user'));
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user.token;
         const { currentProject } = this.props;
         const { getFieldDecorator } = this.props.form;
         const { formLayout } = this.state;
@@ -215,7 +217,7 @@ class ProjectEdit extends Component {
                                                         <Button className = 'buttonDelete' type = 'ghost' 
                                                             onClick = { () => 
                                                                 this.showDeleteConfirm(
-                                                                    this.props.token,
+                                                                    token,
                                                                     currentProject.id
                                                                 )
                                                             } 

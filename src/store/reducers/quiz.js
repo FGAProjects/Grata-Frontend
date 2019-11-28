@@ -1,12 +1,14 @@
 import {
     GET_QUIZ_LIST_START, GET_QUIZ_LIST_SUCCESS, GET_QUIZ_LIST_FAIL,
-    GET_QUIZ_DETAIL_START, GET_QUIZ_DETAIL_SUCCESS, GET_QUIZ_DETAIL_FAIL
+    GET_QUIZ_DETAIL_START, GET_QUIZ_DETAIL_SUCCESS, GET_QUIZ_DETAIL_FAIL,
+    GET_QUIZ_MEETING_LIST_START, GET_QUIZ_MEETING_LIST_SUCCESS,GET_QUIZ_MEETING_LIST_FAIL
 } from '../actions/actionsTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
     
     currentQuiz: {},
+    quizMeeting: [],
     questtionaire: [],
     error: null,
     loading: false
@@ -32,6 +34,34 @@ const getQuizListSuccess = (state, action) => {
 };
 
 const getQuizListFail = (state, action) => {
+    
+    return updateObject(state, {
+    
+        error: action.error,
+        loading: false
+    });
+};
+
+const getQuizMeetingListStart = (state, action) => {
+    
+    return updateObject(state, {
+    
+        error: null,
+        loading: true
+    });
+};
+
+const getQuizMeetingListSuccess = (state, action) => {
+    
+    return updateObject(state, {
+    
+        quizMeeting: action.quizMeeting,
+        error: null,
+        loading: false
+    });
+};
+
+const getQuizMeetingListFail = (state, action) => {
     
     return updateObject(state, {
     
@@ -84,6 +114,12 @@ const reducer = (state = initialState, action) => {
             return getQuizDetailSuccess(state, action);
         case GET_QUIZ_DETAIL_FAIL:
             return getQuizDetailFail(state, action);
+        case GET_QUIZ_MEETING_LIST_START:
+            return getQuizMeetingListStart(state, action);
+        case GET_QUIZ_MEETING_LIST_SUCCESS:
+            return getQuizMeetingListSuccess(state, action);
+        case GET_QUIZ_MEETING_LIST_FAIL:
+            return getQuizMeetingListFail(state, action);
         default:
             return state;
     }

@@ -25,7 +25,7 @@ import RulesCreate from './containers/rules/RulesCreate';
 import Record from './containers/record/Record';
 import QuizCreator from './containers/quiz/QuizCreator';
 import ResultsQuiz from './containers/quiz/ResultsQuiz';
-import QuizDetail from './containers/quiz/QuizDetail';
+import RespondQuiz from './containers/quiz/RespondQuiz';
 
 const BaseRouter = () => (
     <Hoc>
@@ -54,11 +54,10 @@ const BaseRouter = () => (
         <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/' component = { UserMeeting } />
         <Route exact path = '/visualizar_ata/:meeting_id/:project_id/' component = { Record } />
         <Route exact path = '/criar_questionario/:meeting_id/:project_id/' component = { QuizCreator } />
-        <Route exact path = '/responder_questionario/:meeting_id/' component = { QuizCreator } />
-        <Route exact path = '/resultado_questionario/:meeting_id/:project_id/:quiz_id' 
+        <Route exact path = '/responder_questionario/:meeting_id/:project_id/:quiz_id/' 
+                            component = { RespondQuiz } />
+        <Route exact path = '/resultado_questionario/:meeting_id/:project_id/:quiz_id/' 
                             component = { ResultsQuiz } />
-        <Route exact path = '/detalhes_questionario/:meeting_id/:project_id/:quiz_id' 
-                            component = { QuizDetail } />
     </Hoc>
 );
 

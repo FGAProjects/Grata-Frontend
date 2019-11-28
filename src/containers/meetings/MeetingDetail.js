@@ -27,9 +27,11 @@ class MeetingDetail extends Component {
         if (this.props.token !== undefined && this.props.token !== null) {
         
             this.forceUpdate();
+            const user = JSON.parse(localStorage.getItem('user'));
+		    const token = user.token;
             const meeting_id = this.props.match.params.meeting_id;
-            this.props.getMeeting(this.props.token, meeting_id);
-			this.props.getUser(this.props.token, this.props.currentUser.userId);
+            this.props.getMeeting(token, meeting_id);
+			this.props.getUser(token, this.props.currentUser.userId);
             this.forceUpdate();
         }
     }

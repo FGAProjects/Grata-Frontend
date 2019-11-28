@@ -35,7 +35,7 @@ class MeetingEdit extends Component {
         }
 	}
 	
-	showDeleteConfirm = (token, meetingId, project_id, sector_id) => {
+	showDeleteConfirm = (token, meetingId) => {
 		
 		const propsForms = this.props;
 		
@@ -52,7 +52,7 @@ class MeetingEdit extends Component {
 					title: 'Ação Concluída!',
 					content: 'Reunião Excluída Com Sucesso!',
 				});
-				propsForms.history.push(`/lista_de_reunioes/${ project_id }/${ sector_id }`)
+				propsForms.history.push('/lista_de_projetos/')
 			},
 			onCancel() {
 				message.success('Exclusão de Reunião Cancelada Com Sucesso!');
@@ -100,6 +100,7 @@ class MeetingEdit extends Component {
     render() {
 		
 		const user = JSON.parse(localStorage.getItem('user'));
+		const token = user.token;
         const project_id = this.props.match.params.project_id;
         const { currentMeeting } = this.props;
 		const { formLayout } = this.state;
@@ -402,7 +403,7 @@ class MeetingEdit extends Component {
 
 														<Button 
 															onClick = { () => this.showDeleteConfirm(
-																this.props.token, 
+																token, 
 																currentMeeting.id, 
 																project_id
 															)}

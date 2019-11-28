@@ -64,7 +64,8 @@ class UserListMeeting extends Component {
 
 			const { currentMeeting } = this.props;
 			const projects = this.props.projects;
-			const token = this.props.token;
+			const user = JSON.parse(localStorage.getItem('user'));
+			const token = user.token;
 			const users = [
 
 			];
