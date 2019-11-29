@@ -17,7 +17,7 @@ class ProjectsList extends Component {
         if (this.props.token !== undefined && this.props.token !== null) {
 
             const user = JSON.parse(localStorage.getItem('user'));
-
+            this.forceUpdate();
             this.props.getProjects(user.token);
             this.props.getAllMeeting(user.token);
 			this.props.getUser(user.token, this.props.currentUser.userId);
@@ -31,6 +31,7 @@ class ProjectsList extends Component {
         
             if (newProps.token !== undefined && newProps.token !== null) {
 
+                this.forceUpdate();
                 this.props.getProjects(newProps.token);
                 this.props.getAllMeeting(newProps.token);
                 this.props.getUser(newProps.token, newProps.currentUser.userId);
@@ -60,14 +61,14 @@ class ProjectsList extends Component {
 
         for(let aux = 0; aux < allMeetings.length; aux ++) {
 
+            if(allMeetings[aux].status === 'Confirmada') {
+                confirm = true;
+            } else {
+                confirm = false;
+            }
+
             if(currentUser.name === allMeetings[aux].meeting_leader) {
 
-                if(allMeetings[aux].status === 'Confirmada') {
-                    confirm = true;
-                } else {
-                    confirm = false;
-                }
-                
                 dataSourceMeetings.innerArray.push({
                         
                     key: allMeetings[aux].id,
@@ -88,13 +89,15 @@ class ProjectsList extends Component {
                             subject_matter: allMeetings[aux].subject_matter,
                             sector: allMeetings[aux].sector
                         });
+                        confirm = true;
                     } else {
-    
+                        confirm = false;
                     }
                 }
-                confirm = false;
             }
         }
+
+        console.log(confirm)
 
         for(let aux = 0; aux < projects.length; aux ++) {
 

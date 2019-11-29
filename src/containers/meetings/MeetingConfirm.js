@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Hoc from '../../hoc/hoc';
 import Homepage from '../homepage/Homepage';
 
-import { getQuesttionaire } from '../../store/actions/quiz';
+import { getQuesttionaireMeeting } from '../../store/actions/quiz';
 import { getMeeting } from '../../store/actions/meeting';
 import { getUser } from '../../store/actions/auth';
 
@@ -48,7 +48,7 @@ class MeetingConfirm extends Component {
             const meeting_id = this.props.match.params.meeting_id;
             this.props.getMeeting(token, meeting_id);
             this.props.getUser(token, this.props.currentUser.userId);
-            this.props.getQuesttionaire(token, meeting_id);
+            this.props.getQuesttionaireMeeting(token, meeting_id);
             this.forceUpdate();
         }
     }
@@ -63,7 +63,7 @@ class MeetingConfirm extends Component {
 				const meeting_id = newProps.match.params.meeting_id;
                 this.props.getMeeting(newProps.token, meeting_id);
                 this.props.getUser(newProps.token, newProps.currentUser.userId);
-                this.props.getQuesttionaire(newProps.token, meeting_id);
+                this.props.getQuesttionaireMeeting(newProps.token, meeting_id);
 				this.forceUpdate();
             }
         }
@@ -73,7 +73,7 @@ class MeetingConfirm extends Component {
         
         const { currentMeeting } = this.props;
         const { currentUser } = this.props;
-        const { questtionaire } = this.props;
+        const { questtionaires } = this.props;
         const project_id = this.props.match.params.project_id;
         const { formLayout } = this.state;
 		const formItemLayout = formLayout === 'vertical'? {
@@ -101,12 +101,12 @@ class MeetingConfirm extends Component {
             ]
         }
 
-        for(let aux = 0; aux < questtionaire.length; aux ++) {
+        for(let aux = 0; aux < questtionaires.length; aux ++) {
 
             dataSource.innerArray.push({
 
-                key: questtionaire[aux].id,
-                title: questtionaire[aux].title,
+                key: questtionaires[aux].id,
+                title: questtionaires[aux].title,
             }); 
         }
 
@@ -335,7 +335,7 @@ const mapStateToProps = state => {
         loading: state.meeting.loading,
         currentMeeting: state.meeting.currentMeeting,
         currentUser: state.auth.currentUser,
-        questtionaire: state.quiz.questtionaire
+        questtionaires: state.quiz.questtionaires
     };
 };
 
@@ -345,7 +345,7 @@ const mapDispatchToProps = dispatch => {
 	
         getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
         getUser: (token, userId) => dispatch(getUser(token, userId)),
-        getQuesttionaire: (token, meeting_id) => dispatch(getQuesttionaire(token, meeting_id))
+        getQuesttionaireMeeting: (token, meeting_id) => dispatch(getQuesttionaireMeeting(token, meeting_id))
     };
 };
 

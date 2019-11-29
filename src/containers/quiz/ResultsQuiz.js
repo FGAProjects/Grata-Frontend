@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getQuiz } from '../../store/actions/quiz';
+// import Hoc from '../../hoc/hoc';
+
+import { getQuesttionaire } from '../../store/actions/quiz';
 
 class ResultsQuiz extends Component {
 
@@ -9,8 +11,11 @@ class ResultsQuiz extends Component {
         
         if (this.props.token !== undefined && this.props.token !== null) {
         
-            const meeting_id = this.props.match.params.meeting_id;
-            this.props.getQuiz(this.props.token, meeting_id);
+            // const meeting_id = this.props.match.params.meeting_id;
+            const user = JSON.parse(localStorage.getItem('user'));
+            const token = user.token;
+            const quiz_id = this.props.match.params.quiz_id;
+            this.props.getQuesttionaire(token, quiz_id);
             this.forceUpdate();
         }
     }
@@ -21,8 +26,9 @@ class ResultsQuiz extends Component {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
                 
-				const meeting_id = newProps.match.params.meeting_id;
-                this.props.getQuiz(newProps.token, meeting_id);
+                // const meeting_id = newProps.match.params.meeting_id;
+                const quiz_id = newProps.match.params.quiz_id;
+                this.props.getQuesttionaire(newProps.token, quiz_id);
 				this.forceUpdate();
             }
         }
@@ -30,12 +36,13 @@ class ResultsQuiz extends Component {
 
     render() {
         
-        const { currentQuiz } = this.props;
+        const { currentQuesttionaire } = this.props;
 
+        console.log(currentQuesttionaire)
         return (
 
             <div className = 'content'>
-                title : {currentQuiz.title}
+                title : AAA
             </div>
         );
     }
@@ -47,15 +54,14 @@ const mapStateToProps = state => {
 	
 		token: state.auth.token,
         loading: state.quiz.loading,
-        questtionaire: state.quiz.questtionaire,
-        currentQuiz: state.quiz.currentQuiz
+        currentQuesttionaire: state.quiz.currentQuesttionaire
     };
 };
 
 const mapDispatchToProps = dispatch => {
 	
 	return {
-        getQuiz: (token, meeting_id) => dispatch(getQuiz(token, meeting_id))
+        getQuesttionaire: (token, quiz_id) => dispatch(getQuesttionaire(token, quiz_id)),
     };
 };
 
