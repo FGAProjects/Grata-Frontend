@@ -1,6 +1,7 @@
 import {
     GET_QUESTTIONAIRE_MEETING_LIST_START, GET_QUESTTIONAIRE_MEETING_LIST_SUCCESS, GET_QUESTTIONAIRE_MEETING_LIST_FAIL,
-    GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL
+    GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL,
+    GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL
 } from '../actions/actionsTypes';
 import { updateObject } from '../utility';
 
@@ -8,6 +9,7 @@ const initialState = {
 
     currentQuesttionaire: {},
     questtionaires: [],
+    questions: [],
     error: null,
     loading: false
 }
@@ -68,6 +70,34 @@ const getQuesttionaireDetailFail = (state, action) => {
     });
 }
 
+const getQuestionListQuesttionaireDetailStart = (state, action) => {
+
+    return updateObject(state, {
+
+        error: null,
+        loading: true
+    });
+}
+
+const getQuestionListQuesttionaireDetailSuccess = (state, action) => {
+
+    return updateObject(state, {
+
+        questions: action.questions,
+        error: null,
+        loading: false
+    });
+}
+
+const getQuestionListQuesttionaireDetailFail = (state, action) => {
+
+    return updateObject(state, {
+
+        error: action.error,
+        loading: false
+    });
+}
+
 const reducer = (state = initialState, action) => {
     
     switch (action.type) {
@@ -84,78 +114,15 @@ const reducer = (state = initialState, action) => {
             return getQuesttionaireDetailSuccess(state, action);
         case GET_QUESTTIONAIRE_DETAIL_FAIL:
             return getQuesttionaireDetailFail(state, action);
+        case GET_QUESTION_QUESTTIONAIRE_DETAIL_START:
+            return getQuestionListQuesttionaireDetailStart(state, action);
+        case GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS:
+            return getQuestionListQuesttionaireDetailSuccess(state, action);
+        case GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL:
+            return getQuestionListQuesttionaireDetailFail(state, action);
         default:
             return state;
     }
 };
   
 export default reducer;
-
-// const initialState = {
-    
-//     currentQuiz: {},
-//     quizMeeting: [],
-//     questtionaire: [],
-//     error: null,
-//     loading: false
-// };
-
-
-
-
-// const getQuizMeetingListStart = (state, action) => {
-    
-//     return updateObject(state, {
-    
-//         error: null,
-//         loading: true
-//     });
-// };
-
-// const getQuizMeetingListSuccess = (state, action) => {
-    
-//     return updateObject(state, {
-    
-//         quizMeeting: action.quizMeeting,
-//         error: null,
-//         loading: false
-//     });
-// };
-
-// const getQuizMeetingListFail = (state, action) => {
-    
-//     return updateObject(state, {
-    
-//         error: action.error,
-//         loading: false
-//     });
-// };
-
-// const getQuizDetailStart = (state, action) => {
-    
-//     return updateObject(state, {
-    
-//         error: null,
-//         loading: true
-//     });
-// };
-
-// const getQuizDetailSuccess = (state, action) => {
-    
-//     return updateObject(state, {
-    
-//         currentQuiz: action.quiz,
-//         error: null,
-//         loading: false
-//     });
-// };
-
-// const getQuizDetailFail = (state, action) => {
-    
-//     return updateObject(state, {
-    
-//         error: action.error,
-//         loading: false
-//     });
-// };
-

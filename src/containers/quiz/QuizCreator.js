@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Icon, Divider, Skeleton } from 'antd';
+import { Form, Input, Button, Icon, Divider, Skeleton, message } from 'antd';
 import { connect } from 'react-redux';
 
 import Hoc from '../../hoc/hoc';
@@ -9,7 +9,7 @@ import NotPermission from '../notPermission/NotPermission';
 
 import { getUser } from '../../store/actions/auth';
 import { createQuesttionaireQuiz } from '../../store/actions/quiz';
-import { getMeeting } from '../../store/actions/meeting';
+import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 
 const FormItem = Form.Item;
 
@@ -91,15 +91,28 @@ class QuizCreator extends Component {
 
                 const questtionaire = {
                     
-                    meeting: currentMeeting.id,
                     title: values.title,
-                    questions,
-                    choices: [
-
-                    ]
+                    questions
                 }
 
-                this.props.createQuesttionaireQuiz(token, questtionaire);
+                const meeting = {
+
+                    id: currentMeeting.id,
+                    meeting: currentMeeting.id,
+                    title: currentMeeting.title,
+                    status: currentMeeting.status,
+                    subject_matter: currentMeeting.subject_matter,
+                    initial_date: currentMeeting.initial_date,
+                    final_date: currentMeeting.final_date,
+                    initial_hour: currentMeeting.initial_hour,
+                    final_hour: currentMeeting.final_hour,
+                    sector: currentMeeting.sector,
+                    project: currentMeeting.project,
+                    questtionaire: questtionaire
+                }
+
+                this.props.updateMeeting(token, meeting);
+                message.success('Questionário Criado Com Sucesso!');
                 this.props.history.push(`/reuniao_confirmada/${ meeting_id }/${ project_id }`);
             }
         });
@@ -216,7 +229,9 @@ const mapDispatchToProps = dispatch => {
 	
         getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
         createQuesttionaireQuiz: (token, questtionaire) => dispatch(createQuesttionaireQuiz(token, questtionaire)),
-        getUser: (token, userId) => dispatch(getUser(token, userId))
+        getUser: (token, userId) => dispatch(getUser(token, userId)),
+		updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting)),
+
     };
 };
 

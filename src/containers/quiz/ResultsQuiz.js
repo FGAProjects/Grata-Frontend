@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-// import Hoc from '../../hoc/hoc';
-
 import { getQuesttionaire } from '../../store/actions/quiz';
 
 class ResultsQuiz extends Component {

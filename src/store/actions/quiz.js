@@ -2,7 +2,8 @@ import axios from 'axios';
 import {
     CREATE_QUESTTIONAIRE_QUIZ_START, CREATE_QUESTTIONAIRE_QUIZ_SUCCESS, CREATE_QUESTTIONAIRE_QUIZ_FAIL,
     GET_QUESTTIONAIRE_MEETING_LIST_START, GET_QUESTTIONAIRE_MEETING_LIST_SUCCESS, GET_QUESTTIONAIRE_MEETING_LIST_FAIL,
-    GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL
+    GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL,
+    GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL
 } from './actionsTypes';
 
 const createQuesttionaireQuizStart = () => {
@@ -30,25 +31,6 @@ const createQuesttionaireQuizFail = error => {
     }
 }
 
-export const createQuesttionaireQuiz = (token, quiz) => {
-
-    return dispatch => {
-    
-        dispatch(createQuesttionaireQuizStart());
-        axios.defaults.headers = {
-            'Content-Type': 'application/json',
-            Authorization: `Token ${ token }`
-        };
-        axios.post('http://0.0.0.0:8000/questionnaires/create/', quiz)
-        .then(questtionaire => {
-            dispatch(createQuesttionaireQuizSuccess(questtionaire));
-        })
-        .catch(err => {
-            dispatch(createQuesttionaireQuizFail(err));
-        });
-    };
-};
-
 const getQuesttionaireMeetingListStart = () => {
 
     return {
@@ -73,26 +55,6 @@ const getQuesttionaireMeetingListFail = error => {
         error: error
     }
 }
-
-export const getQuesttionaireMeeting = (token, meetingId) => {
-    
-    return dispatch => {
-    
-        dispatch(getQuesttionaireMeetingListStart());
-        axios.defaults.headers = {
-            'Content-Type': 'application/json',
-            Authorization: `Token ${ token }`
-        };
-        axios.get(`http://0.0.0.0:8000/questionnaires/questtionaires_meeting/${ meetingId }/`)
-        .then(res => {
-            const questtionaires = res.data;
-            dispatch(getQuettionaireMeetingListSuccess(questtionaires));
-        })
-        .catch(err => {
-            dispatch(getQuesttionaireMeetingListFail(err));
-        });
-    };
-};
 
 const getQuesttionaireDetailStart = () => {
 
@@ -119,6 +81,70 @@ const getQuesttionaireDetailFail = error => {
     }
 }
 
+const getQuestionListQuesttionaireDetailStart = () => {
+
+    return {
+        type: GET_QUESTION_QUESTTIONAIRE_DETAIL_START
+    };
+}
+
+const getQuestionListQuesttionaireDetailSuccess = questions => {
+
+    return {
+
+        type: GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS,
+        questions
+    };
+}
+
+const getQuestionListQuesttionaireDetailFail = error => {
+
+    return {
+
+        type: GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL,
+        error: error
+    };
+}
+
+export const createQuesttionaireQuiz = (token, quiz) => {
+
+    return dispatch => {
+    
+        dispatch(createQuesttionaireQuizStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${ token }`
+        };
+        axios.post('http://0.0.0.0:8000/questionnaires/create/', quiz)
+        .then(questtionaire => {
+            dispatch(createQuesttionaireQuizSuccess(questtionaire));
+        })
+        .catch(err => {
+            dispatch(createQuesttionaireQuizFail(err));
+        });
+    };
+};
+
+export const getQuesttionaireMeeting = (token, meetingId) => {
+    
+    return dispatch => {
+    
+        dispatch(getQuesttionaireMeetingListStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${ token }`
+        };
+        axios.get(`http://0.0.0.0:8000/meetings/questtionaires_meeting/${ meetingId }/`)
+        .then(res => {
+            const questtionaires = res.data;
+            dispatch(getQuettionaireMeetingListSuccess(questtionaires));
+        })
+        .catch(err => {
+            dispatch(getQuesttionaireMeetingListFail(err));
+        });
+    };
+};
+
 export const getQuesttionaire = (token, quizId) => {
 
     return dispatch => {
@@ -139,126 +165,22 @@ export const getQuesttionaire = (token, quizId) => {
     };
 };
 
-
-  
-
-  
-// const getQuizDetailFail = error => {
+export const getQuestionsMeeting = (token, quizId) => {
     
-//     return {
+    return dispatch => {
     
-//         type: GET_QUIZ_DETAIL_FAIL,
-//         error: error
-//     };
-// };
-
-// const getQuizMeetingListStart = () => {
-    
-//     return {
-//         type: GET_QUIZ_MEETING_LIST_START
-//     };
-// }
-
-// const getQuizMeetingListSuccess = quizMeeting => {
-    
-//     return {
-    
-//         type: GET_QUIZ_MEETING_LIST_SUCCESS,
-//         quizMeeting
-//     };
-// }
-
-// const getQuizMeetingListFail = error => {
-    
-//     return {
-    
-//         type: GET_QUIZ_MEETING_LIST_FAIL,
-//         error: error
-//     };
-// }
-
-// const getQuizDetailStart = () => {
-    
-//     return {
-//         type: GET_QUIZ_DETAIL_START
-//     };
-// };
-  
-// const getQuizDetailSuccess = quiz => {
-    
-//     return {
-    
-//         type: GET_QUIZ_DETAIL_SUCCESS,
-//         quiz
-//     };
-// };
-  
-// const getQuizDetailFail = error => {
-    
-//     return {
-    
-//         type: GET_QUIZ_DETAIL_FAIL,
-//         error: error
-//     };
-// };
-
-
-
-// export const getQuizMeeting = (token, meetingId) => {
-    
-//     return dispatch => {
-    
-//         dispatch(getQuizMeetingListStart());
-//         axios.defaults.headers = {
-//             'Content-Type': 'application/json',
-//             Authorization: `Token ${ token }`
-//         };
-//         axios.get(`http://0.0.0.0:8000/questionnaires/quiz_meeting/${ meetingId }/`)
-//         .then(res => {
-//             const questtionaireMeeting = res.data;
-//             dispatch(getQuizMeetingListSuccess(questtionaireMeeting));
-//         })
-//         .catch(err => {
-//             dispatch(getQuizMeetingListFail(err));
-//         });
-//     };
-// };
-
-// export const createQuiz = (token, quiz) => {
-
-//     return dispatch => {
-    
-//         dispatch(createQuizStart());
-//         axios.defaults.headers = {
-//             'Content-Type': 'application/json',
-//             Authorization: `Token ${ token }`
-//         };
-//         axios.post('http://0.0.0.0:8000/questionnaires/create/', quiz)
-//         .then(quiz => {
-//             dispatch(createQuizSuccess(quiz));
-//         })
-//         .catch(err => {
-//             dispatch(createQuizFail(err));
-//         });
-//     };
-// };
-
-// export const getQuiz = (token, quizId) => {
-
-//     return dispatch => {
-    
-//         dispatch(getQuizDetailStart());
-//         axios.defaults.headers = {
-//             'Content-Type': 'application/json',
-//             Authorization: `Token ${ token }`
-//         };
-//         axios.get(`http://0.0.0.0:8000/questionnaires/detail/${ quizId }/`)
-//         .then(res => {
-//             const quiz = res.data;
-//             dispatch(getQuizDetailSuccess(quiz));
-//         })
-//         .catch(err => {
-//             dispatch(getQuizDetailFail(err));
-//         });
-//     };
-// };
+        dispatch(getQuestionListQuesttionaireDetailStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${ token }`
+        };
+        axios.get(`http://0.0.0.0:8000/quiz/detail/${ quizId }/`)
+        .then(res => {
+            const questions = res.data;
+            dispatch(getQuestionListQuesttionaireDetailSuccess(questions));
+        })
+        .catch(err => {
+            dispatch(getQuestionListQuesttionaireDetailFail(err));
+        });
+    };
+};
