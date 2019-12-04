@@ -97,8 +97,6 @@ class ProjectsList extends Component {
             }
         }
 
-        console.log(confirm)
-
         for(let aux = 0; aux < projects.length; aux ++) {
 
             if(currentUser.sector === projects[aux].sector) {
@@ -112,10 +110,10 @@ class ProjectsList extends Component {
                     tags: [ projects[aux].status ]
                 });
             } else {
-
+                
             }
         }
-        
+
         dataSource.innerArray.sort(dynamicSort('title'));
         dataSourceMeetings.innerArray.sort(dynamicSort('title'));
 
@@ -126,7 +124,6 @@ class ProjectsList extends Component {
                     this.props.token === null ? (
                         <Homepage />
                     ) : (
-                        
                             this.props.loading ? (
                                 <Skeleton active />
                             ) : (
@@ -233,16 +230,13 @@ class ProjectsList extends Component {
                                         render: (record) => (
                                             <span>
                                                 {
-
-                                                }
-                                                {
                                                     confirm === true ? (
                                                         <Button 
                                                             type = 'ghost' 
                                                             htmlType = 'submit' 
                                                             className = 'buttonSave'
                                                         >
-                                                            <Link to = { `/reuniao_confirmada/${ record.key }/${ project_id }`} >
+                                                            <Link to = { `/reuniao_confirmada/${ record.key }/`} >
                                                                 <Icon type = 'eye' className = 'icons'/>
                                                                     <b> Ver Reunião </b>
                                                             </Link>
@@ -253,7 +247,7 @@ class ProjectsList extends Component {
                                                             htmlType = 'submit' 
                                                             className = 'buttonSave'
                                                         >
-                                                            <Link to = { `/detalhes_reuniao/${ record.key }/${ project_id }`} >
+                                                            <Link to = { `/detalhes_reuniao/${ record.key }/${ project_id }/`} >
                                                                 <Icon type = 'eye' className = 'icons'/>
                                                                     <b> Ver Reunião </b>
                                                             </Link>

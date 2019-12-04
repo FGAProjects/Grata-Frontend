@@ -3,7 +3,8 @@ import {
     CREATE_QUESTTIONAIRE_QUIZ_START, CREATE_QUESTTIONAIRE_QUIZ_SUCCESS, CREATE_QUESTTIONAIRE_QUIZ_FAIL,
     GET_QUESTTIONAIRE_MEETING_LIST_START, GET_QUESTTIONAIRE_MEETING_LIST_SUCCESS, GET_QUESTTIONAIRE_MEETING_LIST_FAIL,
     GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL,
-    GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL
+    GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL,
+    CREATE_RESPOND_QUIZ_START, CREATE_RESPOND_QUIZ_SUCCESS, CREATE_RESPOND_QUIZ_FAIL
 } from './actionsTypes';
 
 const createQuesttionaireQuizStart = () => {
@@ -106,6 +107,30 @@ const getQuestionListQuesttionaireDetailFail = error => {
     };
 }
 
+const createRespondQuizStart = () => {
+
+    return {
+        type: CREATE_RESPOND_QUIZ_START
+    };
+}
+
+const createRespondQuizSuccess = respondQuiz => {
+
+    return {
+
+        type: CREATE_RESPOND_QUIZ_SUCCESS
+    }
+}
+
+const createRespondQuizFail = error => {
+
+    return {
+
+        type: CREATE_RESPOND_QUIZ_FAIL,
+        error: error
+    }
+}
+
 export const createQuesttionaireQuiz = (token, quiz) => {
 
     return dispatch => {
@@ -165,7 +190,7 @@ export const getQuesttionaire = (token, quizId) => {
     };
 };
 
-export const getQuestionsMeeting = (token, quizId) => {
+export const getQuestionsMeeting = (token, questtionaireId) => {
     
     return dispatch => {
     
@@ -174,13 +199,32 @@ export const getQuestionsMeeting = (token, quizId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/quiz/detail/${ quizId }/`)
+        axios.get(`http://0.0.0.0:8000/quiz/detail/${ questtionaireId }/`)
         .then(res => {
             const questions = res.data;
             dispatch(getQuestionListQuesttionaireDetailSuccess(questions));
         })
         .catch(err => {
             dispatch(getQuestionListQuesttionaireDetailFail(err));
+        });
+    };
+};
+
+export const createRespondQuiz = (token, respondQuiz) => {
+
+    return dispatch => {
+    
+        dispatch(createRespondQuizStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${ token }`
+        };
+        axios.post('http://0.0.0.0:8000/graded_questtionaire/create/', respondQuiz)
+        .then(respondQuizData => {
+            dispatch(createRespondQuizSuccess(respondQuizData));
+        })
+        .catch(err => {
+            dispatch(createRespondQuizFail(err));
         });
     };
 };

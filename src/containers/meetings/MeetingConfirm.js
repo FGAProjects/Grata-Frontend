@@ -130,7 +130,7 @@ class MeetingConfirm extends Component {
                                                 marginLeft: '830px'
                                             }}
                                         >
-                                            <Link to = { `/visualizar_ata/${ currentMeeting.id }/${ project_id }/ `} >
+                                            <Link to = { `/visualizar_ata/${ currentMeeting.id }/ `} >
                                                 Visualizar Ata
                                             </Link>
                                         </Button>
@@ -142,7 +142,7 @@ class MeetingConfirm extends Component {
                                                 marginRight: '0px'
                                             }} 
                                         >
-                                            <Link to = { `/criar_questionario/${ currentMeeting.id }/${ project_id }/ `}>
+                                            <Link to = { `/criar_questionario/${ currentMeeting.id }/`}>
                                                 Criar Questionário
                                             </Link>
                                         </Button>
@@ -296,7 +296,7 @@ class MeetingConfirm extends Component {
                                                         <List.Item
                                                             key = { quiz.key }
                                                             actions = {[
-                                                                <Link to = { `/responder_questionario/${ currentMeeting.id }/${ project_id }/${ quiz.key }/`} >
+                                                                <Link to = { `/responder_questionario/${ currentMeeting.id }/${ quiz.key }/`} >
                                                                     Responder Questionário
                                                                 </Link>
                                                             ]}

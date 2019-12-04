@@ -1,7 +1,8 @@
 import {
     GET_QUESTTIONAIRE_MEETING_LIST_START, GET_QUESTTIONAIRE_MEETING_LIST_SUCCESS, GET_QUESTTIONAIRE_MEETING_LIST_FAIL,
     GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL,
-    GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL
+    GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL,
+    CREATE_RESPOND_QUIZ_START, CREATE_RESPOND_QUIZ_SUCCESS, CREATE_RESPOND_QUIZ_FAIL
 } from '../actions/actionsTypes';
 import { updateObject } from '../utility';
 
@@ -98,6 +99,33 @@ const getQuestionListQuesttionaireDetailFail = (state, action) => {
     });
 }
 
+const createRespondQuizStart = (state, action) => {
+    
+    return updateObject(state, {
+    
+        error: null,
+        loading: true
+    });
+};
+
+const createRespondQuizSuccess = (state, action) => {
+    
+    return updateObject(state, {
+    
+        error: null,
+        loading: false
+    });
+};
+
+const createRespondQuizFail = (state, action) => {
+    
+    return updateObject(state, {
+    
+        error: action.error,
+        loading: false
+    });
+}; 
+
 const reducer = (state = initialState, action) => {
     
     switch (action.type) {
@@ -120,6 +148,12 @@ const reducer = (state = initialState, action) => {
             return getQuestionListQuesttionaireDetailSuccess(state, action);
         case GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL:
             return getQuestionListQuesttionaireDetailFail(state, action);
+        case CREATE_RESPOND_QUIZ_START:
+            return createRespondQuizStart(state, action);
+        case CREATE_RESPOND_QUIZ_SUCCESS:
+            return createRespondQuizSuccess(state, action);
+        case CREATE_RESPOND_QUIZ_FAIL:
+            return createRespondQuizFail(state, action);
         default:
             return state;
     }
