@@ -13,6 +13,7 @@ import projectReducer from './store/reducers/project';
 import sectorReducer from './store/reducers/sector';
 import meetingReducer from './store/reducers/meeting';
 import quizReducer from './store/reducers/quiz';
+import choicesReducer from './store/reducers/choices';
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
 	project: projectReducer,
 	sector: sectorReducer,
 	meeting: meetingReducer,
-	quiz: quizReducer
+	quiz: quizReducer,
+	choices: choicesReducer
 });
 
 const store = createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));

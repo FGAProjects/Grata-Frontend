@@ -74,7 +74,6 @@ class QuizCreator extends Component {
 
                 const { currentMeeting } = this.props;
 				const meeting_id = this.props.match.params.meeting_id;
-                const project_id = this.props.match.params.project_id;
                 const user = JSON.parse(localStorage.getItem('user'));
                 const token = user.token;
                 const questions = [
@@ -113,7 +112,7 @@ class QuizCreator extends Component {
 
                 this.props.updateMeeting(token, meeting);
                 message.success('Questionário Criado Com Sucesso!');
-                this.props.history.push(`/reuniao_confirmada/${ meeting_id }/${ project_id }`);
+                this.props.history.push(`/reuniao_confirmada/${ meeting_id }/`);
             }
         });
     };

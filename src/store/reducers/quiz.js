@@ -2,7 +2,8 @@ import {
     GET_QUESTTIONAIRE_MEETING_LIST_START, GET_QUESTTIONAIRE_MEETING_LIST_SUCCESS, GET_QUESTTIONAIRE_MEETING_LIST_FAIL,
     GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL,
     GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL,
-    CREATE_RESPOND_QUIZ_START, CREATE_RESPOND_QUIZ_SUCCESS, CREATE_RESPOND_QUIZ_FAIL
+    CREATE_RESPOND_QUIZ_START, CREATE_RESPOND_QUIZ_SUCCESS, CREATE_RESPOND_QUIZ_FAIL,
+    GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_START, GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_SUCCESS, GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_FAIL
 } from '../actions/actionsTypes';
 import { updateObject } from '../utility';
 
@@ -11,6 +12,7 @@ const initialState = {
     currentQuesttionaire: {},
     questtionaires: [],
     questions: [],
+    resultsGraded: [],
     error: null,
     loading: false
 }
@@ -124,7 +126,35 @@ const createRespondQuizFail = (state, action) => {
         error: action.error,
         loading: false
     });
-}; 
+};
+
+const getGradedQuesttionaireInQuesttionaireListStart = (state, action) => {
+
+    return updateObject(state, {
+
+        error: null,
+        loading: true
+    });
+}
+
+const getGradedQuesttionaireInQuesttionaireListSuccess = (state, action) => {
+
+    return updateObject(state, {
+
+        resultsGraded: action.resultsGraded,
+        error: null,
+        loading: false
+    });
+}
+
+const getGradedQuesttionaireQuesttionaireListFail = (state, action) => {
+
+    return updateObject(state, {
+
+        error: action.error,
+        loading: false
+    });
+}
 
 const reducer = (state = initialState, action) => {
     
@@ -154,6 +184,12 @@ const reducer = (state = initialState, action) => {
             return createRespondQuizSuccess(state, action);
         case CREATE_RESPOND_QUIZ_FAIL:
             return createRespondQuizFail(state, action);
+        case GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_START:
+            return getGradedQuesttionaireInQuesttionaireListStart(state, action);
+        case GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_SUCCESS:
+            return getGradedQuesttionaireInQuesttionaireListSuccess(state, action);
+        case GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_FAIL:
+            return getGradedQuesttionaireQuesttionaireListFail(state, action);
         default:
             return state;
     }

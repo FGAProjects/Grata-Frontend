@@ -7,6 +7,8 @@ import Questions from '../../components/Questions';
 import Choices from '../../components/Choices';
 import Homepage from '../homepage/Homepage';
 
+import { getUser } from '../../store/actions/auth';
+import { getMeeting } from '../../store/actions/meeting';
 import { getQuestionsMeeting, createRespondQuiz } from '../../store/actions/quiz';
 
 class RespondQuiz extends Component {
@@ -22,7 +24,10 @@ class RespondQuiz extends Component {
             const user = JSON.parse(localStorage.getItem('user'));
             const token = user.token;
             const questtionaire_id = this.props.match.params.questtionaire_id;
+            const meeting_id = this.props.match.params.meeting_id;
+            this.props.getUser(this.props.token, this.props.currentUser.userId);
             this.props.getQuestionsMeeting(token, questtionaire_id);
+            this.props.getMeeting(token, meeting_id);
             this.forceUpdate();
         }
     }
@@ -34,7 +39,10 @@ class RespondQuiz extends Component {
 			if (newProps.token !== undefined && newProps.token !== null) {
                 
                 const questtionaire_id = newProps.match.params.questtionaire_id;
+                const meeting_id = newProps.match.params.meeting_id;
+                this.props.getMeeting(newProps.token, meeting_id);
                 this.props.getQuestionsMeeting(newProps.token, questtionaire_id);
+				this.props.getUser(newProps.token, newProps.currentUser.userId);
 				this.forceUpdate();
             }
         }
@@ -49,17 +57,41 @@ class RespondQuiz extends Component {
     
     handleSubmit() {
 
-        
+        const { currentMeeting } = this.props;
+        const questionsQuesttionaires = this.props.questions;
+		const { currentUser } = this.props;
+        const user = JSON.parse(localStorage.getItem('user'));
+        const questtionaire_id = this.props.match.params.questtionaire_id;
+        const token = user.token;
+        const { usersAnswers } = this.state;
 
-        // const { usersAnswers } = this.state;
-    // const asnt = {
-    //   username: this.props.username,
-    //   asntId: this.props.currentAssignment.id,
-    //   answers: usersAnswers
-    // };
-    // this.props.createGradedASNT(this.props.token, asnt);
-        message.success("Submitting your assignment!");
-        
+        console.log(usersAnswers)
+
+        let dataSource = {
+            innerArray: [
+                
+            ]
+		}
+
+        for(let aux = 0; aux < questionsQuesttionaires.length; aux ++) {
+
+            dataSource.innerArray.push(
+                questionsQuesttionaires[aux].id
+            );
+        }
+
+
+        const quiz = {
+
+            answers: usersAnswers,
+            user: currentUser.id,
+            quiz: dataSource.innerArray,
+            questtionaire: questtionaire_id
+        };
+
+        // this.props.createRespondQuiz(token, quiz);
+        message.success('Questionário Respondido');
+        // this.props.history.push(`/reuniao_confirmada/${ currentMeeting.id }/`);
     }
 
     render() {
@@ -92,7 +124,7 @@ class RespondQuiz extends Component {
                                                     >
                                                         <Choices
                                                             questionId = { question.order }
-                                                            choices = {question.choices}
+                                                            choices = { question.choices }
                                                             change = { this.onChange }
                                                             usersAnswers = { usersAnswers }
                                                         />
@@ -123,7 +155,9 @@ const mapStateToProps = state => {
     
         token: state.auth.token,
         loading: state.quiz.loading,
-        questions: state.quiz.questions
+        questions: state.quiz.questions,
+        currentMeeting: state.meeting.currentMeeting,
+		currentUser: state.auth.currentUser
     };
 };
 
@@ -132,7 +166,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 
         getQuestionsMeeting: (token, questtionaire_id) => dispatch(getQuestionsMeeting(token, questtionaire_id)),
-		createRespondQuiz: (token, respondQuiz) => dispatch(createRespondQuiz(token, respondQuiz))
+        createRespondQuiz: (token, respondQuiz) => dispatch(createRespondQuiz(token, respondQuiz)),
+        getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
+		getUser: (token, userId) => dispatch(getUser(token, userId))
     };
 };
 

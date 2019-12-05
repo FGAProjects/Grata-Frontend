@@ -52,7 +52,6 @@ class Record extends Component {
 	render() {
 
 		const { currentMeeting } = this.props;
-		const project_id = this.props.match.params.project_id;
 		const users = size(currentMeeting.users);
 		const topics = size(currentMeeting.topics);
 		const rules = size(currentMeeting.rules);
@@ -122,7 +121,7 @@ class Record extends Component {
 										marginRight: '30px'
 									}} 
 								>
-									<Link to = { `/reuniao_confirmada/${ currentMeeting.id }/${ project_id }`}>
+									<Link to = { `/reuniao_confirmada/${ currentMeeting.id }/`}>
 										<Icon type = 'arrow-left' className = 'icons'/>
 										Voltar
 									</Link>

@@ -109,15 +109,17 @@ class MeetingDetail extends Component {
         });
     }
 
-    confirmMeeting(currentMeeting, project_id) {
+    confirmMeeting(currentMeeting) {
 
         const propsForms = this.props;
         const user = JSON.parse(localStorage.getItem('user'));
         const token = user.token;
 
         confirm({
+
             title: ' Confirmação de Reunião',
             content: 'Ao Confirmar a Reunião, Não Será Possível Editar Mais a Reunião',
+            
             onOk() {
                 const meeting = {
 
@@ -136,7 +138,7 @@ class MeetingDetail extends Component {
 					title: 'Ação Concluída!',
 					content: 'Reunião Confirmada Com Sucesso!',
                 });
-                propsForms.history.push(`/reuniao_confirmada/${ currentMeeting.id }/${ project_id }/`)
+                propsForms.history.push(`/reuniao_confirmada/${ currentMeeting.id }/`);
             },
             onCancel() {
                 message.success('Ação Cancelada Com Sucesso!');

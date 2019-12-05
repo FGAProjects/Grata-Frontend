@@ -4,7 +4,8 @@ import {
     GET_QUESTTIONAIRE_MEETING_LIST_START, GET_QUESTTIONAIRE_MEETING_LIST_SUCCESS, GET_QUESTTIONAIRE_MEETING_LIST_FAIL,
     GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL,
     GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL,
-    CREATE_RESPOND_QUIZ_START, CREATE_RESPOND_QUIZ_SUCCESS, CREATE_RESPOND_QUIZ_FAIL
+    CREATE_RESPOND_QUIZ_START, CREATE_RESPOND_QUIZ_SUCCESS, CREATE_RESPOND_QUIZ_FAIL,
+    GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_START, GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_SUCCESS, GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_FAIL
 } from './actionsTypes';
 
 const createQuesttionaireQuizStart = () => {
@@ -131,6 +132,31 @@ const createRespondQuizFail = error => {
     }
 }
 
+const getGradedQuesttionaireInQuesttionaireListStart = () => {
+
+    return {
+        type: GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_START
+    }
+}
+
+const getGradedQuesttionaireInQuesttionaireListSuccess = resultsGraded => {
+
+    return {
+
+        type: GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_SUCCESS,
+        resultsGraded
+    }
+}
+
+const getGradedQuesttionaireQuesttionaireListFail = error => {
+
+    return {
+
+        type: GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_FAIL,
+        error: error
+    }
+}
+
 export const createQuesttionaireQuiz = (token, quiz) => {
 
     return dispatch => {
@@ -225,6 +251,26 @@ export const createRespondQuiz = (token, respondQuiz) => {
         })
         .catch(err => {
             dispatch(createRespondQuizFail(err));
+        });
+    };
+};
+
+export const getGradedQuesttionaires = (token, questtionaireId) => {
+    
+    return dispatch => {
+    
+        dispatch(getGradedQuesttionaireInQuesttionaireListStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${ token }`
+        };
+        axios.get(`http://0.0.0.0:8000/graded_questtionaire/list_in_questtionaire/${ questtionaireId }/`)
+        .then(res => {
+            const resultsGraded = res.data;
+            dispatch(getGradedQuesttionaireInQuesttionaireListSuccess(resultsGraded));
+        })
+        .catch(err => {
+            dispatch(getGradedQuesttionaireQuesttionaireListFail(err));
         });
     };
 };
