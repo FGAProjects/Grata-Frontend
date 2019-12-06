@@ -27,7 +27,7 @@ class RespondQuiz extends Component {
             const token = user.token;
             const questtionaire_id = this.props.match.params.questtionaire_id;
             const meeting_id = this.props.match.params.meeting_id;
-            this.props.getUser(this.props.token, this.props.currentUser.userId);
+            this.props.getUser(token, this.props.currentUser.userId);
             this.props.getQuestionsMeeting(token, questtionaire_id);
             this.props.getMeeting(token, meeting_id);
             this.props.getChoices(token);

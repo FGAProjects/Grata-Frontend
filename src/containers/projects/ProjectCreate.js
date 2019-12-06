@@ -154,7 +154,8 @@ class ProjectCreate extends Component {
 																	key = { sector.key } 
 																	value = { sector.initials }>
 																	{ sector.name }
-																</Option>)
+																</Option>
+																)
 															}
 														</Select>  
 													)
