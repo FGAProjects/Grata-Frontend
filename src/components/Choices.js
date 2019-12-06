@@ -21,10 +21,10 @@ class Choices extends React.Component {
 						: null
 				}
 			>
-				{ this.props.choices.map((c, index) => {
+				{ this.props.choices.map((choice, index) => {
 					return (
-						<Radio style = { radioStyle } value = { c } key = { index }>
-						{ c }
+						<Radio style = { radioStyle } value = { choice } key = { index }>
+						{ choice }
 						</Radio>
 					);
 				})}
