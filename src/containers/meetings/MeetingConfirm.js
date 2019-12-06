@@ -266,7 +266,7 @@ class MeetingConfirm extends Component {
                                                         <List.Item
                                                             key = { quiz.key }
                                                             actions = {[
-                                                                <Link to = { `/resultado_questionario/${ currentMeeting.id }/${ project_id }/${ quiz.key }`} >
+                                                                <Link to = { `/resultado_questionario/${ currentMeeting.id }/${ quiz.key }/`} >
                                                                     Visualizar Resultados
                                                                 </Link>
                                                             ]}

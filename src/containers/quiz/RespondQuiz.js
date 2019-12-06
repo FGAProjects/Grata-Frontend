@@ -74,10 +74,15 @@ class RespondQuiz extends Component {
             innerArray: [
 
             ]
-        }
+        };
         let dataSource = {
             innerArray: [
                 
+            ]
+        };
+        let dataSourcesId = {
+            innerArray: [
+
             ]
         }
 
@@ -85,14 +90,15 @@ class RespondQuiz extends Component {
             dataSourceUsersAnswers.innerArray.push(usersAnswers[aux]);
         }
 
-        // for(let aux = 0; aux < choices.length; aux ++) {
-        //     if(dataSourceUsersAnswers.innerArray[aux] !== undefined) {
-        //         console.log(dataSourceUsersAnswers.innerArray[aux])
-        //         if(choices[aux].title === dataSourceUsersAnswers.innerArray[aux]) {
-        //             console.log('AAA')
-        //         }
-        //     }
-        // }
+        for(let aux = 0; aux < choices.length; aux ++) {
+
+            for(let auxUsersAnswers = 0; auxUsersAnswers < sizeUsersAnswers; auxUsersAnswers ++) {
+
+                if(choices[aux].title === dataSourceUsersAnswers.innerArray[auxUsersAnswers]) {
+                    dataSourcesId.innerArray.push(choices[aux].id);
+                }
+            }
+        }
 
         for(let aux = 0; aux < questionsQuesttionaires.length; aux ++) {
 
@@ -103,15 +109,15 @@ class RespondQuiz extends Component {
 
         const quiz = {
 
-            answers: usersAnswers,
+            answers: dataSourcesId.innerArray,
             user: currentUser.id,
             quiz: dataSource.innerArray,
             questtionaire: questtionaire_id
         };
 
-        // this.props.createRespondQuiz(token, quiz);
+        this.props.createRespondQuiz(token, quiz);
         message.success('Questionário Respondido');
-        // this.props.history.push(`/reuniao_confirmada/${ currentMeeting.id }/`);
+        this.props.history.push(`/reuniao_confirmada/${ currentMeeting.id }/`);
     }
 
     render() {

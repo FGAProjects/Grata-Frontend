@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getQuesttionaire } from '../../store/actions/quiz';
+import { getGradedQuesttionaires } from '../../store/actions/quiz';
 
 class ResultsQuiz extends Component {
 
@@ -9,11 +9,10 @@ class ResultsQuiz extends Component {
         
         if (this.props.token !== undefined && this.props.token !== null) {
         
-            // const meeting_id = this.props.match.params.meeting_id;
             const user = JSON.parse(localStorage.getItem('user'));
             const token = user.token;
-            const quiz_id = this.props.match.params.quiz_id;
-            this.props.getQuesttionaire(token, quiz_id);
+            const questtionaire_id = this.props.match.params.questtionaire_id;
+            this.props.getGradedQuesttionaires(token, questtionaire_id);
             this.forceUpdate();
         }
     }
@@ -24,9 +23,8 @@ class ResultsQuiz extends Component {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
                 
-                // const meeting_id = newProps.match.params.meeting_id;
-                const quiz_id = newProps.match.params.quiz_id;
-                this.props.getQuesttionaire(newProps.token, quiz_id);
+                const questtionaire_id = newProps.match.params.questtionaire_id;
+                this.props.getGradedQuesttionaires(newProps.token, questtionaire_id);
 				this.forceUpdate();
             }
         }
@@ -34,13 +32,12 @@ class ResultsQuiz extends Component {
 
     render() {
         
-        const { currentQuesttionaire } = this.props;
+        const resultsGraded = this.props.resultsGraded;
 
-        console.log(currentQuesttionaire)
         return (
 
             <div className = 'content'>
-                title : AAA
+                { resultsGraded.length }
             </div>
         );
     }
@@ -52,14 +49,15 @@ const mapStateToProps = state => {
 	
 		token: state.auth.token,
         loading: state.quiz.loading,
-        currentQuesttionaire: state.quiz.currentQuesttionaire
+        currentQuesttionaire: state.quiz.currentQuesttionaire,
+        resultsGraded: state.quiz.resultsGraded
     };
 };
 
 const mapDispatchToProps = dispatch => {
 	
 	return {
-        getQuesttionaire: (token, quiz_id) => dispatch(getQuesttionaire(token, quiz_id)),
+        getGradedQuesttionaires: (token, questtionaire_id) => dispatch(getGradedQuesttionaires(token, questtionaire_id))
     };
 };
 
