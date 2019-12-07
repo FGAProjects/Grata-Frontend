@@ -16,6 +16,7 @@ class Rules extends Component {
         
         if (this.props.token !== undefined && this.props.token !== null) {
         
+            this.forceUpdate();
             const meeting_id = this.props.match.params.meeting_id;
             this.props.getMeeting(this.props.token, meeting_id);
             this.forceUpdate();
@@ -27,7 +28,8 @@ class Rules extends Component {
 		if (newProps.token !== this.props.token) {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
-		
+        
+                this.forceUpdate();
 				const meeting_id = newProps.match.params.meeting_id;
 				this.props.getMeeting(newProps.token, meeting_id);
 				this.forceUpdate();

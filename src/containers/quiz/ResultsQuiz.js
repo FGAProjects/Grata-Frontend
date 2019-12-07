@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Skeleton, Progress} from 'antd';
+import { Skeleton } from 'antd';
 import { connect } from 'react-redux';
+import { Pie } from 'react-chartjs-2';
 
 import Hoc from '../../hoc/hoc';
 import Homepage from '../homepage/Homepage';
@@ -12,6 +13,36 @@ import { getChoices } from '../../store/actions/choices';
 import { getGradedQuesttionaires } from '../../store/actions/quiz';
 
 class ResultsQuiz extends Component {
+
+    constructor(props) {
+
+        super(props);
+        this.state = {
+            chartData: {
+                labels: ['Boston', 'Brasil', 'Spingfield', 'NewBedford', 'Lowell', 'Cambidge'],
+                datasets: [{
+                    label: 'Porcentagem das Perguntas',
+                    data:[
+                        617594,
+                        181045,
+                        153060,
+                        106519,
+                        105162,
+                        95072
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(255, 99, 132, 0.6)',
+                    ]
+                }]
+            }
+        }
+    }
 
     componentDidMount() {
         
@@ -110,7 +141,11 @@ class ResultsQuiz extends Component {
                                     ) : (
                                         <div className = 'content'>
                                             <h1 className = 'texth1'> Porcentagem de Respostas </h1>
-                                            {
+                                            <Pie
+                                                data = { this.state.chartData }
+                                                options = { option}
+                                            />
+                                            {/* {
                                                 dataSource.innerArray.map(result =>
                                                     <div key = { result.key }>
                                                         <h2> Pergunta: { result.question } </h2>
@@ -120,7 +155,7 @@ class ResultsQuiz extends Component {
                                                         />
                                                     </div>
                                                 )
-                                            }
+                                            } */}
                                         </div>
                                     )
                                 }
@@ -146,6 +181,25 @@ const mapStateToProps = state => {
         choices: state.choices.choices
     };
 };
+
+const option = {
+    tooltips: {
+        callbacks: {
+            label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                var total = meta.total;
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = parseFloat((currentValue/total * 100).toFixed(1));
+
+                return currentValue + ' (' + percentage + '%)';
+            },
+            title: function(tooltipItem, data) {
+                return data.labels[tooltipItem[0].index];
+            }
+        }
+    }
+}
 
 const mapDispatchToProps = dispatch => {
 	

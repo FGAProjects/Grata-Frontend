@@ -20,6 +20,7 @@ class MeetingCreate extends Component {
 		
 		if (this.props.token !== undefined && this.props.token !== null) {
 		
+			this.forceUpdate();
 			this.props.getProject(this.props.token, this.props.match.params.project_id);
 			this.props.getSectors(this.props.token);
 			this.forceUpdate();
@@ -32,6 +33,7 @@ class MeetingCreate extends Component {
 		
 			if (newProps.token !== undefined && newProps.token !== null) {
 		
+				this.forceUpdate();
 				this.props.getProject(newProps.token, newProps.match.params.project_id);
 				this.props.getSectors(newProps.token);
 				this.forceUpdate();
