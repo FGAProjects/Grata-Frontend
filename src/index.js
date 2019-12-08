@@ -14,6 +14,7 @@ import sectorReducer from './store/reducers/sector';
 import meetingReducer from './store/reducers/meeting';
 import quizReducer from './store/reducers/quiz';
 import choicesReducer from './store/reducers/choices';
+import commentReducer from './store/reducers/comment';
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
 	sector: sectorReducer,
 	meeting: meetingReducer,
 	quiz: quizReducer,
-	choices: choicesReducer
+	choices: choicesReducer,
+	comment: commentReducer
 });
 
 const store = createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));
