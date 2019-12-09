@@ -172,3 +172,33 @@ div.op2 {
 .spaceTop {
     margin-top: 40px;
 }
+
+div.comment {
+    margin-top: 40px;
+    margin-left: 30px;
+    width: 45%;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    display: inline-block;
+    background-color: white;
+    font-size: 3vw;
+    text-align: center;
+    padding: 5vw 0vw 5vw 0vw;
+    min-width:40vw;
+}
+
+div.graphic {
+    margin-top: 40px;
+    margin-left: 70px;
+    position: absolute;
+    width: 45%;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    display: inline-block;
+    background-color: white;
+    font-size: 3vw;
+    text-align: center;
+    padding: 5vw 0vw 5vw 0vw;
+}

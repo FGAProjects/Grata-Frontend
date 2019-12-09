@@ -1,38 +1,24 @@
 import React, { Component } from 'react';
-import { Skeleton, Comment, Avatar, Form, Button, List, Input } from 'antd';
+import { Skeleton, Comment, Avatar, Form, Button, List, Input, Modal, message } from 'antd';
 import { connect } from 'react-redux';
-// import { Pie } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import moment from 'moment';
 
 import Hoc from '../../hoc/hoc';
 import Homepage from '../homepage/Homepage';
-import NotPermission from '../notPermission/NotPermission';
 
 import { getUser } from '../../store/actions/auth';
 import { getMeeting } from '../../store/actions/meeting';
 import { getChoices } from '../../store/actions/choices';
+import { createComment, getComments, deleteComment } from '../../store/actions/comment';
 import { getGradedQuesttionaires } from '../../store/actions/quiz';
 
 const { TextArea } = Input;
+const { confirm } = Modal;
 
 class ResultsQuiz extends Component {
 
-    // constructor(props) {
 
-    //     super(props);
-    //     this.state = {
-    //         chartData: {
-    //             labels: ['Boston', 'Brasil', 'Spingfield', 'NewBedford', 'Lowell', 'Cambidge'],
-    //             datasets: [{
-    //                 label: 'Porcentagem das Perguntas',
-    //                 data:[
-    //                     617594,
-    //                     181045,
-    //                     153060,
-    //                     106519,
-    //                     105162,
-    //                     95072
-    //                 ],
     //                 backgroundColor: [
     //                     'rgba(255, 99, 132, 0.6)',
     //                     'rgba(54, 162, 235, 0.6)',
@@ -54,8 +40,6 @@ class ResultsQuiz extends Component {
         value: '',
     };
 
-      
-
     componentDidMount() {
         
         if (this.props.token !== undefined && this.props.token !== null) {
@@ -67,6 +51,7 @@ class ResultsQuiz extends Component {
             this.props.getMeeting(token, meeting_id);
             this.props.getUser(token, this.props.currentUser.userId);
             this.props.getGradedQuesttionaires(token, questtionaire_id);
+            this.props.getComments(token, questtionaire_id);
             this.props.getChoices(token);
             this.forceUpdate();
         }
@@ -84,12 +69,19 @@ class ResultsQuiz extends Component {
                 this.props.getGradedQuesttionaires(newProps.token, questtionaire_id);
                 this.props.getUser(newProps.token, newProps.currentUser.userId);
                 this.props.getChoices(newProps.token);
+                this.props.getComments(newProps.token, questtionaire_id);
 				this.forceUpdate();
             }
         }
     }
 
     handleSubmit = () => {
+
+        const { currentUser } = this.props;
+        const questtionaire_id = this.props.match.params.questtionaire_id;
+        const meeting_id = this.props.match.params.meeting_id;
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user.token;
 
         if (!this.state.value) {
             return;
@@ -111,13 +103,22 @@ class ResultsQuiz extends Component {
                 {
                     author: <p> { currentUser.name } </p>,
                     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                    content: <p>{this.state.value}</p>,
+                    content: <p> { this.state.value } </p>,
                     datetime: moment().fromNow(),
                 },
                 ...this.state.comments,
                 ],
             });
         }, 1000);
+
+        const comment = {
+            user: currentUser.id,
+            questtionaire: questtionaire_id,
+            description: this.state.value
+        } 
+
+        this.props.createComment(token, comment);
+        this.props.history.push(`/resultado_questionario/${ meeting_id }/${ questtionaire_id }/`);
     };
 
     handleChange = e => {
@@ -126,44 +127,102 @@ class ResultsQuiz extends Component {
         });
     };
 
+    deleteComment = (comment_id) => {
+        
+        const propsForms = this.props;
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user.token;
+        const questtionaire_id = this.props.match.params.questtionaire_id;
+        const meeting_id = this.props.match.params.meeting_id;
+		
+		confirm ({
+			title: 'Excluir Comentário',
+			content: 'Tem Certeza Que Deseja Excluir Este Comentário?',
+			okText: 'Sim',
+			okType: 'danger',
+			cancelText: 'Não',
+		
+			onOk() {
+
+				propsForms.deleteComment(token, comment_id);
+				Modal.success({
+					title: 'Ação Concluída!',
+					content: 'Comentário Excluído Com Sucesso!',
+                });
+                propsForms.history.push(`/resultado_questionario/${ meeting_id }/${ questtionaire_id }/`);
+			},
+			onCancel() {
+				message.success('Exclusão de Comentário Cancelado Com Sucesso!');
+			},
+		});
+	}
+
     render() {
         
-        // const resultsGraded = this.props.resultsGraded;
-        const { currentMeeting } = this.props;
-        const { currentUser } = this.props;
-        // const choices = this.props.choices;
+        const resultsGraded = this.props.resultsGraded;
+        const commentsList = this.props.comments;
         const { comments, submitting, value } = this.state;
-        let permission = false;
-        // let dataSource = {
-        //     innerArray: [
-                
-        //     ]
-        // };
+        let dataSourceComments = {
+            innerArray: [
 
-        // let cont = 94;
+            ]
+        };
+        let dataSource = {
+            
+        };
+        let dataSourceQuestions = {
+            innerArray: [
 
-        if(currentUser.name === currentMeeting.meeting_leader) {
-            permission = true;
+            ]
+        };
+        let dataSourceAnswers = {
+            innerArray: [
+
+            ]
+        };
+
+        for(let aux = 0; aux < resultsGraded.length; aux ++) {
+
+            dataSourceQuestions.innerArray.push(resultsGraded[aux].quiz)
+            dataSourceAnswers.innerArray.push(resultsGraded[aux].choice)
+        }
+        const datas = [65, 59, 80, 81, 56]
+
+
+        dataSource = {
+            labels: dataSourceQuestions.innerArray,
+            datasets: [{
+                label: 'Rainfall',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: datas
+            }]
         }
 
-        // for(let aux = 0; aux < choices.length; aux ++) {
-
-        //     for(let auxResultsGraded = 0; auxResultsGraded < resultsGraded.length; auxResultsGraded ++) {
-
-        //         if(choices[aux].title === resultsGraded[auxResultsGraded].choice) {
-        //             cont ++;
-        //             dataSource.innerArray.push({
-        //                 key: auxResultsGraded,
-        //                 question: resultsGraded[auxResultsGraded].quiz,
-        //                 choice: choices[aux].title,
-        //                 cont: cont,
-        //                 porcent: 0
-        //             });
-        //         } else {
-        //             // cont = 0;
-        //         }
-        //     }
-        // }
+        for(let aux = 0; aux < commentsList.length; aux ++) {
+            
+            dataSourceComments.innerArray.push({
+                actions: [
+                    <Button
+                        key = { aux } 
+                        onClick = { () => this.deleteComment(commentsList[aux].id) }
+                        type = 'ghost' 
+                        htmlType = 'submit'
+                        className = 'buttonDelete' 
+                    >
+                        Excluir Comentário
+                    </Button>
+                ],
+                author: <p><b> { commentsList[aux].user } </b></p>,
+                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+                content: (
+                    <p style = {{ fontSize: '14px', textAlign: 'justify' }}>
+                        { commentsList[aux].description }
+                    </p>
+                ),
+            });
+        }
 
         return (
 
@@ -177,48 +236,53 @@ class ResultsQuiz extends Component {
                         ) : (
                             <Hoc>
                                 {
-                                    permission === false ? (
-                                        <NotPermission/>
-                                    ) : (
-                                        <div className = 'content'>
-                                            { comments.length > 0 && <CommentList comments = { comments} />}
-                                            <Comment
-                                                avatar={
-                                                    <Avatar
-                                                        src = 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
-                                                        alt = 'Han Solo'
-                                                    />
-                                                }
-                                                content = {
-                                                    <Editor
-                                                        onChange = { this.handleChange }
-                                                        onSubmit = { this.handleSubmit }
-                                                        submitting = { submitting }
-                                                        value = { value }
-                                                    />
-                                                }
-                                            />
+                                    <div className = 'container'>
+                                        <div className = 'comment'>
+                                            <div className = 'contentComment'>
+                                                { comments.length > 0 && <CommentList comments = { comments} />}
+                                                <Comment
+                                                    avatar={
+                                                        <Avatar
+                                                            src = 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+                                                            alt = 'Han Solo'
+                                                        />
+                                                    }
+                                                    content = {
+                                                        <Editor
+                                                            onChange = { this.handleChange }
+                                                            onSubmit = { this.handleSubmit }
+                                                            submitting = { submitting }
+                                                            value = { value }
+                                                        />
+                                                    }
+                                                />
+                                                <List
+                                                    className = 'comment-list'
+                                                    header = { `${ dataSourceComments.innerArray.length } Comentários`}
+                                                    itemLayout = 'horizontal'
+                                                    dataSource = { dataSourceComments.innerArray }
+                                                    renderItem = { item => (
+                                                        <li>
+                                                            <Comment
+                                                                actions = { item.actions }
+                                                                author = { item.author }
+                                                                avatar = { item.avatar }
+                                                                content = { item.content }
+                                                                datetime = { item.datetime }
+                                                            />
+                                                        </li>
+                                                    )}
+                                                />
+                                            </div>
                                         </div>
-                                        // <div className = 'content'>
-                                        //     <h1 className = 'texth1'> Porcentagem de Respostas </h1>
-                                        //     {/* <Pie
-                                        //         data = { this.state.chartData }
-                                        //         options = { option}
-                                        //     /> */}
-                                        //     {/* {
-                                        //         dataSource.innerArray.map(result =>
-                                        //             <div key = { result.key }>
-                                        //                 <h2> Pergunta: { result.question } </h2>
-                                        //                 <h3> Resposta: { result.choice } </h3>
-                                        //                 <Progress 
-                                        //                     percent = { result.cont } 
-                                        //                 />
-                                        //             </div>
-                                        //         )
-                                        //     } */}
-                                            
-                                        // </div>
-                                    )
+                                        <div className = 'graphic'>
+                                            <h1 className = 'texth1'> Porcentagem de Respostas </h1>
+                                            <Pie
+                                                data = { dataSource }
+                                                options = { option }
+                                            /> 
+                                        </div>
+                                    </div>
                                 }
                             </Hoc>
                         )
@@ -249,10 +313,11 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
         </Form.Item>
         <Form.Item>
             <Button 
+                className = 'buttonSave'
                 htmlType = 'submit' 
                 loading = { submitting } 
                 onClick = { onSubmit } 
-                type = 'primary'>
+                type = 'ghost'>
                 Adicionar Comentário
             </Button>
         </Form.Item>
@@ -269,28 +334,29 @@ const mapStateToProps = state => {
         resultsGraded: state.quiz.resultsGraded,
         currentMeeting: state.meeting.currentMeeting,
         currentUser: state.auth.currentUser,
-        choices: state.choices.choices
+        choices: state.choices.choices,
+        comments: state.comment.comments
     };
 };
 
-// const option = {
-//     tooltips: {
-//         callbacks: {
-//             label: function(tooltipItem, data) {
-//                 var dataset = data.datasets[tooltipItem.datasetIndex];
-//                 var meta = dataset._meta[Object.keys(dataset._meta)[0]];
-//                 var total = meta.total;
-//                 var currentValue = dataset.data[tooltipItem.index];
-//                 var percentage = parseFloat((currentValue/total * 100).toFixed(1));
+const option = {
+    tooltips: {
+        callbacks: {
+            label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                var total = meta.total;
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = parseFloat((currentValue/total * 100).toFixed(1));
 
-//                 return currentValue + ' (' + percentage + '%)';
-//             },
-//             title: function(tooltipItem, data) {
-//                 return data.labels[tooltipItem[0].index];
-//             }
-//         }
-//     }
-// }
+                return currentValue + ' (' + percentage + '%)';
+            },
+            title: function(tooltipItem, data) {
+                return data.labels[tooltipItem[0].index];
+            }
+        }
+    }
+}
 
 const mapDispatchToProps = dispatch => {
 	
@@ -299,7 +365,10 @@ const mapDispatchToProps = dispatch => {
         getUser: (token, userId) => dispatch(getUser(token, userId)),
         getGradedQuesttionaires: (token, questtionaire_id) => dispatch(getGradedQuesttionaires(token, questtionaire_id)),
         getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
-        getChoices: (token) => dispatch(getChoices(token))
+        getChoices: (token) => dispatch(getChoices(token)),
+        getComments: (token, questtionaire_id) => dispatch(getComments(token, questtionaire_id)),
+        createComment: (token, comment) => dispatch(createComment(token, comment)),
+        deleteComment: (token, comment_id) => dispatch(deleteComment(token, comment_id))
     };
 };
 

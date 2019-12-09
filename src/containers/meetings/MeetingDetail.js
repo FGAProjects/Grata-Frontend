@@ -151,7 +151,9 @@ class MeetingDetail extends Component {
 		const { currentUser } = this.props;
         const project_id = this.props.match.params.project_id;
         const { currentMeeting } = this.props;
-		const { formLayout } = this.state;
+        const { formLayout } = this.state;
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user.token;
 		const formItemLayout = formLayout === 'vertical'? {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -417,7 +419,7 @@ class MeetingDetail extends Component {
                                                                                 
                                                                                 <Button 
                                                                                     onClick = { () => this.cancelMeeting(
-                                                                                        this.props.token, 
+                                                                                        token, 
                                                                                         project_id
                                                                                     )}
                                                                                     type = 'ghost' 
