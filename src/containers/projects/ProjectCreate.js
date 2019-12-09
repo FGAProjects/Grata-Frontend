@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, message, Select } from 'antd';
+import { Form, Input, Icon, Button, message, Select, Skeleton } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 import { Link } from 'react-router-dom';
@@ -138,29 +138,35 @@ class ProjectCreate extends Component {
 												}
 											</Form.Item>
 
-											<Form.Item label ='Setor' hasFeedback className = 'formFields' { ...formItemLayout }>
-												{
-													getFieldDecorator('sector', {
-													rules: [
+											{
+												this.props.loading ? (
+													<Skeleton active/>
+												) : (
+													<Form.Item label ='Setor' hasFeedback className = 'formFields' { ...formItemLayout }>
 														{
-															required: true,
-															message: 'Por favor, Escolha o Setor do Usuário!',
+															getFieldDecorator('sector', {
+															rules: [
+																{
+																	required: true,
+																	message: 'Por favor, Escolha o Setor do Usuário!',
+																}
+																],
+															})(
+																<Select placeholder = 'Escolha o Setor' >
+																	{ dataSource.innerArray.map(sector => 
+																		<Option 
+																			key = { sector.key } 
+																			value = { sector.initials }>
+																			{ sector.name }
+																		</Option>
+																		)
+																	}
+																</Select>  
+															)
 														}
-														],
-													})(
-														<Select placeholder = 'Escolha o Setor' >
-															{ dataSource.innerArray.map(sector => 
-																<Option 
-																	key = { sector.key } 
-																	value = { sector.initials }>
-																	{ sector.name }
-																</Option>
-																)
-															}
-														</Select>  
-													)
-												}
-											</Form.Item>
+													</Form.Item>
+												)
+											}
 
 											<Form.Item label = 'Status' className = 'formFields' { ...formItemLayout }>
 												{
@@ -196,7 +202,6 @@ class ProjectCreate extends Component {
 								)
 							}
 						</Hoc>
-						
 					)
 				}
 			</Hoc>
@@ -211,7 +216,8 @@ const mapStateToProps = (state) => {
 	return {
 
 		token: state.auth.token,
-		sectors: state.sector.sectors
+		sectors: state.sector.sectors,
+		loading: state.sector.loading
 	}
 }
 

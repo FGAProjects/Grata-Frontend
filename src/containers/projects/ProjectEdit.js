@@ -166,7 +166,7 @@ class ProjectEdit extends Component {
                                                             }],
                                                         })(
                                                             <Input prefix = { <Icon type = 'form' className = 'icons'/> }
-                                                                placeholder = 'Usuário'
+                                                                placeholder = 'Título do Projeto'
                                                             />
                                                         )
                                                     }

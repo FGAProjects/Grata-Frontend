@@ -24,7 +24,9 @@ const getProjectListStart = (state, action) => {
 };
 
 const getProjectListSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         projects: action.projects,
         error: null,
         loading: false
@@ -32,21 +34,27 @@ const getProjectListSuccess = (state, action) => {
 };
 
 const getProjectListFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
   
 const getProjectDetailStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });
 };
 
 const getProjectDetailSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         currentProject: action.project,
         error: null,
         loading: false
@@ -54,35 +62,45 @@ const getProjectDetailSuccess = (state, action) => {
 };
 
 const getProjectDetailFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
 
 const createProjectStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });
 };
 
 const createProjectSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: false
     });
 };
 
 const createProjectFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
 
 const reducer = (state = initialState, action) => {
+    
     switch (action.type) {
+    
         case PROJECT_LIST_START:
             return getProjectListStart(state, action);
         case PROJECT_LIST_SUCCESS:

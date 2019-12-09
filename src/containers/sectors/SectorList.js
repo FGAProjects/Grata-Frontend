@@ -119,7 +119,7 @@ const mapStateToProps = state => {
 
         token: state.auth.token,
         sectors: state.sector.sectors,
-        loading: state.auth.loading
+        loading: state.sector.loading
     };
 };
 

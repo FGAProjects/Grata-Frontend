@@ -50,7 +50,8 @@ class SetorEdit extends Component {
         
             if (!err) {
         
-                const token = this.props.token;
+                const user = JSON.parse(localStorage.getItem('user'));
+                const token = user.token;
                 const { currentSector } = this.props;
 
                 const sector = {
@@ -72,8 +73,10 @@ class SetorEdit extends Component {
 		});
     };
     
-    showDeleteConfirm = (token, sectorId) => {
+    showDeleteConfirm = (sectorId) => {
         
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user.token;
         const propsForms = this.props;
         
         confirm ({
@@ -201,7 +204,6 @@ class SetorEdit extends Component {
                                                     className = 'buttonDelete'
                                                     onClick = { () => 
                                                         this.showDeleteConfirm(
-                                                            this.props.token,
                                                             currentSector.id
                                                         )
                                                     } 

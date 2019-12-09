@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Skeleton, Table, Tag, Button, Icon } from 'antd';
 
+import Hoc from '../../hoc/hoc';
+import Homepage from '../homepage/Homepage';
+import { dynamicSort } from '../utils';
+
 import { getProjects } from '../../store/actions/project';
 import { getUser } from '../../store/actions/auth';
 import { getAllMeeting } from '../../store/actions/meeting';
-import { dynamicSort } from '../utils';
-import Hoc from '../../hoc/hoc';
-import Homepage from '../homepage/Homepage';
 
 class ProjectsList extends Component {
 
@@ -198,71 +199,76 @@ class ProjectsList extends Component {
                                     } 
                                 />
                                 <h1 className = 'texth1'> Reuniões Que Participo </h1>
-                                
-                                <Table columns = {
-                                    [{
-                                        title: 'Título',
-                                        dataIndex: 'title',
-                                        key: 'title',
-                                        render: (text) => (
-                                            <b> { text } </b>
-                                        )
-                                    },
-                                    {
-                                        title: 'Assunto',
-                                        dataIndex: 'subject_matter',
-                                        key: 'subject_matter',
-                                        render: (text) => (
-                                            <b>{text}</b>
-                                        )
-                                    },
-                                    {
-                                        title: 'Setor Responsável',
-                                        dataIndex: 'sector',
-                                        key: 'sector',
-                                        render: (text) => (
-                                            <b>{text}</b>
-                                        )
-                                    },
-                                    {
-                                        title: 'Ação',
-                                        key: 'action',
-                                        render: (record) => (
-                                            <span>
-                                                {
-                                                    confirm === true ? (
-                                                        <Button 
-                                                            type = 'ghost' 
-                                                            htmlType = 'submit' 
-                                                            className = 'buttonSave'
-                                                        >
-                                                            <Link to = { `/reuniao_confirmada/${ record.key }/`} >
-                                                                <Icon type = 'eye' className = 'icons'/>
-                                                                    <b> Ver Reunião </b>
-                                                            </Link>
-                                                        </Button>
-                                                    ) : (
-                                                        <Button 
-                                                            type = 'ghost' 
-                                                            htmlType = 'submit' 
-                                                            className = 'buttonSave'
-                                                        >
-                                                            <Link to = { `/detalhes_reuniao/${ record.key }/${ project_id }/`} >
-                                                                <Icon type = 'eye' className = 'icons'/>
-                                                                    <b> Ver Reunião </b>
-                                                            </Link>
-                                                        </Button>
-                                                    )
-                                                }
-                                            
-                                            </span>
-                                        ),
-                                    },
-                                        ]}
-                                        dataSource = {
-                                            dataSourceMeetings.innerArray
-                                        } 
-                                    />
+                                {
+                                    this.props.loadingAllMeetings ? (
+                                        <Skeleton active/>
+                                    ) : (
+                                        <Table columns = {
+                                            [{
+                                                title: 'Título',
+                                                dataIndex: 'title',
+                                                key: 'title',
+                                                render: (text) => (
+                                                    <b> { text } </b>
+                                                )
+                                            },
+                                            {
+                                                title: 'Assunto',
+                                                dataIndex: 'subject_matter',
+                                                key: 'subject_matter',
+                                                render: (text) => (
+                                                    <b>{text}</b>
+                                                )
+                                            },
+                                            {
+                                                title: 'Setor Responsável',
+                                                dataIndex: 'sector',
+                                                key: 'sector',
+                                                render: (text) => (
+                                                    <b>{text}</b>
+                                                )
+                                            },
+                                            {
+                                                title: 'Ação',
+                                                key: 'action',
+                                                render: (record) => (
+                                                    <span>
+                                                        {
+                                                            confirm === true ? (
+                                                                <Button 
+                                                                    type = 'ghost' 
+                                                                    htmlType = 'submit' 
+                                                                    className = 'buttonSave'
+                                                                >
+                                                                    <Link to = { `/reuniao_confirmada/${ record.key }/`} >
+                                                                        <Icon type = 'eye' className = 'icons'/>
+                                                                            <b> Ver Reunião </b>
+                                                                    </Link>
+                                                                </Button>
+                                                            ) : (
+                                                                <Button 
+                                                                    type = 'ghost' 
+                                                                    htmlType = 'submit' 
+                                                                    className = 'buttonSave'
+                                                                >
+                                                                    <Link to = { `/detalhes_reuniao/${ record.key }/${ project_id }/`} >
+                                                                        <Icon type = 'eye' className = 'icons'/>
+                                                                            <b> Ver Reunião </b>
+                                                                    </Link>
+                                                                </Button>
+                                                            )
+                                                        }
+                                                    
+                                                    </span>
+                                                ),
+                                            },
+                                            ]}
+                                            dataSource = {
+                                                dataSourceMeetings.innerArray
+                                            } 
+                                        />
+                                    )
+                                }
                             </div>
                         )
                     )
@@ -280,7 +286,8 @@ const mapStateToProps = state => {
         projects: state.project.projects,
         loading: state.project.loading,
         currentUser: state.auth.currentUser,
-        allMeetings: state.meeting.allMeetings
+        allMeetings: state.meeting.allMeetings,
+        loadingAllMeetings: state.meeting.loading
     };
 };
 

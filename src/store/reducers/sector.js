@@ -6,6 +6,7 @@ import {
 import { updateObject } from '../utility';
 
 const initialState = {
+
     sectors: [],
     currentSector: {},
     error: null,
@@ -13,14 +14,18 @@ const initialState = {
 };
 
 const getSectorListStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });
 };
 
 const getSectorListSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         sectors: action.sectors,
         error: null,
         loading: false
@@ -28,21 +33,27 @@ const getSectorListSuccess = (state, action) => {
 };
 
 const getSectorListFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
   
 const getSectorDetailStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });
 };
 
 const getSectorDetailSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         currentSector: action.sector,
         error: null,
         loading: false
@@ -50,35 +61,45 @@ const getSectorDetailSuccess = (state, action) => {
 };
 
 const getSectorDetailFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
 
 const createSectorStart = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: true
     });
 };
 
 const createSectorSuccess = (state, action) => {
+    
     return updateObject(state, {
+    
         error: null,
         loading: false
     });
 };
 
 const createSectorFail = (state, action) => {
+    
     return updateObject(state, {
+    
         error: action.error,
         loading: false
     });
 };
 
 const reducer = (state = initialState, action) => {
+    
     switch (action.type) {
+    
         case SECTOR_LIST_START:
             return getSectorListStart(state, action);
         case SECTOR_LIST_SUCCESS:

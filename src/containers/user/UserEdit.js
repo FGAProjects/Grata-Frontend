@@ -141,7 +141,7 @@ class UserEdit extends Component {
 				{
 					this.props.token === null ? (
 						<Homepage/>
-					) : this.props.loading ? (
+					) : this.props.loadingUser ? (
 						<Skeleton active />
 					) : (
 						<Hoc>
@@ -241,119 +241,127 @@ class UserEdit extends Component {
 					) : (
 							<Hoc>
 								{
-									sectors.length === 0 ? (
-										<Hoc>
-											<div align = 'center' className = 'content'>
-											<h1 className = 'texth1'> 
-												Você Não Possui Setor Cadastrado um Antes e Volte Aqui Depois 
-											</h1>
-												<Button type = 'ghost' className = 'buttonSubmit'>
-													<Link to = { '/criar_setor/' } >
-													<Icon className = 'icons' type = 'highlight'/>
-														Criar Setor
-													</Link>
-												</Button>
-												<Button type = 'ghost' className = 'buttonCancel'>								<Link to = { '/informacoes_usuario/' } >
-													<Icon className = 'icons' type = 'stop'/>
-														Cancelar
-													</Link>
-												</Button>
-											</div>
-										</Hoc>
+									this.props.loadingSector ? (
+										<Skeleton active/>
 									) : (
 										<Hoc>
-											<div className = 'content'>
-												<h1 className = 'texth1'> Informações A Serem Alteradas </h1>
-												<Form layout = 'vertical' onSubmit = { this.handleSubmit } >
-													<Form.Item 
-														label = 'Nome Completo'
-														{ ...formItemLayout }
-														className = 'formFields'
-													>
-														{
-															getFieldDecorator('name', {
-																rules: [{ 
-																	required: true, 
-																	message: 'Por favor, Insira Seu Nome Completo!'
-																}],
-															})(
-																<Input 
-																	prefix = { <Icon type = 'user'/> }
-																	placeholder = 'Nome Completo'
-																/>
-															)
-														}
-													</Form.Item>
-
-													<Form.Item 
-														label = 'Setor' 
-														hasFeedback 
-														{ ...formItemLayout }
-														className = 'formFields'
-													>
-														{
-															getFieldDecorator('sector', {
-															rules: [
-																{
-																	required: true,
-																	message: 'Por favor, Escolha o Setor do Usuário!',
-																}
-																],
-															})(
-																<Select placeholder = 'Escolha o Setor' >
-																	{ dataSource.innerArray.map(sector => 
-																		<Option 
-																			key = { sector.key } 
-																			value = { sector.initials }>
-																			{ sector.name }
-																		</Option>)
-																	}
-																</Select>  
-															)
-														}
-													</Form.Item>
-
-													<Form.Item 
-														label = 'Ramal'
-														{ ...formItemLayout }
-														className = 'formFields'	
-													>
-														{
-															getFieldDecorator('ramal', {
-																rules: [{ 
-																	required: true, 
-																	message: 'Por favor, Coloque Seu Ramal!' 
-																}],
-															})(
-																<Input 
-																	prefix = { <Icon type = 'phone'/> }
-																	type = 'number'
-																	placeholder = 'Ramal'
-																/>
-															)
-														}
-													</Form.Item>
-
-													<Form.Item>
-														<div align = 'center'>
-															<Button 
-																type = 'ghost' 
-																htmlType = 'submit' 
-																className = 'buttonEdit' 
-															>
-																<Icon type = 'edit'/>
-																	Alterar Informações	
+											{
+												sectors.length === 0 ? (
+													<Hoc>
+														<div align = 'center' className = 'content'>
+														<h1 className = 'texth1'> 
+															Você Não Possui Setor Cadastrado um Antes e Volte Aqui Depois 
+														</h1>
+															<Button type = 'ghost' className = 'buttonSubmit'>
+																<Link to = { '/criar_setor/' } >
+																<Icon className = 'icons' type = 'highlight'/>
+																	Criar Setor
+																</Link>
 															</Button>
-															<Button type = 'ghost' className = 'buttonCancel'>
-																<Link to = { '/informacoes_usuario/' }>
-																<Icon type = 'stop' className = 'icons'/>
+															<Button type = 'ghost' className = 'buttonCancel'>								<Link to = { '/informacoes_usuario/' } >
+																<Icon className = 'icons' type = 'stop'/>
 																	Cancelar
 																</Link>
 															</Button>
 														</div>
-													</Form.Item>
-												</Form>
-											</div>
+													</Hoc>
+												): (
+													<Hoc>
+														<div className = 'content'>
+															<h1 className = 'texth1'> Informações A Serem Alteradas </h1>
+															<Form layout = 'vertical' onSubmit = { this.handleSubmit } >
+																<Form.Item 
+																	label = 'Nome Completo'
+																	{ ...formItemLayout }
+																	className = 'formFields'
+																>
+																	{
+																		getFieldDecorator('name', {
+																			rules: [{ 
+																				required: true, 
+																				message: 'Por favor, Insira Seu Nome Completo!'
+																			}],
+																		})(
+																			<Input 
+																				prefix = { <Icon type = 'user'/> }
+																				placeholder = 'Nome Completo'
+																			/>
+																		)
+																	}
+																</Form.Item>
+
+																<Form.Item 
+																	label = 'Setor' 
+																	hasFeedback 
+																	{ ...formItemLayout }
+																	className = 'formFields'
+																>
+																	{
+																		getFieldDecorator('sector', {
+																		rules: [
+																			{
+																				required: true,
+																				message: 'Por favor, Escolha o Setor do Usuário!',
+																			}
+																			],
+																		})(
+																			<Select placeholder = 'Escolha o Setor' >
+																				{ dataSource.innerArray.map(sector => 
+																					<Option 
+																						key = { sector.key } 
+																						value = { sector.initials }>
+																						{ sector.name }
+																					</Option>)
+																				}
+																			</Select>  
+																		)
+																	}
+																</Form.Item>
+
+																<Form.Item 
+																	label = 'Ramal'
+																	{ ...formItemLayout }
+																	className = 'formFields'	
+																>
+																	{
+																		getFieldDecorator('ramal', {
+																			rules: [{ 
+																				required: true, 
+																				message: 'Por favor, Coloque Seu Ramal!' 
+																			}],
+																		})(
+																			<Input 
+																				prefix = { <Icon type = 'phone'/> }
+																				type = 'number'
+																				placeholder = 'Ramal'
+																			/>
+																		)
+																	}
+																</Form.Item>
+
+																<Form.Item>
+																	<div align = 'center'>
+																		<Button 
+																			type = 'ghost' 
+																			htmlType = 'submit' 
+																			className = 'buttonEdit' 
+																		>
+																			<Icon type = 'edit'/>
+																				Alterar Informações	
+																		</Button>
+																		<Button type = 'ghost' className = 'buttonCancel'>
+																			<Link to = { '/informacoes_usuario/' }>
+																			<Icon type = 'stop' className = 'icons'/>
+																				Cancelar
+																			</Link>
+																		</Button>
+																	</div>
+																</Form.Item>
+															</Form>
+														</div>
+													</Hoc>
+												)
+											}
 										</Hoc>
 									)
 								}
@@ -373,7 +381,9 @@ const mapStateToProps = state => {
 	
 		token: state.auth.token,
 		currentUser: state.auth.currentUser,
-		sectors: state.sector.sectors
+		loadingUser: state.auth.loading,
+		sectors: state.sector.sectors,
+		loadingSector: state.sector.loading
 	};
 };
 
