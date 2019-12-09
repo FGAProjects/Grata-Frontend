@@ -1,6 +1,22 @@
 .imgContent {
+    
     width: 350px;
     margin-top: 10px;
     margin-right: 20px;
     margin-bottom: 30px;
+}
+
+.imgs {
+
+    margin-top: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-right: 20px;
+}
+
+.imgListUsers{
+
+    width: 900px;
+    margin-top: 20px;
+    margin-left: 25px;
 }

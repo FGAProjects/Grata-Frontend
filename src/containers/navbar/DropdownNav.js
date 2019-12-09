@@ -109,9 +109,19 @@ class DropdownNav extends Component {
 						<Icon type = 'unordered-list' />  Projetos <Icon type = 'down' />
 					</a>
 				</Dropdown>
-				<Dropdown trigger = { ['click'] } >
-					<a className = 'ant-dropdown-link' href ='/' >
-						<Icon type = 'book' /> Manuais
+				<Dropdown overlay = { 
+					<Menu>
+						<Menu.Item key = '1' >
+							<Icon type = 'ordered-list' />
+								<Link to= { '/manuais/' } >
+									Visualizar Manuais
+								</Link>
+						</Menu.Item>
+					</Menu>
+				 } trigger = { ['click'] } >
+					<a className = 'ant-dropdown-link' 
+						href={ `/lista_de_setores/` } >
+						<Icon type = 'unordered-list' />  Manuais <Icon type = 'down' />
 					</a>
 				</Dropdown>
           </div>

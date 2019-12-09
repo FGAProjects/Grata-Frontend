@@ -1,4 +1,5 @@
 .buttonSubmit {
+
     margin-bottom: 25px;
     margin-right: 20px;
     font-family: Roboto;
@@ -10,6 +11,7 @@
 }
 
 .buttonCancel {
+
     margin-bottom: 25px;
     font-family: Roboto;
     font-style: normal;
@@ -19,6 +21,7 @@
 }
 
 .buttonEdit {
+
     margin-top: 15px;
     margin-right: 20px;
     margin-left: 20px;
@@ -31,6 +34,7 @@
 }
 
 .buttonDelete {
+
     margin-bottom: 25px;
     font-family: Roboto;
     font-style: normal;
@@ -41,6 +45,7 @@
 }
 
 .buttonSave {
+
     margin-bottom: 25px;
     margin-right: 20px;
     font-family: Roboto;
@@ -52,6 +57,7 @@
 }
 
 .buttonNew {
+
     margin-top: 40px;
     margin-right: 30px;
     margin-bottom: -30px;
@@ -64,6 +70,7 @@
 }
 
 .buttonSubmitLogin {
+
     width: 194px;
     height: 32px;
     margin-top: 20px;
@@ -75,6 +82,7 @@
 }
 
 .buttonAtaIncomplete {
+
     margin-right: 20px;
     font-family: Roboto;
     font-style: normal;
@@ -85,6 +93,7 @@
 }
 
 .buttonBack {
+
     margin-left: 20px;
     font-family: Roboto;
     font-style: normal;
@@ -103,6 +112,7 @@
 }
 
 .buttonSearch {
+    
     margin-bottom: 10px;
     margin-left: 935px;
     font-family: Roboto;

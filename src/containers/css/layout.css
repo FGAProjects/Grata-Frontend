@@ -1,4 +1,5 @@
 .footerOFF {
+
     text-align: center;
     background: white;
     font-family: Arial, Helvetica, sans-serif;
@@ -12,6 +13,7 @@
 }
 
 .footerON {
+
     text-align: center;
     background: white;
     font-family: Arial, Helvetica, sans-serif;
@@ -25,6 +27,7 @@
 }
 
 .autoComplete {
+
     margin-left: 30px;
     margin-top: 30px;
     margin-right: 30px;
@@ -33,6 +36,7 @@
 }
 
 .contentProjectOff {
+
     position: absolute;
     right: 20px;
     left: 20px;
@@ -44,6 +48,7 @@
 }
 
 .textOff {
+
     position: absolute;
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
@@ -56,16 +61,19 @@
 }
 
 .texth1 {
+
     text-align: center;
     font-size: 26px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .formUser {
+
     margin-top: 20px;
 }
 
 .content {
+
     margin-top: 40px;
     margin-left: 200px;
     margin-right: 200px;
@@ -75,11 +83,13 @@
 }
 
 .formFields {
+
     left: 50px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .contentList {
+
     margin-top: 45px;
     margin-left: 30px;
     margin-right: 30px;
@@ -92,6 +102,7 @@
 }
 
 .contentTableUserSearch {
+
     margin-top: 10px;
     margin-left: 30px;
     margin-right: 30px;
@@ -100,6 +111,7 @@
 }
 
 .contentNotPermission {
+
     margin-top: 40px;
     margin-bottom: 70px;
     margin-left: 200px;
@@ -110,6 +122,7 @@
 }
 
 .contentRecord {
+
     margin-top: 20px;
     margin-left: 200px;
     margin-right: 200px;
@@ -120,6 +133,7 @@
 }
 
 .contentConfirmMeeting {
+
     margin-left: 720px;
     margin-right: 40px;
     box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
@@ -128,7 +142,6 @@
 }
 
 .contentQuestionnaire {
-    /* margin-top: 05px; */
 
     margin-left: 720px;
     margin-right: 40px;
@@ -142,6 +155,7 @@ div.container {
 }
 
 div.op1 {
+
     margin-left: 50px;
     width: 38%;
     box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
@@ -155,6 +169,7 @@ div.op1 {
 }
 
 div.op2 {
+
     position: absolute;
     width: 38%;
     margin-left: 175px;
@@ -174,6 +189,7 @@ div.op2 {
 }
 
 div.comment {
+
     margin-top: 40px;
     margin-left: 30px;
     width: 45%;
@@ -189,6 +205,7 @@ div.comment {
 }
 
 div.graphic {
+    
     margin-top: 40px;
     margin-left: 70px;
     position: absolute;

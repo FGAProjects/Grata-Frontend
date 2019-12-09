@@ -26,6 +26,7 @@ import Record from './containers/record/Record';
 import QuizCreator from './containers/quiz/QuizCreator';
 import ResultsQuiz from './containers/quiz/ResultsQuiz';
 import RespondQuiz from './containers/quiz/RespondQuiz';
+import Manuals from './containers/manuals/Manuals';
 
 const BaseRouter = () => (
     <Hoc>
@@ -58,6 +59,7 @@ const BaseRouter = () => (
                             component = { RespondQuiz } />
         <Route exact path = '/resultado_questionario/:meeting_id/:questtionaire_id/' 
                             component = { ResultsQuiz } />
+        <Route exact path = '/manuais/' component = { Manuals } />
     </Hoc>
 );
 
