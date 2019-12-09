@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Icon, List, Avatar } from 'antd';
+import { Form, Input, Button, Icon, List, Avatar, Skeleton } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -155,168 +155,202 @@ class MeetingConfirm extends Component {
                                         </Button>
                                     </div>
                                 ) : (
-                                    <div>
-                                        <p className = 'spaceTop'>  </p>
+                                    <div className = 'spaceTop'>
+                                        <Button 
+                                            type = 'ghost' 
+                                            className = 'buttonSave' 
+                                            style = {{
+                                                marginRight: '20px',
+                                                marginLeft: '830px'
+                                            }}
+                                        >
+                                            <Link to = { `/visualizar_ata/${ currentMeeting.id }/ `} >
+                                                Visualizar Ata
+                                            </Link>
+                                        </Button>
                                     </div>
                                 )
                             }
-                            <div className = 'container'>
-                                <div className = 'op1'>
-                                    <h1 className = 'texth1'> Informações Cadastradas </h1>
-                                        <Form layout = 'vertical' className = 'formUser'>
-                                            <Form.Item 
-                                                label = 'Nome' 
-                                                { ...formItemLayout }
-                                                className = 'formFields'	
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.title } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Assunto' 
-                                                { ...formItemLayout } 
-                                                className = 'formFields'
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.subject_matter } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item
-                                                label = 'Status'
-                                                { ...formItemLayoutMinimum }
-                                                className = 'formFields'    
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.status } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Líder da Reunião' 
-                                                { ...formItemLayout }
-                                                className = 'formFields'
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.meeting_leader } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Local' 
-                                                { ...formItemLayout }
-                                                className = 'formFields'
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.sector } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Data de Inicio' 
-                                                { ...formItemLayoutMinimum }
-                                                className = 'formFields'    
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.initial_date } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Hora de Inicio' 
-                                                { ...formItemLayoutMinimum }
-                                                className = 'formFields' 
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.initial_hour } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item 
-                                                label = 'Hora de Encerramento' 
-                                                { ...formItemLayoutMinimum }
-                                                className = 'formFields'
-                                            >
-                                                <Input 
-                                                    value = { currentMeeting.final_hour } 
-                                                    disabled = { true } 
-                                                />
-                                            </Form.Item>
-                                        </Form>
+                            {
+                                this.props.loading ? (
+                                    <Skeleton active/>
+                                ) : (
+                                    <div className = 'container'>
+                                        <div className = 'op1'>
+                                            <h1 className = 'texth1'> Informações Cadastradas </h1>
+                                                <Form layout = 'vertical' className = 'formUser'>
+                                                    <Form.Item 
+                                                        label = 'Nome' 
+                                                        { ...formItemLayout }
+                                                        className = 'formFields'	
+                                                    >
+                                                        <Input 
+                                                            value = { currentMeeting.title } 
+                                                            disabled = { true } 
+                                                        />
+                                                    </Form.Item>
+        
+                                                    <Form.Item 
+                                                        label = 'Assunto' 
+                                                        { ...formItemLayout } 
+                                                        className = 'formFields'
+                                                    >
+                                                        <Input 
+                                                            value = { currentMeeting.subject_matter } 
+                                                            disabled = { true } 
+                                                        />
+                                                    </Form.Item>
+        
+                                                    <Form.Item
+                                                        label = 'Status'
+                                                        { ...formItemLayoutMinimum }
+                                                        className = 'formFields'    
+                                                    >
+                                                        <Input 
+                                                            value = { currentMeeting.status } 
+                                                            disabled = { true } 
+                                                        />
+                                                    </Form.Item>
+        
+                                                    <Form.Item 
+                                                        label = 'Líder da Reunião' 
+                                                        { ...formItemLayout }
+                                                        className = 'formFields'
+                                                    >
+                                                        <Input 
+                                                            value = { currentMeeting.meeting_leader } 
+                                                            disabled = { true } 
+                                                        />
+                                                    </Form.Item>
+        
+                                                    <Form.Item 
+                                                        label = 'Local' 
+                                                        { ...formItemLayout }
+                                                        className = 'formFields'
+                                                    >
+                                                        <Input 
+                                                            value = { currentMeeting.sector } 
+                                                            disabled = { true } 
+                                                        />
+                                                    </Form.Item>
+        
+                                                    <Form.Item 
+                                                        label = 'Data de Inicio' 
+                                                        { ...formItemLayoutMinimum }
+                                                        className = 'formFields'    
+                                                    >
+                                                        <Input 
+                                                            value = { currentMeeting.initial_date } 
+                                                            disabled = { true } 
+                                                        />
+                                                    </Form.Item>
+        
+                                                    <Form.Item 
+                                                        label = 'Hora de Inicio' 
+                                                        { ...formItemLayoutMinimum }
+                                                        className = 'formFields' 
+                                                    >
+                                                        <Input 
+                                                            value = { currentMeeting.initial_hour } 
+                                                            disabled = { true } 
+                                                        />
+                                                    </Form.Item>
+        
+                                                    <Form.Item 
+                                                        label = 'Hora de Encerramento' 
+                                                        { ...formItemLayoutMinimum }
+                                                        className = 'formFields'
+                                                    >
+                                                        <Input 
+                                                            value = { currentMeeting.final_hour } 
+                                                            disabled = { true } 
+                                                        />
+                                                    </Form.Item>
+                                                </Form>
+                                            </div>
+                                            {
+                                                permission === true ? (
+                                                    <div className = 'op2'>
+                                                        <h1 className = 'texth1'> Questionário(s) Cadastrado(s) </h1>
+                                                        <List
+                                                            dataSource = {
+                                                                dataSource.innerArray
+                                                            }
+                                                            bordered
+                                                            renderItem = { quiz => (
+                                                                <List.Item
+                                                                    key = { quiz.key }
+                                                                    actions = {[
+                                                                        <Link to = { `/resultado_questionario/${ currentMeeting.id }/${ quiz.key }/`} >
+                                                                            Visualizar Resultados
+                                                                        </Link>
+                                                                    ]}
+                                                                >
+                                                                <List.Item.Meta
+                                                                    avatar = {
+                                                                        <Avatar 
+                                                                            src = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'/>
+                                                                    }
+                                                                    title = { 
+                                                                        <b> { quiz.title } </b>
+                                                                    }
+                                                                />
+                                                                </List.Item>
+                                                            )}
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    <div className = 'op2'>
+                                                        {
+                                                            this.props.loadingQuesttionaire ? (
+                                                                <Skeleton active/>
+                                                            ) : (
+                                                                <div>
+                                                                    <h1 className = 'texth1'> Questionário(s) Cadastrado(s) </h1>
+                                                                    <List
+                                                                        dataSource = {
+                                                                            dataSource.innerArray
+                                                                        }
+                                                                        bordered
+                                                                        renderItem = { quiz => (
+                                                                            <List.Item
+                                                                                key = { quiz.key }
+                                                                                actions = {[
+                                                                                    <Link to = { `/responder_questionario/${ currentMeeting.id }/${ quiz.key }/`} >
+                                                                                        Responder Questionário
+                                                                                    </Link>
+                                                                                ]}
+                                                                            >
+                                                                            <List.Item.Meta
+                                                                                avatar = {
+                                                                                    <Avatar 
+                                                                                        src = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'/>
+                                                                                }
+                                                                                title = { 
+                                                                                    <b> { quiz.title } </b>
+                                                                                }
+                                                                            />
+                                                                            <List.Item.Meta
+                                                                                title = {
+                                                                                    <b>
+                                                                                        <Link to = { `/resultado_questionario/${ currentMeeting.id }/${ quiz.key }/`} >
+                                                                                            Visualizar Resultados
+                                                                                        </Link>
+                                                                                    </b> 
+                                                                                }
+                                                                            />
+                                                                            </List.Item>
+                                                                        )}
+                                                                    />
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </div>
+                                                )
+                                            }
                                     </div>
-                                    {
-                                        permission === true ? (
-                                            <div className = 'op2'>
-                                                <h1 className = 'texth1'> Questionário(s) Cadastrado(s) </h1>
-                                                <List
-                                                    dataSource = {
-                                                        dataSource.innerArray
-                                                    }
-                                                    bordered
-                                                    renderItem = { quiz => (
-                                                        <List.Item
-                                                            key = { quiz.key }
-                                                            actions = {[
-                                                                <Link to = { `/resultado_questionario/${ currentMeeting.id }/${ quiz.key }/`} >
-                                                                    Visualizar Resultados
-                                                                </Link>
-                                                            ]}
-                                                        >
-                                                        <List.Item.Meta
-                                                            avatar = {
-                                                                <Avatar 
-                                                                    src = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'/>
-                                                            }
-                                                            title = { 
-                                                                <b> { quiz.title } </b>
-                                                            }
-                                                        />
-                                                        </List.Item>
-                                                    )}
-                                                />
-                                            </div>
-                                        ) : (
-                                            <div className = 'op2'>
-                                                <h1 className = 'texth1'> Questionário(s) Cadastrado(s) </h1>
-                                                <List
-                                                    dataSource = {
-                                                        dataSource.innerArray
-                                                    }
-                                                    bordered
-                                                    renderItem = { quiz => (
-                                                        <List.Item
-                                                            key = { quiz.key }
-                                                            actions = {[
-                                                                <Link to = { `/responder_questionario/${ currentMeeting.id }/${ quiz.key }/`} >
-                                                                    Responder Questionário
-                                                                </Link>
-                                                            ]}
-                                                        >
-                                                        <List.Item.Meta
-                                                            avatar = {
-                                                                <Avatar 
-                                                                    src = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'/>
-                                                            }
-                                                            title = { 
-                                                                <b> { quiz.title } </b>
-                                                            }
-                                                        />
-                                                        </List.Item>
-                                                    )}
-                                                />
-                                            </div>
-                                        )
-                                    }
-                            </div>
+                                )
+                            }
                         </Hoc>
                     )
                 }
@@ -335,7 +369,8 @@ const mapStateToProps = state => {
         loading: state.meeting.loading,
         currentMeeting: state.meeting.currentMeeting,
         currentUser: state.auth.currentUser,
-        questtionaires: state.quiz.questtionaires
+        questtionaires: state.quiz.questtionaires,
+        loadingQuesttionaire: state.quiz.loading,
     };
 };
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, TimePicker, Button, Form, Input, Icon, message } from 'antd';
+import { DatePicker, TimePicker, Button, Form, Input, Icon, message, Skeleton } from 'antd';
 import { connect } from 'react-redux'
 import { fail } from 'assert';
 import { Link } from 'react-router-dom';
@@ -193,23 +193,29 @@ class MeetingCreate extends Component {
 												}
 											</Form.Item>
 
-											<Form.Item label = 'Local' hasFeedback { ...formItemLayout }>
-												{
-													getFieldDecorator('local', {
-													rules: [
+											{
+												this.props.loadingSector ? (
+													<Skeleton active/>
+												) : (
+													<Form.Item label = 'Local' hasFeedback { ...formItemLayout }>
 														{
-															required: false,
+															getFieldDecorator('local', {
+															rules: [
+																{
+																	required: false,
+																}
+																],
+															})(							
+																<Input prefix = { <Icon type = 'form' className = 'icons'/> }
+																	placeholder = { currentProject.sector }
+																	disabled = { true }
+																/>
+															)
 														}
-														],
-													})(							
-														<Input prefix = { <Icon type = 'form' className = 'icons'/> }
-															placeholder = { currentProject.sector }
-															disabled = { true }
-														/>
-													)
-												}
-											</Form.Item>
-
+													</Form.Item>
+												)
+											}
+											
 											<Form.Item label = 'Data Inicio - Data Fim' hasFeedback { ...formItemLayout }>
 												{
 													getFieldDecorator('range-picker', {
@@ -293,7 +299,8 @@ const mapStateToProps = (state) => {
 		error: state.meeting.error,
 		token: state.auth.token,
 		currentProject: state.project.currentProject,
-		sectors: state.sector.sectors
+		sectors: state.sector.sectors,
+		loadingSector: state.sector.loading
 	}
 }
 

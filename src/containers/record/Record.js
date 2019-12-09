@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Descriptions, Badge, Button, Icon } from 'antd';
+import { Descriptions, Badge, Button, Icon, Skeleton } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -112,80 +112,86 @@ class Record extends Component {
 						<Homepage/>
 					) : (
 						<Hoc>
-							<div align = 'right'>
-								<Button type = 'ghost' 
-									htmlType = 'submit' 
-									className = 'buttonBack'
-									style = {{
-										marginTop: '30px',
-										marginRight: '30px'
-									}} 
-								>
-									<Link to = { `/reuniao_confirmada/${ currentMeeting.id }/`}>
-										<Icon type = 'arrow-left' className = 'icons'/>
-										Voltar
-									</Link>
-								</Button>
+							{
+								this.props.loading ? (
+									<Skeleton active/>
+								) : (
+									<div align = 'right'>
+										<Button type = 'ghost' 
+											htmlType = 'submit' 
+											className = 'buttonBack'
+											style = {{
+												marginTop: '30px',
+												marginRight: '30px'
+											}} 
+										>
+											<Link to = { `/reuniao_confirmada/${ currentMeeting.id }/`}>
+												<Icon type = 'arrow-left' className = 'icons'/>
+												Voltar
+											</Link>
+										</Button>
 
-								<div className = 'contentRecord'>
-									<Descriptions 
-										title = {` ${currentMeeting.title} `} 
-										layout = 'vertical' 
-										bordered
-										className = 'texth1'	
-									>
-										<Descriptions.Item label = 'Título da Reunião'> 
-											{ currentMeeting.title } 
-										</Descriptions.Item>
-										
-										<Descriptions.Item label = 'Assunto da Reunião'>
-											{ currentMeeting.subject_matter }
-										</Descriptions.Item>
-										
-										<Descriptions.Item label = 'Setor Responsável'>
-											{ currentMeeting.sector }
-										</Descriptions.Item>
-										
-										<Descriptions.Item label = 'Data de Abertura'>
-											{ currentMeeting.initial_date }
-										</Descriptions.Item>
-										
-										<Descriptions.Item label = 'Data de Encerramento'>
-											{ currentMeeting.final_date }
-										</Descriptions.Item>
-										
-										<Descriptions.Item label = 'Hora de Inicio'>
-											{ currentMeeting.initial_hour }
-										</Descriptions.Item>
-										
-										<Descriptions.Item label = 'Hora de Encerramento'>
-											{ currentMeeting.final_hour }
-										</Descriptions.Item>
-										
-										<Descriptions.Item label = 'Status da Reunião' span = { 3 }>
-											<Badge status = 'processing' text = { `${ currentMeeting.status }` } />
-										</Descriptions.Item>
-										
-										<Descriptions.Item label = 'Usuários Confirmados na Reunião'> 
-											{ usersMeeting.innerArray.map(user =>
-												<li key = { user.key }> { user.users } </li>	
-											)}
-										</Descriptions.Item>
-																	
-										<Descriptions.Item label = 'Tópicos'> 
-											{ topicsMeeting.innerArray.map(topic =>
-												<li key = { topic.key }> { topic.topics } </li>	
-											)}
-										</Descriptions.Item>
+										<div className = 'contentRecord'>
+											<Descriptions 
+												title = {` ${currentMeeting.title} `} 
+												layout = 'vertical' 
+												bordered
+												className = 'texth1'	
+											>
+												<Descriptions.Item label = 'Título da Reunião'> 
+													{ currentMeeting.title } 
+												</Descriptions.Item>
+												
+												<Descriptions.Item label = 'Assunto da Reunião'>
+													{ currentMeeting.subject_matter }
+												</Descriptions.Item>
+												
+												<Descriptions.Item label = 'Setor Responsável'>
+													{ currentMeeting.sector }
+												</Descriptions.Item>
+												
+												<Descriptions.Item label = 'Data de Abertura'>
+													{ currentMeeting.initial_date }
+												</Descriptions.Item>
+												
+												<Descriptions.Item label = 'Data de Encerramento'>
+													{ currentMeeting.final_date }
+												</Descriptions.Item>
+												
+												<Descriptions.Item label = 'Hora de Inicio'>
+													{ currentMeeting.initial_hour }
+												</Descriptions.Item>
+												
+												<Descriptions.Item label = 'Hora de Encerramento'>
+													{ currentMeeting.final_hour }
+												</Descriptions.Item>
+												
+												<Descriptions.Item label = 'Status da Reunião' span = { 3 }>
+													<Badge status = 'processing' text = { `${ currentMeeting.status }` } />
+												</Descriptions.Item>
+												
+												<Descriptions.Item label = 'Usuários Confirmados na Reunião'> 
+													{ usersMeeting.innerArray.map(user =>
+														<li key = { user.key }> { user.users } </li>	
+													)}
+												</Descriptions.Item>
+																			
+												<Descriptions.Item label = 'Tópicos'> 
+													{ topicsMeeting.innerArray.map(topic =>
+														<li key = { topic.key }> { topic.topics } </li>	
+													)}
+												</Descriptions.Item>
 
-										<Descriptions.Item label = 'Regras da Reunião' span={3}>
-											{ rulesMeeting.innerArray.map(rule =>
-												<li key = { rule.key }> { rule.rules } </li>	
-											)}
-										</Descriptions.Item>
-									</Descriptions>
-								</div>
-							</div>
+												<Descriptions.Item label = 'Regras da Reunião' span={3}>
+													{ rulesMeeting.innerArray.map(rule =>
+														<li key = { rule.key }> { rule.rules } </li>	
+													)}
+												</Descriptions.Item>
+											</Descriptions>
+										</div>
+									</div>
+								)
+							}
 						</Hoc>
 					)
 				}

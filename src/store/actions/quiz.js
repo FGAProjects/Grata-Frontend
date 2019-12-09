@@ -5,7 +5,8 @@ import {
     GET_QUESTTIONAIRE_DETAIL_START, GET_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTTIONAIRE_DETAIL_FAIL,
     GET_QUESTION_QUESTTIONAIRE_DETAIL_START, GET_QUESTION_QUESTTIONAIRE_DETAIL_SUCCESS, GET_QUESTION_QUESTTIONAIRE_DETAIL_FAIL,
     CREATE_RESPOND_QUIZ_START, CREATE_RESPOND_QUIZ_SUCCESS, CREATE_RESPOND_QUIZ_FAIL,
-    GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_START, GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_SUCCESS, GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_FAIL
+    GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_START, GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_SUCCESS, GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_FAIL,
+    GET_ALL_GRADED_QUESTIIONAIRE_START, GET_ALL_GRADED_QUESTIIONAIRE_SUCCESS, GET_ALL_GRADED_QUESTIIONAIRE_FAIL
 } from './actionsTypes';
 
 const createQuesttionaireQuizStart = () => {
@@ -119,7 +120,8 @@ const createRespondQuizSuccess = respondQuiz => {
 
     return {
 
-        type: CREATE_RESPOND_QUIZ_SUCCESS
+        type: CREATE_RESPOND_QUIZ_SUCCESS,
+        respondQuiz
     }
 }
 
@@ -155,6 +157,31 @@ const getGradedQuesttionaireQuesttionaireListFail = error => {
         type: GET_GRADED_QUESTTIONAIRE_IN_QUESTTIONAIRE_FAIL,
         error: error
     }
+}
+
+const getAllGradedListStart = () => {
+
+    return {
+        type: GET_ALL_GRADED_QUESTIIONAIRE_START
+    };
+}
+
+const getAllGradedListSuccess = graded => {
+
+    return {
+
+        type: GET_ALL_GRADED_QUESTIIONAIRE_SUCCESS,
+        graded
+    };
+}
+
+const getAllGradedListFail = error => {
+
+    return {
+
+        type: GET_ALL_GRADED_QUESTIIONAIRE_FAIL,
+        error: error
+    };
 }
 
 export const createQuesttionaireQuiz = (token, quiz) => {
@@ -271,6 +298,26 @@ export const getGradedQuesttionaires = (token, questtionaireId) => {
         })
         .catch(err => {
             dispatch(getGradedQuesttionaireQuesttionaireListFail(err));
+        });
+    };
+};
+
+export const getAllGraded = (token) => {
+    
+    return dispatch => {
+    
+        dispatch(getAllGradedListStart());
+        axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${ token }`
+        };
+        axios.get('http://0.0.0.0:8000/graded_questtionaire/')
+        .then(res => {
+            const graded = res.data;
+            dispatch(getAllGradedListSuccess(graded));
+        })
+        .catch(err => {
+            dispatch(getAllGradedListFail(err));
         });
     };
 };
