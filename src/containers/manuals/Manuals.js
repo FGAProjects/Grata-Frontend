@@ -5,24 +5,36 @@ import { connect } from 'react-redux';
 import Homepage from '../homepage/Homepage';
 import Hoc from '../../hoc/hoc';
 
-import criar_novo_usuario_navbar from '../../images/criando_usuario_navbar.png';
-import criar_novo_usuario from '../../images/criando_novo_usuario.png';
-import editar_informacoes_navbar from '../../images/editar_informacoes_navbar.png';
-import setores_editar_informacoes from '../../images/setores_editar_informacoes.png';
-import visualizar_usuarios_navbar from '../../images/visualizar_usuarios_navbar.png';
-import lista_usuarios from '../../images/lista_usuarios.png';
-import criando_setor_navbar from '../../images/criando_setor_navbar.png';
-import criando_setor from '../../images/criando_setor.png';
-import editando_setor from '../../images/editando_setor.png';
-import excluindo_setor from '../../images/excluindo_setor.png';
-import lista_setores_navbar from '../../images/lista_setor.png';
-import lista_de_setores from '../../images/lista_de_setores.png';
-import editando_projeto from '../../images/alterando_projeto.png';
-import criando_projeto_navbar from '../../images/criando_projeto_navbar.png';
-import criando_projeto from '../../images/criando_projeto.png';
-import lista_de_projetos_navbar from '../../images/lista_de_projetos_navbar.png';
-import lista_de_projetos from '../../images/lista_de_projetos.png';
-import excluindo_projeto from '../../images/excluindo_projeto.png';
+import criar_novo_usuario_navbar from '../../images/users/criando_usuario_navbar.png';
+import criar_novo_usuario from '../../images/users/criando_novo_usuario.png';
+import editar_informacoes_navbar from '../../images/users/editar_informacoes_navbar.png';
+import visualizar_usuarios_navbar from '../../images/users/visualizar_usuarios_navbar.png';
+import lista_usuarios from '../../images/users/lista_usuarios.png';
+
+import setores_editar_informacoes from '../../images/sectors/setores_editar_informacoes.png';
+import criando_setor_navbar from '../../images/sectors/criando_setor_navbar.png';
+import criando_setor from '../../images/sectors/criando_setor.png';
+import editando_setor from '../../images/sectors/editando_setor.png';
+import excluindo_setor from '../../images/sectors/excluindo_setor.png';
+import lista_setores_navbar from '../../images/sectors/lista_setor.png';
+import lista_de_setores from '../../images/sectors/lista_de_setores.png';
+
+import editando_projeto from '../../images/projects/alterando_projeto.png';
+import criando_projeto_navbar from '../../images/projects/criando_projeto_navbar.png';
+import criando_projeto from '../../images/projects/criando_projeto.png';
+import lista_de_projetos_navbar from '../../images/projects/lista_de_projetos_navbar.png';
+import lista_de_projetos from '../../images/projects/lista_de_projetos.png';
+import excluindo_projeto from '../../images/projects/excluindo_projeto.png';
+
+import confirmar_reuniao from '../../images/meetings/confirmar_reuniao.png';
+import detalhes_reuniao from '../../images/meetings/detalhes_reuniao.png';
+import editar_reuniao from '../../images/meetings/editar_reuniao.png';
+import excluir_reuniao from '../../images/meetings/excluir_reuniao.png';
+import formulario_reuniao from '../../images/meetings/formulario_reuniao.png';
+import lista_de_usuarios_reuniao from '../../images/meetings/lista_de_usuarios_reuniao.png';
+import lista_reunioes from '../../images/meetings/lista_reunioes.png';
+import nova_reuniao from '../../images/meetings/nova_reuniao.png';
+import reuniao_confirmada from '../../images/meetings/reuniao_confirmada.png';
 
 const { TabPane } = Tabs;
 
@@ -202,12 +214,101 @@ class Manuals extends Component {
                                     <p className = 'format'>
                                         Para excluir o projeto, clicar no botão "Excluir Projeto".
                                         <img className = 'imgs' src = { excluindo_projeto } alt = ''/>
-                                        {/* <b style = {{ color: 'red' }}> Observação: </b> */}
+                                        <b style = {{ color: 'red' }}> Observação: </b>
+                                        Ao excluir um projeto, todas as informações relacionadas as reuniões
+                                        ligadas a este projeto serão <b style = {{ color: 'red' }}> PERDIDAS </b>.
                                     </p>
                                 </TabPane>
 
                                 <TabPane tab = 'Reuniões' key = '4'>
-                                    Reuniões
+                                    <h2 className = 'formath2'>
+                                        <b> O Que São as Reuniões? </b>
+                                    </h2>
+                                    <p className = 'format'>
+                                        Reuniões são encontros institucionais que possuem objetivo de tratar
+                                        de projetos. Uma reunião bem sucedida é que aquela que consegue cumprir
+                                        seus objetivos de maneira rápida, não se prologando desnecessariamente.
+                                    </p>
+                                    <h3 className = 'formath2'>
+                                        <b> Criando Uma Reunião </b>
+                                    </h3>
+                                    <p className = 'format'>
+                                        Para criar uma reunião, o administrador deve clicar no projeto em que deseja
+                                        criar a reunião, como mostrado abaixo:
+                                        <img className = 'imgListUsers' src = { lista_de_projetos } alt = ''/>
+                                        Após selecionar o projeto específico, basta clicar no botão "Nova Reunião".
+                                        <img className = 'imgListUsers' src = { nova_reuniao } alt = ''/>
+                                        Preenchendo o formulário, será possível visualizar que o local da reunião será
+                                        o setor em que a reunião será localizada. Todas as reuniões possuem um "líder da
+                                        reunião", e esta pessoa é o administrador que cria a reunião.
+                                        <img className = 'imgs' src = { formulario_reuniao } alt = ''/>
+                                    </p>
+                                    <h3 className = 'formath2'>
+                                        <b> Lista de Reuniões </b>
+                                    </h3>
+                                    <p className = 'format'> 
+                                        As reuniões do projeto são mostradas na lista de reuniões do projeto,
+                                        sendo apresentadas todas as informações das mesmas e seus "status". O status 
+                                        definem a situação atual do projeto.
+                                        <img className = 'imgListUsers' src = { lista_reunioes } alt = ''/>
+                                    </p>
+                                    <h3 className = 'formath2'>
+                                        <b> Status </b>
+                                    </h3>
+                                    <p className = 'format'>
+                                        Todas as reuniões possuem um status. Esses atributos se remetem a situação
+                                        atual da reunião e são divididos em quatro status: 
+                                        <b style = {{ color: 'orange' }}> Pendente </b>,
+                                        <b style = {{ color: 'blue' }}> Agendada </b>,
+                                        <b style = {{ color: 'green' }}> Confirmada </b>,
+                                        <b style = {{ color: 'red' }}> Cancelada </b>.
+                                        Uma reunião com o status de 
+                                        <b style = {{ color: 'orange' }}> "Pendente" </b>,
+                                        , significa que ainda possuem passos
+                                        a serem realizados, como usuários a serem adicionados a reunião, tópicos e regras
+                                        de conduta faltando a reunião. Após esses elementos serem adicionados, bastará clicar no
+                                        botão "Confirmar Reunião", como mostrado a seguir:
+                                        <img className = 'imgListUsers' src = { confirmar_reuniao } alt = ''/>
+                                        Após serem preenchidos todos os detalhes que completam a ata da reunião, a 
+                                        reunião passa automaticamente para o status de 
+                                        <b style = {{ color: 'blue' }}> Agendada </b>. Neste status, ainda é possível
+                                        editar a reunião. Após apertar o botão "Confirmar Reunião", a reunião não poderá
+                                        ser mais editada, por tanto cuidado. Agora a reunião passa a ter o status de
+                                        <b style = {{ color: 'green' }}> Confirmada </b>, passando assim a possuir
+                                        o direito ao lider da reunião a criar questionários e observar o resultado destes
+                                        questionários. 
+                                        <img className = 'imgListUsers' src = { reuniao_confirmada } alt = ''/>
+                                        A reunião passa a possuir o status de
+                                        <b style = {{ color: 'red' }}> Cancelada </b>, quando o lider da reunião resolve cancelar
+                                        a reunião, e assim todos os dados referentes a esta reunião serão perdidos.
+                                        <img className = 'imgs' src = { excluir_reuniao } alt = ''/>                     
+                                    </p>
+                                    <h3 className = 'formath2'>
+                                        <b> Detalhes da Reunião </b>
+                                    </h3>
+                                    <p className = 'format'>
+                                        Todos os usuários que estão envolvidos nesta reunião poderão visualizar
+                                        os detalhes da reunião. Neste pequeno relatório mostra a maior parte dos
+                                        dados referidos a ela:
+                                        <img className = 'imgs' src = { detalhes_reuniao } alt = ''/>                     
+                                    </p>
+                                    <h3 className = 'formath2'>
+                                        <b> Editar a Reunião </b>
+                                    </h3>
+                                    <p className = 'format'>
+                                        A reunião pode ser editada apenas pelo lider da reunião. Todos os campos,
+                                        exceto mudar o lider da reunião e o local da reunião podem ser alterados.
+                                        <img className = 'imgs' src = { editar_reuniao } alt = ''/>                     
+                                    </p>
+                                    <h3 className = 'formath2'>
+                                        <b> Lista de Usuários da Reunião </b>
+                                    </h3>
+                                    <p className = 'format'>
+                                        Apenas o lider da reunião pode adicionar os usuários a reunião, contudo 
+                                        todos os usuários que já estiverem escolhidos os seus setores, aparecem 
+                                        disponíveis para serem adicionados a reunião. 
+                                        <img className = 'imgs' src = { lista_de_usuarios_reuniao } alt = ''/>                     
+                                    </p>
                                 </TabPane>
 
                                 <TabPane tab = 'Questionários' key = '5'>
@@ -238,11 +339,4 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-	
-	return {
-	
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Manuals);
+export default connect(mapStateToProps)(Manuals);
