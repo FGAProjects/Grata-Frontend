@@ -12,6 +12,7 @@ import '../css/navbar.css';
 import '../css/icon.css';
 import '../css/img.css';
 import '../css/formatText.css';
+import '../css/tabs.css';
 
 const { Footer } = Layout;
 

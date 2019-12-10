@@ -5,8 +5,6 @@ import Hoc from "./hoc/hoc";
 import Login from './containers/user/Login';
 import Homepage from './containers/homepage/Homepage';
 import UserRegister from './containers/user/UserRegister';
-import UserDetail from './containers/user/UserDetail';
-import UserEdit from './containers/user/UserEdit';
 import UserList from './containers/user/UserList';
 import UserMeeting from './containers/user/UserListMeeting';
 import ProjectList from './containers/projects/ProjectList';
@@ -28,14 +26,14 @@ import ResultsQuiz from './containers/quiz/ResultsQuiz';
 import RespondQuiz from './containers/quiz/RespondQuiz';
 import Manuals from './containers/manuals/Manuals';
 
+import UserDetail from './containers/user/UserDetail';
+
 const BaseRouter = () => (
     <Hoc>
         <Route exact path = '/' component = { Homepage } />
         <Route exact path = '/login/' component = { Login } />
         <Route exact path = '/adicionar_usuario/' component = { UserRegister } />
-        <Route exact path = '/informacoes_usuario/' component = { UserDetail } />
         <Route exact path = '/lista_usuarios/' component = { UserList } />
-        <Route exact path = '/alterar_informacoes/' component = { UserEdit } />
         <Route exact path = '/lista_de_projetos/' component = { ProjectList } />
         <Route exact path = '/criar_projeto/' component = { ProjectCreate } />
         <Route exact path = '/editar_projeto/:project_id/' component = { ProjectEdit } />
@@ -60,6 +58,8 @@ const BaseRouter = () => (
         <Route exact path = '/resultado_questionario/:meeting_id/:questtionaire_id/' 
                             component = { ResultsQuiz } />
         <Route exact path = '/manuais/' component = { Manuals } />
+
+        <Route exact path = '/informacoes_usuario/' component = { UserDetail } />
     </Hoc>
 );
 

@@ -19,12 +19,6 @@ class DropdownNav extends Component {
 									Visualizar Perfil
 								</Link>
 						</Menu.Item>
-						<Menu.Item key = '1' >
-							<Icon type = 'edit' />
-								<Link to= { '/alterar_informacoes/' } >
-									Editar Perfil
-								</Link>
-						</Menu.Item>
 					</Menu>
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 

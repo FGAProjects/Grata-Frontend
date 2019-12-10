@@ -50,6 +50,7 @@ class Manuals extends Component {
     }
 
     render() {
+        
         return (
 
             <Hoc>
