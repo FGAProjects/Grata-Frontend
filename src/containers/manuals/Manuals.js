@@ -35,6 +35,11 @@ import lista_de_usuarios_reuniao from '../../images/meetings/lista_de_usuarios_r
 import lista_reunioes from '../../images/meetings/lista_reunioes.png';
 import nova_reuniao from '../../images/meetings/nova_reuniao.png';
 import reuniao_confirmada from '../../images/meetings/reuniao_confirmada.png';
+import ata from '../../images/meetings/ata.png';
+
+import questtionaire from '../../images/questtionaire/questtionaire.png';
+
+import comments from '../../images/results/comments.png';
 
 const { TabPane } = Tabs;
 
@@ -309,18 +314,49 @@ class Manuals extends Component {
                                         disponíveis para serem adicionados a reunião. 
                                         <img className = 'imgs' src = { lista_de_usuarios_reuniao } alt = ''/>                     
                                     </p>
+                                    <h3 className = 'formath2'>
+                                        <b> Ata </b>
+                                    </h3>
+                                    <p className = 'format'>
+                                        A Ata poderá ser vista quando o líder da reunião confirmar a reunião. Todos
+                                        os usuários envolvidos na reunião poderão visualizar a ata.
+                                        <img className = 'imgs' src = { ata } alt = ''/>                     
+                                    </p>
                                 </TabPane>
 
                                 <TabPane tab = 'Questionários' key = '5'>
-                                    Questionários
+                                    <h2 className = 'formath2'>
+                                        O Que é o Questionário?
+                                    </h2>
+                                    <p className = 'format'>
+                                        O questionário para o Grata é um instrumento importante de 
+                                        <i>feedbacks</i> para o lider da reunião. Apenas o líder da reunião
+                                        pode criar um questionário e a partir dos resultados do questionário que
+                                        o líder da reunião pode trabalhar a seu gosto.
+                                        <img className = 'imgs' src = { questtionaire } alt = ''/>                     
+                                    </p>
                                 </TabPane>
 
                                 <TabPane tab = 'Resultados' key = '6'>
-                                    Resultados
+                                    <h2 className = 'formath2'>
+                                        <b> Resultados </b>
+                                    </h2>
+                                    <p className = 'format'>
+                                        Um dos instrumentos para auxiliar o líder da reunião e os participantes
+                                        da reunião, são os comentários. Os comentários podem ser adicionados por 
+                                        todos os envolvidos na reunião ao fim do questionário.
+                                        <img className = 'imgs' src = { comments } alt = ''/>                     
+                                    </p>
                                 </TabPane>
 
                                 <TabPane tab = 'Informações Importantes' key = '7'>
-                                    Informações Importantes
+                                    <p className = 'format'>
+                                        <b>
+                                            Por motivos desconhecidos, todos os instrumentos de cadastro e
+                                            de amostras de informações podem não aparecer quando solicitados. Para
+                                            resolver este problema, basta "Atualizar" a página, com um F5 do seu teclado.
+                                        </b>
+                                    </p>
                                 </TabPane>
                             </Tabs>
                         </div>
