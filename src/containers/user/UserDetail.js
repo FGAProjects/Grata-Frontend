@@ -168,8 +168,6 @@ class UserDetail extends Component {
 			); 
         }
         
-        console.log(dataSource.innerArray)
-
 		dataSource.innerArray.sort(dynamicSort('initials'));
 
         return (

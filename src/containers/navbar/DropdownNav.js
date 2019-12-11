@@ -29,20 +29,10 @@ class DropdownNav extends Component {
 
 				<Dropdown overlay = { 
 					<Menu>
-						{
-							this.props.is_administrator === true ? (
-								<Menu.Item key = '0' >
-									<Icon type = 'user-add' />
-										<Link to = '/adicionar_usuario/' >
-											Adicionar Usuário
-										</Link>
-								</Menu.Item>
-							) : null
-						}
 						<Menu.Item key = '1' >
 							<Icon type = 'team' />
-								<Link to = '/lista_usuarios/' >
-									Visualizar Usuários
+								<Link to = '/opcoes_usuario/' >
+									Opções Usuário
 								</Link>
 						</Menu.Item>
 					</Menu>

@@ -37,6 +37,8 @@ import nova_reuniao from '../../images/meetings/nova_reuniao.png';
 import reuniao_confirmada from '../../images/meetings/reuniao_confirmada.png';
 import ata from '../../images/meetings/ata.png';
 
+import not_permission from '../../images/notPermission/notPermission.gif';
+
 import questtionaire from '../../images/questtionaire/questtionaire.png';
 
 import comments from '../../images/results/comments.png';
@@ -351,12 +353,29 @@ class Manuals extends Component {
                                 </TabPane>
 
                                 <TabPane tab = 'Informações Importantes' key = '7'>
+                                    <h2 className = 'formath2'>
+                                        <b> Falha em Mostrar Informações </b>
+                                    </h2>
                                     <p className = 'format'>
                                         <b>
                                             Por motivos desconhecidos, todos os instrumentos de cadastro e
                                             de amostras de informações podem não aparecer quando solicitados. Para
                                             resolver este problema, basta "Atualizar" a página, com um F5 do seu teclado.
+                                            A persistir o problema, contate o desenvolvedor do projeto.
                                         </b>
+                                    </p>
+                                    <h2 className = 'formath2'>
+                                        <b> Falta de Permissão </b>
+                                    </h2>
+                                    <p className = 'format'>
+                                        Pode ocorrer que mesmo o usuário que esteja utilizando o sistema no momento seja
+                                        um administrador, aparecer uma mensagem do tipo: "Você não possui permissão para
+                                        acessar esta página". Caso você seja administrador, basta atualizar a página que 
+                                        o problema será corrigido.
+
+                                        Caso o usuário atual não seja um administrador e tente acessar uma página que não tenha
+                                        direitos, irá aparecer a seguinte mensagem para ele:
+                                        <img className = 'imgs' src = { not_permission } alt = ''/>                     
                                     </p>
                                 </TabPane>
                             </Tabs>
