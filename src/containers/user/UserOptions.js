@@ -333,6 +333,7 @@ class UserOptions extends Component {
                                             )
                                         }
                                     </TabPane>
+                                    
                                     <TabPane tab = 'Lista de Usuário Cadastrados' key = '2'>
                                         {
                                             this.props.loading ? (
@@ -429,7 +430,7 @@ const mapStateToProps = state => {
 	return {
 
         token: state.auth.token,
-        error: state.error,
+        error: state.auth.error,
         currentUser: state.auth.currentUser,
         users: state.auth.users,
         loading: state.auth.loading

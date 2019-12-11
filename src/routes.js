@@ -1,9 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Hoc from "./hoc/hoc";
+import Hoc from './hoc/hoc';
 
-import Login from './containers/user/Login';
-import Homepage from './containers/homepage/Homepage';
 import UserMeeting from './containers/user/UserListMeeting';
 import ProjectList from './containers/projects/ProjectList';
 import ProjectCreate from './containers/projects/ProjectCreate';
@@ -14,9 +12,6 @@ import MeetingDetail from './containers/meetings/MeetingDetail';
 import MeetingEdit from './containers/meetings/MeetingEdit';
 import MeetingConfirm from './containers/meetings/MeetingConfirm';
 import TopicsCreate from './containers/topics/TopicsCreate';
-import SectorCreate from './containers/sectors/SectorCreate';
-import SectorEdit from './containers/sectors/SectorEdit';
-import SectorList from './containers/sectors/SectorList';
 import RulesCreate from './containers/rules/RulesCreate';
 import Record from './containers/record/Record';
 import QuizCreator from './containers/quiz/QuizCreator';
@@ -24,8 +19,12 @@ import ResultsQuiz from './containers/quiz/ResultsQuiz';
 import RespondQuiz from './containers/quiz/RespondQuiz';
 import Manuals from './containers/manuals/Manuals';
 
+import Login from './containers/user/Login';
+import Homepage from './containers/homepage/Homepage';
 import UserDetail from './containers/user/UserDetail';
 import UserOptions from './containers/user/UserOptions';
+import SectorsOptions from './containers/sectors/SectorsOptions';
+import SectorEdit from './containers/sectors/SectorEdit';
 
 const BaseRouter = () => (
     <Hoc>
@@ -33,6 +32,8 @@ const BaseRouter = () => (
         <Route exact path = '/login/' component = { Login } />
         <Route exact path = '/informacoes_usuario/' component = { UserDetail } />
         <Route exact path = '/opcoes_usuario/' component = { UserOptions } />
+        <Route exact path = '/opcoes_setores/' component = { SectorsOptions } />
+        <Route exact path = '/editar_setor/:sector_id/' component = { SectorEdit } />
         <Route exact path = '/manuais/' component = { Manuals } />
 
         <Route exact path = '/lista_de_projetos/' component = { ProjectList } />
@@ -47,9 +48,7 @@ const BaseRouter = () => (
                             component = { MeetingConfirm } />
         <Route exact path = '/editar_reuniao/:meeting_id/:project_id' component = { MeetingEdit } />
         <Route exact path = '/criar_topicos/:meeting_id/' component = { TopicsCreate } />
-        <Route exact path = '/criar_setor/' component = { SectorCreate } /> 
-        <Route exact path = '/editar_setor/:sector_id/' component = { SectorEdit } />
-        <Route exact path = '/lista_de_setores/' component = { SectorList } />
+        
         <Route exact path = '/criar_regras/:meeting_id/' component = { RulesCreate } />
         <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/' component = { UserMeeting } />
         <Route exact path = '/visualizar_ata/:meeting_id/' component = { Record } />

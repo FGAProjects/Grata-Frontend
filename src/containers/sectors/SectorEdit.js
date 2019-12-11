@@ -66,7 +66,7 @@ class SetorEdit extends Component {
                 } else {
                     message.error('Ocorreu um Erro ao Alterar as Informações do Setor. ' +
                                   'Entre em Contato Com o Desenvolvedor!');
-                } this.props.history.push('/lista_de_setores/');			
+                } 	this.props.history.push('/opcoes_setores/');			
 			} else {
 
 			}	
@@ -92,7 +92,7 @@ class SetorEdit extends Component {
 					title: 'Ação Concluída!',
 					content: 'Setor Excluído Com Sucesso!',
                 });
-                propsForms.history.push('/lista_de_setores/');
+                propsForms.history.push('/opcoes_setores/');
 			},
         
             onCancel() {

@@ -37,33 +37,23 @@ class DropdownNav extends Component {
 						</Menu.Item>
 					</Menu>
 				 } trigger = { ['click'] } >
-					<a className = 'ant-dropdown-link' href='/'>
+					<a className = 'ant-dropdown-link' href='/opcoes_usuario/'>
 						<Icon type = 'team' /> Participante <Icon type = 'down' />
 					</a>
 				</Dropdown>
 
 				<Dropdown overlay = { 
 					<Menu>
-						{
-							this.props.is_administrator === true ? (
-								<Menu.Item key = '0' >
-									<Icon type = 'project' />
-										<Link to = { '/criar_setor/' } >
-											Adicionar Setor
-										</Link>
-								</Menu.Item>
-							) : null
-						}
 						<Menu.Item key = '1' >
 							<Icon type = 'ordered-list' />
-								<Link to= { '/lista_de_setores/' } >
-									Visualizar Setores
+								<Link to= { '/opcoes_setores/' } >
+									Opções Setores
 								</Link>
 						</Menu.Item>
 					</Menu>
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
-						href={ `/lista_de_setores/` } >
+						href={ `/opcoes_setores/` } >
 						<Icon type = 'unordered-list' />  Setores <Icon type = 'down' />
 					</a>
 				</Dropdown>
