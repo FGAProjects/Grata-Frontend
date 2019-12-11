@@ -8,9 +8,8 @@ import Hoc from '../../hoc/hoc';
 import Homepage from '../homepage/Homepage';
 import NotPermission from '../notPermission/NotPermission';
 
-import { createSector } from '../../store/actions/sector';
-import { getUser, getUsers } from '../../store/actions/auth';
-import { getSectors } from '../../store/actions/sector';
+import { createSector, getSectors } from '../../store/actions/sector';
+import { getUser } from '../../store/actions/auth';
 import { dynamicSort } from '../utils';
 
 const { TabPane } = Tabs;
@@ -31,6 +30,7 @@ class SectorsOption extends Component {
         
             this.forceUpdate();
             this.props.getSectors(this.props.token);
+            this.props.getUser(this.props.token, this.props.currentUser.userId);
         }
     }
 
@@ -42,6 +42,7 @@ class SectorsOption extends Component {
          
                 this.forceUpdate();
                 this.props.getSectors(newProps.token);   
+                this.props.getUser(newProps.token, newProps.currentUser.userId);
             }
         }
     }
@@ -58,15 +59,15 @@ class SectorsOption extends Component {
 
 					initials: values.initials,
 					name: values.name
-				};
-
+                };
+                
 				if((this.props.createSector(token, sector)) !== fail) {
 					message.success('O Setor ' + sector.initials + ' Foi Cadastrado Com Sucesso');
 				} else {
 					message.error('Não Foi Possível Cadastrar o Setor.' + 
 								  'Entre em Contato Com o Desenvolvedor!');
                 }
-				window.location.reload();			                
+                this.props.history.push('/opcoes_setores/');			
 			} else {
                 message.error('Formúlario Com Problemas.' + 
                               'Entre em Contato Com o Desenvolvedor!');
@@ -118,7 +119,7 @@ class SectorsOption extends Component {
                                             currentUser.is_administrator !== true ? (
                                                 <NotPermission/>
                                             ) : (
-                                                <div className = 'contentSector'>
+                                                <div className = 'contentTab'>
                                                     <h1 className = 'texth1'> Criação de Setor </h1>
                                                     <Form onSubmit = { this.handleSubmit } >
                                                         <Form.Item label = 'Sigla' className = 'formFields' { ...formItemLayout }>
@@ -247,8 +248,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 
         getUser: (token, userId) => dispatch(getUser(token, userId)),
-        createSector: (token, project) => dispatch(createSector(token, project)),
-        getUsers: token => dispatch(getUsers(token)),
+        createSector: (token, sector) => dispatch(createSector(token, sector)),
         getSectors: token => dispatch(getSectors(token))
 	};
 };

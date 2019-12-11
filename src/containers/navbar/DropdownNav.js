@@ -14,6 +14,21 @@ class DropdownNav extends Component {
 				<Dropdown className = 'dropdown' overlay = { 
 					<Menu>
 						<Menu.Item key = '0'>
+							<Icon type = 'star' />
+								<Link to = { '/lista_de_projetos/' } >
+									Página Inicial
+								</Link>
+						</Menu.Item>
+					</Menu>
+				 } trigger = { ['click'] } >
+					<a className = 'ant-dropdown-link' 
+						href={ `/lista_de_projetos/` } >
+						<Icon type = 'star' />  Página Inicial <Icon type = 'down' />
+					</a>
+				</Dropdown>
+				<Dropdown className = 'dropdown' overlay = { 
+					<Menu>
+						<Menu.Item key = '0'>
 							<Icon type = 'user' />
 								<Link to = { '/informacoes_usuario/' } >
 									Visualizar Perfil
@@ -60,29 +75,20 @@ class DropdownNav extends Component {
 
 				<Dropdown overlay = { 
 					<Menu>
-						{
-							this.props.is_administrator === true ? (
-								<Menu.Item key = '0' >
-									<Icon type = 'project' />
-										<Link to = { '/criar_projeto/' } >
-											Adicionar Projeto
-										</Link>
-								</Menu.Item>
-							) : null
-						}
 						<Menu.Item key = '1' >
 							<Icon type = 'ordered-list' />
-								<Link to = { '/lista_de_projetos/' } >
+								<Link to = { '/opcoes_projetos/' } >
 									Visualizar Projetos
 								</Link>
 						</Menu.Item>
 					</Menu>
 				 } trigger = { ['click'] } >
 					<a className = 'ant-dropdown-link' 
-						href ={ `/lista_de_projetos/` } >
+						href ={ `/opcoes_projetos/` } >
 						<Icon type = 'unordered-list' />  Projetos <Icon type = 'down' />
 					</a>
 				</Dropdown>
+				
 				<Dropdown overlay = { 
 					<Menu>
 						<Menu.Item key = '1' >

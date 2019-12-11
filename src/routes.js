@@ -3,9 +3,6 @@ import { Route } from 'react-router-dom';
 import Hoc from './hoc/hoc';
 
 import UserMeeting from './containers/user/UserListMeeting';
-import ProjectList from './containers/projects/ProjectList';
-import ProjectCreate from './containers/projects/ProjectCreate';
-import ProjectEdit from './containers/projects/ProjectEdit';
 import MeetingCreate from './containers/meetings/MeetingCreate';
 import MeetingList from './containers/meetings/MeetingList';
 import MeetingDetail from './containers/meetings/MeetingDetail';
@@ -25,20 +22,24 @@ import UserDetail from './containers/user/UserDetail';
 import UserOptions from './containers/user/UserOptions';
 import SectorsOptions from './containers/sectors/SectorsOptions';
 import SectorEdit from './containers/sectors/SectorEdit';
+import ProjectsOptions from './containers/projects/ProjectsOptions';
+import ProjectList from './containers/projects/ProjectList';
+import ProjectEdit from './containers/projects/ProjectEdit';
 
 const BaseRouter = () => (
     <Hoc>
+
         <Route exact path = '/' component = { Homepage } />
         <Route exact path = '/login/' component = { Login } />
         <Route exact path = '/informacoes_usuario/' component = { UserDetail } />
         <Route exact path = '/opcoes_usuario/' component = { UserOptions } />
         <Route exact path = '/opcoes_setores/' component = { SectorsOptions } />
         <Route exact path = '/editar_setor/:sector_id/' component = { SectorEdit } />
+        <Route exact path = '/opcoes_projetos/' component = { ProjectsOptions } />
         <Route exact path = '/manuais/' component = { Manuals } />
-
         <Route exact path = '/lista_de_projetos/' component = { ProjectList } />
-        <Route exact path = '/criar_projeto/' component = { ProjectCreate } />
         <Route exact path = '/editar_projeto/:project_id/' component = { ProjectEdit } />
+
         <Route exact path = '/criar_reuniao/projeto/:project_id/' 
                             component = { MeetingCreate } />
         <Route exact path = '/lista_de_reunioes/:project_id/' component = { MeetingList } />
