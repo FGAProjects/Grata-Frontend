@@ -229,8 +229,7 @@ const mapDispatchToProps = dispatch => {
         getMeeting: (token, meeting_id) => dispatch(getMeeting(token, meeting_id)),
         createQuesttionaireQuiz: (token, questtionaire) => dispatch(createQuesttionaireQuiz(token, questtionaire)),
         getUser: (token, userId) => dispatch(getUser(token, userId)),
-		updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting)),
-
+		updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting))
     };
 };
 
