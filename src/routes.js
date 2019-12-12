@@ -10,7 +10,6 @@ import MeetingEdit from './containers/meetings/MeetingEdit';
 import MeetingConfirm from './containers/meetings/MeetingConfirm';
 import TopicsCreate from './containers/topics/TopicsCreate';
 import RulesCreate from './containers/rules/RulesCreate';
-import QuizCreator from './containers/quiz/QuizCreator';
 import ResultsQuiz from './containers/quiz/ResultsQuiz';
 import RespondQuiz from './containers/quiz/RespondQuiz';
 import Manuals from './containers/manuals/Manuals';
@@ -51,7 +50,6 @@ const BaseRouter = () => (
         
         <Route exact path = '/criar_regras/:meeting_id/' component = { RulesCreate } />
         <Route exact path = '/adicionar_usuarios_a_reuniao/:meeting_id/' component = { UserMeeting } />
-        <Route exact path = '/criar_questionario/:meeting_id/' component = { QuizCreator } />
         <Route exact path = '/responder_questionario/:meeting_id/:questtionaire_id/' 
                             component = { RespondQuiz } />
         <Route exact path = '/resultado_questionario/:meeting_id/:questtionaire_id/' 

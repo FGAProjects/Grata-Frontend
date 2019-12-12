@@ -9,7 +9,7 @@ import Homepage from '../homepage/Homepage';
 import QuestionForm from '../quiz/QuestionForm';
 import NotPermission from '../notPermission/NotPermission';
 
-import { createQuesttionaireQuiz, getQuesttionaireMeeting } from '../../store/actions/quiz';
+import { createQuesttionaireQuiz, getQuesttionaireMeeting, getAllGraded } from '../../store/actions/quiz';
 import { getMeeting, updateMeeting } from '../../store/actions/meeting';
 import { getUser } from '../../store/actions/auth';
 import { size } from '../utils';
@@ -39,6 +39,7 @@ class MeetingConfirm extends Component {
             this.props.getMeeting(token, meeting_id);
             this.props.getUser(token, this.props.currentUser.userId);
             this.props.getQuesttionaireMeeting(token, meeting_id);
+            this.props.getAllGraded(token);
             this.forceUpdate();
         }
     }
@@ -54,6 +55,7 @@ class MeetingConfirm extends Component {
                 this.props.getMeeting(newProps.token, meeting_id);
                 this.props.getUser(newProps.token, newProps.currentUser.userId);
                 this.props.getQuesttionaireMeeting(newProps.token, meeting_id);
+                this.props.getAllGraded(newProps.token);
 				this.forceUpdate();
             }
         }
@@ -532,6 +534,7 @@ const mapStateToProps = state => {
         currentUser: state.auth.currentUser,
         questtionaires: state.quiz.questtionaires,
         loadingQuesttionaire: state.quiz.loading,
+        graded: state.quiz.graded
     };
 };
 
@@ -543,7 +546,8 @@ const mapDispatchToProps = dispatch => {
         getUser: (token, userId) => dispatch(getUser(token, userId)),
         getQuesttionaireMeeting: (token, meeting_id) => dispatch(getQuesttionaireMeeting(token, meeting_id)),
         createQuesttionaireQuiz: (token, questtionaire) => dispatch(createQuesttionaireQuiz(token, questtionaire)),
-		updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting))
+        updateMeeting: (token, meeting) => dispatch(updateMeeting(token, meeting)),
+        getAllGraded: (token) => dispatch(getAllGraded(token))
     };
 };
 
