@@ -72,7 +72,7 @@ export const getSectors = token => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get('http://0.0.0.0:8000/sectors/')
+        axios.get('https://api-grata.herokuapp.com/sectors/')
         .then(res => {
             const sectors = res.data;
             dispatch(getSectorListSuccess(sectors));
@@ -90,7 +90,7 @@ export const getSector = (token, sectorId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/sectors/detail/${ sectorId }/`)
+        axios.get(`https://api-grata.herokuapp.com/sectors/detail/${ sectorId }/`)
         .then(res => {
             const sector = res.data;
             dispatch(getSectorDetailSuccess(sector));
@@ -108,7 +108,7 @@ export const createSector = (token, sector) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`
         };
-        axios.post('http://0.0.0.0:8000/sectors/create/', sector)
+        axios.post('https://api-grata.herokuapp.com/sectors/create/', sector)
         .then(res => {
             dispatch(createSectorSuccess(res));
         })
@@ -125,7 +125,7 @@ export const updateSector = (token, sectorObject) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
 		};
-		axios.put(`http://0.0.0.0:8000/sectors/update/${ sectorObject.id }/`, sectorObject)
+		axios.put(`https://api-grata.herokuapp.com/sectors/update/${ sectorObject.id }/`, sectorObject)
 		.then(res => {
 			const sector = {
                 sectorId: sectorObject.id,
@@ -146,6 +146,6 @@ export const deleteSector = (token, sectorId) => {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${ token }`
 		};
-        axios.delete(`http://0.0.0.0:8000/sectors/delete/${ sectorId }/`);
+        axios.delete(`https://api-grata.herokuapp.com/sectors/delete/${ sectorId }/`);
 	};
 }

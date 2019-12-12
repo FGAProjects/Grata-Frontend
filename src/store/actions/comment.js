@@ -63,7 +63,7 @@ export const getComments = (token, questtionaire_id) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/comments/detail/${ questtionaire_id }/`)
+        axios.get(`https://api-grata.herokuapp.com/comments/detail/${ questtionaire_id }/`)
         .then(res => {
             const comments = res.data;
             dispatch(getCommentsListSuccess(comments));
@@ -83,7 +83,7 @@ export const createComment = (token, comment) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.post('http://0.0.0.0:8000/comments/create/', comment)
+        axios.post('https://api-grata.herokuapp.com/comments/create/', comment)
         .then(comment => {
             dispatch(createCommentSuccess(comment));
         })
@@ -100,6 +100,6 @@ export const deleteComment = (token, comment_id) => {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${ token }`
 		};
-        axios.delete(`http://0.0.0.0:8000/comments/delete/${ comment_id }/`);
+        axios.delete(`https://api-grata.herokuapp.com/comments/delete/${ comment_id }/`);
 	};
 }

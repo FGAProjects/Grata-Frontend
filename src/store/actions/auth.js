@@ -104,7 +104,7 @@ export const authLogin = (username, password) => {
 	return dispatch => {
 	
 		dispatch(authStart());
-		axios.post('http://0.0.0.0:8000/rest-auth/login/', {
+		axios.post('https://api-grata.herokuapp.com/rest-auth/login/', {
 			username: username,
 			password: password
 		})
@@ -135,7 +135,7 @@ export const authSignup = (user) => {
 	return dispatch => {
 	
 		dispatch(authStart());
-		axios.post('http://0.0.0.0:8000/rest-auth/registration/', user)
+		axios.post('https://api-grata.herokuapp.com/rest-auth/registration/', user)
 		.catch(err => {
 			dispatch(authFail(err));
 		});
@@ -151,7 +151,7 @@ export const getUsers = (token) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`
         };
-        axios.get('http://0.0.0.0:8000/users/')
+        axios.get('https://api-grata.herokuapp.com/users/')
         .then(res => {
 			const users = res.data;
 			localStorage.setItem('users', JSON.stringify(users));
@@ -172,7 +172,7 @@ export const getUser = (token, userId) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
 		};
-		axios.get(`http://0.0.0.0:8000/users/informacoes/${ userId }/`)
+		axios.get(`https://api-grata.herokuapp.com/users/informacoes/${ userId }/`)
 		.then(res => {
 			const user = res.data;
 			dispatch(authSuccess(user));
@@ -192,7 +192,7 @@ export const updateUser = (token, userObject) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
 		};
-		axios.put(`http://0.0.0.0:8000/users/alterar_informacoes/${ userObject.userId }/`, 
+		axios.put(`https://api-grata.herokuapp.com/users/alterar_informacoes/${ userObject.userId }/`, 
 		userObject)
 		.then(res => {
 			const user = {
@@ -225,7 +225,7 @@ export const deleteUser = (token, userId) => {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${token}`
 		};
-		axios.delete(`http://0.0.0.0:8000/users/excluir_usuario/${ userId }/`)
+		axios.delete(`https://api-grata.herokuapp.com/users/excluir_usuario/${ userId }/`)
 		dispatch(logout());
 	};
 }

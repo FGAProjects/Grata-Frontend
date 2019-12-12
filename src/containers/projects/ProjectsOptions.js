@@ -10,6 +10,7 @@ import NotPermission from '../notPermission/NotPermission';
 
 import { createProject, getProjects } from '../../store/actions/project';
 import { getUser } from '../../store/actions/auth';
+import { getSectors } from '../../store/actions/sector';
 import { getAllMeeting } from '../../store/actions/meeting';
 import { dynamicSort } from '../utils';
 
@@ -35,6 +36,7 @@ class ProjectsOptions extends Component {
             this.props.getUser(this.props.token, this.props.currentUser.userId);
             this.props.getProjects(user.token);
             this.props.getAllMeeting(user.token);
+            this.props.getSectors(this.props.token);
             this.forceUpdate();
 		}
 	}
@@ -49,6 +51,7 @@ class ProjectsOptions extends Component {
                 this.props.getUser(newProps.token, newProps.currentUser.userId);
                 this.props.getProjects(newProps.token);
                 this.props.getAllMeeting(newProps.token);
+                this.props.getSectors(newProps.token);
                 this.forceUpdate();
 			}
 		}
@@ -105,7 +108,8 @@ class ProjectsOptions extends Component {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
 		}
-		: null;
+        : null;
+        const sectors = this.props.sectors;
 		const projects = this.props.projects;
         const allMeetings = this.props.allMeetings;
         let project_id = 0;
@@ -121,6 +125,22 @@ class ProjectsOptions extends Component {
 
             ]
         }
+        let dataSourceSectors = {
+            innerArray: [
+
+            ]
+        }
+
+        for(let aux = 0; aux < sectors.length; aux ++) {
+			
+			dataSourceSectors.innerArray.push(
+                {
+                    key: sectors[aux].id,
+                    initials: sectors[aux].initials,
+                    name: sectors[aux].name,
+                }
+			); 
+		}
 
         for(let aux = 0; aux < allMeetings.length; aux ++) {
 
@@ -229,7 +249,7 @@ class ProjectsOptions extends Component {
                                                                             ],
                                                                         })(
                                                                             <Select placeholder = 'Escolha o Setor' >
-                                                                                { dataSource.innerArray.map(sector => 
+                                                                                { dataSourceSectors.innerArray.map(sector => 
                                                                                     <Option 
                                                                                         key = { sector.key } 
                                                                                         value = { sector.initials }>
@@ -447,6 +467,7 @@ const mapStateToProps = (state) => {
         loading: state.sector.loading,
         currentUser: state.auth.currentUser,
         allMeetings: state.meeting.allMeetings,
+        sectors: state.sector.sectors,
         loadingAllMeetings: state.meeting.loading
 	}
 }
@@ -458,7 +479,8 @@ const mapDispatchToProps = dispatch => {
         getUser: (token, userId) => dispatch(getUser(token, userId)),
 		createProject: (token, project) => dispatch(createProject(token, project)),
         getProjects: token => dispatch(getProjects(token)),
-        getAllMeeting: token => dispatch(getAllMeeting(token))
+        getAllMeeting: token => dispatch(getAllMeeting(token)),
+        getSectors: token => dispatch(getSectors(token))
 	}
 }
 

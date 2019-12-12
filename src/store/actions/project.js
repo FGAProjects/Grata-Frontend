@@ -88,7 +88,7 @@ export const getProjects = token => {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`
         };
-        axios.get('http://0.0.0.0:8000/projects/list_projects_sectors/')
+        axios.get('https://api-grata.herokuapp.com/projects/list_projects_sectors/')
         .then(res => {
             const projects = res.data;
             dispatch(getProjectListSuccess(projects));
@@ -108,7 +108,7 @@ export const getProject = (token, projectId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`
         };
-        axios.get(`http://0.0.0.0:8000/projects/detail/${ projectId }/`)
+        axios.get(`https://api-grata.herokuapp.com/projects/detail/${ projectId }/`)
         .then(res => {
             const project = res.data;
             dispatch(getProjectDetailSuccess(project));
@@ -128,7 +128,7 @@ export const createProject = (token, project) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`
         };
-        axios.post('http://0.0.0.0:8000/projects/create/', project)
+        axios.post('https://api-grata.herokuapp.com/projects/create/', project)
         .then(res => {
             dispatch(createProjectSuccess(res));
         })
@@ -147,7 +147,7 @@ export const updateProject = (token, projectObject) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${token}`
         };
-        axios.put(`http://0.0.0.0:8000/projects/update/${ projectObject.projectId }/`, 
+        axios.put(`https://api-grata.herokuapp.com/projects/update/${ projectObject.projectId }/`, 
         projectObject)
 		.then(res => {
 			const project = {
@@ -172,6 +172,6 @@ export const deleteProject = (token, projectId) => {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${ token }`
 		};
-        axios.delete(`http://0.0.0.0:8000/projects/delete/${ projectId }/`);
+        axios.delete(`https://api-grata.herokuapp.com/projects/delete/${ projectId }/`);
 	};
 }

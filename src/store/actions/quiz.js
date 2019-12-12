@@ -193,7 +193,7 @@ export const createQuesttionaireQuiz = (token, quiz) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.post('http://0.0.0.0:8000/questionnaires/create/', quiz)
+        axios.post('https://api-grata.herokuapp.com/questionnaires/create/', quiz)
         .then(questtionaire => {
             dispatch(createQuesttionaireQuizSuccess(questtionaire));
         })
@@ -212,7 +212,7 @@ export const getQuesttionaireMeeting = (token, meetingId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/meetings/questtionaires_meeting/${ meetingId }/`)
+        axios.get(`https://api-grata.herokuapp.com/meetings/questtionaires_meeting/${ meetingId }/`)
         .then(res => {
             const questtionaires = res.data;
             dispatch(getQuettionaireMeetingListSuccess(questtionaires));
@@ -232,7 +232,7 @@ export const getQuesttionaire = (token, quizId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/questionnaires/detail/${ quizId }/`)
+        axios.get(`https://api-grata.herokuapp.com/questionnaires/detail/${ quizId }/`)
         .then(res => {
             const questtionaire = res.data;
             dispatch(getQuesttionaireDetailSuccess(questtionaire));
@@ -252,7 +252,7 @@ export const getQuestionsMeeting = (token, questtionaireId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/quiz/detail/${ questtionaireId }/`)
+        axios.get(`https://api-grata.herokuapp.com/quiz/detail/${ questtionaireId }/`)
         .then(res => {
             const questions = res.data;
             dispatch(getQuestionListQuesttionaireDetailSuccess(questions));
@@ -272,7 +272,7 @@ export const createRespondQuiz = (token, respondQuiz) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.post('http://0.0.0.0:8000/graded_questtionaire/create/', respondQuiz)
+        axios.post('https://api-grata.herokuapp.com/graded_questtionaire/create/', respondQuiz)
         .then(respondQuizData => {
             dispatch(createRespondQuizSuccess(respondQuizData));
         })
@@ -291,7 +291,7 @@ export const getGradedQuesttionaires = (token, questtionaireId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/graded_questtionaire/list_in_questtionaire/${ questtionaireId }/`)
+        axios.get(`https://api-grata.herokuapp.com/graded_questtionaire/list_in_questtionaire/${ questtionaireId }/`)
         .then(res => {
             const resultsGraded = res.data;
             dispatch(getGradedQuesttionaireInQuesttionaireListSuccess(resultsGraded));
@@ -311,7 +311,7 @@ export const getAllGraded = (token) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get('http://0.0.0.0:8000/graded_questtionaire/')
+        axios.get('https://api-grata.herokuapp.com/graded_questtionaire/')
         .then(res => {
             const graded = res.data;
             dispatch(getAllGradedListSuccess(graded));

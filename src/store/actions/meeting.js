@@ -115,7 +115,7 @@ export const getAllMeeting = (token) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/meetings/`)
+        axios.get(`https://api-grata.herokuapp.com/meetings/`)
         .then(res => {
             const meeting = res.data;
             dispatch(getMeetingAllListSuccess(meeting));
@@ -135,7 +135,7 @@ export const getMeetings = (token, projectId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/meetings/meetings_project/${ projectId }/`)
+        axios.get(`https://api-grata.herokuapp.com/meetings/meetings_project/${ projectId }/`)
         .then(res => {
             const meetings = res.data;
             dispatch(getMeetingListSuccess(meetings));
@@ -155,7 +155,7 @@ export const getMeeting = (token, meetingId) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get(`http://0.0.0.0:8000/meetings/detail/${ meetingId }/`)
+        axios.get(`https://api-grata.herokuapp.com/meetings/detail/${ meetingId }/`)
         .then(res => {
             const meeting = res.data;
             dispatch(getMeetingDetailSuccess(meeting));
@@ -175,7 +175,7 @@ export const createMeeting = (token, meeting) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.post('http://0.0.0.0:8000/meetings/create/', meeting)
+        axios.post('https://api-grata.herokuapp.com/meetings/create/', meeting)
         .then(meeting => {
             dispatch(createMeetingSuccess(meeting));
         })
@@ -194,7 +194,7 @@ export const updateMeeting = (token, meetingObject) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${ token }`
 		};
-        axios.put(`http://0.0.0.0:8000/meetings/update/${ meetingObject.id }/`, 
+        axios.put(`https://api-grata.herokuapp.com/meetings/update/${ meetingObject.id }/`, 
         meetingObject)
 		.then(meeting => {
 			dispatch(getMeetingDetailSuccess(meeting.data));
@@ -212,6 +212,6 @@ export const deleteMeeting = (token, meetingId) => {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${ token }`
 		};
-        axios.delete(`http://0.0.0.0:8000/meetings/delete/${ meetingId }/`);
+        axios.delete(`https://api-grata.herokuapp.com/meetings/delete/${ meetingId }/`);
 	};
 }

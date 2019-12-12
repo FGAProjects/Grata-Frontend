@@ -37,7 +37,7 @@ export const getChoices = (token) => {
             'Content-Type': 'application/json',
             Authorization: `Token ${ token }`
         };
-        axios.get('http://0.0.0.0:8000/choices/')
+        axios.get('https://api-grata.herokuapp.com/choices/')
         .then(res => {
             const choices = res.data;
             dispatch(getChoicesListSuccess(choices));
